@@ -13,3 +13,12 @@ print("deine mutter")
 z=9
 
 print("Boje ist ein kleiner Ficker")
+
+def validationString(exampleString,maxSize,csvObjekt):
+    if csvObjekt > maxSize
+        return True
+
+    if csvObjekt != exampleString
+        return True
+
+    return False
