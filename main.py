@@ -12,7 +12,7 @@ print("deine mutter")
 
 z=9
 
-print("Boje ist ein kleiner Ficker")
+print("Boje ist ein kleiner Fiker")
 
 def validationString(exampleString,maxSize,csvObjekt):
     if csvObjekt > maxSize
