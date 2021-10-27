@@ -1,5 +1,4 @@
 
-
 print("erste Zeile")
 
 x=7
@@ -15,10 +14,10 @@ z=9
 print("Boje ist ein kleiner Fiker")
 
 def validationString(exampleString,maxSize,csvObjekt):
-    if csvObjekt > maxSize
+    if csvObjekt > maxSize:
         return True
 
-    if csvObjekt != exampleString
-        return True
+    if csvObjekt != exampleString:
+        return False
 
-    return False
+    return True
