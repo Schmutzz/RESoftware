@@ -12,4 +12,4 @@ print("deine mutter")
 
 z=9
 
-print("Boje ist ein kleiner Ficker")
+print("Boje ist ein cooler typ und groß schwanz :)")
