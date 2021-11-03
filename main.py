@@ -1,4 +1,7 @@
 import sqlite3
+
+import database
+
 print("erste Zeile")
 
 x=7
@@ -10,7 +13,7 @@ y=8
 print("deine mutter")
 
 z=9
-
+database.meineFunktion()
 print("Boje ist ein kleiner Fiker")
 
 verbindung = sqlite3.connect("C:\SQLiteStudio/"
