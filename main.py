@@ -48,7 +48,15 @@ def testGPD():
     liste = ["Bietigheim-Bissingen", "Asperg","Ingersheim", "Ludwigsburg", "Heimfeld"]
     b = gpd.Multiple(liste,"Deutschland")
 
-openAusbauflaechen()
-testGPD()
+def testStandartImport():
+    standartListe = ["Date", "Time", "Cons_Prod", "Location", "Energynetwork", "Energy_in_kWh", "Energysource"]
+    egal = db.regulatedImport('Import\Erzeugung/', standartListe).openAndCompleteAllFile()
+    "Überprüfung der Daten Fehlt"
+    exportname = "Datenbank\Erzeugung/" + "erzeugungsdatenVersuche" +".csv"
+    egal.to_csv(exportname, sep=';', encoding='utf-8', index=False)
+    print(egal)
+#openAusbauflaechen()
+#testGPD()
+testStandartImport()
 print('läuft')
 

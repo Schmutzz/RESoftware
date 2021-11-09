@@ -1,0 +1,170 @@
+ID;KreisPot;KreisVor;StadtPot;StadtVor;haPot;haVor
+PR2_RDE_001;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Dörphof;Dörphof;101,9;51,6
+PR2_RDE_002;Rendsburg-Eckernförde;-;Damp, Dörphof, Thumby;-;114,7;-
+PR2_RDE_003;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Thumby;Thumby;146,5;64,8
+PR2_RDE_004;Rendsburg-Eckernförde;-;Holzdorf;-;44,6;-
+PR2_RDE_005;Rendsburg-Eckernförde;-;Thumby;-;35,8;-
+PR2_RDE_006;Rendsburg-Eckernförde;-;Damp, Waabs;-;95,4;-
+PR2_RDE_007;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Damp, Waabs;Waabs;39,7;36,5
+PR2_RDE_008;Rendsburg-Eckernförde;-;Rieseby;-;131,5;-
+PR2_RDE_009;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Holzdorf, Loose, Rieseby;Loose, Rieseby;144,5;100,8
+PR2_RDE_010;Rendsburg-Eckernförde;-;Kosel, Rieseby;-;60,4;-
+PR2_RDE_011;Rendsburg-Eckernförde;-;Loose, Rieseby;-;67,6;-
+PR2_RDE_012;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Loose, Waabs;Loose, Waabs;368,9;166,9
+PR2_RDE_013;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Rieseby;Rieseby;21,4;5,7
+PR2_RDE_014;Rendsburg-Eckernförde;-;Barkelsby, Loose;-;126,8;-
+PR2_RDE_015;Rendsburg-Eckernförde;-;Barkelsby, Loose;-;91,2;-
+PR2_RDE_016;Rendsburg-Eckernförde;-;Barkelsby;-;30,9;-
+PR2_RDE_017;Rendsburg-Eckernförde;-;Schwedeneck;-;142,4;-
+PR2_RDE_019;Rendsburg-Eckernförde;-;Osdorf, Schwedeneck;-;18,1;-
+PR2_RDE_020;Rendsburg-Eckernförde;-;Dänischenhagen, Schwedeneck;-;76,3;-
+PR2_RDE_021;Rendsburg-Eckernförde;-;Neudorf-Bornstein, Osdorf;-;49,6;-
+PR2_RDE_022;Rendsburg-Eckernförde;-;Brekendorf;-;128,9;-
+PR2_RDE_023;Rendsburg-Eckernförde;-;Neudorf-Bornstein;-;72,8;-
+PR2_RDE_024;Rendsburg-Eckernförde;-;Goosefeld, Groß Wittensee;-;43,7;-
+PR2_RDE_025;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Altenhof, Goosefeld, Holtsee;Altenhof, Holtsee;215,3;161,6
+PR2_RDE_026;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Gettorf, Osdorf;Gettorf, Osdorf;41,7;16,0
+PR2_RDE_027;Rendsburg-Eckernförde;-;Groß Wittensee;-;15,0;-
+PR2_RDE_028;Rendsburg-Eckernförde;-;Gettorf, Lindau, Neudorf-Bornstein;-;49,9;-
+PR2_RDE_029;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Owschlag;Owschlag;125,5;81,2
+PR2_RDE_030;Rendsburg-Eckernförde;-;Haby, Holtsee;-;51,8;-
+PR2_RDE_032;Rendsburg-Eckernförde;-;Groß Wittensee, Klein Wittensee;-;44,8;-
+PR2_RDE_033;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Felm, Tüttendorf;Felm, Tüttendorf;133,0;117,3
+PR2_RDE_034;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Holtsee, Lindau, Neudorf-Bornstein;Holtsee, Lindau, Neudorf-Bornstein;67,0;56,0
+PR2_RDE_035;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Holtsee;Holtsee;90,8;74,9
+PR2_RDE_036;Rendsburg-Eckernförde;-;Holtsee;-;36,0;-
+PR2_RDE_037;Rendsburg-Eckernförde;-;Tüttendorf;-;32,9;-
+PR2_RDE_038;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Alt Duvenstedt, Owschlag;Owschlag;266,0;56,7
+PR2_RDE_039;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Sehestedt;Sehestedt;33,6;32,6
+PR2_RDE_040;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Neuwittenbek, Tüttendorf;Neuwittenbek, Tüttendorf;85,1;42,9
+PR2_RDE_042;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Holtsee, Lindau;Holtsee, Lindau;146,8;88,9
+PR2_RDE_043;Rendsburg-Eckernförde;-;Lindau, Schinkel;-;17,1;-
+PR2_RDE_044;Rendsburg-Eckernförde;-;Owschlag;-;78,1;-
+PR2_RDE_045;Rendsburg-Eckernförde;-;Bünsdorf;-;63,4;-
+PR2_RDE_046;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Bovenau;Bovenau;279,8;152,0
+PR2_RDE_047;Rendsburg-Eckernförde;-;Alt Duvenstedt, Borgstedt, Neu Duvenstedt,Rickert;-;129,6;-
+PR2_RDE_048;Rendsburg-Eckernförde;-;Borgstedt;-;18,0;-
+PR2_RDE_049;Rendsburg-Eckernförde;-;Alt Duvenstedt, Rickert;-;93,2;-
+PR2_RDE_050;Rendsburg-Eckernförde;-;Bovenau;-;108,1;-
+PR2_RDE_051;Rendsburg-Eckernförde;-;Bovenau, Krummwisch;-;28,1;-
+PR2_RDE_052;Rendsburg-Eckernförde;-;Alt Duvenstedt, Rendsburg, Rickert;-;82,9;-
+PR2_RDE_053;Rendsburg-Eckernförde;-;Lohe-Föhrden;-;26,8;-
+PR2_RDE_054;Rendsburg-Eckernförde;-;Bovenau, Ostenfeld (Rendsburg), Rade b.Rendsburg;-;55,6;-
+PR2_RDE_056;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Melsdorf, Quarnbek;Quarnbek;101,3;42,5
+PR2_RDE_058;Rendsburg-Eckernförde;-;Bovenau, Ostenfeld (Rendsburg);-;22,5;-
+PR2_RDE_059;Rendsburg-Eckernförde;-;Fockbek;-;30,3;-
+PR2_RDE_060;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Bredenbek, Haßmoor;Bredenbek, Haßmoor;93,0;85,7
+PR2_RDE_061;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Bredenbek, Haßmoor;Bredenbek, Haßmoor;53,8;19,8
+PR2_RDE_062;Rendsburg-Eckernförde;-;Schacht-Audorf, Schülldorf;-;95,5;-
+PR2_RDE_063;Rendsburg-Eckernförde;-;Westensee;-;128,3;-
+PR2_RDE_064;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Elsdorf-Westermühlen, Fockbek, Hohn;Elsdorf-Westermühlen, Fockbek, Hohn;478,3;256,4
+PR2_RDE_065;Rendsburg-Eckernförde;-;Emkendorf, Haßmoor;-;35,3;-
+PR2_RDE_066;Rendsburg-Eckernförde;-;Haßmoor;-;33,6;-
+PR2_RDE_067;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Schülldorf;Schülldorf;27,9;27,9
+PR2_RDE_068;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Haßmoor, Schülldorf;Schülldorf;112,8;36,6
+PR2_RDE_069;Rendsburg-Eckernförde;-;Emkendorf;-;42,2;-
+PR2_RDE_070;Rendsburg-Eckernförde;-;Boksee, Flintbek;-;75,3;-
+PR2_RDE_071;Rendsburg-Eckernförde;-;Jevenstedt, Westerrönfeld;-;71,6;-
+PR2_RDE_072;Rendsburg-Eckernförde;-;Elsdorf-Westermühlen, Fockbek, Nübbel,Schülp b. Rendsburg;-;750,4;-
+PR2_RDE_073;Rendsburg-Eckernförde;-;Bargstall, Elsdorf-Westermühlen;-;49,8;-
+PR2_RDE_074;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Flintbek;Flintbek;55,8;19,3
+PR2_RDE_075;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Elsdorf-Westermühlen, Hamdorf;Elsdorf-Westermühlen, Hamdorf;94,3;88,3
+PR2_RDE_077;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Jevenstedt, Schülp b. Rendsburg;Jevenstedt, Schülp b. Rendsburg;97,8;38,6
+PR2_RDE_078;Rendsburg-Eckernförde;-;Langwedel;-;43,8;-
+PR2_RDE_080;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Bokel, Emkendorf;Bokel, Emkendorf;132,2;111,7
+PR2_RDE_082;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Bokel, Emkendorf;Bokel, Emkendorf;30,3;30,3
+PR2_RDE_083;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Bokel, Jevenstedt;Bokel;68,1;35,2
+PR2_RDE_084;Rendsburg-Eckernförde;-;Groß Vollstedt, Warder;-;79,2;-
+PR2_RDE_085;Rendsburg-Eckernförde;-;Langwedel;-;16,2;-
+PR2_RDE_086;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Jevenstedt;Jevenstedt;99,7;80,5
+PR2_RDE_087;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Jevenstedt;Jevenstedt;59,9;59,9
+PR2_RDE_088;Rendsburg-Eckernförde;-;Langwedel;-;67,8;-
+PR2_RDE_089;Rendsburg-Eckernförde;-;Ellerdorf, Groß Vollstedt;-;35,3;-
+PR2_RDE_090;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Jevenstedt;Jevenstedt;72,7;31,0
+PR2_RDE_092;Rendsburg-Eckernförde;-;Brammer, Jevenstedt;-;82,9;-
+PR2_RDE_093;Rendsburg-Eckernförde;-;Jevenstedt, Luhnstedt;-;100,8;-
+PR2_RDE_094;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Bokel, Brammer, Ellerdorf;Bokel, Brammer, Ellerdorf;104,0;98,7
+PR2_RDE_098;Rendsburg-Eckernförde;-;Dätgen;-;57,5;-
+PR2_RDE_100;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Ellerdorf, Nortorf;Ellerdorf, Nortorf;58,2;20,2
+PR2_RDE_101;Rendsburg-Eckernförde;-;Bargstedt, Brammer;-;97,7;-
+PR2_RDE_102;Rendsburg-Eckernförde;-;Borgdorf-Seedorf, Eisendorf, Nortorf;-;57,8;-
+PR2_RDE_104;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Bargstedt, Luhnstedt;Bargstedt, Luhnstedt;55,1;18,6
+PR2_RDE_105;Rendsburg-Eckernförde;-;Luhnstedt, Stafstedt;-;36,5;-
+PR2_RDE_106;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Bissee, Groß Buchwald;Bissee, Groß Buchwald;86,0;61,0
+PR2_RDE_107;Rendsburg-Eckernförde;-;Bargstedt, Nortorf;-;180,0;-
+PR2_RDE_108;Rendsburg-Eckernförde;-;Borgdorf-Seedorf, Dätgen, Loop, Schönbek,Schülp b. Nortorf;-;140,1;-
+PR2_RDE_109;Rendsburg-Eckernförde;-;Haale;-;29,4;-
+PR2_RDE_110;Rendsburg-Eckernförde;-;Luhnstedt, Stafstedt;-;33,1;-
+PR2_RDE_112;Rendsburg-Eckernförde;-;Brinjahe, Nienborstel, Stafstedt;-;25,9;-
+PR2_RDE_114;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Loop, Mühbrook, Schönbek;Loop, Schönbek;77,2;36,0
+PR2_RDE_117;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Loop, Schönbek;Loop;50,8;15,0
+PR2_RDE_118;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Groß Buchwald, Negenharrie;Groß Buchwald, Negenharrie;115,9;72,1
+PR2_RDE_119;Rendsburg-Eckernförde;-;Krogaspe, Loop, Schülp b. Nortorf, Timmaspe;-;175,0;-
+PR2_RDE_120;Rendsburg-Eckernförde;-;Bargstedt;-;28,3;-
+PR2_RDE_121;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Gnutz, Schülp b. Nortorf, Timmaspe;Gnutz, Schülp b. Nortorf, Timmaspe;49,8;42,5
+PR2_RDE_122;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Hanerau-Hademarschen, Oldenbüttel,Steenfeld;Hanerau-Hademarschen, Oldenbüttel,Steenfeld;143,2;143,2
+PR2_RDE_123;Rendsburg-Eckernförde;-;Oldenhütten;-;48,0;-
+PR2_RDE_124;Rendsburg-Eckernförde;-;Nienborstel, Nindorf, Remmels, Stafstedt;-;55,0;-
+PR2_RDE_125;Rendsburg-Eckernförde;-;Bargstedt, Gnutz, Nortorf;-;157,5;-
+PR2_RDE_126;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Gnutz, Schülp b. Nortorf, Timmaspe;Gnutz, Schülp b. Nortorf, Timmaspe;89,7;85,9
+PR2_RDE_127;Rendsburg-Eckernförde;-;Todenbüttel;-;90,7;-
+PR2_RDE_128;Rendsburg-Eckernförde;-;Nindorf, Remmels;-;24,7;-
+PR2_RDE_129;Rendsburg-Eckernförde;-;Nindorf, Oldenhütten;-;57,1;-
+PR2_RDE_130;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Krogaspe, Loop;Krogaspe, Loop;102,7;57,7
+PR2_RDE_132;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Aukrug, Gnutz;Gnutz;197,2;74,9
+PR2_RDE_133;Rendsburg-Eckernförde;-;Krogaspe, Timmaspe;-;22,3;-
+PR2_RDE_134;Rendsburg-Eckernförde;-;Heinkenborstel;-;34,6;-
+PR2_RDE_135;Rendsburg-Eckernförde;-;Nindorf, Remmels;-;87,3;-
+PR2_RDE_136;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Nienborstel, Remmels;Remmels;82,0;31,0
+PR2_RDE_137;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Gnutz, Timmaspe;Gnutz, Timmaspe;436,3;180,5
+PR2_RDE_138;Rendsburg-Eckernförde;-;Nindorf;-;33,1;-
+PR2_RDE_139;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Beringstedt, Gokels, Lütjenwestedt, Seefeld,Todenbüttel;Gokels, Lütjenwestedt, Seefeld;286,6;103,8
+PR2_RDE_140;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Nienborstel, Osterstedt;Nienborstel, Osterstedt;54,7;45,1
+PR2_RDE_141;Rendsburg-Eckernförde;-;Timmaspe;-;32,6;-
+PR2_RDE_142;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Beldorf, Bornholt, Steenfeld;Beldorf, Bornholt, Steenfeld;141,5;118,7
+PR2_RDE_144;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Bendorf, Thaden;Bendorf, Thaden;273,4;238,3
+PR2_RDE_145;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Aukrug, Gnutz;Aukrug;108,4;73,7
+PR2_RDE_147;Rendsburg-Eckernförde;-;Hohenwestedt, Wapelfeld;-;115,6;-
+PR2_RDE_148;Rendsburg-Eckernförde;-;Wasbek;-;17,2;-
+PR2_RDE_150;Rendsburg-Eckernförde;-;Osterstedt, Puls, Reher;-;61,8;-
+PR2_RDE_155;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Aukrug, Wasbek;Aukrug, Wasbek;61,6;55,4
+PR2_RDE_156;Rendsburg-Eckernförde;-;Hohenwestedt, Tappendorf;-;59,6;-
+PR2_RDE_157;Rendsburg-Eckernförde;-;Bendorf, Thaden;-;91,1;-
+PR2_RDE_158;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Bendorf, Bornholt;Bendorf, Bornholt;25,0;18,1
+PR2_RDE_159;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Hohenwestedt, Jahrsdorf, Wapelfeld;Hohenwestedt, Jahrsdorf, Wapelfeld;157,0;25,5
+PR2_RDE_161;Rendsburg-Eckernförde;-;Bendorf;-;57,2;-
+PR2_RDE_162;Rendsburg-Eckernförde;-;Aukrug, Grauel, Meezen;-;152,7;-
+PR2_RDE_164;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Arpsdorf, Padenstedt;Padenstedt;61,2;20,9
+PR2_RDE_301;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Gammelby, Rieseby;Gammelby, Rieseby;65,5;42,2
+PR2_RDE_303;Rendsburg-Eckernförde;-;Osterby, Windeby;-;97,3;-
+PR2_RDE_304;Rendsburg-Eckernförde;-;Altenholz, Felm;-;45,8;-
+PR2_RDE_306;Rendsburg-Eckernförde;-;Rodenbek;-;45,8;-
+PR2_RDE_307;Rendsburg-Eckernförde;-;Rodenbek, Rumohr, Schierensee;-;15,1;-
+PR2_RDE_308;Rendsburg-Eckernförde;-;Bissee, Brügge;-;27,6;-
+PR2_RDE_309;Rendsburg-Eckernförde;-;Jevenstedt, Osterrönfeld;-;65,1;-
+PR2_RDE_310;Rendsburg-Eckernförde;-;Jevenstedt;-;47,0;-
+PR2_RDE_311;Rendsburg-Eckernförde;-;Krogaspe, Wasbek;-;45,0;-
+PR2_RDE_312;Rendsburg-Eckernförde;-;Timmaspe, Wasbek;-;15,1;-
+PR2_RDE_313;Rendsburg-Eckernförde;-;Wasbek;-;125,2;-
+PR2_RDE_314;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Aukrug, Ehndorf, Wasbek;Aukrug, Ehndorf, Wasbek;226,6;179,3
+PR2_RDE_315;Rendsburg-Eckernförde;-;Ehndorf;-;36,0;-
+PR2_RDE_316;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Arpsdorf, Padenstedt;Arpsdorf, Padenstedt;115,7;85,2
+PR2_RDE_317;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Padenstedt;Padenstedt;74,2;34,5
+PR2_RDE_401;Rendsburg-Eckernförde;-;Kosel;-;47,1;-
+PR2_RDE_402;Rendsburg-Eckernförde;-;Gammelby, Kosel, Rieseby;-;37,9;-
+PR2_RDE_403;Rendsburg-Eckernförde;-;Güby, Hummelfeld;-;19,4;-
+PR2_RDE_404;Rendsburg-Eckernförde;-;Sehestedt;-;47,7;-
+PR2_RDE_405;Rendsburg-Eckernförde;-;Hohn, Lohe-Föhrden;-;44,1;-
+PR2_RDE_407;Rendsburg-Eckernförde;-;Emkendorf;-;18,1;-
+PR2_RDE_408;Rendsburg-Eckernförde;-;Bokel, Emkendorf;-;22,7;-
+PR2_RDE_409;Rendsburg-Eckernförde;-;Böhnhusen, Reesdorf, Techelsdorf;-;21,0;-
+PR2_RDE_410;Rendsburg-Eckernförde;-;Hohenwestedt, Tappendorf;-;23,1;-
+PR2_RDE_411;Rendsburg-Eckernförde;-;Aasbüttel, Bendorf, Bokhorst;-;21,9;-
+PR2_RDE_412;Rendsburg-Eckernförde;-;Negenharrie;-;26,3;-
+PR2_RDE_420;Rendsburg-Eckernförde;-;Beldorf, Bornholt;-;17,8;-
+PR2_RDE_501;Rendsburg-Eckernförde;-;Brekendorf, Owschlag;-;52,9;-
+PR2_RDE_502;Rendsburg-Eckernförde;-;Holzdorf, Rieseby;-;29,3;-
+PR2_RDE_503;Rendsburg-Eckernförde;-;Schwedeneck, Strande;-;103,9;-
+PR2_RDE_504;Rendsburg-Eckernförde;-;Langwedel;-;27,5;-
+PR2_RDE_505;Rendsburg-Eckernförde;-;Eisendorf, Ellerdorf;-;25,4;-
+PR2_RDE_506;Rendsburg-Eckernförde;-;Holzdorf, Rieseby;-;30,3;-

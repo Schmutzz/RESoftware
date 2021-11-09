@@ -2,8 +2,72 @@ import pandas as pd
 import csv
 import os
 
-#def test():
-    #files = os.listdir('C:\Users\pc102\PycharmProjects\RESoftware\Import\Standort')
+def findoutFiles(filename):
+    print("Suche beginnt")
+    files = os.listdir(filename)
+    print(files)
+    print(len(files))
+
+    return files
+
+class regulatedImport():
+    """Diese Klasse importiert .csv Dateien nach einem Regulierten Schemata
+        Das Schema wird in einer List vorgegeben
+        Nur die Spalten werden eingelesen
+        Häufung von Dateien ist in Ordnung und werden gesucht"""
+    def __init__(self, filename, headerList):
+        self.filename = filename
+        self.fileList = findoutFiles(filename)
+        self.headerList = headerList
+        self.i = len(self.fileList)
+
+
+
+
+    def opensignleCSV(self,i):
+
+        try:
+            openfilename = self.filename + self.fileList[i]
+            print(openfilename)
+            df = pd.read_csv(openfilename, usecols=self.headerList, delimiter=';', decimal=',', header=0)
+            # df = pd.read_csv(openfilename, delimiter=';')
+
+            return df
+
+        except ValueError:
+            print("falsches Format")
+            return False
+
+    def openAndCompleteAllFile(self):
+
+        dataFrame= {1: ['1', '2'], 2: ['3', '4']}
+
+        firstDataFrame = False
+
+        for b in range(self.i):
+
+            try:
+                openfilename = self.filename + self.fileList[b]
+                print(openfilename)
+                df = pd.read_csv(openfilename, usecols=self.headerList, delimiter=';', decimal=',', header=0)
+                if firstDataFrame == False:
+                    dataFrame = df
+                    firstDataFrame = True
+                else:
+                    dataFrame = dataFrame.append(df, ignore_index=True)
+
+            except ValueError:
+                print("falsches Format")
+                continue
+
+        return dataFrame
+
+
+
+
+
+
+
 
 
 
@@ -322,11 +386,9 @@ class openLocationdata():
         exportFrames.to_csv(exportname, sep=';', encoding='utf-8', index=False)
         return exportFrames
 
+print('Hello Elisa')
 
-class openGenerationdata():
-    """Klasse dient um Standart Lastprofile zu erzeugen"""
-    def __init__(self,filename):
-        self.filename = filename
+
 
 
 
