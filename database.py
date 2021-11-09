@@ -1,5 +1,9 @@
 import pandas as pd
 import csv
+import os
+
+#def test():
+    #files = os.listdir('C:\Users\pc102\PycharmProjects\RESoftware\Import\Standort')
 
 
 
@@ -65,6 +69,10 @@ class importValues():
         dataHH.close()
 
 class openLocationdata():
+
+    """Diese Klasse dient zum öffnen Spezieller csv Dateien.
+    Daher auch die 3 Speizifikationen"""
+
     def __init__(self, filename, location,maxLength):
         self.filename = filename
         self.maxLength =maxLength
@@ -313,6 +321,13 @@ class openLocationdata():
         exportname = "Datenbank/Wind/AusbauStandorte_einzeln/" + self.location + "_reineDatenSpecial" + str(sheet) + ".csv"
         exportFrames.to_csv(exportname, sep=';', encoding='utf-8', index=False)
         return exportFrames
+
+
+class openGenerationdata():
+    """Klasse dient um Standart Lastprofile zu erzeugen"""
+    def __init__(self,filename):
+        self.filename = filename
+
 
 
 
