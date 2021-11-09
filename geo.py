@@ -6,7 +6,7 @@ class Geodaten:
 
     #geolocator = Nominatim(user_agent="my_request")
 
-    def __init__(self, strOrt, strKreis):
+    def __init__(self, strOrt, strKreis ):
         self.strOrt = strOrt
         self.strKreis = strKreis
 
@@ -15,7 +15,8 @@ class Geodaten:
         cls = get_geocoder_for_service("nominatim")
         geolocator = cls(**dict(user_agent="my_App"))
 
-        location = geolocator.geocode(self.strOrt + ', ' + self.strKreis)
+        #location = geolocator.geocode(self.strOrt + ', ' + self.strKreis)
+        location = geolocator.geocode(self.strOrt)
         return location.raw
 
     def getXcor(self):
