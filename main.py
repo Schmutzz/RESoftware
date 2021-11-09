@@ -49,6 +49,6 @@ def testGPD():
     b = gpd.Multiple(liste,"Deutschland")
 
 openAusbauflaechen()
-#testGPD()
+testGPD()
 print('läuft')
 
