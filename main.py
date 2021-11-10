@@ -1,6 +1,7 @@
 import database as db
 import geo as gpd
 import internetDownload as itd
+import sandbox
 
 def openAusbauflaechen():
     """Import Erzeugungsflächen"""
@@ -59,6 +60,7 @@ def testStandartImport():
 #openAusbauflaechen()
 #testGPD()
 #testStandartImport()
-itd.testGeoDaten()
+#itd.testGeoDaten()
+sandbox.testMail()
 print('läuft')
 
