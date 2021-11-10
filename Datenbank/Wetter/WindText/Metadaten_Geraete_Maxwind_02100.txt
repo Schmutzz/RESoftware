@@ -1,0 +1,5 @@
+Stations_ID;Stationsname;Geo. Laenge [Grad];Geo. Breite [Grad];Stationshoehe [m];Geberhoehe ueber Grund [m];Von_Datum;Bis_Datum;Geraetetyp Name;Messverfahren;eor;
+2100;Helgoland-Düne;7.91;54.19;4.06;10;20181201;20190221;Ultrasonic Anemometer 2D;Windmessung, elektr.;eor;
+2100;Helgoland-Düne;7.91;54.19;4.06;10;20190314;20190316;Ultrasonic Anemometer 2D;Windmessung, elektr.;eor;
+2100;Helgoland-Düne;7.91;54.19;4.06;10;20190321;20191116;Ultrasonic Anemometer 2D;Windmessung, elektr.;eor;
+generiert: 19.05.2021 --  Deutscher Wetterdienst  --

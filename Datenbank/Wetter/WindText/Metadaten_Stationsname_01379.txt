@@ -1,0 +1,9 @@
+Stations_ID;Stationsname;Von_Datum;Bis_Datum
+  1379;Flensburg                               ;18650901;19400430
+  1379;Flensburg (Flughafen)                   ;19400501;19451231
+  1379;Flensburg                               ;19460101;19500211
+  1379;Flensburg-Mürwik                        ;19500212;19560927
+  1379;Flensburg (Marienallee)                 ;19560928;19581123
+  1379;Flensburg-Bredeberg                     ;19581124;19611203
+  1379;Flensburg                               ;19611204;19630428
+  1379;Flensburg (Schäferhaus)                 ;19630429;

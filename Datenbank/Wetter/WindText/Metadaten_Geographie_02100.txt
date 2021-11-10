@@ -1,0 +1,2 @@
+Stations_id;Stationshoehe;Geogr.Breite;Geogr.Laenge;von_datum;bis_datum;Stationsname
+  2100;    4.06; 54.1860;  7.9119;20180801;        ;Helgoland-Düne

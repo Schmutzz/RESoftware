@@ -1,0 +1,4 @@
+Stations_ID;Stations_Name;Parameter;Von_Datum;Bis_Datum;Anzahl_Fehlwerte;Beschreibung;eor;                                                                                                              
+2961;Leuchtturm Kiel;FX_911;29.06.2021-08:00;29.06.2021-11:00;3;;eor;                                                                                                                                   
+2961;Leuchtturm Kiel;FX_911;19.10.2021-09:00;19.10.2021-13:00;4;;eor;                                                                                                                                   
+generiert: 09.11.2021 --  Deutscher Wetterdienst  --                                                                                                                                                    

@@ -386,7 +386,7 @@ class openLocationdata():
         exportFrames.to_csv(exportname, sep=';', encoding='utf-8', index=False)
         return exportFrames
 
-print('Hello Elisa')
+
 
 
 

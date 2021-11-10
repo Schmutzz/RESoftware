@@ -1,0 +1,7 @@
+Stations_ID;Stations_Name;Parameter;Von_Datum;Bis_Datum;Gesamt_Fehlwerte;Beschreibung;eor;                                                                                                              
+2907;Leck;FX_911;08.05.2020;08.11.2021;17;Gesamt_Messzeitraum;eor;                                                                                                                                      
+Stations_ID;Stations_Name;Parameter;Von_Datum;Bis_Datum;Anzahl_Fehlwerte;Beschreibung;eor;                                                                                                              
+2907;Leck;FX_911;06.05.2021-09:00;06.05.2021-11:00;2;;eor;                                                                                                                                              
+2907;Leck;FX_911;28.05.2021-05:00;28.05.2021-07:00;2;;eor;                                                                                                                                              
+2907;Leck;FX_911;30.08.2021-17:00;31.08.2021-06:00;13;;eor;                                                                                                                                             
+generiert: 09.11.2021 --  Deutscher Wetterdienst  --                                                                                                                                                    

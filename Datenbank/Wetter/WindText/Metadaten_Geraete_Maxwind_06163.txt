@@ -1,0 +1,4 @@
+Stations_ID;Stationsname;Geo. Laenge [Grad];Geo. Breite [Grad];Stationshoehe [m];Geberhoehe ueber Grund [m];Von_Datum;Bis_Datum;Geraetetyp Name;Messverfahren;eor;
+6163;Dörnick;10.35;54.17;27.03;10;19991004;20210119;Windsensor Classic 4.3303;Windmessung, elektr.;eor;
+6163;Dörnick;10.35;54.17;27.03;10;20200811;20211108;Ultrasonic Anemometer 2D compact;Windmessung, elektr.;eor;
+generiert: 09.11.2021 --  Deutscher Wetterdienst  --

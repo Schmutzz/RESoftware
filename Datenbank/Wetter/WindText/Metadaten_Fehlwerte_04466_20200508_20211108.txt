@@ -1,0 +1,5 @@
+Stations_ID;Stations_Name;Parameter;Von_Datum;Bis_Datum;Anzahl_Fehlwerte;Beschreibung;eor;                                                                                                              
+4466;Schleswig;FX_911;16.05.2020-07:00;16.05.2020-23:00;16;;eor;                                                                                                                                        
+4466;Schleswig;FX_911;19.05.2020-00:00;19.05.2020-13:00;13;;eor;                                                                                                                                        
+4466;Schleswig;FX_911;07.11.2020-17:00;09.11.2020-06:00;37;;eor;                                                                                                                                        
+generiert: 09.11.2021 --  Deutscher Wetterdienst  --                                                                                                                                                    

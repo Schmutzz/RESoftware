@@ -1,0 +1,9 @@
+Stations_ID;Stationsname;Von_Datum;Bis_Datum
+  5078;Travemünde                              ;19280901;19340930
+  5078;Travemünde (Flughafen)                  ;19360101;19451231
+  5078;Travemünde-Priwall                      ;19460101;19500104
+  5078;Travemünde-Mövenstein                   ;19500105;19521031
+  5078;Travemünde-Priwall                      ;19521101;19600430
+  5078;Travemünde-Kurmittelhaus                ;19600501;19601208
+  5078;Travemünde-Priwall                      ;19601209;19810426
+  5078;Travemünde                              ;19810427;

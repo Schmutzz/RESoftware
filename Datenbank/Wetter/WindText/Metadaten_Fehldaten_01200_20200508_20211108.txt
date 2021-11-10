@@ -1,0 +1,14 @@
+Stations_ID;Stations_Name;Parameter;Von_Datum;Bis_Datum;Gesamt_Fehlwerte;Beschreibung;eor;                                                                                                              
+1200;Elpersbüttel;FX_911;08.05.2020;08.11.2021;94;Gesamt_Messzeitraum;eor;                                                                                                                              
+Stations_ID;Stations_Name;Parameter;Von_Datum;Bis_Datum;Anzahl_Fehlwerte;Beschreibung;eor;                                                                                                              
+1200;Elpersbüttel;FX_911;27.05.2020-08:00;27.05.2020-15:00;7;;eor;                                                                                                                                      
+1200;Elpersbüttel;FX_911;27.05.2020-19:00;28.05.2020-06:00;11;;eor;                                                                                                                                     
+1200;Elpersbüttel;FX_911;28.05.2020-21:00;29.05.2020-07:00;10;;eor;                                                                                                                                     
+1200;Elpersbüttel;FX_911;30.05.2020-21:00;01.06.2020-22:00;49;;eor;                                                                                                                                     
+1200;Elpersbüttel;FX_911;02.06.2020-01:00;02.06.2020-02:00;1;;eor;                                                                                                                                      
+1200;Elpersbüttel;FX_911;02.06.2020-05:00;02.06.2020-08:00;3;;eor;                                                                                                                                      
+1200;Elpersbüttel;FX_911;02.06.2020-22:00;03.06.2020-02:00;4;;eor;                                                                                                                                      
+1200;Elpersbüttel;FX_911;03.06.2020-05:00;03.06.2020-11:00;6;;eor;                                                                                                                                      
+1200;Elpersbüttel;FX_911;23.03.2021-14:00;23.03.2021-16:00;2;;eor;                                                                                                                                      
+1200;Elpersbüttel;FX_911;08.04.2021-09:00;08.04.2021-10:00;1;;eor;                                                                                                                                      
+generiert: 09.11.2021 --  Deutscher Wetterdienst  --                                                                                                                                                    

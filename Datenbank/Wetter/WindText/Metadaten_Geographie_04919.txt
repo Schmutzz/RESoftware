@@ -1,0 +1,2 @@
+Stations_id;Stationshoehe;Geogr.Breite;Geogr.Laenge;von_datum;bis_datum;Stationsname
+  4919;    7.00; 54.4965;  8.8069;19771001;        ;Strucklahnungshörn

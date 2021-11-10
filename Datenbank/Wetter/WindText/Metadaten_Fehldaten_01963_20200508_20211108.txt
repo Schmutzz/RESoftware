@@ -1,0 +1,23 @@
+Stations_ID;Stations_Name;Parameter;Von_Datum;Bis_Datum;Gesamt_Fehlwerte;Beschreibung;eor;                                                                                                              
+1963;Hallig Hooge;FX_911;08.05.2020;08.11.2021;469;Gesamt_Messzeitraum;eor;                                                                                                                             
+Stations_ID;Stations_Name;Parameter;Von_Datum;Bis_Datum;Anzahl_Fehlwerte;Beschreibung;eor;                                                                                                              
+1963;Hallig Hooge;FX_911;14.09.2021-08:00;15.09.2021-13:00;29;;eor;                                                                                                                                     
+1963;Hallig Hooge;FX_911;15.09.2021-15:00;15.09.2021-19:00;4;;eor;                                                                                                                                      
+1963;Hallig Hooge;FX_911;16.09.2021-11:00;19.09.2021-08:00;69;;eor;                                                                                                                                     
+1963;Hallig Hooge;FX_911;19.09.2021-12:00;19.09.2021-21:00;9;;eor;                                                                                                                                      
+1963;Hallig Hooge;FX_911;19.09.2021-23:00;20.09.2021-08:00;9;;eor;                                                                                                                                      
+1963;Hallig Hooge;FX_911;20.09.2021-11:00;20.09.2021-13:00;2;;eor;                                                                                                                                      
+1963;Hallig Hooge;FX_911;20.09.2021-21:00;20.09.2021-23:00;2;;eor;                                                                                                                                      
+1963;Hallig Hooge;FX_911;21.09.2021-20:00;22.09.2021-17:00;21;;eor;                                                                                                                                     
+1963;Hallig Hooge;FX_911;23.09.2021-01:00;23.09.2021-04:00;3;;eor;                                                                                                                                      
+1963;Hallig Hooge;FX_911;24.09.2021-06:00;24.09.2021-10:00;4;;eor;                                                                                                                                      
+1963;Hallig Hooge;FX_911;24.09.2021-12:00;24.09.2021-13:00;1;;eor;                                                                                                                                      
+1963;Hallig Hooge;FX_911;24.09.2021-15:00;24.09.2021-16:00;1;;eor;                                                                                                                                      
+1963;Hallig Hooge;FX_911;24.09.2021-23:00;27.09.2021-19:00;68;;eor;                                                                                                                                     
+1963;Hallig Hooge;FX_911;28.09.2021-01:00;29.09.2021-18:00;41;;eor;                                                                                                                                     
+1963;Hallig Hooge;FX_911;29.09.2021-20:00;29.09.2021-23:00;3;;eor;                                                                                                                                      
+1963;Hallig Hooge;FX_911;01.10.2021-15:00;01.10.2021-16:00;1;;eor;                                                                                                                                      
+1963;Hallig Hooge;FX_911;02.10.2021-01:00;02.10.2021-06:00;5;;eor;                                                                                                                                      
+1963;Hallig Hooge;FX_911;02.10.2021-19:00;03.10.2021-00:00;5;;eor;                                                                                                                                      
+1963;Hallig Hooge;FX_911;03.10.2021-11:00;11.10.2021-11:00;192;;eor;                                                                                                                                    
+generiert: 09.11.2021 --  Deutscher Wetterdienst  --                                                                                                                                                    

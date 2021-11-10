@@ -1,0 +1,5 @@
+Stations_ID;Stations_Name;Parameter;Von_Datum;Bis_Datum;Gesamt_Fehlwerte;Beschreibung;eor;                                                                                                              
+1379;Flensburg (Schäferhaus);FX_911;08.05.2020;08.11.2021;139;Gesamt_Messzeitraum;eor;                                                                                                                  
+Stations_ID;Stations_Name;Parameter;Von_Datum;Bis_Datum;Anzahl_Fehlwerte;Beschreibung;eor;                                                                                                              
+1379;Flensburg (Schäferhaus);FX_911;28.05.2021-13:00;03.06.2021-08:00;139;;eor;                                                                                                                         
+generiert: 09.11.2021 --  Deutscher Wetterdienst  --                                                                                                                                                    

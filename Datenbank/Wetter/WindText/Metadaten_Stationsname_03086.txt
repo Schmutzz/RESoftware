@@ -1,0 +1,2 @@
+Stations_ID;Stationsname;Von_Datum;Bis_Datum
+  3086;Lübeck-Blankensee                       ;19380801;

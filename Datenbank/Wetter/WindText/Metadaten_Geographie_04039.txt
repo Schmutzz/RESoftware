@@ -1,0 +1,3 @@
+Stations_id;Stationshoehe;Geogr.Breite;Geogr.Laenge;von_datum;bis_datum;Stationsname
+  4039;   12.60; 53.7345;  9.8780;19741201;19880111;Quickborn
+  4039;   10.99; 53.7331;  9.8776;19880112;        ;Quickborn

@@ -1,0 +1,6 @@
+Stations_id;Stationshoehe;Geogr.Breite;Geogr.Laenge;von_datum;bis_datum;Stationsname
+  2115;   37.00; 54.1832;  7.8856;18730612;19520417;Helgoland
+  2115;   50.00; 54.1821;  7.8823;19520418;19520828;Helgoland
+  2115;    4.00; 54.1752;  7.8909;19520829;19640228;Helgoland
+  2115;    4.00; 54.1750;  7.8920;19640229;20150819;Helgoland
+  2115;    4.36; 54.1750;  7.8920;20150820;        ;Helgoland

@@ -1,0 +1,6 @@
+Stations_id;Stationshoehe;Geogr.Breite;Geogr.Laenge;von_datum;bis_datum;Stationsname
+  3897;    1.00; 54.0893; 10.8773;19340101;19441231;Pelzerhaken
+  3897;   15.00; 54.0893; 10.8773;19450101;19560617;Pelzerhaken
+  3897;    4.00; 54.0893; 10.8773;19560618;19801031;Pelzerhaken
+  3897;    4.00; 54.0893; 10.8773;19801101;19840831;Pelzerhaken
+  3897;    2.18; 54.0893; 10.8773;19840901;        ;Pelzerhaken

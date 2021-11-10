@@ -1,0 +1,4 @@
+Stations_ID;Stations_Name;Parameter;Von_Datum;Bis_Datum;Anzahl_Fehlwerte;Beschreibung;eor;                                                                                                              
+3897;Pelzerhaken;FX_911;13.05.2020-12:00;13.05.2020-14:00;2;;eor;                                                                                                                                       
+3897;Pelzerhaken;FX_911;22.09.2020-09:00;22.09.2020-13:00;4;;eor;                                                                                                                                       
+generiert: 09.11.2021 --  Deutscher Wetterdienst  --                                                                                                                                                    
