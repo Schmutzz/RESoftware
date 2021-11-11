@@ -1,3 +1,5 @@
+import pandas as pd
+
 import database as db
 import geo as gpd
 import internetDownload as itd
@@ -45,7 +47,7 @@ def openAusbauflaechen():
     merge_df.to_csv(exportname, sep=';', encoding='utf-8', index=False)
 
 def testGPD():
-    a = gpd.SingleLocation("Bietigheim-Bissingen","74321")
+    a = gpd.SingleLocation("Bietigheim-Bissingen", "74321")
     print(a.getRaw())
     liste = ["Bietigheim-Bissingen", "Asperg","Ingersheim", "Ludwigsburg", "Heimfeld"]
     b = gpd.Multiple(liste,"Deutschland")
@@ -54,13 +56,20 @@ def testStandartImport():
     standartListe = ["Date", "Time", "Cons_Prod", "Location", "Energynetwork", "Energy_in_kWh", "Energysource"]
     egal = db.regulatedImport('Import\Erzeugung/', standartListe).openAndCompleteAllFile()
     "Überprüfung der Daten Fehlt"
-    exportname = "Datenbank\Erzeugung/" + "erzeugungsdatenVersuche" +".csv"
+    exportname = "Datenbank\Erzeugung/" + "erzeugungsdatenVersuche" + ".csv"
     egal.to_csv(exportname, sep=';', encoding='utf-8', index=False)
     print(egal)
 #openAusbauflaechen()
 #testGPD()
 #testStandartImport()
-#itd.testGeoDaten()
-sandbox.testMail()
+#itd.cdcdataobservations_germanyHourly('wind', 'StundeWindStationen')
+itd.cdcdataobservations_germanyHourly('solar', 'StundeSolarStationen')
+#sandbox.testMail()
 print('läuft')
+str1 = 'wind'
+str2 = 'wind'
+print(str1 == str2)
+
+
+
 

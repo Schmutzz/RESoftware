@@ -5,6 +5,7 @@
 from email.mime.text import MIMEText
 from email.header import Header
 import smtplib
+import pandas as pd
 
 def testMail():
 
@@ -37,3 +38,29 @@ def testMail():
     smtp.sendmail(frm, [toBoje], mail.as_string())
     smtp.quit()
 
+def ZeitintervallDateien():
+    Liste1 = []
+    Liste2 = []
+
+    hourly2019 = pd.date_range('01.01.2019 00:00', '31.12.2019 23:00', freq='60min')
+    hourly2020 = pd.date_range('01.01.2020 00:00', '31.12.2020 23:00', freq='60min')
+
+    for i in range(len(hourly2019)):
+        Liste1.append(hourly2019[i])
+
+    for i in range(len(hourly2020)):
+        Liste2.append(hourly2020[i])
+
+    dataFrame = pd.DataFrame(
+        {'Datum1': hourly2019,
+         }
+    )
+    exportname2 = "Datenbank/" + "Datum" + ".csv"
+    dataFrame.to_csv(exportname2, sep=';', encoding='utf-8', index=False)
+
+    dataFrame = pd.DataFrame(
+        {'Datum1': hourly2019,
+         }
+    )
+    exportname3 = "Datenbank/" + "Datum2" + ".csv"
+    dataFrame.to_csv(exportname3, sep=';', encoding='utf-8', index=False)

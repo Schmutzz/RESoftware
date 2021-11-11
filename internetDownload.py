@@ -4,57 +4,71 @@ import requests
 import pandas as pd
 from zipfile import ZipFile
 
-def testGeoDaten():
+
+def cdcdataobservations_germanyHourly(source, idFile):
+    """Source muss klein eingeben werden"""
     importTrueOrFalse = []
+
+
+    if source == 'wind':
+        indizie = "FF"
+        indizie2 = 'akt'
+        urlanfang = 'https://opendata.dwd.de/climate_environment/CDC/observations_germany/climate/hourly/' + source + '/recent/'
+    if source == 'solar':
+        indizie = "ST"
+        indizie2 = 'row'
+        urlanfang = 'https://opendata.dwd.de/climate_environment/CDC/observations_germany/climate/hourly/' + source + '/'
+
     try:
-        filename = 'Import\Wetterstationen/WetterstationenID.csv'
+        filename = 'Import\Wetterstationen/' + idFile + '.csv'
         print(filename)
         df = pd.read_csv(filename, delimiter=';', encoding="latin1")
         print(df)
     except ValueError:
         print("falsches Format")
 
-    urlanfang = 'https://opendata.dwd.de/climate_environment/CDC/observations_germany/climate/hourly/extreme_wind/recent/'
-    lenght = df['ID'].__len__()
+
+
+    lenght = df['Stations_id'].__len__()
     for i in range(lenght):
         zipFileName = "0"
-        print(df['ID'][i])
-        if df['ID'][i] <= 999:
+        print(df['Stations_id'][i])
+        if df['Stations_id'][i] <= 999:
             zusatznullen = "00"
 
-            url = urlanfang + 'stundenwerte_FX_' + zusatznullen + str(df['ID'][i]) + '_akt.zip'
+            url = urlanfang + 'stundenwerte_'+ indizie +'_' + zusatznullen + str(df['Stations_id'][i]) + '_' + indizie2 + '.zip'
             r = requests.get(url, allow_redirects=True)
-            zipFileName = 'Datenbank\Wetter\WindZipDateien/stundenwerte_FX_' + zusatznullen + str(df['ID'][i]) + '_akt.zip'
+            zipFileName = 'Datenbank\Wetter/' + source + 'ZipDateien/stundenwerte_'+ indizie +'_' + zusatznullen + str(df['Stations_id'][i]) + '_' + indizie2 + '.zip'
             open(zipFileName, 'wb').write(r.content)
 
 
-        if df['ID'][i] <= 9999 and df['ID'][i] > 999:
+        if df['Stations_id'][i] <= 9999 and df['Stations_id'][i] > 999:
             zusatznullen = "0"
-            url = urlanfang + 'stundenwerte_FX_' + zusatznullen + str(df['ID'][i]) + '_akt.zip'
+            url = urlanfang + 'stundenwerte_'+ indizie +'_' + zusatznullen + str(df['Stations_id'][i]) + '_' + indizie2 + '.zip'
             r = requests.get(url, allow_redirects=True)
-            zipFileName = 'Datenbank\Wetter\WindZipDateien/stundenwerte_FX_' + zusatznullen + str(df['ID'][i]) + '_akt.zip'
+            zipFileName = 'Datenbank\Wetter/' + source + 'ZipDateien/stundenwerte_'+ indizie +'_' + zusatznullen + str(df['Stations_id'][i]) + '_' + indizie2 + '.zip'
             open(zipFileName, 'wb').write(r.content)
 
 
-        if df['ID'][i] > 9999:
-            url = urlanfang + 'stundenwerte_FX_' + str(df['ID'][i]) + '_akt.zip'
+        if df['Stations_id'][i] > 9999:
+            url = urlanfang + 'stundenwerte_'+ indizie +'_' + str(df['Stations_id'][i]) + '_' + indizie2 + '.zip'
             r = requests.get(url, allow_redirects=True)
-            zipFileName = 'Datenbank\Wetter\WindZipDateien/stundenwerte_FX_' + str(df['ID'][i]) + '_akt.zip'
+            zipFileName = 'Datenbank\Wetter/' + source + 'ZipDateien/stundenwerte_'+ indizie +'_' + str(df['Stations_id'][i]) + '_' + indizie2 + '.zip'
             open(zipFileName, 'wb').write(r.content)
 
         try:
             with ZipFile(zipFileName, 'r') as zip:
-                zip.extractall('Datenbank\Wetter\WindText')
+                zip.extractall('Datenbank\Wetter/' + source + 'Text')
                 print('File is unzipped in temp Datenbank\Wetter\WindText')
                 importTrueOrFalse.append(True)
         except ValueError:
             print("Probleme mit der Zip-Datei")
         except BaseException:
-            print(str(df['ID'][i]) + "is not a Zipfile")
+            print(str(df['Stations_id'][i]) + "is not a Zipfile")
             importTrueOrFalse.append(False)
 
     if importTrueOrFalse.__len__() == lenght:
         df['TrueOrFalse'] = importTrueOrFalse
         print(df)
-        exportname = "Datenbank/" + "FazitWindDaten" + ".csv"
+        exportname = "Datenbank/" + "Fazit" + source + "Daten" + ".csv"
         df.to_csv(exportname, sep=';', encoding='latin1', index=False)
