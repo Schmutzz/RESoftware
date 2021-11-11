@@ -1,0 +1,9 @@
+Stations_ID;Stations_Name;Parameter;Von_Datum;Bis_Datum;Gesamt_Fehlwerte;Beschreibung;eor;                                                                                                              
+2429;Itzehoe;F;09.05.2020;09.11.2021;7;Gesamt_Messzeitraum;eor;                                                                                                                                         
+2429;Itzehoe;D;09.05.2020;09.11.2021;1;Gesamt_Messzeitraum;eor;                                                                                                                                         
+Stations_ID;Stations_Name;Parameter;Von_Datum;Bis_Datum;Anzahl_Fehlwerte;Beschreibung;eor;                                                                                                              
+2429;Itzehoe;F;05.01.2021-10:00;05.01.2021-13:00;4;;eor;                                                                                                                                                
+2429;Itzehoe;F;08.04.2021-13:00;08.04.2021-14:00;2;;eor;                                                                                                                                                
+2429;Itzehoe;F;04.11.2021-11:00;04.11.2021-11:00;1;;eor;                                                                                                                                                
+2429;Itzehoe;D;08.04.2021-13:00;08.04.2021-13:00;1;;eor;                                                                                                                                                
+generiert: 10.11.2021 --  Deutscher Wetterdienst  --                                                                                                                                                    

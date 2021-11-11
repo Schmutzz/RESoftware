@@ -1,0 +1,7 @@
+Stations_ID;Stationsname;Geo. Laenge [Grad];Geo. Breite [Grad];Stationshoehe [m];Geberhoehe ueber Grund [m];Von_Datum;Bis_Datum;Geraetetyp Name;Messverfahren;eor;
+3032;List auf Sylt;;;;;19720101;19720803;Gerätetyp unbekannt;Strahlungsmessung;eor;
+3032;List auf Sylt;8.41;55.01;26.2;1.5;19720804;19800602;Pyranometer, unbekannt;Strahlungsmessung;eor;
+3032;List auf Sylt;8.41;55.01;26.2;1.5;19780424;19870630;Pyranometer CM5;Strahlungsmessung, elektr.;eor;
+3032;List auf Sylt;8.41;55.01;26.2;1.5;19860611;19941130;Pyranometer CM6;Strahlungsmessung, elektr.;eor;
+3032;List auf Sylt;8.41;55.01;26.2;1.5;19930525;20081016;Pyranometer CM11;Strahlungsmessung, elektr.;eor;
+generiert: 10.11.2021 --  Deutscher Wetterdienst  --

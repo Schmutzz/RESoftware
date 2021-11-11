@@ -1,0 +1,4 @@
+Stations_ID;Stations_Name;Parameter;Von_Datum;Bis_Datum;Anzahl_Fehlwerte;Beschreibung;eor;                                                                                                              
+5877;Putlos;F;23.08.2021-12:00;26.08.2021-08:00;69;;eor;                                                                                                                                                
+5877;Putlos;D;23.08.2021-12:00;26.08.2021-08:00;69;;eor;                                                                                                                                                
+generiert: 10.11.2021 --  Deutscher Wetterdienst  --                                                                                                                                                    

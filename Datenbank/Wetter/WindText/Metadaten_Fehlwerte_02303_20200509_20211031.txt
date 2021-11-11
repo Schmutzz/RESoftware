@@ -1,0 +1,4 @@
+Stations_ID;Stations_Name;Parameter;Von_Datum;Bis_Datum;Anzahl_Fehlwerte;Beschreibung;eor;                                                                                                              
+2303;Hohn;F;01.04.2021-18:00;02.04.2021-13:00;20;;eor;                                                                                                                                                  
+2303;Hohn;D;01.04.2021-18:00;02.04.2021-13:00;20;;eor;                                                                                                                                                  
+generiert: 10.11.2021 --  Deutscher Wetterdienst  --                                                                                                                                                    

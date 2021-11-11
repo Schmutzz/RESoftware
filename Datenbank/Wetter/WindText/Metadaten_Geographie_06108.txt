@@ -1,0 +1,2 @@
+Stations_id;Stationshoehe;Geogr.Breite;Geogr.Laenge;von_datum;bis_datum;Stationsname
+  6108;    7.00; 53.7197;  9.4192;20010627;        ;Ruthenstrom

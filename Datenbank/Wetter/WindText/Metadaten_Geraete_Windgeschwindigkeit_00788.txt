@@ -1,0 +1,15 @@
+Stations_ID;Stationsname;Geo. Laenge [Grad];Geo. Breite [Grad];Stationshoehe [m];Geberhoehe ueber Grund [m];Von_Datum;Bis_Datum;Geraetetyp Name;Messverfahren;eor;
+788;Büsum;8.86;54.12;3;11;19650101;19820331;Universal-Windschreiber 90;Windmessung, elektromechanisch;eor;
+788;Büsum;8.86;54.12;3;11;19821001;19840430;Universal-Windschreiber 90;Windmessung, elektromechanisch;eor;
+788;Büsum;8.86;54.12;3;11;19840601;19850930;Universal-Windschreiber 90;Windmessung, elektromechanisch;eor;
+788;Büsum;8.86;54.12;3;11;19851201;19861031;Universal-Windschreiber 90;Windmessung, elektromechanisch;eor;
+788;Büsum;8.86;54.12;3;11;19861201;19931231;Universal-Windschreiber 90;Windmessung, elektromechanisch;eor;
+788;Büsum;8.86;54.12;3;11;19940505;19960305;Windsensor Classic 4.3303;Windmessung, elektr.;eor;
+788;Büsum;8.86;54.12;3;11;19960401;19960402;Windsensor Classic 4.3303;Windmessung, elektr.;eor;
+788;Büsum;8.86;54.12;3;11;19960422;20031216;Windsensor Classic 4.3303;Windmessung, elektr.;eor;
+788;Büsum;8.86;54.12;3;11;20040218;20040512;Windsensor Classic 4.3303;Windmessung, elektr.;eor;
+788;Büsum;8.86;54.12;3;11;20040601;20170709;Windsensor Classic 4.3303;Windmessung, elektr.;eor;
+788;Büsum;8.86;54.12;3;11;20170807;20191014;Windsensor Classic 4.3303;Windmessung, elektr.;eor;
+788;Büsum;8.86;54.12;3;10;20191015;20201014;Ultrasonic Anemometer 3D;Windmessung, elektr.;eor;
+788;Büsum;8.86;54.12;3;10;20201015;20211109;Ultrasonic Anemometer 2D compact;Windmessung, elektr.;eor;
+generiert: 10.11.2021 --  Deutscher Wetterdienst  --

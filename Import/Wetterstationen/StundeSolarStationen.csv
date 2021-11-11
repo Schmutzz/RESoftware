@@ -1,0 +1,15 @@
+Stations_id;von_datum;bis_datum;Stationshoehe;geoBreite;geoLaenge;Stationsname;Bundesland
+01200;20070207;20211109;3;54.0691;9.0105;Elpersbüttel;Schleswig-Holstein
+01975;19490101;20211109;11;53.6332;9.9881;Hamburg-Fuhlsbüttel;Hamburg
+02115;19510101;20211109;4;54.1750;7.8920;Helgoland;Schleswig-Holstein
+02907;19710101;20211109;7;54.7903;8.9514;Leck;Schleswig-Holstein
+02961;20040513;20211109;31;54.4996;10.2737;Leuchtturm;Schleswig-Holstein
+03032;19510101;20211109;25;55.0110;8.4125;List;Schleswig-Holstein
+03086;19850301;20211109;15;53.8025;10.6989;Lübeck-Blankensee;Schleswig-Holstein
+04393;19510101;20211109;5;54.3279;8.6031;Sankt Peter-Ording;Schleswig-Holstein
+04466;19510101;20211109;43;54.5275;9.5487;Schleswig;Schleswig-Holstein
+05516;19960531;20211109;3;54.5283;11.0606;Fehmarn;Schleswig-Holstein
+05930;19740101;20211109;1;54.6410;10.0238;Schönhagen;Schleswig-Holstein
+06105;20040501;20211109;14;54.3194;9.8051;Ostenfeld;Schleswig-Holstein
+06163;20010401;20211109;27;54.1654;10.3519;Dörnick;Schleswig-Holstein
+07298;20050701;20211109;5;54.5268;9.0425;Hattstedt;Schleswig-Holstein

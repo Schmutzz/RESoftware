@@ -1,0 +1,6 @@
+Stations_ID;Stations_Name;Parameter;Von_Datum;Bis_Datum;Anzahl_Fehlwerte;Beschreibung;eor;                                                                                                              
+4039;Quickborn;F;13.10.2020-08:00;13.10.2020-12:00;5;;eor;                                                                                                                                              
+4039;Quickborn;F;31.01.2021-01:00;01.02.2021-05:00;29;;eor;                                                                                                                                             
+4039;Quickborn;D;13.10.2020-08:00;13.10.2020-12:00;5;;eor;                                                                                                                                              
+4039;Quickborn;D;31.01.2021-01:00;01.02.2021-05:00;29;;eor;                                                                                                                                             
+generiert: 10.11.2021 --  Deutscher Wetterdienst  --                                                                                                                                                    

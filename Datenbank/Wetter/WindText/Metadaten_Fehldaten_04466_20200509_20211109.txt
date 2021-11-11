@@ -1,0 +1,9 @@
+Stations_ID;Stations_Name;Parameter;Von_Datum;Bis_Datum;Gesamt_Fehlwerte;Beschreibung;eor;                                                                                                              
+4466;Schleswig;F;09.05.2020;09.11.2021;44;Gesamt_Messzeitraum;eor;                                                                                                                                      
+4466;Schleswig;D;09.05.2020;09.11.2021;43;Gesamt_Messzeitraum;eor;                                                                                                                                      
+Stations_ID;Stations_Name;Parameter;Von_Datum;Bis_Datum;Anzahl_Fehlwerte;Beschreibung;eor;                                                                                                              
+4466;Schleswig;F;19.05.2020-08:00;19.05.2020-13:00;6;;eor;                                                                                                                                              
+4466;Schleswig;F;07.11.2020-17:00;09.11.2020-06:00;38;;eor;                                                                                                                                             
+4466;Schleswig;D;19.05.2020-08:00;19.05.2020-12:00;5;;eor;                                                                                                                                              
+4466;Schleswig;D;07.11.2020-17:00;09.11.2020-06:00;38;;eor;                                                                                                                                             
+generiert: 10.11.2021 --  Deutscher Wetterdienst  --                                                                                                                                                    
