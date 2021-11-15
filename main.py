@@ -74,8 +74,10 @@ def testStandartImport():
 
 #database.testTxtWetterdatenWindToCSV(2019)
 #.testTxtWetterdatenWindToCSV(2020)
-lgk.erzeugungsdatenWindHH(2019)
-lgk.erzeugungsdatenWindHH(2020)
+lgk.erzeugungsdaten(2019, 'Wind', 'HH')
+lgk.erzeugungsdaten(2020, 'Wind', 'HH')
+lgk.erzeugungsdaten(2019, 'Wind', 'SH')
+lgk.erzeugungsdaten(2020, 'Wind', 'SH')
 
 
 
