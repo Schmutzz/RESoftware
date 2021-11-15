@@ -38,7 +38,7 @@ def testMail():
     smtp.sendmail(frm, [toBoje], mail.as_string())
     smtp.quit()
 
-def ZeitintervallDateien():
+def testZeitintervallDateien():
     Liste1 = []
     Liste2 = []
 
@@ -64,3 +64,25 @@ def ZeitintervallDateien():
     )
     exportname3 = "Datenbank/" + "Datum2" + ".csv"
     dataFrame.to_csv(exportname3, sep=';', encoding='utf-8', index=False)
+
+def testTxtWetterdatenToCSV():
+    print('Start')
+    try:
+        openfilename = 'Datenbank\Wetter\SolarText/produkt_st_stunde_19720101_20150131_03032.txt'
+        print(openfilename)
+        df = pd.read_csv(openfilename, delimiter=';', decimal='.', header=0)
+        """if firstDataFrame == False:
+            dataFrame = df
+            firstDataFrame = True
+        else:
+            dataFrame = dataFrame.append(df, ignore_index=True)"""
+
+    except ValueError:
+        print("falsches Format")
+
+    print(df)
+
+
+
+
+

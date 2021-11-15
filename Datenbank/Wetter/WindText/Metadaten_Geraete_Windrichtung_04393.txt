@@ -1,4 +1,4 @@
 Stations_ID;Stationsname;Geo. Laenge [Grad];Geo. Breite [Grad];Stationshoehe [m];Geberhoehe ueber Grund [m];Von_Datum;Bis_Datum;Geraetetyp Name;Messverfahren;eor;
-4393;Sankt Peter-Ording;8.6;54.33;4.88;10;19991130;20211018;Windrichtungssensor Classic 4.3121;Windmessung, elektr.;eor;
-4393;Sankt Peter-Ording;8.6;54.33;4.88;10;20211019;20211109;Ultrasonic Anemometer 2D compact;Windmessung, elektr.;eor;
-generiert: 10.11.2021 --  Deutscher Wetterdienst  --
+4393;Sankt Peter-Ording;;;;;19750101;19991129;Gerätetyp unbekannt;Windmessung, elektr.;eor;
+4393;Sankt Peter-Ording;8.6;54.33;4.88;10;19991130;20210327;Windrichtungssensor Classic 4.3121;Windmessung, elektr.;eor;
+generiert: 30.03.2021 --  Deutscher Wetterdienst  --

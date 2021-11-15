@@ -3,6 +3,6 @@ Stations_ID;Stationsname;Geo. Laenge [Grad];Geo. Breite [Grad];Stationshoehe [m]
 2564;Kiel-Holtenau;10.14;54.38;27;10;19860601;19880531;Universal-Windschreiber 90;Windmessung, elektromechanisch;eor;
 2564;Kiel-Holtenau;10.14;54.38;27;10;19880601;20130225;Windmessanlage, unbekannt;Windmessung;eor;
 2564;Kiel-Holtenau;10.14;54.38;27;10;20130501;20190917;Windsensor Classic 4.3303;Windmessung, elektr.;eor;
-2564;Kiel-Holtenau;10.14;54.38;28.41;10;20190918;20201013;Windsensor Classic 4.3303;Windmessung, elektr.;eor;
-2564;Kiel-Holtenau;10.14;54.38;28.41;10;20201014;20211109;Ultrasonic Anemometer 2D compact;Windmessung, elektr.;eor;
-generiert: 10.11.2021 --  Deutscher Wetterdienst  --
+2564;Kiel-Holtenau;10.14;54.38;28.41;10;20190918;20201023;Windsensor Classic 4.3303;Windmessung, elektr.;eor;
+2564;Kiel-Holtenau;10.14;54.38;28.41;10;20201014;20210327;Ultrasonic Anemometer 2D compact;Windmessung, elektr.;eor;
+generiert: 30.03.2021 --  Deutscher Wetterdienst  --

@@ -1,0 +1,965 @@
+ID;KreisPot;KreisVor;StadtPot;StadtVor;haPot;haVor;Coords;Wetter-ID
+PR3_DIT_002;Dithmarschen;-;Lehe, Lunden, Schlichting, St. Annen;-;501.1;-;[54.3349245, 9.0542011];1266
+PR3_DIT_003;Dithmarschen;-;Kleve, Schlichting;-;380.1;-;[54.3069263, 9.1078992];1266
+PR3_DIT_005;Dithmarschen;-;Groven, Krempel, Rehm-Flehde-Bargen;-;135.8;-;[54.3092942, 9.0223363];1266
+PR3_DIT_006;Dithmarschen;-;Schlichting;-;78.5;-;[54.3187649, 9.0910285];1266
+PR3_DIT_007;Dithmarschen;Dithmarschen;Bergewöhrden, Delve, Hennstedt, Hollingstedt, Süderstapel;Hennstedt, Hollingstedt;716.9;115,1;[54.3077329, 9.2105008];1266
+PR3_DIT_008;Dithmarschen;Dithmarschen;Groven, Hemme;Groven, Hemme;98.2;98,2;[54.2976317, 9.0039362];1266
+PR3_DIT_009;Dithmarschen;Dithmarschen;Hemme, Karolinenkoog;Karolinenkoog;101.6;40,9;[54.2825189, 8.9882233];788
+PR3_DIT_010;Dithmarschen;-;Tielenhemme;-;15. Mrz;-;[54.2766302, 9.3879984];1266
+PR3_DIT_011;Dithmarschen;-;Pahlen;-;77.6;-;[54.2675609, 9.2957524];1266
+PR3_DIT_012;Dithmarschen;-;Tielenhemme;-;113.3;-;[54.2766302, 9.3879984];1266
+PR3_DIT_013;Dithmarschen;Dithmarschen;Hemme, Stelle-Wittenwurth;Hemme;111.9;92,3;[54.2709353, 9.0327636];1266
+PR3_DIT_015;Dithmarschen;Dithmarschen;Hemme, Karolinenkoog, Neuenkirchen, Strübbel;Hemme, Karolinenkoog, Strübbel;283.1;182,5;[54.2657541, 8.9838569];788
+PR3_DIT_017;Dithmarschen;-;Dellstedt;-;56.4;-;[54.2369313, 9.3704291];1266
+PR3_DIT_018;Dithmarschen;Dithmarschen;Hemme, Neuenkirchen, Stelle-Wittenwurth,Strübbel;Hemme, Neuenkirchen, Stelle-Wittenwurth;288.2;248;[54.2599623, 9.0061271];788
+PR3_DIT_019;Dithmarschen;-;Neuenkirchen;-;48.6;-;[54.23649, 8.9877874];788
+PR3_DIT_020;Dithmarschen;Dithmarschen;Norderheistedt, Ostrohe, Süderheistedt,Weddingstedt, Wiemerstedt;Norderheistedt, Süderheistedt,Wiemerstedt;372.8;87,9;[54.2399822, 9.1236595];1266
+PR3_DIT_021;Dithmarschen;Dithmarschen;Hemme, Stelle-Wittenwurth, Weddingstedt;Hemme, Stelle-Wittenwurth;166.0;86;[54.2587646, 9.0517061];1266
+PR3_DIT_023;Dithmarschen;Dithmarschen;Norddeich, Schülp, Wesselburenerkoog;Norddeich, Schülp,Wesselburenerkoog;135.7;133,5;[54.233768, 8.9044264];788
+PR3_DIT_025;Dithmarschen;Dithmarschen;Neuenkirchen, Oesterwurth, Schülp,Wesselburen;Neuenkirchen, Oesterwurth, Schülp,Wesselburen;386.2;246,2;[54.2273693, 8.9568364];788
+PR3_DIT_028;Dithmarschen;Dithmarschen;Neuenkirchen;Neuenkirchen;189.8;87,8;[54.23649, 8.9877874];788
+PR3_DIT_031;Dithmarschen;Dithmarschen;Norddeich, Schülp;Norddeich, Schülp;141.8;141,8;[54.2307894, 8.917322];788
+PR3_DIT_032;Dithmarschen;-;Neuenkirchen, Oesterwurth;-;129.7;-;[54.226595, 8.9855587];788
+PR3_DIT_033;Dithmarschen;-;Süderdorf, Tellingstedt;-;21. Jan;-;[54.2166787, 9.3088659];1266
+PR3_DIT_038;Dithmarschen;-;Neuenkirchen, Norderwöhrden;-;60.1;-;[54.218245, 9.0022287];788
+PR3_DIT_039;Dithmarschen;Dithmarschen;Osterrade, Wrohm;Osterrade, Wrohm;159.3;141,4;[54.2011989, 9.3659244];1266
+PR3_DIT_040;Dithmarschen;Dithmarschen;Süderdorf, Tellingstedt;Süderdorf, Tellingstedt;107.4;102;[54.2166787, 9.3088659];1266
+PR3_DIT_041;Dithmarschen;-;Norderwöhrden, Oesterwurth;-;105.5;-;[54.20835, 9.0];788
+PR3_DIT_042;Dithmarschen;-;Norderwöhrden;-;35.4;-;[54.2, 9.01667];788
+PR3_DIT_043;Dithmarschen;Dithmarschen;Neuenkirchen, Norderwöhrden, Oesterwurth;Neuenkirchen, Norderwöhrden,Oesterwurth;342.3;342,3;[54.21773, 8.9959291];788
+PR3_DIT_044;Dithmarschen;Dithmarschen;Tellingstedt;Tellingstedt;59.0;25,2;[54.2199228, 9.280779];1266
+PR3_DIT_045;Dithmarschen;Dithmarschen;Hedwigenkoog, Hellschen-Heringsand-Unterschaar;Hedwigenkoog, Hellschen-Heringsand-Unterschaar;158.4;158,4;[54.19165, 8.85];788
+PR3_DIT_046;Dithmarschen;Dithmarschen;Norderwöhrden, Oesterwurth,Wesselburener Deichhausen;Norderwöhrden, Oesterwurth,Wesselburener Deichhausen;128.3;128,3;[54.1971987, 8.9793682];788
+PR3_DIT_047;Dithmarschen;Dithmarschen;Reinsbüttel, Süderdeich, Wesselburener Deichhausen;Reinsbüttel, Süderdeich,Wesselburener Deichhausen;121.0;121;[54.1849355, 8.9198589];788
+PR3_DIT_049;Dithmarschen;Dithmarschen;Hedwigenkoog, Hellschen-Heringsand-Unterschaar, Reinsbüttel, Süderdeich;Hedwigenkoog, Hellschen-Heringsand-Unterschaar, Reinsbüttel, Süderdeich;221.2;221,2;[54.1908026, 8.880368];788
+PR3_DIT_051;Dithmarschen;Dithmarschen;Lohe-Rickelshof, Norderwöhrden, Wöhrden;Lohe-Rickelshof, Norderwöhrden,Wöhrden;90.9;90,9;[54.1848129, 9.0280665];1200
+PR3_DIT_055;Dithmarschen;-;Norderwöhrden, Wöhrden;-;40.1;-;[54.18335, 9.008335];788
+PR3_DIT_058;Dithmarschen;Dithmarschen;Norderwöhrden, Wöhrden;Norderwöhrden, Wöhrden;210.8;210,8;[54.18335, 9.008335];788
+PR3_DIT_059;Dithmarschen;Dithmarschen;Friedrichsgabekoog, Norderwöhrden,Wesselburener Deichhausen, Wöhrden;Norderwöhrden, Wesselburener Deichhausen, Wöhrden;127.5;104,1;[54.1738349, 8.9728119];788
+PR3_DIT_063;Dithmarschen;Dithmarschen;Hemmingstedt, Lieth, Wöhrden;Hemmingstedt, Lieth, Wöhrden;175.7;175,7;[54.1575769, 9.047794];1200
+PR3_DIT_066;Dithmarschen;Dithmarschen;Albersdorf, Arkebek, Tensbüttel-Röst;Albersdorf;186.5;56,1;[54.1423296, 9.2576434];19172
+PR3_DIT_067;Dithmarschen;Dithmarschen;Nordermeldorf, Wöhrden;Nordermeldorf;97.0;76,1;[54.1417925, 9.0093881];1200
+PR3_DIT_068;Dithmarschen;Dithmarschen;Epenwöhrden, Hemmingstedt,Nordermeldorf;Epenwöhrden, Nordermeldorf;43.2;39,4;[54.125952, 9.0511613];1200
+PR3_DIT_069;Dithmarschen;-;Nordermeldorf;-;17. Sep;-;[54.1168851, 9.0187761];1200
+PR3_DIT_070;Dithmarschen;-;Epenwöhrden;-;35.7;-;[54.1103274, 9.0520778];1200
+PR3_DIT_071;Dithmarschen;Dithmarschen;Nordermeldorf;Nordermeldorf;73.1;47,5;[54.1168851, 9.0187761];1200
+PR3_DIT_073;Dithmarschen;Dithmarschen;Albersdorf, Schafstedt, Tensbüttel-Röst;Albersdorf, Schafstedt, Tensbüttel-Röst;145.0;100,5;[54.1158414, 9.2737759];19172
+PR3_DIT_081;Dithmarschen;-;Elpersbüttel;-;30. Jan;-;[54.0733317, 9.0450158];1200
+PR3_DIT_082;Dithmarschen;-;Eggstedt;-;14. Feb;-;[54.0522854, 9.2615007];19172
+PR3_DIT_083;Dithmarschen;Dithmarschen;Eggstedt, Süderhastedt;Eggstedt, Süderhastedt;228.3;164,5;[54.0519456, 9.2352605];19172
+PR3_DIT_084;Dithmarschen;-;Busenwurth, Elpersbüttel;-;257.3;-;[54.0559092, 9.0416263];1200
+PR3_DIT_089;Dithmarschen;Dithmarschen;Barlt, Busenwurth, Gudendorf;Barlt, Busenwurth, Gudendorf;138.7;98,4;[54.0254652, 9.0675956];1200
+PR3_DIT_091;Dithmarschen;Dithmarschen;Barlt, Trennewurth;Barlt, Trennewurth;98.0;72,3;[54.0062202, 9.0438523];1200
+PR3_DIT_095;Dithmarschen;Dithmarschen;Barlt, St. Michaelisdonn, Volsemenhusen;Barlt, St. Michaelisdonn,Volsemenhusen;514.8;459,6;[53.987382, 9.0790694];1200
+PR3_DIT_096;Dithmarschen;Dithmarschen;Helse, Trennewurth;Helse, Trennewurth;97.2;97,2;[53.9881179, 9.0215716];1200
+PR3_DIT_097;Dithmarschen;Dithmarschen;Helse, Trennewurth, Volsemenhusen;Helse, Trennewurth, Volsemenhusen;142.4;142,4;[53.9808803, 9.035708];1200
+PR3_DIT_100;Dithmarschen;Dithmarschen;Kronprinzenkoog;Kronprinzenkoog;76.6;76,6;[53.9708971, 8.9609516];1200
+PR3_DIT_102;Dithmarschen;Dithmarschen;Dingen, Eddelak, Volsemenhusen;Dingen, Volsemenhusen;193.0;191,2;[53.9570703, 9.111269];1200
+PR3_DIT_103;Dithmarschen;Dithmarschen;Diekhusen-Fahrstedt, Marne, Volsemenhusen;Diekhusen-Fahrstedt, Marne,Volsemenhusen;45.3;36,9;[53.9546792, 9.0317175];1200
+PR3_DIT_104;Dithmarschen;Dithmarschen;Diekhusen-Fahrstedt, Schmedeswurth;Diekhusen-Fahrstedt, Schmedeswurth;107.6;93,2;[53.9361579, 9.0303212];1200
+PR3_DIT_105;Dithmarschen;-;Brunsbüttel;-;133.0;-;[53.8972549, 9.1395423];1200
+PR3_DIT_106;Dithmarschen;Dithmarschen;Brunsbüttel;Brunsbüttel;35.5;35,5;[53.8972549, 9.1395423];1200
+PR3_DIT_107;Dithmarschen;Dithmarschen;Brunsbüttel, Ramhusen;Brunsbüttel, Ramhusen;117.8;117,8;[53.9197739, 9.1112229];1200
+PR3_DIT_108;Dithmarschen;Dithmarschen;Brunsbüttel;Brunsbüttel;29. Aug;29,8;[53.8972549, 9.1395423];1200
+PR3_DIT_109;Dithmarschen;Dithmarschen;Diekhusen-Fahrstedt, Neufeld,Schmedeswurth;Diekhusen-Fahrstedt, Neufeld,Schmedeswurth;144.9;143,5;[53.9274528, 9.0276063];1200
+PR3_DIT_110;Dithmarschen;Dithmarschen;Brunsbüttel, Neufeld, Schmedeswurth;Brunsbüttel, Neufeld;330.3;322,6;[53.9113656, 9.0673111];1200
+PR3_DIT_111;Dithmarschen;-;Brunsbüttel;-;34.1;-;[53.8972549, 9.1395423];1200
+PR3_DIT_112;Dithmarschen;-;Brunsbüttel;-;61.3;-;[53.8972549, 9.1395423];1200
+PR3_DIT_134;Dithmarschen;-;Bergewöhrden, Hennstedt, Süderstapel;-;185.8;-;[54.3152276, 9.1920083];1266
+PR3_DIT_301;Dithmarschen;-;Lehe;-;139.8;-;[54.3414522, 9.0228629];1266
+PR3_DIT_302;Dithmarschen;-;Lehe, St. Annen;-;63.0;-;[54.3452736, 9.0505181];1266
+PR3_DIT_303;Dithmarschen;-;Fedderingen;-;52.1;-;[54.2817712, 9.1306333];1266
+PR3_DIT_304;Dithmarschen;-;Fedderingen, Stelle-Wittenwurth,Weddingstedt, Wiemerstedt;-;255.2;-;[54.2612874, 9.0969276];1266
+PR3_DIT_305;Dithmarschen;-;Dellstedt, Tielenhemme;-;20. Jul;-;[54.2567808, 9.3792138];1266
+PR3_DIT_307;Dithmarschen;-;Heide;-;36.8;-;[54.1948456, 9.0929015];1200
+PR3_DIT_309;Dithmarschen;-;Bargenstedt, Epenwöhrden, Hemmingstedt,Meldorf, Nindorf, Sarzbüttel;-;974.5;-;[54.1160197, 9.2062805];1200
+PR3_DIT_310;Dithmarschen;-;Nordhastedt, Odderade, Sarzbüttel;-;306.6;-;[54.1424959, 9.1855024];1200
+PR3_DIT_312;Dithmarschen;-;Elpersbüttel, Krumstedt, Nindorf,Windbergen, Wolmersdorf;-;403.1;-;[54.0796388, 9.230064];19172
+PR3_DIT_314;Dithmarschen;-;Frestedt, Krumstedt, Süderhastedt;-;201.7;-;[54.048134, 9.1884298];1200
+PR3_DIT_317;Dithmarschen;-;Kaiser-Wilhelm-Koog;-;18.0;-;[53.9432915, 8.9260047];1200
+PR3_DIT_401;Dithmarschen;-;Lehe;-;86.4;-;[54.3414522, 9.0228629];1266
+PR3_DIT_402;Dithmarschen;-;Groven;-;29.0;-;[54.3135257, 8.9980958];1266
+PR3_DIT_403;Dithmarschen;-;Delve, Glüsing, Pahlen, Schalkholz, Wallen;-;204.7;-;[54.2749974, 9.2583626];1266
+PR3_DIT_405;Dithmarschen;-;Süderdorf;-;23. Jan;-;[54.2134347, 9.3369528];1266
+PR3_DIT_406;Dithmarschen;-;Bunsoh, Offenbüttel;-;24. Mai;-;[54.1669158, 9.3385918];1266
+PR3_DIT_407;Dithmarschen;-;Norderwöhrden;-;30. Jul;-;[54.2, 9.01667];788
+PR3_DIT_408;Dithmarschen;-;Lohe-Rickelshof;-;17. Apr;-;[54.1877386, 9.0675296];1200
+PR3_DIT_409;Dithmarschen;Dithmarschen;Krumstedt, Tensbüttel-Röst;Krumstedt, Tensbüttel-Röst;29.2;28,9;[54.0938745, 9.2094651];1200
+PR3_DIT_410;Dithmarschen;-;Krumstedt, Schafstedt;-;32.6;-;[54.0752758, 9.23778];19172
+PR3_DIT_411;Dithmarschen;-;Süderhastedt;-;19. Jun;-;[54.0516058, 9.2090204];19172
+PR3_DIT_412;Dithmarschen;-;Eggstedt, Holstenniendorf, Schafstedt;-;105.8;-;[54.0607055, 9.2952362];19172
+PR3_DIT_413;Dithmarschen;-;Averlak, Buchholz, Burg (Dithmarschen),Kuden;-;203.3;-;[53.9736585, 9.2153483];19172
+PR3_DIT_414;Dithmarschen;-;Buchholz, Kuden;-;58.6;-;[53.9777417, 9.2102831];19172
+PR3_DIT_415;Dithmarschen;-;Averlak;-;32.3;-;[53.9414553, 9.1841596];19172
+PR3_DIT_416;Dithmarschen;-;Volsemenhusen;-;26. Mai;-;[53.966405, 9.0639808];1200
+PR3_DIT_417;Dithmarschen;-;Schmedeswurth;-;23. Mrz;-;[53.9267994, 9.0402144];1200
+PR3_DIT_418;Dithmarschen;Dithmarschen;Friedrichskoog;Friedrichskoog;27. Apr;27,4;[54.0072866, 8.8841226];1200
+PR3_DIT_419;Dithmarschen;Dithmarschen;Kronprinzenkoog;Kronprinzenkoog;15.0;15;[53.9708971, 8.9609516];1200
+PR3_DIT_501;Dithmarschen;-;Karolinenkoog;-;25.0;-;[54.2833, 8.96667];788
+PR3_DIT_094;Dithmarschen;Dithmarschen;Friedrichskoog, Kronprinzenkoog;Friedrichskoog, Kronprinzenkoog;328.2;317,4;[53.9890919, 8.9225371];1200
+PR3_DIT_099;Dithmarschen;Dithmarschen;Friedrichskoog, Kronprinzenkoog;Friedrichskoog, Kronprinzenkoog;72.9;72,9;[53.9890919, 8.9225371];1200
+PR3_DIT_101;Dithmarschen;Dithmarschen;Friedrichskoog, Kaiser?Wilhelm?Koog;Friedrichskoog, Kaiser?Wilhelm?Koog;48.5;48,5;[53.9752891, 8.9050636];1200
+PR3_LAU_001;Herzogtum Lauenburg;Herzogtum Lauenburg;Bliestorf, Kastorf, Siebenbäumen;Bliestorf, Kastorf, Siebenbäumen;229.9;86,4;[53.755223, 10.5659982];3086
+PR3_LAU_002;Herzogtum Lauenburg;-;Rondeshagen;-;28. Jan;-;[53.751837, 10.6288891];3086
+PR3_LAU_003;Herzogtum Lauenburg;-;Berkenthin;-;72.2;-;[53.7338071, 10.6391585];3086
+PR3_LAU_005;Herzogtum Lauenburg;-;Groß Boden, Schürensöhlen, Steinhorst;-;188.7;-;[53.7453618, 10.4693709];3086
+PR3_LAU_006;Herzogtum Lauenburg;Herzogtum Lauenburg;Lasbek, Stubben;Lasbek;131.8;106,2;[53.7356695, 10.3974098];3086
+PR3_LAU_009;Herzogtum Lauenburg;-;Buchholz, Einhaus;-;23. Mai;-;[53.8507531, 9.977398];4039
+PR3_LAU_011;Herzogtum Lauenburg;-;Düchelsdorf, Göldenitz, Klinkrade, Niendorf bei Berkenthin, Sierksrade;-;156.8;-;[53.723061, 10.5979915];3086
+PR3_LAU_012;Herzogtum Lauenburg;-;Behlendorf;-;24. Jun;-;[53.6985833, 10.6685418];3086
+PR3_LAU_013;Herzogtum Lauenburg;-;Kulpin;-;42.6;-;[53.7091424, 10.6957205];3086
+PR3_LAU_014;Herzogtum Lauenburg;-;Schiphorst, Stubben;-;76.8;-;[53.7207973, 10.4469459];3086
+PR3_LAU_015;Herzogtum Lauenburg;-;Sandesneben, Schiphorst, Steinhorst;-;114.7;-;[53.7049664, 10.480889];3086
+PR3_LAU_017;Herzogtum Lauenburg;-;Behlendorf;-;31. Aug;-;[53.6985833, 10.6685418];3086
+PR3_LAU_018;Herzogtum Lauenburg;-;Duvensee, Kühsen, Niendorf bei Berkenthin;-;62.6;-;[53.6941697, 10.6032491];3086
+PR3_LAU_019;Herzogtum Lauenburg;-;Behlendorf;-;40.4;-;[53.6985833, 10.6685418];3086
+PR3_LAU_020;Herzogtum Lauenburg;-;Fredeburg, Giesensdorf, Ratzeburg;-;22. Aug;-;[53.6818829, 10.7380485];1736
+PR3_LAU_021;Herzogtum Lauenburg;-;Behlendorf, Lankau;-;55.7;-;[53.6826417, 10.6676209];1736
+PR3_LAU_022;Herzogtum Lauenburg;-;Lüchow, Sirksfelde;-;74.6;-;[53.6775253, 10.5207136];1736
+PR3_LAU_023;Herzogtum Lauenburg;-;Schmilau;-;95.0;-;[53.6637189, 10.7571845];1736
+PR3_LAU_024;Herzogtum Lauenburg;-;Wentorf (Amt Sandesneben);-;22. Jan;-;[53.6726492, 10.4740888];1736
+PR3_LAU_025;Herzogtum Lauenburg;-;Kühsen, Nusse;-;54.0;-;[53.6703637, 10.5985465];1736
+PR3_LAU_026;Herzogtum Lauenburg;-;Schmilau;-;89.2;-;[53.6637189, 10.7571845];1736
+PR3_LAU_027;Herzogtum Lauenburg;-;Lankau;-;82.3;-;[53.6667, 10.6667];1736
+PR3_LAU_028;Herzogtum Lauenburg;-;Koberg, Ritzerau;-;45.7;-;[53.6481803, 10.5414026];1736
+PR3_LAU_029;Herzogtum Lauenburg;-;Horst, Sterley;-;121.5;-;[53.7152638, 10.2191456];4039
+PR3_LAU_030;Herzogtum Lauenburg;-;Sterley;-;15. Apr;-;[53.6194729, 10.8188333];1736
+PR3_LAU_031;Herzogtum Lauenburg;-;Koberg, Linau;-;149.8;-;[53.639979, 10.4938852];1736
+PR3_LAU_032;Herzogtum Lauenburg;-;Horst, Sterley;-;43.4;-;[53.7152638, 10.2191456];4039
+PR3_LAU_033;Herzogtum Lauenburg;Herzogtum Lauenburg;Alt Mölln, Bälau, Panten, Poggensee;Bälau, Panten, Poggensee;382.9;186,5;[53.6349666, 10.6180891];1736
+PR3_LAU_034;Herzogtum Lauenburg;-;Horst, Sterley;-;105.5;-;[53.7152638, 10.2191456];4039
+PR3_LAU_035;Herzogtum Lauenburg;-;Walksfelde;-;25. Jul;-;[53.6329056, 10.5754036];1736
+PR3_LAU_036;Herzogtum Lauenburg;-;Seedorf;-;58.7;-;[53.6195914, 10.8672662];1736
+PR3_LAU_037;Herzogtum Lauenburg;-;Sterley;-;30. Jun;-;[53.6194729, 10.8188333];1736
+PR3_LAU_038;Herzogtum Lauenburg;-;Bälau, Borstorf, Breitenfelde,Niendorf/Stecknitz;-;124.2;-;[53.6061614, 10.6062358];1736
+PR3_LAU_039;Herzogtum Lauenburg;-;Hollenbek, Seedorf;-;39.3;-;[53.6054415, 10.8438199];1736
+PR3_LAU_041;Herzogtum Lauenburg;Herzogtum Lauenburg;Breitenfelde;Breitenfelde;82.7;31,8;[53.6072865, 10.6352046];1736
+PR3_LAU_042;Herzogtum Lauenburg;Herzogtum Lauenburg;Breitenfelde, Woltersdorf;Breitenfelde, Woltersdorf;155.8;75,4;[53.592493, 10.6369881];1736
+PR3_LAU_043;Herzogtum Lauenburg;-;Gudow, Lehmrade;-;93.7;-;[53.5745797, 10.7586082];1736
+PR3_LAU_044;Herzogtum Lauenburg;-;Klein Zecher;-;48.6;-;[53.5781131, 10.8735174];1736
+PR3_LAU_045;Herzogtum Lauenburg;-;Gudow, Hollenbek;-;283.2;-;[53.5732664, 10.7934759];1736
+PR3_LAU_046;Herzogtum Lauenburg;-;Besenthal, Gudow;-;95.7;-;[53.5425742, 10.7540471];1736
+PR3_LAU_047;Herzogtum Lauenburg;-;Besenthal, Göttin;-;123.5;-;[53.5307997, 10.7220814];1736
+PR3_LAU_048;Herzogtum Lauenburg;-;Elmenhorst, Groß Pampau, Kankelau, Sahms;-;92.4;-;[53.5347986, 10.5487183];1736
+PR3_LAU_049;Herzogtum Lauenburg;-;Roseburg;-;40.1;-;[53.5314978, 10.6265906];1736
+PR3_LAU_050;Herzogtum Lauenburg;-;Roseburg;-;34.7;-;[53.5314978, 10.6265906];1736
+PR3_LAU_052;Herzogtum Lauenburg;-;Klein Pampau, Siebeneichen;-;38.3;-;[53.5107627, 10.5988946];1736
+PR3_LAU_053;Herzogtum Lauenburg;-;Fitzen;-;18. Aug;-;[53.4957965, 10.6485605];1736
+PR3_LAU_054;Herzogtum Lauenburg;-;Brunstorf, Dassendorf;-;114.0;-;[53.4915422, 10.3997872];1736
+PR3_LAU_055;Herzogtum Lauenburg;-;Brunstorf, Dassendorf, Worth;-;96.2;-;[53.48383, 10.4029283];1736
+PR3_LAU_056;Herzogtum Lauenburg;-;Büchen, Schulendorf;-;30. Jul;-;[53.4781777, 10.5885887];1736
+PR3_LAU_057;Herzogtum Lauenburg;-;Bröthen;-;54.1;-;[53.4795325, 10.6661394];1736
+PR3_LAU_058;Herzogtum Lauenburg;-;Hohenhorn;-;17.0;-;[53.4762046, 10.3687668];1736
+PR3_LAU_059;Herzogtum Lauenburg;-;Schulendorf;-;96.1;-;[53.4730525, 10.5604815];1736
+PR3_LAU_060;Herzogtum Lauenburg;-;Schulendorf;-;25. Sep;-;[53.4730525, 10.5604815];1736
+PR3_LAU_061;Herzogtum Lauenburg;-;Witzeeze;-;23. Mrz;-;[53.4515894, 10.6090961];1736
+PR3_LAU_062;Herzogtum Lauenburg;Herzogtum Lauenburg;Hamwarde, Kollow, Wiershop;Hamwarde;73.6;19,1;[53.452575, 10.4443368];1736
+PR3_LAU_063;Herzogtum Lauenburg;Herzogtum Lauenburg;Basedow, Dalldorf, Lütau, Wangelau,Witzeeze;Wangelau, Witzeeze;484.2;99,7;[53.43884, 10.5797059];1736
+PR3_LAU_064;Herzogtum Lauenburg;-;Gülzow, Kollow, Wiershop;-;150.3;-;[53.4489931, 10.4671668];1736
+PR3_LAU_065;Herzogtum Lauenburg;-;Gülzow, Lütau, Wangelau;-;115.5;-;[53.4437259, 10.5283893];1736
+PR3_LAU_066;Herzogtum Lauenburg;-;Juliusburg;-;57.2;-;[53.4167052, 10.5048014];1736
+PR3_LAU_067;Herzogtum Lauenburg;Herzogtum Lauenburg;Basedow, Juliusburg, Krüzen, Lütau;Basedow, Lütau;222.7;200,9;[53.4181197, 10.5410412];1736
+PR3_LAU_068;Herzogtum Lauenburg;-;Juliusburg, Krukow, Schnakenbek;-;200.7;-;[53.4074466, 10.4962495];1736
+PR3_LAU_069;Herzogtum Lauenburg;-;Krüzen;-;45.5;-;[53.4021848, 10.5267557];1736
+PR3_LAU_070;Herzogtum Lauenburg;-;Buchhorst, Lanze;-;67.3;-;[53.3874213, 10.5872014];1736
+PR3_LAU_071;Herzogtum Lauenburg;-;Schnakenbek;-;26. Apr;-;[53.3860198, 10.5023203];1736
+PR3_LAU_301;Herzogtum Lauenburg;-;Groß Sarau, Klempau;-;73.2;-;[53.7673386, 10.6979309];3086
+PR3_LAU_302;Herzogtum Lauenburg;-;Groß Sarau, Klempau, Pogeez;-;98.1;-;[53.7618428, 10.7084569];3086
+PR3_LAU_303;Herzogtum Lauenburg;-;Schönberg;-;22. Jan;-;[53.6781808, 10.4318363];1736
+PR3_LAU_304;Herzogtum Lauenburg;-;Schönberg;-;22. Jun;-;[53.6781808, 10.4318363];1736
+PR3_LAU_305;Herzogtum Lauenburg;-;Linau;-;21. Mai;-;[53.646657, 10.4710765];1736
+PR3_LAU_306;Herzogtum Lauenburg;-;Fuhlenhagen, Talkau;-;24. Feb;-;[53.5753241, 10.5476714];1736
+PR3_LAU_307;Herzogtum Lauenburg;-;Fuhlenhagen, Schretstaken;-;31. Jan;-;[53.5814667, 10.5427652];1736
+PR3_LAU_308;Herzogtum Lauenburg;-;Basthorst, Hamfelde, Mühlenrade;-;28. Sep;-;[53.5902543, 10.4669547];1736
+PR3_LAU_309;Herzogtum Lauenburg;-;Kasseburg, Kuddewörde;-;98.3;-;[53.5770026, 10.4094165];1736
+PR3_LAU_310;Herzogtum Lauenburg;-;Basthorst, Kasseburg, Kuddewörde, Möhnsen;-;51.9;-;[53.5728382, 10.4399399];1736
+PR3_LAU_311;Herzogtum Lauenburg;-;Basthorst, Havekost, Möhnsen;-;95.8;-;[53.5594752, 10.4723722];1736
+PR3_LAU_312;Herzogtum Lauenburg;-;Kasseburg, Möhnsen;-;30. Sep;-;[53.5640134, 10.4416197];1736
+PR3_LAU_313;Herzogtum Lauenburg;-;Grove, Havekost;-;24. Apr;-;[53.5344877, 10.4854717];1736
+PR3_LAU_314;Herzogtum Lauenburg;-;Sahms;-;19. Feb;-;[53.5212805, 10.5324365];1736
+PR3_LAU_315;Herzogtum Lauenburg;-;Müssen;-;72.4;-;[53.4953546, 10.5641674];1736
+PR3_LAU_316;Herzogtum Lauenburg;-;Müssen;-;35.1;-;[53.4953546, 10.5641674];1736
+PR3_LAU_317;Herzogtum Lauenburg;-;Gülzow, Müssen;-;39.8;-;[53.4686167, 10.5272901];1736
+PR3_LAU_318;Herzogtum Lauenburg;-;Brunstorf;-;65.1;-;[53.4930155, 10.4245876];1736
+PR3_LAU_319;Herzogtum Lauenburg;-;Kollow;-;26. Feb;-;[53.4635666, 10.4590996];1736
+PR3_LAU_320;Herzogtum Lauenburg;-;Worth;-;43.6;-;[53.4684056, 10.4092105];1736
+PR3_LAU_402;Herzogtum Lauenburg;-;Groß Schenkenberg;-;19. Apr;-;[53.7933405, 10.5667695];3086
+PR3_LAU_403;Herzogtum Lauenburg;-;Geesthacht, Wiershop;-;27. Sep;-;[53.4406229, 10.4101209];1736
+PR3_LAU_404;Herzogtum Lauenburg;-;Krummesse, Lübeck, Hansestadt;-;67.0;-;[53.837732, 10.6628364];3086
+PR3_LAU_501;Herzogtum Lauenburg;-;Krüzen;-;18. Aug;-;[53.4021848, 10.5267557];1736
+PR1_NFL_002;Nordfriesland;Nordfriesland;Ellhöft, Süderlügum;Ellhöft, Süderlügum;219.3;171,4;[54.8797942, 8.9304493];2907
+PR1_NFL_003;Nordfriesland;Nordfriesland;Ellhöft, Westre;Ellhöft, Westre;238.9;186,5;[54.8706236, 8.9696339];2907
+PR1_NFL_006;Nordfriesland;Nordfriesland;Ellhöft, Süderlügum;Süderlügum;49.2;31;[54.8797942, 8.9304493];2907
+PR1_NFL_009;Nordfriesland;Nordfriesland;Friedrich-Wilhelm-Lübke-Koog, Klanxbüll;Friedrich-Wilhelm-Lübke-Koog,Klanxbüll;41.2;41,2;[54.8622866, 8.6540733];2907
+PR1_NFL_014;Nordfriesland;Nordfriesland;Friedrich-Wilhelm-Lübke-Koog, Klanxbüll;Friedrich-Wilhelm-Lübke-Koog,Klanxbüll;42.3;42,3;[54.8622866, 8.6540733];2907
+PR1_NFL_017;Nordfriesland;-;Karlum, Lexgaard, Westre;-;52.5;-;[54.8383166, 8.9654483];2907
+PR1_NFL_018;Nordfriesland;Nordfriesland;Emmelsbüll-Horsbüll;Emmelsbüll-Horsbüll;18. Aug;15,2;[54.8129862, 8.7001092];2907
+PR1_NFL_019;Nordfriesland;Nordfriesland;Karlum;Karlum;40.2;34,7;[54.8289475, 8.973064];2907
+PR1_NFL_022;Nordfriesland;-;Karlum, Lexgaard;-;19. Apr;-;[54.8303638, 8.955296];2907
+PR1_NFL_024;Nordfriesland;-;Emmelsbüll-Horsbüll;-;36.6;-;[54.8129862, 8.7001092];2907
+PR1_NFL_025;Nordfriesland;Nordfriesland;Lexgaard, Tinningstedt;Lexgaard, Tinningstedt;33.7;33,7;[54.8225247, 8.9341432];2907
+PR1_NFL_026;Nordfriesland;Nordfriesland;Braderup, Klixbüll, Lexgaard, Tinningstedt;Braderup, Klixbüll, Lexgaard,Tinningstedt;170.8;149,1;[54.820784, 8.9124162];2907
+PR1_NFL_028;Nordfriesland;Nordfriesland;Emmelsbüll-Horsbüll, Niebüll;Emmelsbüll-Horsbüll, Niebüll;147.2;144,2;[54.799898, 8.7629726];2907
+PR1_NFL_029;Nordfriesland;Nordfriesland;Achtrup, Karlum, Ladelund;Achtrup, Karlum;125.2;64,1;[54.8199845, 9.0079982];2907
+PR1_NFL_031;Nordfriesland;Nordfriesland;Bosbüll, Klixbüll;Bosbüll, Klixbüll;177.1;33,8;[54.8127114, 8.8756422];2907
+PR1_NFL_032;Nordfriesland;Nordfriesland;Niebüll;Niebüll;69.6;54;[54.7868097, 8.8258359];2907
+PR1_NFL_033;Nordfriesland;-;Achtrup;-;31. Jul;-;[54.7913561, 9.0270266];2907
+PR1_NFL_035;Nordfriesland;Nordfriesland;Galmsbüll;Galmsbüll;305.2;171,8;[54.7709084, 8.7461668];2907
+PR1_NFL_036;Nordfriesland;Nordfriesland;Achtrup;Achtrup;48.8;48,8;[54.7913561, 9.0270266];2907
+PR1_NFL_037;Nordfriesland;-;Galmsbüll;-;29. Sep;-;[54.7709084, 8.7461668];2907
+PR1_NFL_038;Nordfriesland;Nordfriesland;Achtrup, Holt, Schafflund, Sprakebüll;Achtrup, Holt, Schafflund, Sprakebüll;752.2;514,3;[54.7839655, 9.1089922];2907
+PR1_NFL_039;Nordfriesland;Nordfriesland;Galmsbüll;Galmsbüll;172.0;116;[54.7709084, 8.7461668];2907
+PR1_NFL_040;Nordfriesland;Nordfriesland;Klixbüll, Leck;Klixbüll, Leck;45.5;32,6;[54.7880023, 8.9312613];2907
+PR1_NFL_043;Nordfriesland;Nordfriesland;Klixbüll, Risum-Lindholm;Klixbüll, Risum-Lindholm;310.6;303,4;[54.7806291, 8.8798847];2907
+PR1_NFL_044;Nordfriesland;-;Leck, Sprakebüll, Stadum;-;92.9;-;[54.7625865, 9.0334872];2907
+PR1_NFL_045;Nordfriesland;Nordfriesland;Galmsbüll;Galmsbüll;71.9;28,5;[54.7709084, 8.7461668];2907
+PR1_NFL_046;Nordfriesland;Nordfriesland;Leck;Leck;127.9;97,7;[54.7739263, 8.9725059];2907
+PR1_NFL_047;Nordfriesland;Nordfriesland;Dagebüll, Galmsbüll;Galmsbüll;215.4;29,7;[54.7507868, 8.7296152];2907
+PR1_NFL_048;Nordfriesland;Nordfriesland;Sprakebüll;Sprakebüll;50.2;50,2;[54.774857, 9.0770564];2907
+PR1_NFL_049;Nordfriesland;Nordfriesland;Risum-Lindholm, Stedesand;Stedesand;41.4;20,4;[54.7488406, 8.8977251];2907
+PR1_NFL_050;Nordfriesland;-;Sprakebüll, Stadum;-;62.5;-;[54.7569166, 9.0639778];2907
+PR1_NFL_051;Nordfriesland;-;Galmsbüll;-;45.8;-;[54.7709084, 8.7461668];2907
+PR1_NFL_052;Nordfriesland;-;Galmsbüll;-;122.5;-;[54.7709084, 8.7461668];2907
+PR1_NFL_053;Nordfriesland;-;Risum-Lindholm;-;60.1;-;[54.7591797, 8.8697526];2907
+PR1_NFL_054;Nordfriesland;-;Hörup, Stadum;-;49.1;-;[54.7418625, 9.0771451];2907
+PR1_NFL_056;Nordfriesland;Nordfriesland;Dagebüll, Risum-Lindholm;Dagebüll, Risum-Lindholm;99.4;99,4;[54.7449224, 8.7914081];2907
+PR1_NFL_057;Nordfriesland;Nordfriesland;Dagebüll, Galmsbüll, Risum-Lindholm;Risum-Lindholm;90.2;64,8;[54.7535844, 8.7763277];2907
+PR1_NFL_060;Nordfriesland;Nordfriesland;Enge-Sande, Stadum;Enge-Sande, Stadum;85.5;81,7;[54.7356366, 9.0082989];2907
+PR1_NFL_062;Nordfriesland;Nordfriesland;Enge-Sande;Enge-Sande;40.7;40,7;[54.7322969, 8.9656986];2907
+PR1_NFL_067;Nordfriesland;-;Goldelund, Lindewitt;-;35.5;-;[54.6880965, 9.1519693];2907
+PR1_NFL_069;Nordfriesland;Nordfriesland;Goldebek, Goldelund, Lindewitt;Goldebek, Goldelund, Lindewitt;202.9;95;[54.6851656, 9.1499533];2907
+PR1_NFL_071;Nordfriesland;-;Goldelund, Lütjenholm;-;50.8;-;[54.6814172, 9.0670585];2907
+PR1_NFL_072;Nordfriesland;Nordfriesland;Goldebek, Lindewitt;Goldebek, Lindewitt;391.6;293;[54.6883182, 9.1705004];1379
+PR1_NFL_073;Nordfriesland;Nordfriesland;Langenhorn;Langenhorn;132.1;132,1;[54.6667, 8.91667];2907
+PR1_NFL_074;Nordfriesland;Nordfriesland;Högel, Lütjenholm;Lütjenholm;61.9;41,1;[54.6636972, 9.0422986];7298
+PR1_NFL_075;Nordfriesland;-;Bordelum;-;59.6;-;[54.6333, 8.93333];7298
+PR1_NFL_076;Nordfriesland;-;Langenhorn;-;34.2;-;[54.6667, 8.91667];2907
+PR1_NFL_077;Nordfriesland;-;Goldebek, Joldelund;-;16. Apr;-;[54.6645246, 9.1417285];7298
+PR1_NFL_079;Nordfriesland;-;Högel;-;34.8;-;[54.6434203, 9.0593395];7298
+PR1_NFL_080;Nordfriesland;Nordfriesland;Bordelum, Langenhorn;Bordelum, Langenhorn;263.1;263,1;[54.65, 8.925];7298
+PR1_NFL_081;Nordfriesland;-;Goldebek, Goldelund, Joldelund;-;144.6;-;[54.6693032, 9.130772];7298
+PR1_NFL_082;Nordfriesland;Nordfriesland;Joldelund, Löwenstedt;Joldelund, Löwenstedt;210.3;155,7;[54.6360638, 9.1553344];7298
+PR1_NFL_084;Nordfriesland;Nordfriesland;Ockholm, Reußenköge;Reußenköge;88.8;16,6;[54.6354692, 8.8736852];4919
+PR1_NFL_085;Nordfriesland;Nordfriesland;Janneby, Jörl, Lindewitt, Löwenstedt;Jörl, Lindewitt, Löwenstedt;540.9;287,5;[54.6387567, 9.2405933];1379
+PR1_NFL_086;Nordfriesland;Nordfriesland;Bordelum, Högel, Sönnebüll, Vollstedt;Bordelum, Högel, Sönnebüll, Vollstedt;132.0;132;[54.6321097, 9.0077581];7298
+PR1_NFL_087;Nordfriesland;Nordfriesland;Bordelum, Langenhorn, Reußenköge;Bordelum, Langenhorn, Reußenköge;517.8;517,8;[54.6351352, 8.9231517];7298
+PR1_NFL_089;Nordfriesland;Nordfriesland;Högel, Vollstedt;Högel, Vollstedt;144.0;110,5;[54.6335991, 9.0507193];7298
+PR1_NFL_090;Nordfriesland;Nordfriesland;Drelsdorf, Högel, Joldelund, Kolkerheide,Löwenstedt, Vollstedt;Drelsdorf, Högel, Joldelund, Vollstedt;477.1;197,8;[54.6285483, 9.0968922];7298
+PR1_NFL_091;Nordfriesland;Nordfriesland;Breklum, Sönnebüll;Breklum, Sönnebüll;18. Mrz;18,3;[54.6168689, 8.9891959];7298
+PR1_NFL_093;Nordfriesland;-;Drelsdorf, Joldelund, Kolkerheide, Norstedt;-;71.7;-;[54.6174831, 9.1085191];7298
+PR1_NFL_094;Nordfriesland;Nordfriesland;Bordelum, Reußenköge;Reußenköge;400.4;303,4;[54.6193528, 8.9263926];7298
+PR1_NFL_095;Nordfriesland;Nordfriesland;Reußenköge;Reußenköge;133.5;120,7;[54.6054055, 8.9194551];7298
+PR1_NFL_096;Nordfriesland;Nordfriesland;Haselund, Löwenstedt, Norstedt, Viöl;Haselund, Löwenstedt, Norstedt, Viöl;510.9;362,7;[54.5939705, 9.1641951];7298
+PR1_NFL_097;Nordfriesland;Nordfriesland;Almdorf, Struckum;Almdorf, Struckum;16.0;16;[54.585038, 9.0038286];7298
+PR1_NFL_098;Nordfriesland;-;Drelsdorf;-;23. Jan;-;[54.6050604, 9.043982];7298
+PR1_NFL_099;Nordfriesland;-;Behrendorf, Haselund, Sollwitt, Viöl;-;92.0;-;[54.5806189, 9.2015989];7298
+PR1_NFL_100;Nordfriesland;Nordfriesland;Bredstedt, Breklum, Reußenköge, Struckum;Breklum, Reußenköge, Struckum;349.1;280,8;[54.605553, 8.9648669];7298
+PR1_NFL_101;Nordfriesland;Nordfriesland;Bohmstedt;Bohmstedt;15. Feb;15,2;[54.5806259, 9.0430643];7298
+PR1_NFL_102;Nordfriesland;Nordfriesland;Behrendorf, Bondelum, Sollwitt,Süderhackstedt;Behrendorf, Sollwitt, Süderhackstedt;261.7;98,8;[54.5776585, 9.2508438];7298
+PR1_NFL_103;Nordfriesland;Nordfriesland;Reußenköge;Reußenköge;115.1;115,1;[54.6054055, 8.9194551];7298
+PR1_NFL_104;Nordfriesland;Nordfriesland;Behrendorf;Behrendorf;92.1;87,3;[54.5641379, 9.221027];7298
+PR1_NFL_107;Nordfriesland;Nordfriesland;Bondelum, Sollerup, Treia;Bondelum, Sollerup;80.0;41,7;[54.5496742, 9.3024574];4466
+PR1_NFL_110;Nordfriesland;-;Ahrenviölfeld, Bondelum;-;63.8;-;[54.5475384, 9.2707179];7298
+PR1_NFL_111;Nordfriesland;Nordfriesland;Ahrenviölfeld, Bondelum, Treia;Ahrenviölfeld, Bondelum, Treia;133.5;124,2;[54.5366043, 9.2875391];7298
+PR1_NFL_112;Nordfriesland;Nordfriesland;Ahrenviöl, Ahrenviölfeld;Ahrenviöl, Ahrenviölfeld;90.0;78;[54.5316718, 9.2406795];7298
+PR1_NFL_113;Nordfriesland;Nordfriesland;Arlewatt, Horstedt, Olderup, Schwesing;Arlewatt, Horstedt, Olderup,Schwesing;116.4;82,8;[54.5248761, 9.0980756];7298
+PR1_NFL_115;Nordfriesland;Nordfriesland;Oster-Ohrstedt;Oster-Ohrstedt;64.0;64;[54.5167641, 9.2269089];7298
+PR1_NFL_118;Nordfriesland;Nordfriesland;Wittbek;Wittbek;72.5;72,5;[54.4718628, 9.2040368];7298
+PR1_NFL_120;Nordfriesland;Nordfriesland;Wittbek;Wittbek;46.3;35,5;[54.4718628, 9.2040368];7298
+PR1_NFL_121;Nordfriesland;-;Mildstedt, Schwesing;-;15. Feb;-;[54.4777579, 9.1148949];7298
+PR1_NFL_122;Nordfriesland;Nordfriesland;Rantrum, Schwesing, Wester-Ohrstedt,Wittbek;Rantrum, Wittbek;177.6;74;[54.4793591, 9.1637656];7298
+PR1_NFL_123;Nordfriesland;-;Ostenfeld (Husum), Wittbek;-;28. Apr;-;[54.4677263, 9.2183939];7298
+PR1_NFL_124;Nordfriesland;-;Wittbek;-;23. Jul;-;[54.4718628, 9.2040368];7298
+PR1_NFL_125;Nordfriesland;Nordfriesland;Oldersbek, Ostenfeld (Husum), Rantrum,Winnert;Oldersbek, Ostenfeld (Husum),Rantrum, Winnert;444.1;257,5;[54.4460106, 9.181572];7298
+PR1_NFL_135;Nordfriesland;Nordfriesland;Schwesing, Wester-Ohrstedt;Schwesing, Wester-Ohrstedt;106.1;86,2;[54.5022534, 9.1623902];7298
+PR1_NFL_301;Nordfriesland;Nordfriesland;Dagebüll;Dagebüll;116.0;115,5;[54.7306651, 8.7130636];2907
+PR1_NFL_302;Nordfriesland;Nordfriesland;Simonsberg, Südermarsch;Südermarsch;185.0;127,6;[54.4358063, 9.0138425];7298
+PR1_NFL_303;Nordfriesland;Nordfriesland;Simonsberg;Simonsberg;18. Sep;18,9;[54.4365923, 8.9600588];7298
+PR1_NFL_304;Nordfriesland;-;Simonsberg, Witzwort;-;86.0;-;[54.4180586, 8.9733508];7298
+PR1_NFL_305;Nordfriesland;-;Koldenbüttel, Witzwort;-;50.5;-;[54.3929041, 9.0273141];7298
+PR1_NFL_306;Nordfriesland;-;Witzwort;-;41.7;-;[54.3995249, 8.9866427];7298
+PR1_NFL_307;Nordfriesland;-;Witzwort;-;46.5;-;[54.3995249, 8.9866427];7298
+PR1_NFL_308;Nordfriesland;Nordfriesland;Uelvesbüll;Uelvesbüll;97.1;84,4;[54.4166642, 8.9228489];4919
+PR1_NFL_309;Nordfriesland;Nordfriesland;Oldenswort, Witzwort;Oldenswort;294.2;106,9;[54.3853769, 8.9638975];4919
+PR1_NFL_310;Nordfriesland;-;Oldenswort, Witzwort;-;151.2;-;[54.3853769, 8.9638975];4919
+PR1_NFL_311;Nordfriesland;-;Oldenswort, Tönning;-;84.0;-;[54.3450608, 8.9424285];4919
+PR1_NFL_313;Nordfriesland;-;Kotzenbüll, Oldenswort, Tönning;-;214.3;-;[54.3409272, 8.9299947];4919
+PR1_NFL_315;Nordfriesland;-;Oldenswort;-;41.2;-;[54.3712288, 8.9411522];4919
+PR1_NFL_316;Nordfriesland;-;Oldenswort;-;44.6;-;[54.3712288, 8.9411522];4919
+PR1_NFL_317;Nordfriesland;-;Oldenswort, Tetenbüll;-;112.7;-;[54.3612978, 8.8836607];4919
+PR1_NFL_318;Nordfriesland;-;Tetenbüll;-;53.1;-;[54.3513668, 8.8261692];4393
+PR1_NFL_319;Nordfriesland;-;Tating;-;99.5;-;[54.3256494, 8.7063937];4393
+PR1_NFL_401;Nordfriesland;-;Sylt;-;33.7;-;[54.9017773, 8.331346];3032
+PR1_NFL_402;Nordfriesland;-;Sylt;-;77.6;-;[54.9017773, 8.331346];3032
+PR1_NFL_403;Nordfriesland;-;Alkersum, Borgsum, Midlum, Nieblum,Oevenum, Oldsum, Süderende, Wrixum;-;669.4;-;[54.7101873, 8.4932484];1963
+PR1_NFL_404;Nordfriesland;-;Oevenum;-;25.0;-;[54.7108916, 8.5309084];1963
+PR1_NFL_405;Nordfriesland;-;Süderlügum;-;28. Jan;-;[54.8725632, 8.9073837];2907
+PR1_NFL_406;Nordfriesland;Nordfriesland;Bramstedtlund, Ladelund, Weesby;Bramstedtlund, Weesby;257.2;58,5;[54.8371988, 9.0868917];2907
+PR1_NFL_407;Nordfriesland;-;Bramstedtlund, Ladelund;-;52.4;-;[54.8403869, 9.0543542];2907
+PR1_NFL_409;Nordfriesland;-;Galmsbüll, Risum-Lindholm;-;89.5;-;[54.7650441, 8.8079597];2907
+PR1_NFL_410;Nordfriesland;-;Treia;-;15. Feb;-;[54.5147361, 9.3211815];2437
+PR1_NFL_411;Nordfriesland;-;Goldelund;-;21.0;-;[54.6788605, 9.1088592];2907
+PR1_NFL_412;Nordfriesland;-;Immenstedt;-;19.0;-;[54.5393275, 9.1633145];7298
+PR1_NFL_413;Nordfriesland;-;Ahrenshöft, Viöl;-;39.5;-;[54.5638885, 9.1214645];7298
+PR1_NFL_414;Nordfriesland;Nordfriesland;Elisabeth-Sophien-Koog, Nordstrand;Elisabeth-Sophien-Koog, Nordstrand;50.6;41,4;[54.4989495, 8.8726774];4919
+PR1_NFL_415;Nordfriesland;-;Koldenbüttel, Witzwort;-;31. Jul;-;[54.3929041, 9.0273141];7298
+PR1_NFL_416;Nordfriesland;-;Witzwort;-;21. Apr;-;[54.3995249, 8.9866427];7298
+PR1_NFL_417;Nordfriesland;-;Oldenswort;-;22. Apr;-;[54.3712288, 8.9411522];4919
+PR1_NFL_418;Nordfriesland;-;Kotzenbüll, Tönning;-;39.0;-;[54.3257764, 8.924416];4919
+PR1_NFL_419;Nordfriesland;-;Garding, Kirchspiel, Katharinenheerd,Tönning, Welt;-;216.7;-;[54.3226504, 8.8290435];4393
+PR1_NFL_420;Nordfriesland;-;Tönning;-;61.6;-;[54.3188928, 8.9437049];4919
+PR1_NFL_421;Nordfriesland;-;Tönning;-;152.1;-;[54.3188928, 8.9437049];4919
+PR1_NFL_425;Nordfriesland;Nordfriesland;Bramstedtlund, Holt, Ladelund;Bramstedtlund, Holt, Ladelund;372.3;187,3;[54.8305968, 9.0853039];2907
+PR1_NFL_426;Nordfriesland;-;Ahrenshöft;-;21. Jun;-;[54.5581443, 9.0713273];7298
+PR1_NFL_427;Nordfriesland;Nordfriesland;Karlum, Ladelund;Karlum, Ladelund;72.5;55,9;[54.8342987, 8.998484];2907
+PR1_NFL_501;Nordfriesland;-;Ahrenviöl, Immenstedt;-;84.0;-;[54.5346029, 9.1845236];7298
+PR1_NFL_502;Nordfriesland;-;Ladelund;-;31.2;-;[54.8396499, 9.023904];2907
+PR1_NFL_503;Nordfriesland;-;Ladelund;-;41.3;-;[54.8396499, 9.023904];2907
+PR1_NFL_504;Nordfriesland;Nordfriesland;Olderup;Olderup;16.0;16;[54.538708, 9.1101719];7298
+PR3_OHS_001;Ostholstein;Ostholstein;Fehmarn;Fehmarn;601.1;360,5;[54.4687375, 11.1340848];5516
+PR3_OHS_002;Ostholstein;-;Fehmarn;-;20. Mai;-;[54.4687375, 11.1340848];5516
+PR3_OHS_003;Ostholstein;-;Fehmarn;-;219.0;-;[54.4687375, 11.1340848];5516
+PR3_OHS_005;Ostholstein;Ostholstein;Fehmarn;Fehmarn;203.2;98,1;[54.4687375, 11.1340848];5516
+PR3_OHS_007;Ostholstein;-;Fehmarn;-;144.6;-;[54.4687375, 11.1340848];5516
+PR3_OHS_008;Ostholstein;-;Fehmarn;-;141.9;-;[54.4687375, 11.1340848];5516
+PR3_OHS_010;Ostholstein;Ostholstein;Gremersdorf, Heiligenhafen;Heiligenhafen;93.3;19,9;[54.3497369, 10.9554449];5877
+PR3_OHS_011;Ostholstein;-;Gremersdorf, Großenbrode, Heiligenhafen;-;45.0;-;[54.3536884, 10.9982149];5877
+PR3_OHS_012;Ostholstein;Ostholstein;Gremersdorf, Großenbrode, Neukirchen;Gremersdorf, Großenbrode,Neukirchen;218.2;181,7;[54.5209628, 10.2499972];2961
+PR3_OHS_013;Ostholstein;-;Neukirchen;-;15. Sep;-;[54.8687122, 8.7339915];2907
+PR3_OHS_014;Ostholstein;-;Gremersdorf;-;68.2;-;[54.3325847, 10.932245];5877
+PR3_OHS_015;Ostholstein;Ostholstein;Gremersdorf;Gremersdorf;84.7;34,7;[54.3325847, 10.932245];5877
+PR3_OHS_017;Ostholstein;-;Gremersdorf;-;23. Jan;-;[54.3325847, 10.932245];5877
+PR3_OHS_018;Ostholstein;-;Neukirchen;-;79.9;-;[54.8687122, 8.7339915];2907
+PR3_OHS_019;Ostholstein;-;Heringsdorf, Neukirchen;-;22. Jun;-;[54.5843762, 9.8695575];4896
+PR3_OHS_020;Ostholstein;-;Oldenburg in Holstein;-;42.0;-;[54.2922574, 10.8809805];5877
+PR3_OHS_021;Ostholstein;Ostholstein;Göhl, Gremersdorf, Heringsdorf;Göhl, Gremersdorf;167.7;61,8;[54.306248, 10.9591107];5877
+PR3_OHS_022;Ostholstein;Ostholstein;Heringsdorf, Neukirchen;Heringsdorf, Neukirchen;114.6;44,6;[54.5843762, 9.8695575];4896
+PR3_OHS_023;Ostholstein;-;Wangels;-;24. Aug;-;[54.2733206, 10.7663663];5877
+PR3_OHS_024;Ostholstein;-;Wangels;-;67.7;-;[54.2733206, 10.7663663];5877
+PR3_OHS_025;Ostholstein;Ostholstein;Wangels;Wangels;96.7;96,7;[54.2733206, 10.7663663];5877
+PR3_OHS_026;Ostholstein;-;Oldenburg in Holstein, Wangels;-;54.0;-;[54.282789, 10.8236734];5877
+PR3_OHS_027;Ostholstein;Ostholstein;Wangels;Wangels;22. Mrz;22,3;[54.2733206, 10.7663663];5877
+PR3_OHS_028;Ostholstein;Ostholstein;Göhl, Heringsdorf;Göhl, Heringsdorf;384.2;306,5;[54.2930797, 10.9725435];5877
+PR3_OHS_029;Ostholstein;Ostholstein;Wangels;Wangels;71.7;36,9;[54.2733206, 10.7663663];5877
+PR3_OHS_030;Ostholstein;-;Wangels;-;47.6;-;[54.2733206, 10.7663663];5877
+PR3_OHS_033;Ostholstein;Ostholstein;Harmsdorf, Lensahn, Oldenburg in Holstein;Harmsdorf, Lensahn;180.8;78,5;[54.0712265, 10.8303127];3897
+PR3_OHS_035;Ostholstein;Ostholstein;Damlos;Damlos;22. Jun;22,6;[54.2443892, 10.9053011];5877
+PR3_OHS_037;Ostholstein;Ostholstein;Grömitz, Kabelhorst, Riepsdorf;Grömitz, Kabelhorst, Riepsdorf;153.0;121,5;[54.1949746, 10.9512548];3897
+PR3_OHS_040;Ostholstein;Ostholstein;Grömitz, Riepsdorf;Grömitz, Riepsdorf;108.4;95;[54.184209, 10.9651286];3897
+PR3_OHS_041;Ostholstein;Ostholstein;Grömitz, Riepsdorf;Grömitz, Riepsdorf;85.8;34,8;[54.184209, 10.9651286];3897
+PR3_OHS_044;Ostholstein;-;Beschendorf;-;16.0;-;[54.1834961, 10.8751201];3897
+PR3_OHS_045;Ostholstein;-;Lensahn;-;58.0;-;[54.2208531, 10.8859981];5877
+PR3_OHS_047;Ostholstein;Ostholstein;Schönwalde am Bungsberg;Schönwalde am Bungsberg;57.2;57,2;[54.1876023, 10.7532065];3897
+PR3_OHS_048;Ostholstein;-;Beschendorf, Grömitz, Manhagen,Schashagen;-;98.5;-;[54.1645042, 10.9086379];3897
+PR3_OHS_049;Ostholstein;Ostholstein;Altenkrempe, Schönwalde am Bungsberg;Altenkrempe, Schönwalde amBungsberg;41.8;34,9;[54.1596495, 10.7903467];3897
+PR3_OHS_050;Ostholstein;Ostholstein;Grömitz, Schashagen;Schashagen;142.4;97,9;[54.1390792, 10.9224571];3897
+PR3_OHS_051;Ostholstein;-;Altenkrempe;-;48.1;-;[54.1316968, 10.8274868];3897
+PR3_OHS_052;Ostholstein;Ostholstein;Grömitz, Schashagen;Grömitz, Schashagen;178.0;161,3;[54.1390792, 10.9224571];3897
+PR3_OHS_053;Ostholstein;-;Altenkrempe;-;25. Mai;-;[54.1316968, 10.8274868];3897
+PR3_OHS_054;Ostholstein;-;Süsel;-;50.4;-;[54.0791463, 10.7132522];3897
+PR3_OHS_055;Ostholstein;-;Süsel;-;49.0;-;[54.0791463, 10.7132522];3897
+PR3_OHS_056;Ostholstein;-;Bosau;-;86.3;-;[54.1041743, 10.4300895];6163
+PR3_OHS_057;Ostholstein;Ostholstein;Bosau;Bosau;252.2;43,3;[54.1041743, 10.4300895];6163
+PR3_OHS_059;Ostholstein;Ostholstein;Ahrensbök, Bosau, Glasau, Süsel;Ahrensbök, Bosau, Glasau;410.2;99,4;[54.0602566, 10.5614065];6163
+PR3_OHS_060;Ostholstein;-;Bosau, Glasau;-;273.7;-;[54.0744253, 10.4785546];6163
+PR3_OHS_061;Ostholstein;-;Bosau;-;106.1;-;[54.1041743, 10.4300895];6163
+PR3_OHS_062;Ostholstein;Ostholstein;Scharbeutz, Süsel;Scharbeutz, Süsel;339.4;298,6;[54.0528901, 10.7346001];3897
+PR3_OHS_063;Ostholstein;-;Ahrensbök, Scharbeutz, Süsel;-;73.0;-;[54.0396033, 10.6814883];3897
+PR3_OHS_064;Ostholstein;-;Ahrensbök;-;84.7;-;[54.0130295, 10.5752645];5078
+PR3_OHS_065;Ostholstein;-;Ahrensbök, Scharbeutz;-;164.3;-;[54.0198318, 10.6656063];3897
+PR3_OHS_066;Ostholstein;-;Ahrensbök;-;21.0;-;[54.0130295, 10.5752645];5078
+PR3_OHS_067;Ostholstein;-;Ahrensbök;-;33.4;-;[54.0130295, 10.5752645];5078
+PR3_OHS_068;Ostholstein;Ostholstein;Scharbeutz;Scharbeutz;37.7;35,6;[54.026634, 10.7559481];3897
+PR3_OHS_069;Ostholstein;Ostholstein;Ahrensbök, Scharbeutz;Ahrensbök, Scharbeutz;117.4;116,4;[54.0198318, 10.6656063];3897
+PR3_OHS_070;Ostholstein;-;Ahrensbök;-;18. Apr;-;[54.0130295, 10.5752645];5078
+PR3_OHS_071;Ostholstein;-;Ahrensbök;-;58.4;-;[54.0130295, 10.5752645];5078
+PR3_OHS_072;Ostholstein;Ostholstein;Ratekau, Timmendorfer Strand;Ratekau;108.4;18,7;[53.9752864, 10.7550297];5078
+PR3_OHS_074;Ostholstein;Ostholstein;Ratekau, Scharbeutz, Stockelsdorf;Ratekau, Scharbeutz;99.7;29,7;[53.9590666, 10.7099582];5078
+PR3_OHS_075;Ostholstein;-;Ahrensbök;-;32.8;-;[54.0130295, 10.5752645];5078
+PR3_OHS_076;Ostholstein;Ostholstein;Ahrensbök;Ahrensbök;113.5;94,8;[54.0130295, 10.5752645];5078
+PR3_OHS_077;Ostholstein;Ostholstein;Ratekau;Ratekau;35.8;31;[53.9523876, 10.7301577];5078
+PR3_OHS_078;Ostholstein;-;Stockelsdorf;-;79.7;-;[53.8981783, 10.6437687];3086
+PR3_OHS_079;Ostholstein;-;Stockelsdorf;-;37.9;-;[53.8981783, 10.6437687];3086
+PR3_OHS_080;Ostholstein;Ostholstein;Stockelsdorf;Stockelsdorf;37.6;37,6;[53.8981783, 10.6437687];3086
+PR3_OHS_081;Ostholstein;Ostholstein;Stockelsdorf;Stockelsdorf;85.8;18,3;[53.8981783, 10.6437687];3086
+PR3_OHS_301;Ostholstein;-;Großenbrode;-;60.8;-;[54.3615914, 11.083755];5516
+PR3_OHS_302;Ostholstein;-;Heringsdorf;-;78.8;-;[54.3000403, 11.0051236];5877
+PR3_OHS_304;Ostholstein;-;Dahme, Grube;-;27. Mrz;-;[54.2272072, 11.0597725];3897
+PR3_OHS_305;Ostholstein;-;Neustadt in Holstein, Schashagen;-;188.6;-;[54.1185193, 10.8523691];3897
+PR3_OHS_306;Ostholstein;-;Bad Schwartau, Stockelsdorf;-;18. Jul;-;[53.9089109, 10.670819];3086
+PR3_OHS_401;Ostholstein;-;Ahrensbök, Wensin;-;37.1;-;[54.0033917, 10.4973656];5280
+PR3_OHS_402;Ostholstein;-;Ahrensbök;-;13. Mai;-;[54.0130295, 10.5752645];5078
+PR3_OHS_403;Ostholstein;-;Altenkrempe;-;172.0;-;[54.1316968, 10.8274868];3897
+PR3_OHS_405;Ostholstein;-;Grömitz;-;232.2;-;[54.1441095, 10.9588499];3897
+PR3_OHS_406;Ostholstein;Ostholstein;Grömitz, Grube, Riepsdorf;Grömitz, Grube;51.5;21,5;[54.2004836, 10.9881831];3897
+PR3_OHS_408;Ostholstein;-;Wangels;-;16. Jun;-;[54.2733206, 10.7663663];5877
+PR3_OHS_409;Ostholstein;-;Gremersdorf;-;67.8;-;[54.3325847, 10.932245];5877
+PR3_OHS_420;Ostholstein;Ostholstein;Fehmarn;Fehmarn;185.5;121,5;[54.4687375, 11.1340848];5516
+PR3_OHS_421;Ostholstein;-;Fehmarn;-;95.1;-;[54.4687375, 11.1340848];5516
+PR3_OHS_501;Ostholstein;-;Fehmarn;-;21. Jul;-;[54.4687375, 11.1340848];5516
+PR3_OHS_502;Ostholstein;-;Fehmarn;-;81.8;-;[54.4687375, 11.1340848];5516
+PR3_OHS_503;Ostholstein;-;Sierksdorf, Süsel;-;83.3;-;[54.0729579, 10.7413488];3897
+PR3_PIN_001;Pinneberg;Pinneberg;Bokel;Bokel;44.3;21,8;[54.215784, 9.7940518];6105
+PR3_PIN_002;Pinneberg;-;Bokel;-;30. Mai;-;[54.215784, 9.7940518];6105
+PR3_PIN_003;Pinneberg;-;Bokel, Brande-Hörnerkirchen, Lutzhorn;-;176.6;-;[53.9639965, 9.7619764];19171
+PR3_PIN_004;Pinneberg;-;Heede;-;22. Sep;-;[53.7833, 9.8];4039
+PR3_PIN_005;Pinneberg;Pinneberg;Raa-Besenbek;Raa-Besenbek;54.0;54;[53.755585, 9.6025433];4039
+PR3_PIN_006;Pinneberg;Pinneberg;Raa-Besenbek;Raa-Besenbek;47.5;47,5;[53.755585, 9.6025433];4039
+PR3_PIN_007;Pinneberg;-;Seester;-;65.2;-;[53.7175933, 9.5972582];4039
+PR3_PIN_008;Pinneberg;-;Groß Nordende, Neuendeich, Seester,Uetersen;-;221.1;-;[53.6946773, 9.630157];4039
+PR3_PIN_009;Pinneberg;Pinneberg;Groß Nordende, Neuendeich, Uetersen;Neuendeich, Uetersen;115.7;57,9;[53.6870387, 9.6411232];4039
+PR3_PIN_301;Pinneberg;-;Raa-Besenbek;-;116.6;-;[53.755585, 9.6025433];4039
+PR3_PIN_302;Pinneberg;-;Haselau, Haseldorf;-;121.0;-;[53.6473407, 9.6092259];4039
+PR3_PIN_303;Pinneberg;-;Haseldorf;-;24. Feb;-;[53.6342209, 9.5961692];4039
+PR3_PIN_304;Pinneberg;-;Haseldorf, Heist, Hetlingen, Holm;-;197.1;-;[53.9320234, 9.441656];2429
+PR3_PIN_401;Pinneberg;-;Seestermühe;-;59.3;-;[53.7041688, 9.5639384];4039
+PR3_PIN_402;Pinneberg;-;Seestermühe;-;53.9;-;[53.7041688, 9.5639384];4039
+PR3_PIN_501;Pinneberg;-;Moorrege;-;20. Mai;-;[53.6670781, 9.6706783];4039
+PR2_PLO_001;Plön;Plön;Bendfeld, Schwartbuck, Stakendorf;Bendfeld, Schwartbuck, Stakendorf;179.2;60,6;[54.3697652, 10.4409759];2306
+PR2_PLO_002;Plön;Plön;Fahren, Fiefbergen, Passade;Fahren, Fiefbergen, Passade;87.1;72,6;[54.3656723, 10.3323404];2564
+PR2_PLO_003;Plön;-;Heikendorf;-;23. Jul;-;[54.3692543, 10.2026135];2564
+PR2_PLO_004;Plön;-;Köhn, Schwartbuck;-;82.2;-;[54.3514189, 10.4675807];2306
+PR2_PLO_005;Plön;Plön;Heikendorf;Heikendorf;20. Mai;20,5;[54.3692543, 10.2026135];2564
+PR2_PLO_006;Plön;Plön;Bendfeld, Fargau-Pratjau, Höhndorf,Krummbek, Stoltenberg;Krummbek;351.9;27,4;[54.3572053, 10.3852686];2564
+PR2_PLO_007;Plön;-;Fahren, Höhndorf, Stoltenberg;-;19. Mai;-;[54.3557048, 10.3517692];2564
+PR2_PLO_008;Plön;-;Heikendorf, Probsteierhagen;-;40.8;-;[54.3654121, 10.2444239];2564
+PR2_PLO_009;Plön;-;Köhn;-;54.1;-;[54.3448871, 10.455848];2306
+PR2_PLO_010;Plön;-;Fargau-Pratjau;-;102.8;-;[54.3259862, 10.3879623];2564
+PR2_PLO_011;Plön;-;Fargau-Pratjau, Stoltenberg;-;60.3;-;[54.3348732, 10.3670358];2564
+PR2_PLO_028;Plön;-;Bosau, Bösdorf;-;110.2;-;[54.1220894, 10.4600056];6163
+PR2_PLO_029;Plön;-;Bosau, Bösdorf;-;107.0;-;[54.1220894, 10.4600056];6163
+PR2_PLO_030;Plön;Plön;Rendswühren, Ruhwinkel, Schillsdorf;Rendswühren, Ruhwinkel, Schillsdorf;271.0;168,6;[54.0936119, 10.175391];6163
+PR2_PLO_031;Plön;-;Schillsdorf;-;48.1;-;[54.1140799, 10.1258122];6163
+PR2_PLO_032;Plön;Plön;Bönebüttel, Rendswühren;Bönebüttel;213.1;51,6;[54.0764448, 10.119592];7427
+PR2_PLO_302;Plön;-;Großharrie, Negenharrie;-;150.8;-;[54.1313055, 10.0620664];7427
+PR2_PLO_303;Plön;Plön;Bönebüttel, Großharrie, Schillsdorf, Tasdorf;Bönebüttel, Großharrie, Schillsdorf,Tasdorf;189.7;131,7;[54.1019319, 10.0661281];7427
+PR2_PLO_304;Plön;-;Bönebüttel;-;26. Sep;-;[54.0792518, 10.0588094];7427
+PR2_PLO_305;Plön;-;Bönebüttel;-;32.3;-;[54.0792518, 10.0588094];7427
+PR2_PLO_306;Plön;Plön;Bönebüttel, Groß Kummerfeld;Bönebüttel;103.6;24,9;[54.050296, 10.0580183];7427
+PR2_PLO_501;Plön;-;Krummbek, Stakendorf;-;16. Jan;-;[54.3832717, 10.4128159];2961
+PR2_PLO_502;Plön;-;Großharrie, Schillsdorf;-;33.7;-;[54.1164596, 10.087199];7427
+PR3_PLO_012;Plön;-;Wangels;-;26. Aug;-;[54.2733206, 10.7663663];5877
+PR2_RDE_001;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Dörphof;Dörphof;101.9;51,6;[54.6184868, 9.9770988];5930
+PR2_RDE_002;Rendsburg-Eckernförde;-;Damp, Dörphof, Thumby;-;114.7;-;[54.5955605, 9.9699323];5930
+PR2_RDE_003;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Thumby;Thumby;146.5;64,8;[54.5848266, 9.9099874];5930
+PR2_RDE_004;Rendsburg-Eckernförde;-;Holzdorf;-;44.6;-;[54.554442, 9.8965509];5930
+PR2_RDE_005;Rendsburg-Eckernförde;-;Thumby;-;35.8;-;[54.5848266, 9.9099874];5930
+PR2_RDE_006;Rendsburg-Eckernförde;-;Damp, Waabs;-;95.4;-;[54.5583016, 10.0053915];5930
+PR2_RDE_007;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Damp, Waabs;Waabs;39.7;36,5;[54.5583016, 10.0053915];5930
+PR2_RDE_008;Rendsburg-Eckernförde;-;Rieseby;-;131.5;-;[54.5412967, 9.8157764];4896
+PR2_RDE_009;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Holzdorf, Loose, Rieseby;Loose, Rieseby;144.5;100,8;[54.5385731, 9.8667783];4896
+PR2_RDE_010;Rendsburg-Eckernförde;-;Kosel, Rieseby;-;60.4;-;[54.5234596, 9.7852077];4466
+PR2_RDE_011;Rendsburg-Eckernförde;-;Loose, Rieseby;-;67.6;-;[54.5306387, 9.851892];4896
+PR2_RDE_012;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Loose, Waabs;Loose, Waabs;368.9;166,9;[54.5266079, 9.9380399];5930
+PR2_RDE_013;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Rieseby;Rieseby;21. Apr;5,7;[54.5412967, 9.8157764];4896
+PR2_RDE_014;Rendsburg-Eckernförde;-;Barkelsby, Loose;-;126.8;-;[54.5103992, 9.8640491];4896
+PR2_RDE_015;Rendsburg-Eckernförde;-;Barkelsby, Loose;-;91.2;-;[54.5103992, 9.8640491];4896
+PR2_RDE_016;Rendsburg-Eckernförde;-;Barkelsby;-;30. Sep;-;[54.5008179, 9.8400907];4896
+PR2_RDE_017;Rendsburg-Eckernförde;-;Schwedeneck;-;142.4;-;[54.4734013, 10.1038223];2564
+PR2_RDE_019;Rendsburg-Eckernförde;-;Osdorf, Schwedeneck;-;18. Jan;-;[54.4513198, 10.0595125];2564
+PR2_RDE_020;Rendsburg-Eckernförde;-;Dänischenhagen, Schwedeneck;-;76.3;-;[54.4503148, 10.1144637];2564
+PR2_RDE_021;Rendsburg-Eckernförde;-;Neudorf-Bornstein, Osdorf;-;49.6;-;[54.4301478, 9.9792894];2564
+PR2_RDE_022;Rendsburg-Eckernförde;-;Brekendorf;-;128.9;-;[54.4209945, 9.6311716];2437
+PR2_RDE_023;Rendsburg-Eckernförde;-;Neudorf-Bornstein;-;72.8;-;[54.4310573, 9.9433761];2564
+PR2_RDE_024;Rendsburg-Eckernförde;-;Goosefeld, Groß Wittensee;-;43.7;-;[54.4174886, 9.7923019];6105
+PR2_RDE_025;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Altenhof, Goosefeld, Holtsee;Altenhof, Holtsee;215.3;161,6;[54.4206919, 9.8474598];6105
+PR2_RDE_026;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Gettorf, Osdorf;Gettorf, Osdorf;41.7;16;[54.417267, 9.9968958];2564
+PR2_RDE_027;Rendsburg-Eckernförde;-;Groß Wittensee;-;15.0;-;[54.4055005, 9.7687811];6105
+PR2_RDE_028;Rendsburg-Eckernförde;-;Gettorf, Lindau, Neudorf-Bornstein;-;49.9;-;[54.4069994, 9.9417974];6105
+PR2_RDE_029;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Owschlag;Owschlag;125.5;81,2;[54.393739, 9.5910158];2437
+PR2_RDE_030;Rendsburg-Eckernförde;-;Haby, Holtsee;-;51.8;-;[54.3966177, 9.8370986];6105
+PR2_RDE_032;Rendsburg-Eckernförde;-;Groß Wittensee, Klein Wittensee;-;44.8;-;[54.3984659, 9.7510341];6105
+PR2_RDE_033;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Felm, Tüttendorf;Felm, Tüttendorf;133.0;117,3;[54.4011827, 10.0298351];2564
+PR2_RDE_034;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Holtsee, Lindau, Neudorf-Bornstein;Holtsee, Lindau, Neudorf-Bornstein;67.0;56;[54.4048379, 9.9005026];6105
+PR2_RDE_035;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Holtsee;Holtsee;90.8;74,9;[54.3988114, 9.8547044];6105
+PR2_RDE_036;Rendsburg-Eckernförde;-;Holtsee;-;36.0;-;[54.3988114, 9.8547044];6105
+PR2_RDE_037;Rendsburg-Eckernförde;-;Tüttendorf;-;32.9;-;[54.3922068, 9.9932757];2564
+PR2_RDE_038;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Alt Duvenstedt, Owschlag;Owschlag;266.0;56,7;[54.3761713, 9.6173868];2303
+PR2_RDE_039;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Sehestedt;Sehestedt;33.6;32,6;[54.3667005, 9.8166689];6105
+PR2_RDE_040;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Neuwittenbek, Tüttendorf;Neuwittenbek, Tüttendorf;85.1;42,9;[54.3799686, 10.0080265];2564
+PR2_RDE_042;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Holtsee, Lindau;Holtsee, Lindau;146.8;88,9;[54.3917282, 9.8790658];6105
+PR2_RDE_043;Rendsburg-Eckernförde;-;Lindau, Schinkel;-;17. Jan;-;[54.3701463, 9.9291103];6105
+PR2_RDE_044;Rendsburg-Eckernförde;-;Owschlag;-;78.1;-;[54.393739, 9.5910158];2437
+PR2_RDE_045;Rendsburg-Eckernförde;-;Bünsdorf;-;63.4;-;[54.3697645, 9.7432452];6105
+PR2_RDE_046;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Bovenau;Bovenau;279.8;152;[54.3301544, 9.8288452];6105
+PR2_RDE_047;Rendsburg-Eckernförde;-;Alt Duvenstedt, Borgstedt, Neu Duvenstedt,Rickert;-;129.6;-;[54.3452024, 9.6796498];6105
+PR2_RDE_048;Rendsburg-Eckernförde;-;Borgstedt;-;18.0;-;[54.3333048, 9.7100898];6105
+PR2_RDE_049;Rendsburg-Eckernförde;-;Alt Duvenstedt, Rickert;-;93.2;-;[54.3459519, 9.655214];2303
+PR2_RDE_050;Rendsburg-Eckernförde;-;Bovenau;-;108.1;-;[54.3301544, 9.8288452];6105
+PR2_RDE_051;Rendsburg-Eckernförde;-;Bovenau, Krummwisch;-;28. Jan;-;[54.3325231, 9.8632893];6105
+PR2_RDE_052;Rendsburg-Eckernförde;-;Alt Duvenstedt, Rendsburg, Rickert;-;82.9;-;[54.3321913, 9.6583131];2303
+PR2_RDE_053;Rendsburg-Eckernförde;-;Lohe-Föhrden;-;26. Aug;-;[54.3360338, 9.54112];2303
+PR2_RDE_054;Rendsburg-Eckernförde;-;Bovenau, Ostenfeld (Rendsburg), Rade b.Rendsburg;-;55.6;-;[54.2488912, 9.775381];6105
+PR2_RDE_056;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Melsdorf, Quarnbek;Quarnbek;101.3;42,5;[54.3231251, 10.0073259];2564
+PR2_RDE_058;Rendsburg-Eckernförde;-;Bovenau, Ostenfeld (Rendsburg);-;22. Mai;-;[54.3233368, 9.8047365];6105
+PR2_RDE_059;Rendsburg-Eckernförde;-;Fockbek;-;30. Mrz;-;[54.3065487, 9.6066841];2303
+PR2_RDE_060;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Bredenbek, Haßmoor;Bredenbek, Haßmoor;93.0;85,7;[54.3079802, 9.8442229];6105
+PR2_RDE_061;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Bredenbek, Haßmoor;Bredenbek, Haßmoor;53.8;19,8;[54.3079802, 9.8442229];6105
+PR2_RDE_062;Rendsburg-Eckernförde;-;Schacht-Audorf, Schülldorf;-;95.5;-;[54.3070549, 9.7261667];6105
+PR2_RDE_063;Rendsburg-Eckernförde;-;Westensee;-;128.3;-;[54.2756511, 9.9021081];6105
+PR2_RDE_064;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Elsdorf-Westermühlen, Fockbek, Hohn;Elsdorf-Westermühlen, Fockbek, Hohn;478.3;256,4;[54.2879689, 9.5469093];2303
+PR2_RDE_065;Rendsburg-Eckernförde;-;Emkendorf, Haßmoor;-;35.3;-;[54.2770906, 9.8337931];6105
+PR2_RDE_066;Rendsburg-Eckernförde;-;Haßmoor;-;33.6;-;[54.2918794, 9.8205177];6105
+PR2_RDE_067;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Schülldorf;Schülldorf;27. Sep;27,9;[54.3008688, 9.7338022];6105
+PR2_RDE_068;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Haßmoor, Schülldorf;Schülldorf;112.8;36,6;[54.2963741, 9.7771599];6105
+PR2_RDE_069;Rendsburg-Eckernförde;-;Emkendorf;-;42.2;-;[54.2623019, 9.8470685];6105
+PR2_RDE_070;Rendsburg-Eckernförde;-;Boksee, Flintbek;-;75.3;-;[54.2432186, 10.0966361];2564
+PR2_RDE_071;Rendsburg-Eckernförde;-;Jevenstedt, Westerrönfeld;-;71.6;-;[54.2576029, 9.6563758];2303
+PR2_RDE_072;Rendsburg-Eckernförde;-;Elsdorf-Westermühlen, Fockbek, Nübbel,Schülp b. Rendsburg;-;750.4;-;[54.2502746, 9.6583228];2303
+PR2_RDE_073;Rendsburg-Eckernförde;-;Bargstall, Elsdorf-Westermühlen;-;49.8;-;[54.2594074, 9.4943079];2303
+PR2_RDE_074;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Flintbek;Flintbek;55.8;19,3;[54.2432092, 10.0633244];2564
+PR2_RDE_075;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Elsdorf-Westermühlen, Hamdorf;Elsdorf-Westermühlen, Hamdorf;94.3;88,3;[54.242448, 9.5231582];2303
+PR2_RDE_077;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Jevenstedt, Schülp b. Rendsburg;Jevenstedt, Schülp b. Rendsburg;97.8;38,6;[54.1981684, 9.7696861];6105
+PR2_RDE_078;Rendsburg-Eckernförde;-;Langwedel;-;43.8;-;[54.2116886, 9.9301891];6105
+PR2_RDE_080;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Bokel, Emkendorf;Bokel, Emkendorf;132.2;111,7;[54.2390429, 9.8205602];6105
+PR2_RDE_082;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Bokel, Emkendorf;Bokel, Emkendorf;30. Mrz;30,3;[54.2390429, 9.8205602];6105
+PR2_RDE_083;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Bokel, Jevenstedt;Bokel;68.1;35,2;[54.2247064, 9.7273695];6105
+PR2_RDE_084;Rendsburg-Eckernförde;-;Groß Vollstedt, Warder;-;79.2;-;[54.2233952, 9.8763621];6105
+PR2_RDE_085;Rendsburg-Eckernförde;-;Langwedel;-;16. Feb;-;[54.2116886, 9.9301891];6105
+PR2_RDE_086;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Jevenstedt;Jevenstedt;99.7;80,5;[54.2336289, 9.6606871];2303
+PR2_RDE_087;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Jevenstedt;Jevenstedt;59.9;59,9;[54.2336289, 9.6606871];2303
+PR2_RDE_088;Rendsburg-Eckernförde;-;Langwedel;-;67.8;-;[54.2116886, 9.9301891];6105
+PR2_RDE_089;Rendsburg-Eckernförde;-;Ellerdorf, Groß Vollstedt;-;35.3;-;[54.213108, 9.853023];6105
+PR2_RDE_090;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Jevenstedt;Jevenstedt;72.7;31;[54.2336289, 9.6606871];2303
+PR2_RDE_092;Rendsburg-Eckernförde;-;Brammer, Jevenstedt;-;82.9;-;[54.2156723, 9.7107944];6105
+PR2_RDE_093;Rendsburg-Eckernförde;-;Jevenstedt, Luhnstedt;-;100.8;-;[54.2001645, 9.6803435];6105
+PR2_RDE_094;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Bokel, Brammer, Ellerdorf;Bokel, Brammer, Ellerdorf;104.0;98,7;[54.2021386, 9.7981098];6105
+PR2_RDE_098;Rendsburg-Eckernförde;-;Dätgen;-;57.5;-;[54.1804173, 9.9313829];6105
+PR2_RDE_100;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Ellerdorf, Nortorf;Ellerdorf, Nortorf;58.2;20,2;[54.1806924, 9.8476704];6105
+PR2_RDE_101;Rendsburg-Eckernförde;-;Bargstedt, Brammer;-;97.7;-;[54.1801004, 9.7648534];6105
+PR2_RDE_102;Rendsburg-Eckernförde;-;Borgdorf-Seedorf, Eisendorf, Nortorf;-;57.8;-;[54.1798859, 9.8678844];6105
+PR2_RDE_104;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Bargstedt, Luhnstedt;Bargstedt, Luhnstedt;55.1;18,6;[54.1645925, 9.7344025];6105
+PR2_RDE_105;Rendsburg-Eckernförde;-;Luhnstedt, Stafstedt;-;36.5;-;[54.1683048, 9.6831934];6105
+PR2_RDE_106;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Bissee, Groß Buchwald;Bissee, Groß Buchwald;86.0;61;[54.1761479, 10.0977138];6163
+PR2_RDE_107;Rendsburg-Eckernförde;-;Bargstedt, Nortorf;-;180.0;-;[54.1654769, 9.812385];6105
+PR2_RDE_108;Rendsburg-Eckernförde;-;Borgdorf-Seedorf, Dätgen, Loop, Schönbek,Schülp b. Nortorf;-;140.1;-;[54.1652213, 9.9252335];7427
+PR2_RDE_109;Rendsburg-Eckernförde;-;Haale;-;29. Apr;-;[54.1749111, 9.5461376];2303
+PR2_RDE_110;Rendsburg-Eckernförde;-;Luhnstedt, Stafstedt;-;33.1;-;[54.1683048, 9.6831934];6105
+PR2_RDE_112;Rendsburg-Eckernförde;-;Brinjahe, Nienborstel, Stafstedt;-;25. Sep;-;[54.1579385, 9.637843];2303
+PR2_RDE_114;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Loop, Mühbrook, Schönbek;Loop, Schönbek;77.2;36;[54.1560408, 9.9794235];7427
+PR2_RDE_117;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Loop, Schönbek;Loop;50.8;15;[54.1558856, 9.961872];7427
+PR2_RDE_118;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Groß Buchwald, Negenharrie;Groß Buchwald, Negenharrie;115.9;72,1;[54.1531612, 10.0801462];6163
+PR2_RDE_119;Rendsburg-Eckernförde;-;Krogaspe, Loop, Schülp b. Nortorf, Timmaspe;-;175.0;-;[54.1443096, 9.9154607];7427
+PR2_RDE_120;Rendsburg-Eckernförde;-;Bargstedt;-;28. Mrz;-;[54.1624849, 9.7688051];6105
+PR2_RDE_121;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Gnutz, Schülp b. Nortorf, Timmaspe;Gnutz, Schülp b. Nortorf, Timmaspe;49.8;42,5;[54.1443183, 9.8698023];7427
+PR2_RDE_122;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Hanerau-Hademarschen, Oldenbüttel,Steenfeld;Hanerau-Hademarschen, Oldenbüttel,Steenfeld;143.2;143,2;[54.1484516, 9.4108674];19172
+PR2_RDE_123;Rendsburg-Eckernförde;-;Oldenhütten;-;48.0;-;[54.157326, 9.7395423];6105
+PR2_RDE_124;Rendsburg-Eckernförde;-;Nienborstel, Nindorf, Remmels, Stafstedt;-;55.0;-;[54.1392403, 9.6582067];2429
+PR2_RDE_125;Rendsburg-Eckernförde;-;Bargstedt, Gnutz, Nortorf;-;157.5;-;[54.1555956, 9.8168709];7427
+PR2_RDE_126;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Gnutz, Schülp b. Nortorf, Timmaspe;Gnutz, Schülp b. Nortorf, Timmaspe;89.7;85,9;[54.1443183, 9.8698023];7427
+PR2_RDE_127;Rendsburg-Eckernförde;-;Todenbüttel;-;90.7;-;[54.1295992, 9.5587816];2429
+PR2_RDE_128;Rendsburg-Eckernförde;-;Nindorf, Remmels;-;24. Jul;-;[54.1249229, 9.6763138];2429
+PR2_RDE_129;Rendsburg-Eckernförde;-;Nindorf, Oldenhütten;-;57.1;-;[54.145311, 9.7197699];19171
+PR2_RDE_130;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Krogaspe, Loop;Krogaspe, Loop;102.7;57,7;[54.1400582, 9.9391392];7427
+PR2_RDE_132;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Aukrug, Gnutz;Gnutz;197.2;74,9;[54.1069689, 9.8084315];19171
+PR2_RDE_133;Rendsburg-Eckernförde;-;Krogaspe, Timmaspe;-;22. Mrz;-;[54.1361732, 9.9100655];7427
+PR2_RDE_134;Rendsburg-Eckernförde;-;Heinkenborstel;-;34.6;-;[54.1303859, 9.7503134];19171
+PR2_RDE_135;Rendsburg-Eckernförde;-;Nindorf, Remmels;-;87.3;-;[54.1249229, 9.6763138];2429
+PR2_RDE_136;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Nienborstel, Remmels;Remmels;82.0;31;[54.1268778, 9.6332213];2429
+PR2_RDE_137;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Gnutz, Timmaspe;Gnutz, Timmaspe;436.3;180,5;[54.1382822, 9.8585722];7427
+PR2_RDE_138;Rendsburg-Eckernförde;-;Nindorf;-;33.1;-;[54.133296, 9.6999974];19171
+PR2_RDE_139;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Beringstedt, Gokels, Lütjenwestedt, Seefeld,Todenbüttel;Gokels, Lütjenwestedt, Seefeld;286.6;103,8;[54.1189356, 9.5091665];19172
+PR2_RDE_140;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Nienborstel, Osterstedt;Nienborstel, Osterstedt;54.7;45,1;[54.1224623, 9.5935857];2429
+PR2_RDE_141;Rendsburg-Eckernförde;-;Timmaspe;-;32.6;-;[54.1407315, 9.8913017];7427
+PR2_RDE_142;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Beldorf, Bornholt, Steenfeld;Beldorf, Bornholt, Steenfeld;141.5;118,7;[54.1275993, 9.3501159];19172
+PR2_RDE_144;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Bendorf, Thaden;Bendorf, Thaden;273.4;238,3;[54.0928708, 9.4002694];19172
+PR2_RDE_145;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Aukrug, Gnutz;Aukrug;108.4;73,7;[54.1069689, 9.8084315];19171
+PR2_RDE_147;Rendsburg-Eckernförde;-;Hohenwestedt, Wapelfeld;-;115.6;-;[54.088005, 9.6362034];2429
+PR2_RDE_148;Rendsburg-Eckernförde;-;Wasbek;-;17. Feb;-;[54.073959, 9.898631];7427
+PR2_RDE_150;Rendsburg-Eckernförde;-;Osterstedt, Puls, Reher;-;61.8;-;[54.0862324, 9.5549105];2429
+PR2_RDE_155;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Aukrug, Wasbek;Aukrug, Wasbek;61.6;55,4;[54.076032, 9.8448256];19171
+PR2_RDE_156;Rendsburg-Eckernförde;-;Hohenwestedt, Tappendorf;-;59.6;-;[54.0979745, 9.6800028];2429
+PR2_RDE_157;Rendsburg-Eckernförde;-;Bendorf, Thaden;-;91.1;-;[54.0928708, 9.4002694];19172
+PR2_RDE_158;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Bendorf, Bornholt;Bendorf, Bornholt;25.0;18,1;[54.0928708, 9.3585994];19172
+PR2_RDE_159;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Hohenwestedt, Jahrsdorf, Wapelfeld;Hohenwestedt, Jahrsdorf, Wapelfeld;157.0;25,5;[54.0794813, 9.634514];2429
+PR2_RDE_161;Rendsburg-Eckernförde;-;Bendorf;-;57.2;-;[54.0857417, 9.3838689];19172
+PR2_RDE_162;Rendsburg-Eckernförde;-;Aukrug, Grauel, Meezen;-;152.7;-;[54.064611, 9.7215127];19171
+PR2_RDE_164;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Arpsdorf, Padenstedt;Padenstedt;61.2;20,9;[54.0441266, 9.8879563];7427
+PR2_RDE_301;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Gammelby, Rieseby;Gammelby, Rieseby;65.5;42,2;[54.5208281, 9.8049562];4896
+PR2_RDE_303;Rendsburg-Eckernförde;-;Osterby, Windeby;-;97.3;-;[54.4585566, 9.7847458];6105
+PR2_RDE_304;Rendsburg-Eckernförde;-;Altenholz, Felm;-;45.8;-;[54.4029174, 10.092582];2564
+PR2_RDE_306;Rendsburg-Eckernförde;-;Rodenbek;-;45.8;-;[54.2756036, 10.0190938];2564
+PR2_RDE_307;Rendsburg-Eckernförde;-;Rodenbek, Rumohr, Schierensee;-;15. Jan;-;[54.2624071, 10.0095231];6105
+PR2_RDE_308;Rendsburg-Eckernförde;-;Bissee, Brügge;-;27. Jun;-;[54.182124, 10.0903788];6163
+PR2_RDE_309;Rendsburg-Eckernförde;-;Jevenstedt, Osterrönfeld;-;65.1;-;[54.2609506, 9.6774721];6105
+PR2_RDE_310;Rendsburg-Eckernförde;-;Jevenstedt;-;47.0;-;[54.2336289, 9.6606871];2303
+PR2_RDE_311;Rendsburg-Eckernförde;-;Krogaspe, Wasbek;-;45.0;-;[54.102787, 9.9137302];7427
+PR2_RDE_312;Rendsburg-Eckernförde;-;Timmaspe, Wasbek;-;15. Jan;-;[54.1073453, 9.8949664];7427
+PR2_RDE_313;Rendsburg-Eckernförde;-;Wasbek;-;125.2;-;[54.073959, 9.898631];7427
+PR2_RDE_314;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Aukrug, Ehndorf, Wasbek;Aukrug, Ehndorf, Wasbek;226.6;179,3;[54.0684432, 9.8611799];7427
+PR2_RDE_315;Rendsburg-Eckernförde;-;Ehndorf;-;36.0;-;[54.0532658, 9.8938886];7427
+PR2_RDE_316;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Arpsdorf, Padenstedt;Arpsdorf, Padenstedt;115.7;85,2;[54.0441266, 9.8879563];7427
+PR2_RDE_317;Rendsburg-Eckernförde;Rendsburg-Eckernförde;Padenstedt;Padenstedt;74.2;34,5;[54.04882, 9.9173133];7427
+PR2_RDE_401;Rendsburg-Eckernförde;-;Kosel;-;47.1;-;[54.5056225, 9.7546389];4466
+PR2_RDE_402;Rendsburg-Eckernförde;-;Gammelby, Kosel, Rieseby;-;37.9;-;[54.5157596, 9.7881838];4466
+PR2_RDE_403;Rendsburg-Eckernförde;-;Güby, Hummelfeld;-;19. Apr;-;[54.473548, 9.6922465];4466
+PR2_RDE_404;Rendsburg-Eckernförde;-;Sehestedt;-;47.7;-;[54.3667005, 9.8166689];6105
+PR2_RDE_405;Rendsburg-Eckernförde;-;Hohn, Lohe-Föhrden;-;44.1;-;[54.3170949, 9.5237554];2303
+PR2_RDE_407;Rendsburg-Eckernförde;-;Emkendorf;-;18. Jan;-;[54.2623019, 9.8470685];6105
+PR2_RDE_408;Rendsburg-Eckernförde;-;Bokel, Emkendorf;-;22. Jul;-;[54.2390429, 9.8205602];6105
+PR2_RDE_409;Rendsburg-Eckernförde;-;Böhnhusen, Reesdorf, Techelsdorf;-;21.0;-;[54.2093403, 10.0541433];2564
+PR2_RDE_410;Rendsburg-Eckernförde;-;Hohenwestedt, Tappendorf;-;23. Jan;-;[54.0979745, 9.6800028];2429
+PR2_RDE_411;Rendsburg-Eckernförde;-;Aasbüttel, Bendorf, Bokhorst;-;21. Sep;-;[54.0700752, 9.4087106];19172
+PR2_RDE_412;Rendsburg-Eckernförde;-;Negenharrie;-;26. Mrz;-;[54.1437717, 10.0755472];7427
+PR2_RDE_420;Rendsburg-Eckernförde;-;Beldorf, Bornholt;-;17. Aug;-;[54.11665, 9.341665];19172
+PR2_RDE_501;Rendsburg-Eckernförde;-;Brekendorf, Owschlag;-;52.9;-;[54.4073667, 9.6110937];2437
+PR2_RDE_502;Rendsburg-Eckernförde;-;Holzdorf, Rieseby;-;29. Mrz;-;[54.5478693, 9.8561636];4896
+PR2_RDE_503;Rendsburg-Eckernförde;-;Schwedeneck, Strande;-;103.9;-;[54.4554667, 10.1390144];2564
+PR2_RDE_504;Rendsburg-Eckernförde;-;Langwedel;-;27. Mai;-;[54.2116886, 9.9301891];6105
+PR2_RDE_505;Rendsburg-Eckernförde;-;Eisendorf, Ellerdorf;-;25. Apr;-;[54.1932886, 9.8541434];6105
+PR2_RDE_506;Rendsburg-Eckernförde;-;Holzdorf, Rieseby;-;30. Mrz;-;[54.5478693, 9.8561636];4896
+PR3_SEG_001;Segeberg;-;Belau, Dersau, Schmalensee, Stocksee;-;212.7;-;[54.0970736, 10.3030734];6163
+PR3_SEG_003;Segeberg;Segeberg;Damsdorf, Schmalensee, Stocksee, Tarbek;Damsdorf, Schmalensee;307.2;40,6;[54.0733558, 10.3001321];6163
+PR3_SEG_005;Segeberg;-;Bornhöved;-;39.3;-;[54.0699273, 10.2271367];6163
+PR3_SEG_006;Segeberg;-;Glasau;-;18. Sep;-;[54.0446763, 10.5270196];6163
+PR3_SEG_007;Segeberg;-;Bosau, Seedorf;-;51.8;-;[53.8618829, 10.6486778];3086
+PR3_SEG_008;Segeberg;-;Glasau;-;30. Jan;-;[54.0446763, 10.5270196];6163
+PR3_SEG_009;Segeberg;-;Tarbek;-;219.2;-;[54.0561488, 10.266654];6163
+PR3_SEG_010;Segeberg;-;Seedorf;-;25. Jun;-;[53.6195914, 10.8672662];1736
+PR3_SEG_011;Segeberg;-;Tarbek;-;45.6;-;[54.0561488, 10.266654];6163
+PR3_SEG_012;Segeberg;-;Nehms, Seedorf;-;97.6;-;[53.8191355, 10.6127723];3086
+PR3_SEG_013;Segeberg;Segeberg;Travenhorst;Travenhorst;38.6;25,4;[54.0189752, 10.4564016];6163
+PR3_SEG_014;Segeberg;-;Daldorf;-;63.9;-;[54.0180943, 10.248455];5280
+PR3_SEG_015;Segeberg;-;Blunk;-;111.7;-;[54.0102315, 10.3121951];5280
+PR3_SEG_016;Segeberg;-;Wensin;-;36.4;-;[53.9937539, 10.4194668];5280
+PR3_SEG_017;Segeberg;-;Travenhorst;-;16. Jun;-;[54.0189752, 10.4564016];6163
+PR3_SEG_018;Segeberg;Segeberg;Boostedt, Großenaspe, Neumünster, Stadt;Großenaspe;238.9;38;[54.0917314, 10.021104];7427
+PR3_SEG_019;Segeberg;Segeberg;Arpsdorf, Hardebek, Hasenkrug;Hardebek, Hasenkrug;165.5;162,4;[54.0041035, 9.8590929];19171
+PR3_SEG_020;Segeberg;-;Blunk;-;28. Jul;-;[54.0102315, 10.3121951];5280
+PR3_SEG_021;Segeberg;-;Blunk, Groß Rönnau, Krems II;-;142.8;-;[53.9900819, 10.3266669];5280
+PR3_SEG_022;Segeberg;-;Ahrensbök, Pronstorf;-;112.9;-;[53.9854609, 10.5226924];5280
+PR3_SEG_023;Segeberg;-;Ahrensbök, Pronstorf;-;40.8;-;[53.9854609, 10.5226924];5280
+PR3_SEG_024;Segeberg;Segeberg;Großenaspe, Wiemersdorf;Großenaspe, Wiemersdorf;339.3;307,6;[53.9658539, 9.9368212];7427
+PR3_SEG_025;Segeberg;-;Armstedt, Wiemersdorf;-;34.3;-;[53.9639049, 9.8782671];19171
+PR3_SEG_026;Segeberg;-;Armstedt, Fuhlendorf, Hagen;-;147.7;-;[53.9533863, 9.8545355];19171
+PR3_SEG_027;Segeberg;Segeberg;Wiemersdorf;Wiemersdorf;55.6;41,7;[53.9579236, 9.9048886];19171
+PR3_SEG_028;Segeberg;Segeberg;Ahrensbök, Pronstorf, Stockelsdorf;Ahrensbök, Pronstorf, Stockelsdorf;217.0;217;[53.9563667, 10.5630512];3086
+PR3_SEG_029;Segeberg;Segeberg;Bad Segeberg, Schieren, Stipsdorf, Weede;Weede;180.5;26,1;[53.9362979, 10.3508911];5280
+PR3_SEG_030;Segeberg;-;Hagen, Hitzhusen;-;32.2;-;[53.9348143, 9.8409932];19171
+PR3_SEG_031;Segeberg;-;Pronstorf;-;27. Sep;-;[53.9578923, 10.4701203];5280
+PR3_SEG_032;Segeberg;Segeberg;Föhrden-Barl, Hitzhusen, Weddelbrook;Föhrden-Barl, Hitzhusen,Weddelbrook;124.0;19,8;[53.9181377, 9.8237815];19171
+PR3_SEG_033;Segeberg;-;Geschendorf, Strukdorf, Weede;-;53.2;-;[53.9212435, 10.4338676];5280
+PR3_SEG_034;Segeberg;-;Strukdorf;-;79.1;-;[53.9202193, 10.486009];5280
+PR3_SEG_035;Segeberg;Segeberg;Neuengörs, Weede;Neuengörs, Weede;193.7;148,8;[53.9110633, 10.3779588];5280
+PR3_SEG_036;Segeberg;-;Klein Gladebrügge, Traventhal;-;17. Apr;-;[53.9081666, 10.3185449];5280
+PR3_SEG_037;Segeberg;-;Högersdorf, Schwissel;-;50.4;-;[53.9086915, 10.2878073];5280
+PR3_SEG_038;Segeberg;-;Bark, Kükels, Todesfelde, Wittenborn;-;324.1;-;[53.9068953, 10.2056101];5280
+PR3_SEG_039;Segeberg;-;Mönkloh;-;24. Apr;-;[53.8879889, 9.7892835];19171
+PR3_SEG_040;Segeberg;Segeberg;Bebensee, Leezen, Mözen;Bebensee, Leezen, Mözen;172.4;60,6;[53.8843732, 10.2723161];5280
+PR3_SEG_041;Segeberg;-;Mönkloh;-;34.7;-;[53.8879889, 9.7892835];19171
+PR3_SEG_042;Segeberg;Segeberg;Bühnsdorf, Feldhorst, Neuengörs, Rehhorst;Bühnsdorf, Feldhorst, Neuengörs,Rehhorst;101.4;29,9;[53.8773181, 10.4128544];5280
+PR3_SEG_043;Segeberg;Segeberg;Lentföhrden, Weddelbrook;Lentföhrden, Weddelbrook;117.0;34,7;[53.8882263, 9.8574754];19171
+PR3_SEG_044;Segeberg;-;Fredesdorf, Todesfelde;-;15. Jan;-;[53.8859291, 10.1898469];5280
+PR3_SEG_045;Segeberg;-;Weddelbrook;-;45.5;-;[53.9033941, 9.8293928];19171
+PR3_SEG_046;Segeberg;-;Fredesdorf, Kükels, Leezen;-;91.4;-;[53.8797922, 10.2296669];5280
+PR3_SEG_047;Segeberg;-;Fredesdorf, Seth, Struvenhütten, Stuvenborn,Todesfelde;-;795.8;-;[53.8673836, 10.146787];5280
+PR3_SEG_049;Segeberg;-;Lentföhrden, Nützen;-;38.4;-;[53.8692084, 9.9031695];4039
+PR3_SEG_052;Segeberg;Segeberg;Kaltenkirchen, Nützen, Schmalfeld;Schmalfeld;96.0;17,8;[53.8592465, 9.9550729];4039
+PR3_SEG_054;Segeberg;-;Fredesdorf, Groß Niendorf, Leezen, Seth,Sülfeld;-;424.5;-;[53.8479619, 10.2209628];5280
+PR3_SEG_055;Segeberg;Segeberg;Sievershütten, Struvenhütten;Sievershütten, Struvenhütten;47.0;20,2;[53.8548645, 10.0834847];5280
+PR3_SEG_057;Segeberg;Segeberg;Groß Niendorf, Leezen, Neversdorf;Groß Niendorf;155.2;23,5;[53.8586525, 10.2619245];5280
+PR3_SEG_058;Segeberg;-;Seth;-;39.0;-;[53.8494522, 10.1750076];5280
+PR3_SEG_059;Segeberg;Segeberg;Heidmoor, Lentföhrden, Lutzhorn;Heidmoor;432.7;68,2;[53.8553938, 9.825856];4039
+PR3_SEG_061;Segeberg;-;Alveslohe;-;20. Feb;-;[53.7890889, 9.9160002];4039
+PR3_SEG_062;Segeberg;-;Alveslohe, Kaltenkirchen;-;21. Aug;-;[53.8131302, 9.9387445];4039
+PR3_SEG_301;Segeberg, Plön;-;Bornhöved, Gönnebek, Rendswühren;-;197.6;-;[54.0642493, 10.1948306];6163
+PR3_SEG_302;Segeberg, Plön;Segeberg, Plön;Gönnebek, Groß Kummerfeld, Rendswühren;Gönnebek, Groß Kummerfeld;343.5;163,4;[54.0480536, 10.1381942];7427
+PR3_SEG_303;Segeberg;-;Heidmühlen, Latendorf, Rickling;-;174.9;-;[53.991204, 10.105119];5280
+PR3_SEG_304;Segeberg;-;Großenaspe, Hardebek;-;62.1;-;[53.9809611, 9.9186235];7427
+PR3_SEG_306;Segeberg;Segeberg;Armstedt, Hardebek, Wiemersdorf;Armstedt;188.2;23,1;[53.9719826, 9.8750091];19171
+PR3_SEG_307;Segeberg;-;Negernbötel;-;18. Aug;-;[53.9830727, 10.2494962];5280
+PR3_SEG_309;Segeberg;Segeberg;Rickling, Wahlstedt;Rickling, Wahlstedt;127.9;64,4;[53.9793097, 10.1898692];5280
+PR3_SEG_310;Segeberg;-;Bark, Heidmühlen;-;35.1;-;[53.9415805, 10.1337058];5280
+PR3_SEG_311;Segeberg;-;Heidmühlen;-;16.0;-;[53.9721076, 10.0847274];5280
+PR3_SEG_312;Segeberg;-;Fahrenkrug, Wittenborn;-;66.1;-;[53.9346518, 10.2383943];5280
+PR3_SEG_314;Segeberg;-;Großenaspe;-;71.9;-;[53.9737843, 9.9687538];7427
+PR3_SEG_315;Segeberg;-;Großenaspe;-;40.2;-;[53.9737843, 9.9687538];7427
+PR3_SEG_316;Segeberg;-;Großenaspe;-;142.4;-;[53.9737843, 9.9687538];7427
+PR3_SEG_317;Segeberg;-;Bimöhlen;-;93.3;-;[53.9366307, 9.9533923];7427
+PR3_SEG_318;Segeberg;Segeberg;Bimöhlen, Hasenmoor;Bimöhlen;176.6;50,1;[53.9182019, 9.9671677];7427
+PR3_SEG_319;Segeberg;-;Bad Bramstedt;-;46.8;-;[53.9167, 9.88333];19171
+PR3_SEG_320;Segeberg;-;Hasenmoor;-;21. Aug;-;[53.8997732, 9.9809431];7427
+PR3_SEG_321;Segeberg;-;Bark, Todesfelde;-;174.2;-;[53.9029532, 10.1818452];5280
+PR3_SEG_322;Segeberg;-;Hartenholm, Struvenhütten, Todesfelde;-;177.1;-;[53.8863977, 10.098374];5280
+PR3_SEG_323;Segeberg;Segeberg;Hartenholm, Hasenmoor, Schmalfeld,Struvenhütten;Hasenmoor, Struvenhütten;183.6;43,5;[53.8848308, 10.019502];5280
+PR3_SEG_324;Segeberg;-;Bad Bramstedt, Lentföhrden, Schmalfeld;-;56.0;-;[53.8883228, 9.917279];19171
+PR3_SEG_325;Segeberg;-;Lentföhrden;-;28. Mai;-;[53.8730585, 9.885558];19171
+PR3_SEG_326;Segeberg;-;Heidmoor;-;17.0;-;[53.8669174, 9.8168026];4039
+PR3_SEG_327;Segeberg;Segeberg;Heidmoor, Lentföhrden, Nützen;Heidmoor, Lentföhrden, Nützen;307.2;73,9;[53.8684447, 9.8743805];4039
+PR3_SEG_328;Segeberg, Pinneberg;-;Alveslohe, Bilsen, Ellerau;-;91.8;-;[53.7690349, 9.903639];4039
+PR3_SEG_329;Segeberg;-;Oering, Seth;-;28. Apr;-;[53.836877, 10.1621526];5280
+PR3_SEG_330;Segeberg;-;Nahe;-;60.9;-;[53.7942267, 10.13793];5280
+PR3_SEG_331;Segeberg;-;Itzstedt, Sülfeld;-;17. Jul;-;[53.8036558, 10.1938697];5280
+PR3_SEG_332;Segeberg;-;Groß Niendorf, Sülfeld, Travenbrück;-;127.7;-;[53.8298532, 10.2630544];5280
+PR3_SEG_333;Segeberg;-;Sülfeld;-;20. Jul;-;[53.8003225, 10.2311878];5280
+PR3_SEG_335;Segeberg;-;Norderstedt;-;74.9;-;[53.7089898, 9.9891914];4039
+PR3_SEG_401;Segeberg;-;Bad Bramstedt, Bimöhlen;-;23. Sep;-;[53.9266654, 9.9183612];19171
+PR3_SEG_402;Segeberg;-;Nützen;-;16. Aug;-;[53.8653583, 9.9207809];4039
+PR3_SEG_403;Segeberg;-;Henstedt-Ulzburg, Wakendorf II;-;32.6;-;[53.7873673, 10.0314477];4039
+PR3_SEG_404;Segeberg;-;Kisdorf;-;21. Mai;-;[53.8103523, 10.0101077];4039
+PR3_SEG_405;Segeberg;-;Kisdorf, Oering, Sievershütten;-;27. Aug;-;[53.8267457, 10.0907767];5280
+PR3_SEG_406;Segeberg;-;Geschendorf, Schieren, Westerrade;-;67.8;-;[53.9335304, 10.4315712];5280
+PR3_SEG_407;Segeberg;-;Pronstorf, Westerrade;-;15. Mai;-;[53.9463481, 10.4652462];5280
+PR3_SEG_501;Segeberg;-;Henstedt-Ulzburg;-;18. Feb;-;[53.7926888, 9.9808134];4039
+PR3_SEG_601;Segeberg;-;Sülfeld;-;69.1;-;[53.8003225, 10.2311878];5280
+PR1_SLF_001;Schleswig-Flensburg;Schleswig-Flensburg;Böxlund, Jardelund, Weesby;Böxlund, Jardelund, Weesby;159.6;159,6;[54.8352473, 9.1809374];1379
+PR1_SLF_002;Schleswig-Flensburg;-;Böxlund, Weesby;-;34.4;-;[54.8349748, 9.1658544];2907
+PR1_SLF_003;Schleswig-Flensburg;Schleswig-Flensburg;Jardelund;Jardelund;264.6;198,8;[54.8357922, 9.2111032];1379
+PR1_SLF_004;Schleswig-Flensburg;Schleswig-Flensburg;Weesby;Weesby;25. Jan;24,8;[54.8308228, 9.1519667];2907
+PR1_SLF_005;Schleswig-Flensburg;-;Weesby;-;71.3;-;[54.8308228, 9.1519667];2907
+PR1_SLF_006;Schleswig-Flensburg;-;Langballig, Munkbrarup, Ringsberg;-;43.4;-;[54.8003612, 9.6084165];1666
+PR1_SLF_009;Schleswig-Flensburg;-;Handewitt;-;65.5;-;[54.7568187, 9.3251444];1379
+PR1_SLF_011;Schleswig-Flensburg;Schleswig-Flensburg;Holt, Medelby, Osterby, Schafflund, Wallsbüll;Medelby, Osterby;374.8;96,2;[54.7222541, 9.2996772];1379
+PR1_SLF_012;Schleswig-Flensburg;Schleswig-Flensburg;Handewitt, Wallsbüll;Handewitt, Wallsbüll;40.6;40,6;[54.7661523, 9.2819066];1379
+PR1_SLF_013;Schleswig-Flensburg;-;Maasbüll;-;15. Sep;-;[54.7764605, 9.5265259];1666
+PR1_SLF_014;Schleswig-Flensburg;-;Handewitt, Wallsbüll;-;56.6;-;[54.7661523, 9.2819066];1379
+PR1_SLF_015;Schleswig-Flensburg;-;Maasbüll;-;16. Jan;-;[54.7764605, 9.5265259];1666
+PR1_SLF_017;Schleswig-Flensburg;Schleswig-Flensburg;Grundhof, Husby;Grundhof;29. Jul;23,3;[54.7696688, 9.6162275];1666
+PR1_SLF_018;Schleswig-Flensburg;-;Handewitt, Wallsbüll;-;131.3;-;[54.7661523, 9.2819066];1379
+PR1_SLF_019;Schleswig-Flensburg;Schleswig-Flensburg;Dollerup;Dollerup;32.9;32,9;[54.7796222, 9.6804655];1666
+PR1_SLF_020;Schleswig-Flensburg;-;Hürup, Tastrup;-;61.5;-;[54.7568561, 9.502375];1666
+PR1_SLF_021;Schleswig-Flensburg;Schleswig-Flensburg;Schafflund;Schafflund;83.9;83,9;[54.7586324, 9.1846823];1379
+PR1_SLF_022;Schleswig-Flensburg;-;Hörup;-;43.4;-;[54.7447487, 9.1033911];2907
+PR1_SLF_023;Schleswig-Flensburg;-;Hürup;-;103.4;-;[54.7490104, 9.5268239];1666
+PR1_SLF_025;Schleswig-Flensburg;-;Sörup;-;29. Jun;-;[54.7169361, 9.6673591];4896
+PR1_SLF_026;Schleswig-Flensburg;-;Kronsgaard;-;26. Sep;-;[54.7354908, 9.9658761];5930
+PR1_SLF_027;Schleswig-Flensburg;-;Hörup, Nordhackstedt, Schafflund;-;161.3;-;[54.7455172, 9.1518115];2907
+PR1_SLF_028;Schleswig-Flensburg;Schleswig-Flensburg;Meyn, Nordhackstedt;Meyn, Nordhackstedt;46.2;46,2;[54.7454719, 9.1945229];1379
+PR1_SLF_029;Schleswig-Flensburg;Schleswig-Flensburg;Großenwiehe, Handewitt, Lindewitt, Meyn;Großenwiehe, Handewitt, Meyn;406.0;316,5;[54.7284243, 9.2480143];1379
+PR1_SLF_030;Schleswig-Flensburg;-;Stangheck;-;42.5;-;[54.713956, 9.8602904];4896
+PR1_SLF_031;Schleswig-Flensburg;Schleswig-Flensburg;Sörup;Sörup;87.5;67,5;[54.7169361, 9.6673591];4896
+PR1_SLF_032;Schleswig-Flensburg;-;Niesgrau, Sterup;-;31.0;-;[54.7359132, 9.7762855];4896
+PR1_SLF_033;Schleswig-Flensburg;-;Lindewitt;-;34.5;-;[54.6973324, 9.1950795];1379
+PR1_SLF_034;Schleswig-Flensburg;Schleswig-Flensburg;Lindewitt, Nordhackstedt;Lindewitt, Nordhackstedt;62.2;45,4;[54.7152515, 9.1812204];1379
+PR1_SLF_035;Schleswig-Flensburg;Schleswig-Flensburg;Hörup, Nordhackstedt;Hörup, Nordhackstedt;175.5;175,5;[54.7389596, 9.1353761];2907
+PR1_SLF_036;Schleswig-Flensburg;-;Freienwill, Oeversee;-;88.5;-;[54.7138942, 9.4638205];1379
+PR1_SLF_037;Schleswig-Flensburg;-;Handewitt, Oeversee;-;95.3;-;[54.7282648, 9.3787754];1379
+PR1_SLF_038;Schleswig-Flensburg;-;Handewitt, Oeversee;-;79.8;-;[54.7282648, 9.3787754];1379
+PR1_SLF_039;Schleswig-Flensburg;Schleswig-Flensburg;Großenwiehe, Handewitt;Großenwiehe, Handewitt;350.6;165,5;[54.7292959, 9.2876465];1379
+PR1_SLF_040;Schleswig-Flensburg;Schleswig-Flensburg;Hörup, Lindewitt;Hörup;154.7;72,2;[54.7210405, 9.1492353];2907
+PR1_SLF_041;Schleswig-Flensburg;-;Großenwiehe, Lindewitt;-;29.0;-;[54.6995527, 9.2226141];1379
+PR1_SLF_042;Schleswig-Flensburg;-;Stangheck, Stoltebüll;-;24. Mrz;-;[54.7070736, 9.8697583];4896
+PR1_SLF_043;Schleswig-Flensburg;Schleswig-Flensburg;Lindewitt, Nordhackstedt;Lindewitt, Nordhackstedt;101.2;49,9;[54.7152515, 9.1812204];1379
+PR1_SLF_044;Schleswig-Flensburg;-;Großsolt, Mittelangeln;-;31. Jan;-;[54.6883819, 9.5567286];1379
+PR1_SLF_045;Schleswig-Flensburg;-;Lindewitt;-;58.2;-;[54.6973324, 9.1950795];1379
+PR1_SLF_046;Schleswig-Flensburg;-;Lindewitt;-;85.9;-;[54.6973324, 9.1950795];1379
+PR1_SLF_047;Schleswig-Flensburg;-;Sörup;-;21. Aug;-;[54.7169361, 9.6673591];4896
+PR1_SLF_048;Schleswig-Flensburg;-;Handewitt, Wanderup;-;47.9;-;[54.7234594, 9.3298896];1379
+PR1_SLF_049;Schleswig-Flensburg;-;Ahneby, Sörup, Sterup;-;40.8;-;[54.7158368, 9.7129334];4896
+PR1_SLF_051;Schleswig-Flensburg;Schleswig-Flensburg;Hasselberg, Rabenholz;Hasselberg, Rabenholz;21. Jul;21,7;[54.7189106, 9.9408886];5930
+PR1_SLF_052;Schleswig-Flensburg;Schleswig-Flensburg;Lindewitt;Lindewitt;103.2;45,1;[54.6973324, 9.1950795];1379
+PR1_SLF_053;Schleswig-Flensburg;-;Großenwiehe, Wanderup;-;53.4;-;[54.6959366, 9.2923918];1379
+PR1_SLF_054;Schleswig-Flensburg;-;Handewitt, Oeversee, Tarp, Wanderup;-;36.0;-;[54.7020893, 9.3752344];1379
+PR1_SLF_055;Schleswig-Flensburg;-;Großenwiehe, Wanderup;-;63.5;-;[54.6959366, 9.2923918];1379
+PR1_SLF_056;Schleswig-Flensburg;-;Mohrkirch, Rügge, Sterup;-;62.9;-;[54.6968331, 9.7394149];4896
+PR1_SLF_058;Schleswig-Flensburg;Schleswig-Flensburg;Großenwiehe, Wanderup;Großenwiehe, Wanderup;357.4;329;[54.6959366, 9.2923918];1379
+PR1_SLF_059;Schleswig-Flensburg;Schleswig-Flensburg;Jerrishoe, Wanderup;Jerrishoe;233.7;107,4;[54.6735264, 9.3523926];1379
+PR1_SLF_060;Schleswig-Flensburg;Schleswig-Flensburg;Großenwiehe, Lindewitt;Großenwiehe, Lindewitt;75.6;43,4;[54.6995527, 9.2226141];1379
+PR1_SLF_061;Schleswig-Flensburg;-;Oersberg, Rabenkirchen-Faulück;-;43.2;-;[54.6567187, 9.8585183];4896
+PR1_SLF_062;Schleswig-Flensburg;-;Havetoft, Sieverstedt;-;109.4;-;[54.6465696, 9.4956827];4466
+PR1_SLF_063;Schleswig-Flensburg;-;Brodersby, Kappeln;-;111.4;-;[54.6498615, 9.955792];5930
+PR1_SLF_064;Schleswig-Flensburg;-;Janneby, Wanderup;-;64.0;-;[54.6575648, 9.3187434];1379
+PR1_SLF_065;Schleswig-Flensburg;Schleswig-Flensburg;Eggebek, Janneby, Jerrishoe, Wanderup;Janneby, Wanderup;407.3;188;[54.6480601, 9.3463378];1379
+PR1_SLF_066;Schleswig-Flensburg;Schleswig-Flensburg;Sieverstedt, Tarp;Sieverstedt, Tarp;81.1;81,1;[54.6524512, 9.4414991];1379
+PR1_SLF_067;Schleswig-Flensburg;-;Grödersby, Rabenkirchen-Faulück;-;60.3;-;[54.6377849, 9.8964421];4896
+PR1_SLF_068;Schleswig-Flensburg;-;Janneby;-;37.1;-;[54.6250294, 9.3028521];1379
+PR1_SLF_069;Schleswig-Flensburg;Schleswig-Flensburg;Klappholz, Mittelangeln;Klappholz, Mittelangeln;20. Jul;20,7;[54.6486276, 9.566885];4466
+PR1_SLF_070;Schleswig-Flensburg;Schleswig-Flensburg;Jörl, Löwenstedt, Sollwitt;Jörl, Löwenstedt, Sollwitt;119.3;37,2;[54.6085757, 9.2311524];7298
+PR1_SLF_071;Schleswig-Flensburg;-;Boren, Dollrottfeld;-;26. Sep;-;[54.6265406, 9.8200584];4896
+PR1_SLF_072;Schleswig-Flensburg;-;Brebel, Nottfeld, Süderbrarup;-;29. Sep;-;[54.6275909, 9.7533011];4896
+PR1_SLF_073;Schleswig-Flensburg;-;Struxdorf;-;31. Aug;-;[54.6311599, 9.6402565];4896
+PR1_SLF_074;Schleswig-Flensburg;Schleswig-Flensburg;Uelsby;Uelsby;27. Apr;19,7;[54.6316476, 9.5991061];4466
+PR1_SLF_075;Schleswig-Flensburg;Schleswig-Flensburg;Eggebek, Janneby;Janneby;197.6;122;[54.6225938, 9.340283];1379
+PR1_SLF_076;Schleswig-Flensburg;-;Klappholz, Sieverstedt;-;89.6;-;[54.6320662, 9.5049843];4466
+PR1_SLF_077;Schleswig-Flensburg;-;Boren;-;33.4;-;[54.6144603, 9.8193839];4896
+PR1_SLF_078;Schleswig-Flensburg;Schleswig-Flensburg;Bollingstedt, Langstedt, Sieverstedt, Tarp;Langstedt, Sieverstedt, Tarp;312.6;123,7;[54.6283257, 9.4218613];4466
+PR1_SLF_080;Schleswig-Flensburg;Schleswig-Flensburg;Bollingstedt, Sieverstedt, Stolk;Sieverstedt, Stolk;147.9;90,5;[54.6112964, 9.4782929];4466
+PR1_SLF_081;Schleswig-Flensburg;Schleswig-Flensburg;Tolk, Twedt;Tolk, Twedt;72.2;72,2;[54.5880583, 9.6581822];4466
+PR1_SLF_082;Schleswig-Flensburg;-;Loit, Steinfeld;-;30. Mrz;-;[54.6054674, 9.7235396];4896
+PR1_SLF_083;Schleswig-Flensburg;-;Jörl, Sollwitt, Süderhackstedt;-;127.8;-;[54.5983891, 9.2692824];7298
+PR1_SLF_084;Schleswig-Flensburg;-;Sollerup;-;17. Feb;-;[54.5726748, 9.3203812];4466
+PR1_SLF_085;Schleswig-Flensburg;Schleswig-Flensburg;Bollingstedt, Langstedt;Bollingstedt, Langstedt;29.0;29;[54.6042003, 9.4022235];4466
+PR1_SLF_086;Schleswig-Flensburg;-;Bollingstedt;-;36.2;-;[54.5921291, 9.419058];4466
+PR1_SLF_087;Schleswig-Flensburg;Schleswig-Flensburg;Loit, Taarstedt;Loit, Taarstedt;42.1;21,5;[54.5892308, 9.6934569];4896
+PR1_SLF_088;Schleswig-Flensburg;-;Ulsnis;-;16. Apr;-;[54.5695241, 9.7471121];4896
+PR1_SLF_089;Schleswig-Flensburg;-;Bollingstedt;-;21. Aug;-;[54.5921291, 9.419058];4466
+PR1_SLF_090;Schleswig-Flensburg;-;Bollingstedt, Langstedt;-;15. Aug;-;[54.6042003, 9.4022235];4466
+PR1_SLF_091;Schleswig-Flensburg;-;Bollingstedt;-;26. Mai;-;[54.5921291, 9.419058];4466
+PR1_SLF_092;Schleswig-Flensburg;Schleswig-Flensburg;Bollingstedt, Silberstedt;Silberstedt;22. Mrz;20;[54.5544967, 9.3950809];4466
+PR1_SLF_093;Schleswig-Flensburg;Schleswig-Flensburg;Silberstedt;Silberstedt;23. Jan;23,1;[54.5168642, 9.3711038];4466
+PR1_SLF_095;Schleswig-Flensburg;-;Schaalby, Taarstedt, Tolk, Twedt;-;59.8;-;[54.5730441, 9.6582992];4466
+PR1_SLF_096;Schleswig-Flensburg;-;Bollingstedt, Idstedt, Lürschau;-;49.4;-;[54.5723781, 9.4755016];4466
+PR1_SLF_097;Schleswig-Flensburg;-;Bollingstedt, Lürschau;-;42.6;-;[54.5653756, 9.4576493];4466
+PR1_SLF_099;Schleswig-Flensburg;-;Nübel, Schaalby;-;47.0;-;[54.5559858, 9.6073247];4466
+PR1_SLF_100;Schleswig-Flensburg;-;Brodersby, Goltoft, Taarstedt, Ulsnis;-;56.2;-;[54.5797034, 9.7847983];4896
+PR1_SLF_101;Schleswig-Flensburg;-;Jübek, Lürschau;-;21. Jan;-;[54.547789, 9.4487872];4466
+PR1_SLF_102;Schleswig-Flensburg;Schleswig-Flensburg;Jübek, Silberstedt;Jübek, Silberstedt;299.2;130,4;[54.5369101, 9.3862188];4466
+PR1_SLF_103;Schleswig-Flensburg;Schleswig-Flensburg;Jübek, Schuby;Jübek, Schuby;55.8;55,8;[54.5363878, 9.4406726];4466
+PR1_SLF_105;Schleswig-Flensburg;Schleswig-Flensburg;Jübek, Lürschau, Schuby;Jübek, Lürschau, Schuby;57.2;57,2;[54.5371326, 9.4591952];4466
+PR1_SLF_106;Schleswig-Flensburg;Schleswig-Flensburg;Schuby, Silberstedt;Schuby, Silberstedt;140.9;137;[54.5163419, 9.4255576];4466
+PR1_SLF_108;Schleswig-Flensburg;-;Schuby;-;19.0;-;[54.5158197, 9.4800114];4466
+PR1_SLF_109;Schleswig-Flensburg;Schleswig-Flensburg;Ellingstedt, Schuby, Silberstedt;Ellingstedt, Schuby, Silberstedt;207.6;184,3;[54.5024466, 9.4202102];2437
+PR1_SLF_110;Schleswig-Flensburg;Schleswig-Flensburg;Börm, Klein Bennebek;Börm, Klein Bennebek;269.9;82,5;[54.4009137, 9.4200374];2437
+PR1_SLF_112;Schleswig-Flensburg;Schleswig-Flensburg;Alt Bennebek, Börm, Klein Bennebek;Börm, Klein Bennebek;263.5;48,5;[54.3933491, 9.4242294];2437
+PR1_SLF_114;Schleswig-Flensburg;Schleswig-Flensburg;Alt Bennebek, Klein Bennebek, Kropp;Alt Bennebek, Klein Bennebek;436.0;210,3;[54.3972027, 9.4662322];2437
+PR1_SLF_115;Schleswig-Flensburg;Schleswig-Flensburg;Kropp, Tetenhusen;Kropp, Tetenhusen;102.7;78,1;[54.3805683, 9.5051677];2303
+PR1_SLF_116;Schleswig-Flensburg;-;Alt Bennebek, Kropp, Tetenhusen;-;338.0;-;[54.3797855, 9.480983];2303
+PR1_SLF_117;Schleswig-Flensburg;-;Süderstapel;-;20. Aug;-;[54.3414083, 9.1991096];1266
+PR1_SLF_118;Schleswig-Flensburg;-;Delve, Süderstapel;-;29. Aug;-;[54.3217932, 9.2247413];1266
+PR1_SLF_120;Schleswig-Flensburg;-;Erfde;-;18. Mrz;-;[54.3090268, 9.3174331];1266
+PR1_SLF_121;Schleswig-Flensburg;-;Erfde, Tielen;-;151.5;-;[54.2972743, 9.3261614];1266
+PR1_SLF_122;Schleswig-Flensburg;-;Erfde, Tielen;-;58.8;-;[54.2972743, 9.3261614];1266
+PR1_SLF_123;Schleswig-Flensburg;-;Erfde;-;36.3;-;[54.3090268, 9.3174331];1266
+PR1_SLF_301;Schleswig-Flensburg;-;Böel;-;18. Aug;-;[54.6489903, 9.718764];4896
+PR1_SLF_311;Schleswig-Flensburg;-;Hüsby, Schuby;-;151.8;-;[54.5065502, 9.4826252];4466
+PR1_SLF_313;Schleswig-Flensburg;-;Silberstedt;-;85.9;-;[54.5168642, 9.3711038];4466
+PR1_SLF_317;Schleswig-Flensburg;-;Erfde, Süderstapel;-;434.1;-;[54.3252175, 9.2582713];1266
+PR1_SLF_401;Schleswig-Flensburg;Schleswig-Flensburg;Bramstedtlund, Holt, Weesby;Bramstedtlund, Weesby;504.1;52,4;[54.8276544, 9.1279915];2907
+PR1_SLF_403;Schleswig-Flensburg;-;Silberstedt;-;24.0;-;[54.5168642, 9.3711038];4466
+PR1_SLF_404;Schleswig-Flensburg;-;Großsolt, Havetoft;-;71.0;-;[54.6752153, 9.5162642];1379
+PR1_SLF_405;Schleswig-Flensburg;-;Havetoft, Mittelangeln;-;28. Jun;-;[54.6631309, 9.5575834];4466
+PR1_SLF_406;Schleswig-Flensburg;-;Sörup;-;17. Jul;-;[54.7169361, 9.6673591];4896
+PR1_SLF_407;Schleswig-Flensburg;-;Steinberg, Steinbergkirche;-;20. Apr;-;[54.7565223, 9.7716068];4896
+PR1_SLF_408;Schleswig-Flensburg;-;Saustrup;-;17.0;-;[54.6722909, 9.7699703];4896
+PR1_SLF_409;Schleswig-Flensburg;-;Osterby;-;24. Sep;-;[54.4534243, 9.7537929];2437
+PR1_SLF_410;Schleswig-Flensburg;-;Niesgrau, Steinberg, Sterup;-;23.0;-;[54.7431775, 9.7788535];4896
+PR1_SLF_411;Schleswig-Flensburg;-;Grundhof, Sörup;-;22. Mai;-;[54.7451561, 9.6606131];4896
+PR1_SLF_501;Schleswig-Flensburg;Schleswig-Flensburg;Schnarup-Thumby;Schnarup-Thumby;50.1;21,2;[54.65, 9.65];4896
+PR3_STE_001;Steinburg;-;Gokels, Seefeld, Warringholz;-;53.9;-;[54.0988965, 9.4754971];19172
+PR3_STE_002;Steinburg;-;Puls, Reher;-;101.7;-;[54.0754891, 9.5456861];2429
+PR3_STE_003;Steinburg;-;Osterstedt, Reher, Wapelfeld;-;88.6;-;[54.0867119, 9.584101];2429
+PR3_STE_004;Steinburg;-;Puls;-;21. Jul;-;[54.0833, 9.51667];19172
+PR3_STE_005;Steinburg;Steinburg;Christinenthal, Oldenborstel, Puls;Christinenthal, Oldenborstel, Puls;106.0;78;[54.0664336, 9.5207461];2429
+PR3_STE_006;Steinburg;-;Aasbüttel, Oldenborstel, Puls, Schenefeld,Warringholz;-;169.1;-;[54.0679711, 9.4838044];19172
+PR3_STE_008;Steinburg;Steinburg;Besdorf, Bokhorst;Besdorf, Bokhorst;51.6;51,6;[54.0542947, 9.383257];19172
+PR3_STE_009;Steinburg;-;Meezen, Poyenberg;-;38.7;-;[54.0476432, 9.6930576];2429
+PR3_STE_010;Steinburg;Steinburg;Holstenniendorf;Holstenniendorf;61.1;28,9;[54.0475721, 9.3281253];19172
+PR3_STE_011;Steinburg;-;Grauel, Poyenberg, Silzen;-;208.1;-;[54.0456598, 9.6634539];2429
+PR3_STE_012;Steinburg;Steinburg;Christinenthal, Peissen, Reher;Christinenthal, Peissen, Reher;462.7;262;[54.0481333, 9.5721686];2429
+PR3_STE_013;Steinburg;Steinburg;Bokelrehm, Bokhorst, Nienbüttel, Schenefeld;Bokelrehm;57.4;33,1;[54.0444391, 9.4217411];19172
+PR3_STE_015;Steinburg;-;Agethorst, Bokelrehm, Hadenfeld, Nienbüttel,;-;3.0;-;[54.0624163, 9.5040277];19172
+PR3_STE_016;Steinburg;-;Silzen;-;18.0;-;[54.0286052, 9.6350723];2429
+PR3_STE_017;Steinburg;-;Besdorf, Gribbohm, Holstenniendorf;-;42.9;-;[54.0421799, 9.3474501];19172
+PR3_STE_018;Steinburg;-;Sarlhusen;-;29. Jun;-;[54.0233899, 9.7915746];19171
+PR3_STE_019;Steinburg;Steinburg;Looft, Pöschendorf;Looft;196.9;125,9;[54.0352496, 9.5035209];2429
+PR3_STE_020;Steinburg;-;Poyenberg;-;27. Jan;-;[54.0439662, 9.6839432];2429
+PR3_STE_021;Steinburg;-;Peissen, Silzen;-;38.3;-;[54.0260788, 9.622295];2429
+PR3_STE_022;Steinburg;Steinburg;Gribbohm, Holstenniendorf;Gribbohm;87.0;21,5;[54.0382698, 9.3378402];19172
+PR3_STE_023;Steinburg;-;Hennstedt, Poyenberg;-;34.1;-;[54.1645982, 9.4254012];19172
+PR3_STE_024;Steinburg;-;Pöschendorf;-;23. Mrz;-;[54.0371992, 9.4903717];19172
+PR3_STE_025;Steinburg;-;Fitzbek, Sarlhusen, Willenscharen;-;98.0;-;[54.0131246, 9.7886785];19171
+PR3_STE_026;Steinburg;-;Drage;-;17. Jul;-;[54.3540518, 9.1576462];1266
+PR3_STE_027;Steinburg;Steinburg;Arpsdorf, Brokstedt, Willenscharen;Brokstedt, Willenscharen;370.9;226,7;[54.0141826, 9.827839];19171
+PR3_STE_029;Steinburg;Steinburg;Gribbohm, Vaale, Wacken;Gribbohm, Vaale, Wacken;102.7;30,9;[54.0167788, 9.3670019];19172
+PR3_STE_030;Steinburg;-;Agethorst, Mehlbek;-;23. Jan;-;[54.0115088, 9.4351821];19172
+PR3_STE_031;Steinburg;-;Hohenlockstedt, Peissen, Silzen;-;45.5;-;[54.0062859, 9.62042];2429
+PR3_STE_033;Steinburg;-;Kaaks, Mehlbek;-;43.7;-;[53.9967857, 9.452818];19172
+PR3_STE_034;Steinburg;-;Hohenlockstedt;-;49.2;-;[53.9667, 9.61667];2429
+PR3_STE_036;Steinburg;-;Hohenlockstedt;-;57.9;-;[53.9667, 9.61667];2429
+PR3_STE_037;Steinburg;-;Hohenaspe;-;26. Mai;-;[53.9884241, 9.5300039];2429
+PR3_STE_038;Steinburg;-;Fitzbek;-;18.0;-;[54.0027011, 9.7711953];19171
+PR3_STE_040;Steinburg;-;Oeschebüttel;-;43.8;-;[53.9953412, 9.7204133];19171
+PR3_STE_041;Steinburg;Steinburg;Huje, Mehlbek, Nutteln;Huje, Nutteln;201.7;157,3;[53.9874881, 9.4152145];19172
+PR3_STE_042;Steinburg;-;Kaaks;-;21. Jun;-;[53.9900073, 9.4700297];2429
+PR3_STE_043;Steinburg;-;Borstel, Brokstedt;-;116.3;-;[53.9789629, 9.8100054];19171
+PR3_STE_044;Steinburg;-;Hohenlockstedt;-;40.9;-;[53.9667, 9.61667];2429
+PR3_STE_045;Steinburg;Steinburg;Hohenaspe, Ottenbüttel;Hohenaspe, Ottenbüttel;73.5;16,8;[53.9807084, 9.5173392];2429
+PR3_STE_046;Steinburg;Steinburg;Kaaks, Oldendorf, Ottenbüttel;Oldendorf, Ottenbüttel;110.2;32,6;[53.9714789, 9.4757242];2429
+PR3_STE_047;Steinburg;-;Hohenlockstedt, Mühlenbarbek;-;44.3;-;[53.9616545, 9.6438498];2429
+PR3_STE_048;Steinburg;-;Aebtissinwisch, Ecklak;-;74.0;-;[53.9635957, 9.2717783];19172
+PR3_STE_049;Steinburg;Steinburg;Borstel, Brokstedt, Kellinghusen, Quarnstedt,;Kellinghusen, Quarnstedt, Störkathen;1.0;1;[54.0094615, 9.7895705];19171
+PR3_STE_050;Steinburg;-;Hohenlockstedt, Ottenbüttel, Schlotfeld;-;58.0;-;[53.9669758, 9.5677279];2429
+PR3_STE_051;Steinburg;Steinburg;Ottenbüttel;Ottenbüttel;14. Jun;14,6;[53.9729927, 9.5046746];2429
+PR3_STE_052;Steinburg;-;Borstel, Hagen, Quarnstedt;-;61.1;-;[53.9564086, 9.8042317];19171
+PR3_STE_053;Steinburg;-;Lohbarbek, Mühlenbarbek;-;15.0;-;[53.9520773, 9.6513619];2429
+PR3_STE_054;Steinburg;-;Ecklak;-;63.6;-;[53.9546532, 9.2651303];19172
+PR3_STE_055;Steinburg;-;Neuendorf-Sachsenbande;-;90.0;-;[53.9535599, 9.3334006];19172
+PR3_STE_056;Steinburg;Steinburg;Moorhusen, Neuendorf-Sachsenbande;Moorhusen, Neuendorf-Sachsenbande;132.7;132,7;[53.9569911, 9.3589643];19172
+PR3_STE_057;Steinburg;-;Quarnstedt;-;19.0;-;[53.9544326, 9.7869333];19171
+PR3_STE_058;Steinburg;-;Neuendorf-Sachsenbande;-;66.4;-;[53.9535599, 9.3334006];19172
+PR3_STE_059;Steinburg;Steinburg;Bekdorf, Krummendiek, Landrecht,;Krummendiek, Landrecht, Moorhusen;1.0;1;[53.9982401, 9.5098144];2429
+PR3_STE_060;Steinburg;Steinburg;Ecklak, Landscheide;Ecklak;40.4;16,6;[53.9366387, 9.264651];19172
+PR3_STE_061;Steinburg;-;Föhrden-Barl, Hagen, Quarnstedt;-;125.1;-;[53.9430738, 9.800568];19171
+PR3_STE_062;Steinburg;-;Bekmünde;-;31.6;-;[53.9333, 9.45];2429
+PR3_STE_063;Steinburg;Steinburg;Breitenberg, Wittenbergen;Wittenbergen;69.8;27,3;[53.929426, 9.6596497];2429
+PR3_STE_064;Steinburg;-;Kollmoor, Oelixdorf;-;93.9;-;[53.9280096, 9.582705];2429
+PR3_STE_065;Steinburg;Steinburg;Nortorf;Nortorf;183.5;142,7;[54.1684689, 9.8559648];6105
+PR3_STE_066;Steinburg;-;Ecklak;-;18. Feb;-;[53.9546532, 9.2651303];19172
+PR3_STE_067;Steinburg;-;Ecklak, Landscheide;-;15. Jan;-;[53.9366387, 9.264651];19172
+PR3_STE_068;Steinburg;-;Bekmünde, Landrecht, Stördorf;-;148.9;-;[53.9231744, 9.4187855];19172
+PR3_STE_069;Steinburg;Steinburg;Nortorf;Nortorf;32.9;32,9;[54.1684689, 9.8559648];6105
+PR3_STE_070;Steinburg;Steinburg;Nortorf;Nortorf;24. Mai;24,5;[54.1684689, 9.8559648];6105
+PR3_STE_072;Steinburg;Steinburg;Beidenfleth, Dammfleth, Stördorf;Dammfleth, Stördorf;192.7;154,5;[53.8958762, 9.3957426];19172
+PR3_STE_073;Steinburg;Steinburg;Landscheide, Sankt Margarethen;Landscheide, Sankt Margarethen;36.2;36,2;[53.9062425, 9.2614775];19172
+PR3_STE_074;Steinburg;Steinburg;Brokdorf, Dammfleth, Nortorf, Sankt;Nortorf, Sankt Margarethen;4.0;1;[54.0636217, 9.2931111];19172
+PR3_STE_075;Steinburg;Steinburg;Bokel, Hingstheide, Wulfsmoor;Hingstheide, Wulfsmoor;92.5;19,4;[54.009007, 9.7573525];19171
+PR3_STE_076;Steinburg;-;Beidenfleth;-;107.9;-;[53.8740893, 9.4059583];2429
+PR3_STE_077;Steinburg;-;Bokel, Hingstheide;-;22. Jun;-;[54.0574237, 9.7727749];19171
+PR3_STE_078;Pinneberg, Steinburg;-;Osterhorn, Wulfsmoor;-;43.1;-;[53.8894368, 9.7132537];2429
+PR3_STE_079;Steinburg;Steinburg;Dammfleth;Dammfleth;91.0;91;[53.9, 9.36667];19172
+PR3_STE_080;Steinburg;-;Brokdorf;-;48.0;-;[53.8687514, 9.3243161];19172
+PR3_STE_081;Steinburg;-;Brokdorf, Dammfleth;-;21. Feb;-;[53.8843757, 9.345493];19172
+PR3_STE_082;Steinburg;-;Bahrenfleth, Hodorf;-;87.8;-;[53.8824049, 9.4372369];2429
+PR3_STE_083;Steinburg;Steinburg;Hohenfelde, Rethwisch;Rethwisch;154.0;84,2;[53.855955, 9.6077482];2429
+PR3_STE_084;Steinburg;Steinburg;Beidenfleth, Wewelsfleth;Beidenfleth, Wewelsfleth;69.9;51,2;[53.8618464, 9.4048328];2429
+PR3_STE_085;Steinburg;-;Neuenbrook;-;34.5;-;[53.860357, 9.5362188];2429
+PR3_STE_086;Steinburg;-;Neuenbrook;-;114.7;-;[53.860357, 9.5362188];2429
+PR3_STE_087;Steinburg;-;Beidenfleth, Wewelsfleth;-;49.5;-;[53.8618464, 9.4048328];2429
+PR3_STE_088;Steinburg;-;Hohenfelde, Rethwisch;-;60.6;-;[53.855955, 9.6077482];2429
+PR3_STE_089;Steinburg;Steinburg;Grevenkop, Hohenfelde, Neuenbrook;Grevenkop, Neuenbrook;366.4;218,9;[53.8497129, 9.5660081];2429
+PR3_STE_090;Steinburg;Steinburg;Bahrenfleth, Borsfleth;Bahrenfleth;257.4;39,8;[53.8490549, 9.4372369];2429
+PR3_STE_091;Steinburg;-;Grevenkop;-;37.3;-;[53.843558, 9.5386026];2429
+PR3_STE_092;Steinburg;Steinburg;Sommerland, Süderau;Sommerland, Süderau;73.9;73,9;[53.8086714, 9.5322424];2429
+PR3_STE_093;Steinburg;Steinburg;Hohenfelde, Horst (Holstein);Horst (Holstein);166.4;67,6;[53.8249331, 9.6341828];2429
+PR3_STE_094;Steinburg;Steinburg;Süderau;Süderau;175.3;35,4;[53.8167, 9.51667];2429
+PR3_STE_095;Steinburg;Steinburg;Sommerland, Süderau;Sommerland, Süderau;155.9;36,5;[53.8086714, 9.5322424];2429
+PR3_STE_096;Steinburg;Steinburg;Krempdorf, Krempe;Krempdorf;187.3;137,8;[53.8307816, 9.4752135];2429
+PR3_STE_097;Steinburg;Steinburg;Horst (Holstein), Sommerland;Horst (Holstein), Sommerland;82.4;29,5;[53.8026427, 9.5964887];4039
+PR3_STE_098;Steinburg;Steinburg;Elskop;Elskop;251.5;41,3;[53.8124972, 9.5004516];2429
+PR3_STE_099;Steinburg;Steinburg;Sommerland;Sommerland;114.6;94;[53.8006429, 9.5478148];2429
+PR3_STE_100;Steinburg;Steinburg;Sommerland;Sommerland;97.8;78;[53.8006429, 9.5478148];2429
+PR3_STE_101;Steinburg;-;Herzhorn, Sommerland;-;46.3;-;[53.791742, 9.5173342];2429
+PR3_STE_102;Steinburg;-;Herzhorn, Sommerland;-;19. Apr;-;[53.791742, 9.5173342];2429
+PR3_STE_302;Steinburg, Segeberg;-;Armstedt, Brokstedt;-;44.1;-;[53.9798591, 9.8366488];19171
+PR3_STE_303;Steinburg;-;Heiligenstedten, Hodorf;-;153.4;-;[53.9155131, 9.4501564];2429
+PR3_STE_401;Steinburg;-;Gribbohm, Vaale;-;74.5;-;[54.0143264, 9.3621504];19172
+PR3_STE_402;Steinburg;-;Bokhorst, Neuendorf-Sachsenbande, Vaale,Vaalermoor;-;35.5;-;[53.9975605, 9.3605181];19172
+PR3_STE_403;Steinburg;-;Neuendorf-Sachsenbande;-;27.0;-;[53.9535599, 9.3334006];19172
+PR3_STE_404;Steinburg;-;Dammfleth;-;40.3;-;[53.9, 9.36667];19172
+PR3_STE_405;Steinburg;-;Wewelsfleth;-;23. Mai;-;[53.8496035, 9.4037072];2429
+PR3_STE_406;Steinburg;-;Wewelsfleth;-;16.0;-;[53.8496035, 9.4037072];2429
+PR3_STE_407;Steinburg;-;Kronsmoor;-;20. Sep;-;[53.9091273, 9.6011503];2429
+PR3_STE_410;Steinburg;-;Auufer;-;24. Jan;-;[53.9283955, 9.6904747];2429
+PR3_STE_411;Steinburg;-;Auufer, Wrist, Wulfsmoor;-;21. Feb;-;[53.9247749, 9.7238785];19171
+PR3_STE_412;Steinburg;-;Kellinghusen, Mühlenbarbek;-;63.0;-;[53.953079, 9.6949646];2429
+PR3_STE_413;Steinburg;-;Lohbarbek, Mühlenbarbek;-;36.0;-;[53.9520773, 9.6513619];2429
+PR3_STE_414;Steinburg;-;Lohbarbek, Winseldorf;-;25. Mai;-;[53.9462544, 9.6175805];2429
+PR3_STE_415;Steinburg;-;Breitenburg, Kronsmoor;-;23. Aug;-;[53.9045637, 9.5839102];2429
+PR3_STE_502;Steinburg;-;Wrist;-;23. Feb;-;[53.9337557, 9.7546534];19171
+PR3_STE_503;Steinburg;-;Horst (Holstein);-;18. Jun;-;[53.8046426, 9.6451626];4039
+PR3_STO_001;Stormarn;-;Mönkhagen, Stockelsdorf;-;92.8;-;[53.8992413, 10.6019534];3086
+PR3_STO_002;Stormarn;Stormarn;Badendorf, Heilshoop, Zarpen;Heilshoop;89.0;17,4;[53.8752845, 10.5414796];3086
+PR3_STO_003;Stormarn;Stormarn;Feldhorst, Rehhorst;Feldhorst, Rehhorst;118.8;42;[53.8608612, 10.4454503];5280
+PR3_STO_004;Stormarn;Stormarn;Travenbrück;Travenbrück;50.2;50,2;[53.8417892, 10.3129898];5280
+PR3_STO_007;Stormarn;-;Barnitz, Klein Wesenberg, Westerau;-;119.8;-;[53.7985586, 10.5103717];3086
+PR3_STO_008;Stormarn;-;Hammoor;-;88.9;-;[53.7142966, 10.3187673];5280
+PR3_STO_009;Stormarn;-;Steinburg;-;33.4;-;[53.9409342, 9.5157896];2429
+PR3_STO_010;Stormarn;-;Ahrensburg, Delingsdorf, Hammoor;-;137.1;-;[53.6988781, 10.269435];5280
+PR3_STO_301;Stormarn;-;Heilshoop, Mönkhagen, Rehhorst;-;68.2;-;[53.8884059, 10.5204608];3086
+PR3_STO_302;Stormarn;-;Rehhorst, Zarpen;-;97.3;-;[53.8741289, 10.4928392];3086
+PR3_STO_303;Stormarn;-;Bad Oldesloe, Feldhorst, Wakendorf I;-;43.7;-;[53.8395136, 10.3839105];5280
+PR3_STO_304;Stormarn;Stormarn;Bad Oldesloe, Feldhorst;Bad Oldesloe, Feldhorst;37.1;27,4;[53.8269593, 10.3974556];5280
+PR3_STO_305;Stormarn;-;Bad Oldesloe;-;45.9;-;[53.8096562, 10.3733692];5280
+PR3_STO_306;Stormarn;-;Bargteheide;-;34.5;-;[53.7279671, 10.2618075];5280
+PR3_STO_307;Stormarn;-;Tangstedt;-;42.3;-;[53.7333, 10.0833];4039
+PR3_STO_308;Stormarn;-;Braak, Siek;-;39.6;-;[53.6218789, 10.2709146];1736
+PR3_STO_309;Stormarn;-;Brunsbek, Siek;-;63.8;-;[53.6157424, 10.289954];1736
+PR3_STO_310;Stormarn;-;Großensee;-;17. Jun;-;[53.6136224, 10.3420128];1736
+PR3_STO_311;Stormarn;-;Rausdorf, Witzhave;-;75.4;-;[53.5779694, 10.3311479];1736
+PR3_STO_401;Stormarn;-;Tangstedt;-;35.9;-;[53.7333, 10.0833];4039
+PR3_STO_402;Stormarn;-;Hoisdorf;-;17. Apr;-;[53.6530061, 10.3186485];1736
+PR3_STO_501;Stormarn;-;Mönkhagen;-;39.1;-;[53.9003044, 10.560138];3086
+PR3_STO_502;Stormarn;-;Westerau;-;20. Mai;-;[53.7766558, 10.4835006];3086
+PR3_STO_503;Stormarn;-;Braak, Siek;-;47.1;-;[53.6218789, 10.2709146];1736
+PR3_STO_601;Stormarn;-;Bad Oldesloe;-;24.0;-;[53.8096562, 10.3733692];5280

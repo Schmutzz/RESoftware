@@ -1,5 +1,0 @@
-Stations_ID;Stationsname;Geo. Laenge [Grad];Geo. Breite [Grad];Stationshoehe [m];Geberhoehe ueber Grund [m];Von_Datum;Bis_Datum;Geraetetyp Name;Messverfahren;eor;
-5877;Putlos;10.8;54.32;5;10;20090710;20190228;Ultrasonic Anemometer 2D;Windmessung, elektr.;eor;
-5877;Putlos;10.8;54.32;5;10;20190305;20210823;Ultrasonic Anemometer 2D;Windmessung, elektr.;eor;
-5877;Putlos;10.8;54.32;5;10;20210826;20211108;Ultrasonic Anemometer 2D;Windmessung, elektr.;eor;
-generiert: 09.11.2021 --  Deutscher Wetterdienst  --

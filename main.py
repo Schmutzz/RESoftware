@@ -1,9 +1,11 @@
 import pandas as pd
 
+import database
 import database as db
 import geo as gpd
 import internetDownload as itd
 import sandbox
+import logik as lgk
 
 def openAusbauflaechen():
     """Import Erzeugungsflächen"""
@@ -63,12 +65,20 @@ def testStandartImport():
 #testGPD()
 #testStandartImport()
 #itd.cdcdataobservations_germanyHourly('wind', 'StundeWindStationen')
-itd.cdcdataobservations_germanyHourly('solar', 'StundeSolarStationen')
+#itd.cdcdataobservations_germanyHourly('solar', 'StundeSolarStationen')
 #sandbox.testMail()
-print('läuft')
-str1 = 'wind'
-str2 = 'wind'
-print(str1 == str2)
+#liste = database.findoutFiles('Datenbank\Wetter\WindZipDateien')
+#for i in range(len(liste)):
+   #zipfilename = 'Datenbank\Wetter\WindZipDateien/' + liste[i]
+    #database.zipentpacken(zipfilename, 'Wind')
+
+#database.testTxtWetterdatenWindToCSV(2019)
+#.testTxtWetterdatenWindToCSV(2020)
+lgk.erzeugungsdatenWindHH(2019)
+lgk.erzeugungsdatenWindHH(2020)
+
+
+
 
 
 

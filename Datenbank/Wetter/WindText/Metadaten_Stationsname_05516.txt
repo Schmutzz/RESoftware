@@ -1,5 +1,0 @@
-Stations_ID;Stationsname;Von_Datum;Bis_Datum
-  5516;Westermarkelsdorf                       ;19410101;19570723
-  5516;Westermarkelsdorf/Fehmarn               ;19570724;19960604
-  5516;Westermarkelsdorf                       ;19960605;20070630
-  5516;Fehmarn                                 ;20070701;

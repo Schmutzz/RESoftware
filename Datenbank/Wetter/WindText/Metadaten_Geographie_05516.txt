@@ -1,5 +1,0 @@
-Stations_id;Stationshoehe;Geogr.Breite;Geogr.Laenge;von_datum;bis_datum;Stationsname
-  5516;    1.00; 54.5214; 11.0522;19410101;19570723;Fehmarn
-  5516;    1.40; 54.5272; 11.0580;19570724;19960604;Fehmarn
-  5516;    3.00; 54.5284; 11.0605;19960605;20190422;Fehmarn
-  5516;    3.21; 54.5283; 11.0606;20190423;        ;Fehmarn

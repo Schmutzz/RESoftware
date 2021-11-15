@@ -1,9 +1,0 @@
-Stations_ID;Stationsname;Geo. Laenge [Grad];Geo. Breite [Grad];Stationshoehe [m];Geberhoehe ueber Grund [m];Von_Datum;Bis_Datum;Geraetetyp Name;Messverfahren;eor;
-5516;Westermarkelsdorf/Fehmarn;11.06;54.53;1.4;16.7;19750101;19810107;Universal-Windschreiber 90;Windmessung, elektromechanisch;eor;
-5516;Westermarkelsdorf/Fehmarn;11.06;54.53;1.4;16.7;19810217;19840831;Universal-Windschreiber 90;Windmessung, elektromechanisch;eor;
-5516;Westermarkelsdorf/Fehmarn;11.06;54.53;1.4;16.7;19840901;19960604;Windrichtungssensor Classic 4.3121;Windmessung, elektr.;eor;
-5516;Westermarkelsdorf;11.06;54.53;3;10;19960605;20070630;Windrichtungssensor Classic 4.3121;Windmessung, elektr.;eor;
-5516;Fehmarn;11.06;54.53;3;10;20070701;20190422;Windrichtungssensor Classic 4.3121;Windmessung, elektr.;eor;
-5516;Fehmarn;11.06;54.53;3.21;10;20190423;20200715;Windrichtungssensor Classic 4.3121;Windmessung, elektr.;eor;
-5516;Fehmarn;11.06;54.53;3.21;10;20200416;20211109;Ultrasonic Anemometer 2D compact;Windmessung, elektr.;eor;
-generiert: 10.11.2021 --  Deutscher Wetterdienst  --

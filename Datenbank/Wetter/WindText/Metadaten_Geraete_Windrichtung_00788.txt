@@ -11,5 +11,5 @@ Stations_ID;Stationsname;Geo. Laenge [Grad];Geo. Breite [Grad];Stationshoehe [m]
 788;Büsum;8.86;54.12;3;11;20040601;20071022;Windrichtungssensor Classic 4.3121;Windmessung, elektr.;eor;
 788;Büsum;8.86;54.12;3;10.5;20071023;20191014;Windrichtungssensor Classic 4.3121;Windmessung, elektr.;eor;
 788;Büsum;8.86;54.12;3;10;20191015;20201014;Ultrasonic Anemometer 3D;Windmessung, elektr.;eor;
-788;Büsum;8.86;54.12;3;10;20201015;20211109;Ultrasonic Anemometer 2D compact;Windmessung, elektr.;eor;
-generiert: 10.11.2021 --  Deutscher Wetterdienst  --
+788;Büsum;8.86;54.12;3;10;20201015;20210327;Ultrasonic Anemometer 2D compact;Windmessung, elektr.;eor;
+generiert: 30.03.2021 --  Deutscher Wetterdienst  --

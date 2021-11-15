@@ -1,3 +1,0 @@
-Stations_id;Stationshoehe;Geogr.Breite;Geogr.Laenge;von_datum;bis_datum;Stationsname
-  5877;    4.00; 54.3126; 10.7922;19970310;20090630;Putlos
-  5877;    5.00; 54.3160; 10.8002;20090701;        ;Putlos

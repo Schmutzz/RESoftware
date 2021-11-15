@@ -2,5 +2,5 @@ Stations_ID;Stationsname;Geo. Laenge [Grad];Geo. Breite [Grad];Stationshoehe [m]
 4919;Strucklahnungshörn;8.81;54.5;7;10;19771001;19930430;Windregistriergerät nach WOELFLE;Windmessung, mechanisch;eor;
 4919;Strucklahnungshörn;8.81;54.5;7;10;19930501;20110411;Windsensor Classic 4.3303;Windmessung, elektr.;eor;
 4919;Strucklahnungshörn;8.81;54.5;7;10;20110412;20160725;Ultrasonic Anemometer 2D;Windmessung, elektr.;eor;
-4919;Strucklahnungshörn;8.81;54.5;7;10;20160801;20211109;Ultrasonic Anemometer 2D;Windmessung, elektr.;eor;
-generiert: 10.11.2021 --  Deutscher Wetterdienst  --
+4919;Strucklahnungshörn;8.81;54.5;7;10;20160801;20210327;Ultrasonic Anemometer 2D;Windmessung, elektr.;eor;
+generiert: 30.03.2021 --  Deutscher Wetterdienst  --

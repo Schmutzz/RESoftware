@@ -1,6 +1,0 @@
-Stations_ID;Stationsname;Geo. Laenge [Grad];Geo. Breite [Grad];Stationshoehe [m];Geberhoehe ueber Grund [m];Von_Datum;Bis_Datum;Geraetetyp Name;Messverfahren;eor;
-5930;Olpenitz;10.03;54.66;4;10;19900701;20070924;Windsensor Classic 4.3303;Windmessung, elektr.;eor;
-5930;Schönhagen (Ostseebad);10.02;54.64;.79;12;20070925;20160613;Windsensor Classic 4.3303;Windmessung, elektr.;eor;
-5930;Schönhagen (Ostseebad);10.02;54.64;.79;10;20160614;20211108;Windsensor Classic 4.3303;Windmessung, elektr.;eor;
-5930;Schönhagen (Ostseebad);10.02;54.64;.79;10;20210727;20211108;Ultrasonic Anemometer 2D compact;Windmessung, elektr.;eor;
-generiert: 09.11.2021 --  Deutscher Wetterdienst  --

@@ -1,5 +1,0 @@
-Stations_ID;Stations_Name;Parameter;Von_Datum;Bis_Datum;Gesamt_Fehlwerte;Beschreibung;eor;                                                                                                              
-788;Büsum;FX_911;08.05.2020;08.11.2021;78;Gesamt_Messzeitraum;eor;                                                                                                                                      
-Stations_ID;Stations_Name;Parameter;Von_Datum;Bis_Datum;Anzahl_Fehlwerte;Beschreibung;eor;                                                                                                              
-788;Büsum;FX_911;04.09.2020-03:00;07.09.2020-09:00;78;;eor;                                                                                                                                             
-generiert: 09.11.2021 --  Deutscher Wetterdienst  --                                                                                                                                                    

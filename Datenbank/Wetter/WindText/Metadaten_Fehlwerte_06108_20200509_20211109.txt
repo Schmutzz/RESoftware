@@ -1,6 +1,0 @@
-Stations_ID;Stations_Name;Parameter;Von_Datum;Bis_Datum;Anzahl_Fehlwerte;Beschreibung;eor;                                                                                                              
-6108;Ruthenstrom;F;17.03.2021-04:00;17.03.2021-10:00;7;;eor;                                                                                                                                            
-6108;Ruthenstrom;F;21.07.2021-13:00;21.07.2021-15:00;3;;eor;                                                                                                                                            
-6108;Ruthenstrom;D;17.03.2021-05:00;17.03.2021-09:00;5;;eor;                                                                                                                                            
-6108;Ruthenstrom;D;21.07.2021-13:00;21.07.2021-14:00;2;;eor;                                                                                                                                            
-generiert: 10.11.2021 --  Deutscher Wetterdienst  --                                                                                                                                                    

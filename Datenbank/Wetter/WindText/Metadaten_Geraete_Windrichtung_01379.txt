@@ -8,6 +8,5 @@ Stations_ID;Stationsname;Geo. Laenge [Grad];Geo. Breite [Grad];Stationshoehe [m]
 1379;Flensburg (Schäferhaus);9.38;54.77;41;10;20031002;20060516;Windrichtungssensor Classic 4.3121;Windmessung, elektr.;eor;
 1379;Flensburg (Schäferhaus);9.38;54.77;41;10;20060601;20201021;Windrichtungssensor Classic 4.3121;Windmessung, elektr.;eor;
 1379;Flensburg (Schäferhaus);9.38;54.77;41;10;20190528;20201021;Ultrasonic Anemometer 3D;Windmessung, elektr.;eor;
-1379;Flensburg (Schäferhaus);9.38;54.77;41;10;20201022;20210528;Ultrasonic Anemometer 2D compact;Windmessung, elektr.;eor;
-1379;Flensburg (Schäferhaus);9.38;54.77;41;10;20210603;20211109;Ultrasonic Anemometer 2D compact;Windmessung, elektr.;eor;
-generiert: 10.11.2021 --  Deutscher Wetterdienst  --
+1379;Flensburg (Schäferhaus);9.38;54.77;41;10;20201022;20210327;Ultrasonic Anemometer 2D compact;Windmessung, elektr.;eor;
+generiert: 30.03.2021 --  Deutscher Wetterdienst  --

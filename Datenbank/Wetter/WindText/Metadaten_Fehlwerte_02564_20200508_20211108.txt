@@ -1,5 +1,0 @@
-Stations_ID;Stations_Name;Parameter;Von_Datum;Bis_Datum;Anzahl_Fehlwerte;Beschreibung;eor;                                                                                                              
-2564;Kiel-Holtenau;FX_911;17.07.2020-07:00;20.07.2020-09:00;74;;eor;                                                                                                                                    
-2564;Kiel-Holtenau;FX_911;07.10.2020-10:00;07.10.2020-12:00;2;;eor;                                                                                                                                     
-2564;Kiel-Holtenau;FX_911;14.10.2020-10:00;14.10.2020-14:00;4;;eor;                                                                                                                                     
-generiert: 09.11.2021 --  Deutscher Wetterdienst  --                                                                                                                                                    

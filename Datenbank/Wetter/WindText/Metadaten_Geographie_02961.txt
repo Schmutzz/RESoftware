@@ -1,3 +1,0 @@
-Stations_id;Stationshoehe;Geogr.Breite;Geogr.Laenge;von_datum;bis_datum;Stationsname
-  2961;    5.00; 54.4986; 10.2734;19700910;19811231;Leuchtturm Kiel
-  2961;   30.75; 54.4996; 10.2737;19820101;        ;Leuchtturm Kiel

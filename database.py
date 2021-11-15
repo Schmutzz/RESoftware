@@ -1,6 +1,8 @@
 import pandas as pd
 import csv
 import os
+from datetime import datetime
+from zipfile import ZipFile
 
 def findoutFiles(filename):
     print("Suche beginnt")
@@ -9,6 +11,142 @@ def findoutFiles(filename):
     print(len(files))
 
     return files
+def zipentpacken(zipFileName,source):
+    try:
+        with ZipFile(zipFileName, 'r') as zip:
+            zip.extractall('Datenbank\Wetter/' + source + 'Text')
+            print('File is unzipped in temp Datenbank\Wetter\WindText')
+
+    except ValueError:
+        print("Probleme mit der Zip-Datei")
+    except BaseException:
+        print("is not a Zipfile")
+
+
+def testTxtWetterdatenSolarToCSV():
+    print('Start')
+    files = findoutFiles('Datenbank\Wetter\SolarText')
+    dataFrame = {1: ['1', '2'], 2: ['3', '4']}
+    header = ['STATIONS_ID', 'ZENIT', 'MESS_DATUM_WOZ', 'FG_LBERG']
+    firstDataFrame = False
+
+    matches = [match for match in files if "produkt_st_stunde" in match]
+    print(matches)
+
+    length = matches.__len__()
+
+    for i in range(length):
+
+        #try:
+        openfilename = 'Datenbank\Wetter\SolarText/' + matches[i]
+        print(openfilename)
+        df = pd.read_csv(openfilename, usecols=header, delimiter=';', decimal='.', header=0)
+
+        #if firstDataFrame == False:
+           # dataFrame = df
+          #  firstDataFrame = True
+
+      #  else:
+            #dataFrame.merge(right=df, left_index=True, how='cross', right_on='MESS_DATUM_WOZ')
+            #dataFrame.merge(right=df, how='cross')
+            #print(dataFrame)
+
+        exportname = "erzeugungsdatenVersuche" + str(i) + ".csv"
+        df.to_csv(exportname, sep=';', encoding='utf-8', index=False, decimal=',')
+
+        #except ValueError:
+            #print("falsches Format")
+
+
+
+    print(df)
+
+def testTxtWetterdatenWindToCSV(Year):
+    print('Start')
+
+    Datumabgleich = []
+
+    hourly2019_2020 = pd.date_range('01.01.'+str(Year)+' 00:00', '31.12.'+str(Year)+' 23:00', freq='60min')
+
+    for i in range(len(hourly2019_2020)):
+        Datumabgleich.append(hourly2019_2020[i])
+
+    files = findoutFiles('Datenbank\Wetter\WindText')
+
+    hoursInYear = Datumabgleich.__len__()
+
+    matches = [match for match in files if "produkt_ff_stunde" in match]
+    print(matches)
+
+    length = matches.__len__()
+    firsttime = True
+    for i in range(length):
+        windgeschwindigkeit = []
+        windausrichtung = []
+        try:
+            openfilename = 'Datenbank\Wetter\WindText/' + matches[i]
+            print(openfilename)
+            df = pd.read_csv(openfilename, delimiter=';', decimal='.', header=0)
+        except ValueError:
+            print("falsches Format")
+            print(matches[i] + "nicht in der Liste")
+            continue
+        Wind_MproS = 'Wind_m/s_' + str(df['STATIONS_ID'][2])
+        Wind_grad = 'Wind_grad_' + str(df['STATIONS_ID'][2])
+        importLength = df.__len__()
+        #print(df)
+        start = 0
+        for k in range(importLength):
+            if start >= hoursInYear:
+                break
+            #print('.')
+            datetime_object = datetime.strptime(str(df['MESS_DATUM'][k]), '%Y%m%d%H')
+            try:
+                if Datumabgleich[0] < datetime_object and datetime_object != Datumabgleich[start]:
+                    print('fehlender Messert')
+
+                    while datetime_object != Datumabgleich[start]:
+                        print('.')
+                        #print(Datumabgleich[start])
+                        windgeschwindigkeit.append(-999)
+                        windausrichtung.append(-999)
+                        start += 1
+            except IndexError:
+                print('Pause')
+            if start >= hoursInYear:
+                break
+            if datetime_object == Datumabgleich[start]:
+                #print('Die beiden nächsten')
+                #print(Datumabgleich[start])
+                #print(datetime_object)
+                windgeschwindigkeit.append(df['   F'][k])
+                windausrichtung.append(df['   D'][k])
+                start += 1
+                continue
+
+        #print(str(start) + openfilename)
+
+        if firsttime == True:
+            firsttime = False
+            exportFrame = pd.DataFrame(
+                {   'Datum':Datumabgleich,
+                    Wind_MproS: windgeschwindigkeit,
+                    Wind_grad: windausrichtung
+                }
+            )
+
+            continue
+        if firsttime == False:
+            exportFrame[Wind_MproS] = windgeschwindigkeit
+            exportFrame[Wind_grad] = windausrichtung
+            print(exportFrame)
+
+
+    exportname = 'Datenbank\Wetter/WindWetterdaten_'+str(Year)+'.csv'
+    exportFrame.to_csv(exportname, sep=';', encoding='utf-8', index=False, decimal=',')
+
+    print('Fertig')
+
 
 class regulatedImport():
     """Diese Klasse importiert .csv Dateien nach einem Regulierten Schemata
@@ -62,15 +200,6 @@ class regulatedImport():
 
         return dataFrame
 
-
-
-
-
-
-
-
-
-
 class importValues():
 
     def __init__(self, x):
@@ -109,7 +238,6 @@ class importValues():
                 TimeStop.append(column[23])
 
 
-
             print('lilalu')
 
 
@@ -119,13 +247,8 @@ class importValues():
         with open('ImportDatei\ImportROHDaten.csv', mode='r', newline='\n') as dataHH:
             spamreader = csv.reader(dataHH, delimiter=';')
 
-
-
-
             for column in spamreader:
                 print(column)
-
-
 
             print('lilalu')
 

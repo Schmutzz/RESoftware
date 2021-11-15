@@ -1,4 +1,4 @@
 Stations_ID;Stationsname;Geo. Laenge [Grad];Geo. Breite [Grad];Stationshoehe [m];Geberhoehe ueber Grund [m];Von_Datum;Bis_Datum;Geraetetyp Name;Messverfahren;eor;
-1200;Elpersbüttel;9.01;54.07;2.99;10;20071120;20200526;Windsensor Classic 4.3303;Windmessung, elektr.;eor;
-1200;Elpersbüttel;9.01;54.07;2.99;10;20200527;20211109;Ultrasonic Anemometer 2D compact;Windmessung, elektr.;eor;
-generiert: 10.11.2021 --  Deutscher Wetterdienst  --
+1200;Elpersbüttel;9.01;54.07;2.99;10;20071120;20200602;Windsensor Classic 4.3303;Windmessung, elektr.;eor;
+1200;Elpersbüttel;9.01;54.07;2.99;10;20200527;20210327;Ultrasonic Anemometer 2D compact;Windmessung, elektr.;eor;
+generiert: 30.03.2021 --  Deutscher Wetterdienst  --
