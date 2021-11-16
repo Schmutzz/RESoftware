@@ -6,10 +6,10 @@ from zipfile import ZipFile
 
 
 def cdcdataobservations_germanyHourly(source, idFile):
-    """Source muss klein eingeben werden"""
+    """Wetterdaten werden aus CDC Portal eingelesen"""
     importTrueOrFalse = []
 
-
+    """Auswahl der Datenart"""
     if source == 'wind':
         indizie = "FF"
         indizie2 = 'akt'
@@ -18,6 +18,7 @@ def cdcdataobservations_germanyHourly(source, idFile):
         indizie = "ST"
         indizie2 = 'row'
         urlanfang = 'https://opendata.dwd.de/climate_environment/CDC/observations_germany/climate/hourly/' + source + '/'
+
 
     try:
         filename = 'Import\Wetterstationen/' + idFile + '.csv'

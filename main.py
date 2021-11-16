@@ -10,23 +10,23 @@ import logik as lgk
 def openAusbauflaechen():
     """Import Erzeugungsflächen"""
     ortschaften = ['DIT', 'LAU', 'NFL', 'OHS', 'PIN', 'PLO', 'RDE', 'SEG', 'SLF', 'STE', 'STO']
-    sheetanuahl = [101, 88, 129, 83, 16, 24, 169, 94, 123, 112, 25]
+    sheetanzahl = [101, 88, 129, 83, 16, 24, 169, 94, 123, 112, 25]
 
     print('Main Start')
-    dit = db.openLocationdata('Import\Standort', ortschaften[0], sheetanuahl[0]).openSheet()
-    dit53 = db.openLocationdata('Import\Standort', ortschaften[0], sheetanuahl[0]).opensingelSheetSpecial(53)
-    dit57 = db.openLocationdata('Import\Standort', ortschaften[0], sheetanuahl[0]).opensingelSheetSpecial(57)
-    dit59 = db.openLocationdata('Import\Standort', ortschaften[0], sheetanuahl[0]).opensingelSheetSpecial(59)
-    lau = db.openLocationdata('Import\Standort', ortschaften[1], sheetanuahl[1]).openSheet()
-    nfl = db.openLocationdata('Import\Standort', ortschaften[2], sheetanuahl[2]).openSheet()
-    ohs = db.openLocationdata('Import\Standort', ortschaften[3], sheetanuahl[3]).openSheet()
-    pin = db.openLocationdata('Import\Standort', ortschaften[4], sheetanuahl[4]).openSheet()
-    plo = db.openLocationdata('Import\Standort', ortschaften[5], sheetanuahl[5]).openSheet()
-    rde = db.openLocationdata('Import\Standort', ortschaften[6], sheetanuahl[6]).openSheet()
-    seg = db.openLocationdata('Import\Standort', ortschaften[7], sheetanuahl[7]).openSheet()
-    slf = db.openLocationdata('Import\Standort', ortschaften[8], sheetanuahl[8]).openSheet()
-    ste = db.openLocationdata('Import\Standort', ortschaften[9], sheetanuahl[9]).openSheetSTE()
-    sto = db.openLocationdata('Import\Standort', ortschaften[10], sheetanuahl[10]).openSheet()
+    dit = db.openLocationdata('Import\Standort', ortschaften[0], sheetanzahl[0]).openSheet()
+    dit53 = db.openLocationdata('Import\Standort', ortschaften[0], sheetanzahl[0]).opensingelSheetSpecial(53)
+    dit57 = db.openLocationdata('Import\Standort', ortschaften[0], sheetanzahl[0]).opensingelSheetSpecial(57)
+    dit59 = db.openLocationdata('Import\Standort', ortschaften[0], sheetanzahl[0]).opensingelSheetSpecial(59)
+    lau = db.openLocationdata('Import\Standort', ortschaften[1], sheetanzahl[1]).openSheet()
+    nfl = db.openLocationdata('Import\Standort', ortschaften[2], sheetanzahl[2]).openSheet()
+    ohs = db.openLocationdata('Import\Standort', ortschaften[3], sheetanzahl[3]).openSheet()
+    pin = db.openLocationdata('Import\Standort', ortschaften[4], sheetanzahl[4]).openSheet()
+    plo = db.openLocationdata('Import\Standort', ortschaften[5], sheetanzahl[5]).openSheet()
+    rde = db.openLocationdata('Import\Standort', ortschaften[6], sheetanzahl[6]).openSheet()
+    seg = db.openLocationdata('Import\Standort', ortschaften[7], sheetanzahl[7]).openSheet()
+    slf = db.openLocationdata('Import\Standort', ortschaften[8], sheetanzahl[8]).openSheet()
+    ste = db.openLocationdata('Import\Standort', ortschaften[9], sheetanzahl[9]).openSheetSTE()
+    sto = db.openLocationdata('Import\Standort', ortschaften[10], sheetanzahl[10]).openSheet()
 
     "DataFrames zusammenführen und eine .csv Datei erstellen"
 
@@ -61,6 +61,7 @@ def testStandartImport():
     exportname = "Datenbank\Erzeugung/" + "erzeugungsdatenVersuche" + ".csv"
     egal.to_csv(exportname, sep=';', encoding='utf-8', index=False)
     print(egal)
+
 #openAusbauflaechen()
 #testGPD()
 #testStandartImport()
@@ -74,12 +75,14 @@ def testStandartImport():
 
 #database.testTxtWetterdatenWindToCSV(2019)
 #.testTxtWetterdatenWindToCSV(2020)
-lgk.erzeugungsdaten(2019, 'Wind', 'HH')
-lgk.erzeugungsdaten(2020, 'Wind', 'HH')
-lgk.erzeugungsdaten(2019, 'Wind', 'SH')
-lgk.erzeugungsdaten(2020, 'Wind', 'SH')
-
-
+#lgk.erzeugungsdatenEEAnlagen(2019, 'Wind', 'HH')
+#lgk.erzeugungsdatenEEAnlagen(2020, 'Wind', 'HH')
+#lgk.erzeugungsdatenEEAnlagen(2019, 'Wind', 'SH')
+#lgk.erzeugungsdatenEEAnlagen(2020, 'Wind', 'SH')
+lgk.erzeugungsdatenEEAnlagen(2019, 'PV', 'SH')
+#lgk.erzeugungsdatenEEAnlagen(2020, 'PV', 'SH')
+#lgk.erzeugungsdatenEEAnlagen(2019, 'PV', 'HH')
+#lgk.erzeugungsdatenEEAnlagen(2020, 'PV', 'HH')
 
 
 
