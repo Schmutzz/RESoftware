@@ -79,12 +79,14 @@ def testStandartImport():
 
 
 def ablauf2019():
+    print('2019')
     lgk.erzeugungsdatenEEAnlagen(2019, 'Wind', 'HH')
     lgk.erzeugungsdatenEEAnlagen(2019, 'Wind', 'SH')
     lgk.erzeugungsdatenEEAnlagen(2019, 'PV', 'SH')
     lgk.erzeugungsdatenEEAnlagen(2019, 'PV', 'HH')
 
 def ablauf2020():
+    print('2020')
     lgk.erzeugungsdatenEEAnlagen(2020, 'Wind', 'HH')
     lgk.erzeugungsdatenEEAnlagen(2020, 'Wind', 'SH')
     lgk.erzeugungsdatenEEAnlagen(2020, 'PV', 'SH')
