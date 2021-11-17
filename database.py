@@ -273,6 +273,10 @@ class openLocationdata():
         self.haPot = []
         self.haVor = []
 
+    def setSheetnumber(self, neuSheet):
+        if neuSheet < 5 and neuSheet > 0:
+            self.sheetnumber = neuSheet
+            return True
 
     def openSheet(self):
 

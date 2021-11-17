@@ -75,14 +75,23 @@ def testStandartImport():
 
 #database.testTxtWetterdatenWindToCSV(2019)
 #.testTxtWetterdatenWindToCSV(2020)
-#lgk.erzeugungsdatenEEAnlagen(2019, 'Wind', 'HH')
-#lgk.erzeugungsdatenEEAnlagen(2020, 'Wind', 'HH')
-#lgk.erzeugungsdatenEEAnlagen(2019, 'Wind', 'SH')
-#lgk.erzeugungsdatenEEAnlagen(2020, 'Wind', 'SH')
-lgk.erzeugungsdatenEEAnlagen(2019, 'PV', 'SH')
-#lgk.erzeugungsdatenEEAnlagen(2020, 'PV', 'SH')
-#lgk.erzeugungsdatenEEAnlagen(2019, 'PV', 'HH')
-#lgk.erzeugungsdatenEEAnlagen(2020, 'PV', 'HH')
+
+
+
+def ablauf2019():
+    lgk.erzeugungsdatenEEAnlagen(2019, 'Wind', 'HH')
+    lgk.erzeugungsdatenEEAnlagen(2019, 'Wind', 'SH')
+    lgk.erzeugungsdatenEEAnlagen(2019, 'PV', 'SH')
+    lgk.erzeugungsdatenEEAnlagen(2019, 'PV', 'HH')
+
+def ablauf2020():
+    lgk.erzeugungsdatenEEAnlagen(2020, 'Wind', 'HH')
+    lgk.erzeugungsdatenEEAnlagen(2020, 'Wind', 'SH')
+    lgk.erzeugungsdatenEEAnlagen(2020, 'PV', 'SH')
+    lgk.erzeugungsdatenEEAnlagen(2020, 'PV', 'HH')
+
+
+ablauf2019()
 
 
 

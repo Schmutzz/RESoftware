@@ -42,8 +42,6 @@ def dateList_dataFrame(start,stop,freq):
     return exportFrame
 
 
-
-
 def erzeugungsdatenEEAnlagen(year, source , state):
 
     exportFrame = dateList_dataFrame('01.01.' + str(year) + ' 00:00', '31.12.' + str(year) + ' 23:00','60min')
@@ -130,7 +128,7 @@ def erzeugungsdatenEEAnlagen(year, source , state):
 
     if source == 'PV':
         try:
-            headerlistLokation = ['MaStR-Nr. der Einheit','Bruttoleistung der Einheit', 'Wetter-ID']
+            headerlistLokation = ['Leistung','Bundesland', 'Wetter-ID']
             openfilename1 = 'Datenbank\ConnectwithID\Erzeugung/' + matchfilelist3[0]
             print(openfilename1)
 
@@ -155,19 +153,19 @@ def erzeugungsdatenEEAnlagen(year, source , state):
                 break
 
 
-            columnName = str(i) + '_Ezg_PV' + '_'+str(lokationsdaten['MaStR-Nr. der Einheit'][i])+ '_'+ str(lokationsdaten['Wetter-ID'][i])
+            columnName = str(i) + '_Ezg_PV' + '_'+str(lokationsdaten['Bundesland'][i])+ '_'+ str(lokationsdaten['Wetter-ID'][i])
 
             fkt_Bestrahlung = 492.48
             fkt_Solar = 0.9
 
             for k in wetterdaten[matcheswetterdaten[0]]:
 
-                if lokationsdaten['Bruttoleistung der Einheit'][i] < 0:
+                if k < 0:
                     Leistung.append(0)
                 else:
                     #print(lokationsdaten['Bruttoleistung der Einheit'][i])
                     #print(type(lokationsdaten['Bruttoleistung der Einheit'][i]))
-                    x = lokationsdaten['Bruttoleistung der Einheit'][i] * (k/fkt_Bestrahlung)*fkt_Solar
+                    x = lokationsdaten['Leistung'][i] * (k/fkt_Bestrahlung)*fkt_Solar
                     Leistung.append(x)
 
             #print('Eintrag bei ', i)
