@@ -1,6 +1,7 @@
 import pandas as pd
 from database import findoutFiles
-
+"""Erzeugt ein DataFrame oder eine Liste mit fortlaufenden Datum+Uhrzeit"""
+from database import dateList_dataFrame as DateList
 def WEAmodellDictionary():
     try:
         headerlistModell = ['Modell', 'Einschaltgeschwindigkeit m/s', 'Nenngeschwindigkeit m/s',
@@ -27,24 +28,11 @@ def WEAmodellDictionary():
 
     return dict
 
-def dateList_dataFrame(start,stop,freq):
-    Datumabgleich = []
-    hourly2019_2020 = pd.date_range(start, stop, freq=freq)
-
-    for i in range(len(hourly2019_2020)):
-        Datumabgleich.append(hourly2019_2020[i])
-
-    exportFrame = pd.DataFrame(
-        {'Datum': Datumabgleich
-         }
-    )
-
-    return exportFrame
 
 
 def erzeugungsdatenEEAnlagen(year, source , state):
 
-    exportFrame = dateList_dataFrame('01.01.' + str(year) + ' 00:00', '31.12.' + str(year) + ' 23:00','60min')
+    exportFrame = DateList('01.01.' + str(year) + ' 00:00', '31.12.' + str(year) + ' 23:00','60min')
 
 
     filelist = findoutFiles('Datenbank\ConnectwithID\Erzeugung')
@@ -96,7 +84,7 @@ def erzeugungsdatenEEAnlagen(year, source , state):
             except:
                 Ein_ms = 3
                 Nenn_ms = 13
-                Abs_ms = 30
+                Abs_ms = 25
                 print('Use Execpt')
             for k in wetterdaten[matcheswetterdaten[0]]:
 
@@ -178,5 +166,3 @@ def erzeugungsdatenEEAnlagen(year, source , state):
     exportFrame.to_csv(exportname, sep=';', encoding='utf-8', index=False, decimal=',')
 
     print('Fertig')
-
-

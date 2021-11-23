@@ -21,6 +21,95 @@ def zipentpacken(zipFileName,source):
         print("Probleme mit der Zip-Datei")
     except BaseException:
         print("is not a Zipfile")
+def dateList_dataFrame(start,stop,freq, list=False):
+    "Erzeugt eine DataFrame oder eine Liste mit einer Spalte"
+
+    Datumabgleich = []
+    hourly2019_2020 = pd.date_range(start, stop, freq=freq)
+
+    for i in range(len(hourly2019_2020)):
+        Datumabgleich.append(hourly2019_2020[i])
+
+    exportFrame = pd.DataFrame(
+        {'Datum': Datumabgleich
+         }
+    )
+    if list == False:
+        return exportFrame
+    if list == True:
+        return Datumabgleich
+
+def testErzeugungszusammenfassungSolar(Year, state, source, avarage= True, weatherConnect = True):
+    """Diese Funktion addiert alle Solarleistung aus einer Datei vor dem angegeben Jahr.
+    Die Leistung im angegeben Jahr werden halbiert um die Mitte des bestcase/worstcase zu erreichen
+    Die Leistungen werden nach Wetterstationen sortiert."""
+
+    "Dataframe Listen vorbereitung"
+    Erzeugungsjahr = []
+    LeistungBisJahr = []
+    LeistungInJahr = []
+    LeistungGesamt = []
+    WetterStation = []
+    print('Start testErzeugungszusammenfassungSolar ')
+    if weatherConnect == True:
+        weatherIDConnect = 'zugeordnet'
+    if weatherConnect == False:
+        weatherIDConnect = 'gewichtet'
+
+    Datumabgleich = dateList_dataFrame('01.01.' + str(Year-1),
+                                       '01.01.' + str(Year+1), 'Y', list=True)
+    lengthDatumabgleich = Datumabgleich.__len__()
+    print(Datumabgleich)
+    #2021 muss ersetzt werden durch Zeitfunktion
+    filelist = findoutFiles('Datenbank\ConnectwithID\TEST')
+    matchfilelist1 = [match for match in filelist if state in match]
+    matchfilelist2 = [match for match in matchfilelist1 if source in match]
+    matchfilelist3 = [match for match in matchfilelist2 if str(2021) in match]
+    matchfilelist4 = [match for match in matchfilelist3 if weatherIDConnect in match]
+
+    try:
+        headerlistLokation = ['Nettonennleistung der Einheit', 'Inbetriebnahmedatum der Einheit', 'Wetter-ID_Head']
+        openfilename1 = 'Datenbank\ConnectwithID\TEST/' + matchfilelist4[0]
+        print(openfilename1)
+
+        lokationsdaten = pd.read_csv(openfilename1, delimiter=';', usecols=headerlistLokation, decimal='.',
+                                     header=0, encoding='latin1')
+
+        lengthLokationsDaten = lokationsdaten.__len__()
+        print(lokationsdaten)
+    except ValueError:
+        print("falsches Format")
+
+    #print(lokationsdaten['Wetter-ID_Head'].describe())
+
+    for k in lokationsdaten['Wetter-ID_Head']:
+
+        summeBisYear = 0
+        SummeInYear = 0
+
+        for j in range(lengthLokationsDaten):
+            datetime_object = datetime.strptime(str(lokationsdaten['Inbetriebnahmedatum der Einheit'][j]), '%d.%m.%Y')
+
+            if datetime_object <= Datumabgleich[0] and k == lokationsdaten['Wetter-ID_Head'][j]:
+                summeBisYear += lokationsdaten['Nettonennleistung der Einheit'][j]
+
+            if datetime_object > Datumabgleich[0] and datetime_object < Datumabgleich[1] and k == lokationsdaten['Wetter-ID_Head'][j]:
+                SummeInYear += lokationsdaten['Nettonennleistung der Einheit'][j]
+
+        SummeInYear /= 2
+        Erzeugungsjahr.append(Year)
+        LeistungBisJahr.append(summeBisYear)
+        LeistungInJahr.append(SummeInYear)
+        LeistungGesamt.append(summeBisYear + SummeInYear)
+        WetterStation.append(k)
+
+        """"IN BEARBEITUNG NOCH NICHT FERTIG"""
+
+
+
+
+
+
 
 
 def testTxtWetterdatenSolarToCSV():
@@ -62,89 +151,198 @@ def testTxtWetterdatenSolarToCSV():
     print(df)
 
 def testTxtWetterdatenWindToCSV(Year):
-    print('Start')
+    print('Start testTxtWetterdatenWindToCSV')
+    "Kontrolle der Daten"
 
-    Datumabgleich = []
+    FilesName = []
+    FilesTrueFalse = []
+    AnzahlDaten = []
+    DatenTrue = []
+    DatenFalse = []
+    DatenProzent = []
 
-    hourly2019_2020 = pd.date_range('01.01.'+str(Year)+' 00:00', '31.12.'+str(Year)+' 23:00', freq='60min')
 
-    for i in range(len(hourly2019_2020)):
-        Datumabgleich.append(hourly2019_2020[i])
+    Datumabgleich = dateList_dataFrame('01.01.' + str(Year) + ' 00:00',
+                                       '31.12.' + str(Year) + ' 23:00', '60min', list=True)
 
     files = findoutFiles('Datenbank\Wetter\WindText')
 
-    hoursInYear = Datumabgleich.__len__()
+    valueOfDatesInYear = Datumabgleich.__len__()
 
     matches = [match for match in files if "produkt_ff_stunde" in match]
     print(matches)
 
-    length = matches.__len__()
+    lengthOFWeatherStations = matches.__len__()
     firsttime = True
-    for i in range(length):
-        windgeschwindigkeit = []
-        windausrichtung = []
+
+    for i in range(lengthOFWeatherStations):
+        windMperS = []
+        windDegree = []
         try:
             openfilename = 'Datenbank\Wetter\WindText/' + matches[i]
             print(openfilename)
             df = pd.read_csv(openfilename, delimiter=';', decimal='.', header=0)
+            FilesTrueFalse.append(True)
+            print(df.shape)
+
         except ValueError:
+            "Fehlerhandling muss noch gemacht werden!"
             print("falsches Format")
-            print(matches[i] + "nicht in der Liste")
+            print(matches[i] + "Falsch in der Liste")
+            FilesTrueFalse.append(False)
             continue
+
+        FilesName.append(matches[i])
+
         Wind_MproS = 'Wind_m/s_' + str(df['STATIONS_ID'][2])
         Wind_grad = 'Wind_grad_' + str(df['STATIONS_ID'][2])
+
         importLength = df.__len__()
         #print(df)
         start = 0
+        falseExpiry = 0
+        trueExpiry = 0
+        "Um fehlende Messwerte sinnvoll zu füllen wird der Zeitpunktunt in 7 vergangenen Punkten angeschaut"
+        "1 Tag / 2 Tage /3 Tage /1 Jahr /1 Jahr + 1 Tag / 1 Jahr +2 Tage /1 Jahr + 3 Tage"
+        "Es wird dann aus diesen Daten ein mittel gebildet. Sollte ein Wert fehlen wir dieser ignoriert"
+        "Gibt es gar keine Werte wird -999 eingetragen"
+
+        lostWeatherValue = [24, 48, 72, 8760, 8784, 8808, 17616, 17520, 17568, 17616 ]
+
         for k in range(importLength):
-            if start >= hoursInYear:
+            if start >= valueOfDatesInYear:
+                "Fehlerhandling muss noch gemacht werden!"
                 break
-            #print('.')
+
             datetime_object = datetime.strptime(str(df['MESS_DATUM'][k]), '%Y%m%d%H')
             try:
-                if Datumabgleich[0] < datetime_object and datetime_object != Datumabgleich[start]:
-                    print('fehlender Messert')
+                if Datumabgleich[0] <= datetime_object and datetime_object != Datumabgleich[start]:
+                    print('fehlender Messert und fehlendes Datum')
+                    print('Ersatzwerte werden gesucht.')
 
                     while datetime_object != Datumabgleich[start]:
-                        print('.')
-                        #print(Datumabgleich[start])
-                        windgeschwindigkeit.append(-999)
-                        windausrichtung.append(-999)
+                        substituteWeather = []
+                        substituteDegree = []
+                        for j in lostWeatherValue:
+                            if (k - j) < 0:
+                                continue
+                            asd = datetime.strptime(str(df['MESS_DATUM'][k-j]), '%Y%m%d%H')
+                            #print(asd)
+                            #print(datetime_object)
+                            #print(df['   F'][k - j])
+                            #print(df['   D'][k - j])
+                            "Eintragen wenn die Messwerte Falsch sind "
+                            if df['   F'][k-j] > -999 and df['   D'][k - j] > -999:
+                                substituteWeather.append(df['   F'][k - j])
+                                substituteDegree.append(df['   D'][k - j])
+                            "Anzahl der Eintragungen"
+                        lengthOfsubstituteWeather = len(substituteWeather)
+                        lengthOfsubstituteDegree = len(substituteDegree)
+                        "Fehler wenn kein Eintrag erfolgt ist"
+                        if lengthOfsubstituteWeather == 0 or lengthOfsubstituteDegree ==0:
+                            "Fehlerhandling muss noch gemacht werden!"
+                            break
+
+                        MperS = sum(substituteWeather) / lengthOfsubstituteWeather
+                        Degree = sum(substituteDegree) / lengthOfsubstituteDegree
+                        if MperS == -999 or Degree == -999:
+                            MperS = 0
+                            Degree = 0
+                        "Ermitteln des neuen Werts"
+                        windMperS.append(MperS)
+                        windDegree.append(Degree)
+                        falseExpiry +=1
                         start += 1
+
             except IndexError:
+                "Fehlerhandling muss noch gemacht werden!"
                 print('Pause')
-            if start >= hoursInYear:
+                "erneute überprüfung da Start verändert wurde"
+                falseExpiry += 1
+            if start >= valueOfDatesInYear:
                 break
+            if Datumabgleich[0] <= datetime_object and (df['   F'][k] < 0 or df['   F'][k] < 0):
+                print('fehlender Messert -999')
+                substituteWeather = []
+                substituteDegree = []
+                for j in lostWeatherValue:
+                    if (k-j) < 0:
+                        continue
+                    asd = datetime.strptime(str(df['MESS_DATUM'][k - j]), '%Y%m%d%H')
+                    #print(asd)
+                    #print(datetime_object)
+                    #print(df['   F'][k - j])
+                    #print(df['   D'][k - j])
+                    "Eintragen wenn die Messwerte Falsch sind "
+                    if df['   F'][k - j] > -999 and df['   D'][k - j] > -999:
+                        substituteWeather.append(df['   F'][k - j])
+                        substituteDegree.append(df['   D'][k - j])
+                    "Anzahl der Eintragungen"
+                lengthOfsubstituteWeather = len(substituteWeather)
+                lengthOfsubstituteDegree = len(substituteDegree)
+                "Fehler wenn kein Eintrag erfolgt ist"
+                if lengthOfsubstituteWeather == 0 or lengthOfsubstituteDegree == 0:
+                    "Fehlerhandling muss noch gemacht werden!"
+                    break
+                MperS = sum(substituteWeather) / lengthOfsubstituteWeather
+                Degree = sum(substituteDegree) / lengthOfsubstituteDegree
+                if MperS == -999 or Degree == -999:
+                    MperS = 0
+                    Degree = 0
+                "Ermitteln des neuen Werts"
+                windMperS.append(MperS)
+                windDegree.append(Degree)
+                falseExpiry += 1
+                start +=1
+
             if datetime_object == Datumabgleich[start]:
                 #print('Die beiden nächsten')
                 #print(Datumabgleich[start])
                 #print(datetime_object)
-                windgeschwindigkeit.append(df['   F'][k])
-                windausrichtung.append(df['   D'][k])
+                windMperS.append(df['   F'][k])
+                windDegree.append(df['   D'][k])
                 start += 1
+                trueExpiry += 1
                 continue
 
         #print(str(start) + openfilename)
+        AnzahlDaten.append(start)
+        DatenTrue.append(trueExpiry)
+        DatenFalse.append(falseExpiry)
+        DatenProzent.append(trueExpiry/start)
 
         if firsttime == True:
             firsttime = False
             exportFrame = pd.DataFrame(
-                {   'Datum':Datumabgleich,
-                    Wind_MproS: windgeschwindigkeit,
-                    Wind_grad: windausrichtung
-                }
+                {'Datum': Datumabgleich,
+                    Wind_MproS: windMperS,
+                    Wind_grad: windDegree}
             )
 
             continue
+        if valueOfDatesInYear != start:
+            print("Stop")
         if firsttime == False:
-            exportFrame[Wind_MproS] = windgeschwindigkeit
-            exportFrame[Wind_grad] = windausrichtung
-            print(exportFrame)
+            exportFrame[Wind_MproS] = windMperS
+            exportFrame[Wind_grad] = windDegree
+            #print(exportFrame)
 
 
-    exportname = 'Datenbank\Wetter/WindWetterdaten_'+str(Year)+'.csv'
-    exportFrame.to_csv(exportname, sep=';', encoding='utf-8', index=False, decimal=',')
 
+    KontrolFrame = pd.DataFrame(
+        {'DatenName': FilesName,
+         'Daten eingelesen': FilesTrueFalse,
+         'Daten Anzahl': AnzahlDaten,
+         'Daten Richtig': DatenTrue,
+         'Daten Falsch': DatenFalse,
+         'Daten in Prozent': DatenProzent
+         }
+    )
+
+    exportname1 = 'WindWetterdaten_'+str(Year)+'.csv'
+    exportFrame.to_csv(exportname1, sep=';', encoding='utf-8', index=False, decimal=',')
+    exportname2 = 'Datenauswertung.csv'
+    KontrolFrame.to_csv(exportname2, sep=';', encoding='utf-8', index=False, decimal=',')
     print('Fertig')
 
 

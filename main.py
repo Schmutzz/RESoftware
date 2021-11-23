@@ -74,7 +74,7 @@ def testStandartImport():
     #database.zipentpacken(zipfilename, 'Wind')
 
 #database.testTxtWetterdatenWindToCSV(2019)
-#.testTxtWetterdatenWindToCSV(2020)
+#database.testTxtWetterdatenWindToCSV(2020)
 
 
 
@@ -92,9 +92,12 @@ def ablauf2020():
     lgk.erzeugungsdatenEEAnlagen(2020, 'PV', 'SH')
     lgk.erzeugungsdatenEEAnlagen(2020, 'PV', 'HH')
 
-
-ablauf2019()
-print('end')
+database.testErzeugungszusammenfassungSolar(2019,'HH', 'PV')
+#database.testErzeugungszusammenfassungSolar(2020,'HH', 'PV')
+#database.testErzeugungszusammenfassungSolar(2019,'SH', 'PV')
+#database.testErzeugungszusammenfassungSolar(2020,'SH', 'PV')
+#ablauf2019()
+#print('end')
 
 
 
