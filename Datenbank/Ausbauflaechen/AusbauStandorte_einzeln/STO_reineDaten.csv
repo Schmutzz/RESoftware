@@ -1,26 +1,26 @@
-ID;KreisPot;KreisVor;StadtPot;StadtVor;haPot;haVor
-PR3_STO_001;Stormarn;-;Mönkhagen, Stockelsdorf;-;92,8;-
-PR3_STO_002;Stormarn;Stormarn;Badendorf, Heilshoop, Zarpen;Heilshoop;89,0;17,4
-PR3_STO_003;Stormarn;Stormarn;Feldhorst, Rehhorst;Feldhorst, Rehhorst;118,8;42,0
-PR3_STO_004;Stormarn;Stormarn;Travenbrück;Travenbrück;50,2;50,2
-PR3_STO_007;Stormarn;-;Barnitz, Klein Wesenberg, Westerau;-;119,8;-
-PR3_STO_008;Stormarn;-;Hammoor;-;88,9;-
-PR3_STO_009;Stormarn;-;Steinburg;-;33,4;-
-PR3_STO_010;Stormarn;-;Ahrensburg, Delingsdorf, Hammoor;-;137,1;-
-PR3_STO_301;Stormarn;-;Heilshoop, Mönkhagen, Rehhorst;-;68,2;-
-PR3_STO_302;Stormarn;-;Rehhorst, Zarpen;-;97,3;-
-PR3_STO_303;Stormarn;-;Bad Oldesloe, Feldhorst, Wakendorf I;-;43,7;-
-PR3_STO_304;Stormarn;Stormarn;Bad Oldesloe, Feldhorst;Bad Oldesloe, Feldhorst;37,1;27,4
-PR3_STO_305;Stormarn;-;Bad Oldesloe;-;45,9;-
-PR3_STO_306;Stormarn;-;Bargteheide;-;34,5;-
-PR3_STO_307;Stormarn;-;Tangstedt;-;42,3;-
-PR3_STO_308;Stormarn;-;Braak, Siek;-;39,6;-
-PR3_STO_309;Stormarn;-;Brunsbek, Siek;-;63,8;-
-PR3_STO_310;Stormarn;-;Großensee;-;17,6;-
-PR3_STO_311;Stormarn;-;Rausdorf, Witzhave;-;75,4;-
-PR3_STO_401;Stormarn;-;Tangstedt;-;35,9;-
-PR3_STO_402;Stormarn;-;Hoisdorf;-;17,4;-
-PR3_STO_501;Stormarn;-;Mönkhagen;-;39,1;-
-PR3_STO_502;Stormarn;-;Westerau;-;20,5;-
-PR3_STO_503;Stormarn;-;Braak, Siek;-;47,1;-
-PR3_STO_601;Stormarn;-;Bad Oldesloe;-;24,0;-
+ID;KreisPot;KreisVor;StadtPot;StadtVor;haPot;haVor;WKAPot;WKAVor
+PR3_STO_001;Stormarn;-;Mönkhagen, Stockelsdorf;-;92,8;-;WKA in Betrieb;-
+PR3_STO_002;Stormarn;Stormarn;Badendorf, Heilshoop, Zarpen;Heilshoop;89,0;17,4;-;-
+PR3_STO_003;Stormarn;Stormarn;Feldhorst, Rehhorst;Feldhorst, Rehhorst;118,8;42,0;-;-
+PR3_STO_004;Stormarn;Stormarn;Travenbrück;Travenbrück;50,2;50,2;-;-
+PR3_STO_007;Stormarn;-;Barnitz, Klein Wesenberg, Westerau;-;119,8;-;-;-
+PR3_STO_008;Stormarn;-;Hammoor;-;88,9;-;-;-
+PR3_STO_009;Stormarn;-;Steinburg;-;33,4;-;-;-
+PR3_STO_010;Stormarn;-;Ahrensburg, Delingsdorf, Hammoor;-;137,1;-;-;-
+PR3_STO_301;Stormarn;-;Heilshoop, Mönkhagen, Rehhorst;-;68,2;-;-;-
+PR3_STO_302;Stormarn;-;Rehhorst, Zarpen;-;97,3;-;-;-
+PR3_STO_303;Stormarn;-;Bad Oldesloe, Feldhorst, Wakendorf I;-;43,7;-;-;-
+PR3_STO_304;Stormarn;Stormarn;Bad Oldesloe, Feldhorst;Bad Oldesloe, Feldhorst;37,1;27,4;-;-
+PR3_STO_305;Stormarn;-;Bad Oldesloe;-;45,9;-;-;-
+PR3_STO_306;Stormarn;-;Bargteheide;-;34,5;-;-;-
+PR3_STO_307;Stormarn;-;Tangstedt;-;42,3;-;-;-
+PR3_STO_308;Stormarn;-;Braak, Siek;-;39,6;-;-;-
+PR3_STO_309;Stormarn;-;Brunsbek, Siek;-;63,8;-;-;-
+PR3_STO_310;Stormarn;-;Großensee;-;17,6;-;-;-
+PR3_STO_311;Stormarn;-;Rausdorf, Witzhave;-;75,4;-;-;-
+PR3_STO_401;Stormarn;-;Tangstedt;-;35,9;-;-;-
+PR3_STO_402;Stormarn;-;Hoisdorf;-;17,4;-;-;-
+PR3_STO_501;Stormarn;-;Mönkhagen;-;39,1;-;-;-
+PR3_STO_502;Stormarn;-;Westerau;-;20,5;-;-;-
+PR3_STO_503;Stormarn;-;Braak, Siek;-;47,1;-;-;-
+PR3_STO_601;Stormarn;-;Bad Oldesloe;-;24,0;-;-;-

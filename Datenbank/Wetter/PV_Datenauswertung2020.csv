@@ -1,0 +1,4 @@
+DatenName;Daten eingelesen;Daten Anzahl;Daten Richtig;Daten Falsch;Daten in Prozent
+produkt_st_stunde_19800101_20210930_04466.txt;True;8784;8755;29;0,9966985428051002
+produkt_st_stunde_20050101_20210930_01975.txt;True;8784;8733;51;0,9941939890710383
+produkt_st_stunde_20080701_20210930_04393.txt;True;8784;8746;38;0,9956739526411658

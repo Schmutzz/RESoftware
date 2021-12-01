@@ -1,95 +1,95 @@
-ID;KreisPot;KreisVor;StadtPot;StadtVor;haPot;haVor
-PR3_SEG_001;Segeberg;-;Belau, Dersau, Schmalensee, Stocksee;-;212,7;-
-PR3_SEG_003;Segeberg;Segeberg;Damsdorf, Schmalensee, Stocksee, Tarbek;Damsdorf, Schmalensee;307,2;40,6
-PR3_SEG_005;Segeberg;-;Bornhöved;-;39,3;-
-PR3_SEG_006;Segeberg;-;Glasau;-;18,9;-
-PR3_SEG_007;Segeberg;-;Bosau, Seedorf;-;51,8;-
-PR3_SEG_008;Segeberg;-;Glasau;-;30,1;-
-PR3_SEG_009;Segeberg;-;Tarbek;-;219,2;-
-PR3_SEG_010;Segeberg;-;Seedorf;-;25,6;-
-PR3_SEG_011;Segeberg;-;Tarbek;-;45,6;-
-PR3_SEG_012;Segeberg;-;Nehms, Seedorf;-;97,6;-
-PR3_SEG_013;Segeberg;Segeberg;Travenhorst;Travenhorst;38,6;25,4
-PR3_SEG_014;Segeberg;-;Daldorf;-;63,9;-
-PR3_SEG_015;Segeberg;-;Blunk;-;111,7;-
-PR3_SEG_016;Segeberg;-;Wensin;-;36,4;-
-PR3_SEG_017;Segeberg;-;Travenhorst;-;16,6;-
-PR3_SEG_018;Segeberg;Segeberg;Boostedt, Großenaspe, Neumünster, Stadt;Großenaspe;238,9;38,0
-PR3_SEG_019;Segeberg;Segeberg;Arpsdorf, Hardebek, Hasenkrug;Hardebek, Hasenkrug;165,5;162,4
-PR3_SEG_020;Segeberg;-;Blunk;-;28,7;-
-PR3_SEG_021;Segeberg;-;Blunk, Groß Rönnau, Krems II;-;142,8;-
-PR3_SEG_022;Segeberg;-;Ahrensbök, Pronstorf;-;112,9;-
-PR3_SEG_023;Segeberg;-;Ahrensbök, Pronstorf;-;40,8;-
-PR3_SEG_024;Segeberg;Segeberg;Großenaspe, Wiemersdorf;Großenaspe, Wiemersdorf;339,3;307,6
-PR3_SEG_025;Segeberg;-;Armstedt, Wiemersdorf;-;34,3;-
-PR3_SEG_026;Segeberg;-;Armstedt, Fuhlendorf, Hagen;-;147,7;-
-PR3_SEG_027;Segeberg;Segeberg;Wiemersdorf;Wiemersdorf;55,6;41,7
-PR3_SEG_028;Segeberg;Segeberg;Ahrensbök, Pronstorf, Stockelsdorf;Ahrensbök, Pronstorf, Stockelsdorf;217,0;217,0
-PR3_SEG_029;Segeberg;Segeberg;Bad Segeberg, Schieren, Stipsdorf, Weede;Weede;180,5;26,1
-PR3_SEG_030;Segeberg;-;Hagen, Hitzhusen;-;32,2;-
-PR3_SEG_031;Segeberg;-;Pronstorf;-;27,9;-
-PR3_SEG_032;Segeberg;Segeberg;Föhrden-Barl, Hitzhusen, Weddelbrook;Föhrden-Barl, Hitzhusen,Weddelbrook;124,0;19,8
-PR3_SEG_033;Segeberg;-;Geschendorf, Strukdorf, Weede;-;53,2;-
-PR3_SEG_034;Segeberg;-;Strukdorf;-;79,1;-
-PR3_SEG_035;Segeberg;Segeberg;Neuengörs, Weede;Neuengörs, Weede;193,7;148,8
-PR3_SEG_036;Segeberg;-;Klein Gladebrügge, Traventhal;-;17,4;-
-PR3_SEG_037;Segeberg;-;Högersdorf, Schwissel;-;50,4;-
-PR3_SEG_038;Segeberg;-;Bark, Kükels, Todesfelde, Wittenborn;-;324,1;-
-PR3_SEG_039;Segeberg;-;Mönkloh;-;24,4;-
-PR3_SEG_040;Segeberg;Segeberg;Bebensee, Leezen, Mözen;Bebensee, Leezen, Mözen;172,4;60,6
-PR3_SEG_041;Segeberg;-;Mönkloh;-;34,7;-
-PR3_SEG_042;Segeberg;Segeberg;Bühnsdorf, Feldhorst, Neuengörs, Rehhorst;Bühnsdorf, Feldhorst, Neuengörs,Rehhorst;101,4;29,9
-PR3_SEG_043;Segeberg;Segeberg;Lentföhrden, Weddelbrook;Lentföhrden, Weddelbrook;117,0;34,7
-PR3_SEG_044;Segeberg;-;Fredesdorf, Todesfelde;-;15,1;-
-PR3_SEG_045;Segeberg;-;Weddelbrook;-;45,5;-
-PR3_SEG_046;Segeberg;-;Fredesdorf, Kükels, Leezen;-;91,4;-
-PR3_SEG_047;Segeberg;-;Fredesdorf, Seth, Struvenhütten, Stuvenborn,Todesfelde;-;795,8;-
-PR3_SEG_049;Segeberg;-;Lentföhrden, Nützen;-;38,4;-
-PR3_SEG_052;Segeberg;Segeberg;Kaltenkirchen, Nützen, Schmalfeld;Schmalfeld;96,0;17,8
-PR3_SEG_054;Segeberg;-;Fredesdorf, Groß Niendorf, Leezen, Seth,Sülfeld;-;424,5;-
-PR3_SEG_055;Segeberg;Segeberg;Sievershütten, Struvenhütten;Sievershütten, Struvenhütten;47,0;20,2
-PR3_SEG_057;Segeberg;Segeberg;Groß Niendorf, Leezen, Neversdorf;Groß Niendorf;155,2;23,5
-PR3_SEG_058;Segeberg;-;Seth;-;39,0;-
-PR3_SEG_059;Segeberg;Segeberg;Heidmoor, Lentföhrden, Lutzhorn;Heidmoor;432,7;68,2
-PR3_SEG_061;Segeberg;-;Alveslohe;-;20,2;-
-PR3_SEG_062;Segeberg;-;Alveslohe, Kaltenkirchen;-;21,8;-
-PR3_SEG_301;Segeberg, Plön;-;Bornhöved, Gönnebek, Rendswühren;-;197,6;-
-PR3_SEG_302;Segeberg, Plön;Segeberg, Plön;Gönnebek, Groß Kummerfeld, Rendswühren;Gönnebek, Groß Kummerfeld;343,5;163,4
-PR3_SEG_303;Segeberg;-;Heidmühlen, Latendorf, Rickling;-;174,9;-
-PR3_SEG_304;Segeberg;-;Großenaspe, Hardebek;-;62,1;-
-PR3_SEG_306;Segeberg;Segeberg;Armstedt, Hardebek, Wiemersdorf;Armstedt;188,2;23,1
-PR3_SEG_307;Segeberg;-;Negernbötel;-;18,8;-
-PR3_SEG_309;Segeberg;Segeberg;Rickling, Wahlstedt;Rickling, Wahlstedt;127,9;64,4
-PR3_SEG_310;Segeberg;-;Bark, Heidmühlen;-;35,1;-
-PR3_SEG_311;Segeberg;-;Heidmühlen;-;16,0;-
-PR3_SEG_312;Segeberg;-;Fahrenkrug, Wittenborn;-;66,1;-
-PR3_SEG_314;Segeberg;-;Großenaspe;-;71,9;-
-PR3_SEG_315;Segeberg;-;Großenaspe;-;40,2;-
-PR3_SEG_316;Segeberg;-;Großenaspe;-;142,4;-
-PR3_SEG_317;Segeberg;-;Bimöhlen;-;93,3;-
-PR3_SEG_318;Segeberg;Segeberg;Bimöhlen, Hasenmoor;Bimöhlen;176,6;50,1
-PR3_SEG_319;Segeberg;-;Bad Bramstedt;-;46,8;-
-PR3_SEG_320;Segeberg;-;Hasenmoor;-;21,8;-
-PR3_SEG_321;Segeberg;-;Bark, Todesfelde;-;174,2;-
-PR3_SEG_322;Segeberg;-;Hartenholm, Struvenhütten, Todesfelde;-;177,1;-
-PR3_SEG_323;Segeberg;Segeberg;Hartenholm, Hasenmoor, Schmalfeld,Struvenhütten;Hasenmoor, Struvenhütten;183,6;43,5
-PR3_SEG_324;Segeberg;-;Bad Bramstedt, Lentföhrden, Schmalfeld;-;56,0;-
-PR3_SEG_325;Segeberg;-;Lentföhrden;-;28,5;-
-PR3_SEG_326;Segeberg;-;Heidmoor;-;17,0;-
-PR3_SEG_327;Segeberg;Segeberg;Heidmoor, Lentföhrden, Nützen;Heidmoor, Lentföhrden, Nützen;307,2;73,9
-PR3_SEG_328;Segeberg, Pinneberg;-;Alveslohe, Bilsen, Ellerau;-;91,8;-
-PR3_SEG_329;Segeberg;-;Oering, Seth;-;28,4;-
-PR3_SEG_330;Segeberg;-;Nahe;-;60,9;-
-PR3_SEG_331;Segeberg;-;Itzstedt, Sülfeld;-;17,7;-
-PR3_SEG_332;Segeberg;-;Groß Niendorf, Sülfeld, Travenbrück;-;127,7;-
-PR3_SEG_333;Segeberg;-;Sülfeld;-;20,7;-
-PR3_SEG_335;Segeberg;-;Norderstedt;-;74,9;-
-PR3_SEG_401;Segeberg;-;Bad Bramstedt, Bimöhlen;-;23,9;-
-PR3_SEG_402;Segeberg;-;Nützen;-;16,8;-
-PR3_SEG_403;Segeberg;-;Henstedt-Ulzburg, Wakendorf II;-;32,6;-
-PR3_SEG_404;Segeberg;-;Kisdorf;-;21,5;-
-PR3_SEG_405;Segeberg;-;Kisdorf, Oering, Sievershütten;-;27,8;-
-PR3_SEG_406;Segeberg;-;Geschendorf, Schieren, Westerrade;-;67,8;-
-PR3_SEG_407;Segeberg;-;Pronstorf, Westerrade;-;15,5;-
-PR3_SEG_501;Segeberg;-;Henstedt-Ulzburg;-;18,2;-
-PR3_SEG_601;Segeberg;-;Sülfeld;-;69,1;-
+ID;KreisPot;KreisVor;StadtPot;StadtVor;haPot;haVor;WKAPot;WKAVor
+PR3_SEG_001;Segeberg;-;Belau, Dersau, Schmalensee, Stocksee;-;212,7;-;-;-
+PR3_SEG_003;Segeberg;Segeberg;Damsdorf, Schmalensee, Stocksee, Tarbek;Damsdorf, Schmalensee;307,2;40,6;WKA in Betrieb;WKA in Betrieb
+PR3_SEG_005;Segeberg;-;Bornhöved;-;39,3;-;-;-
+PR3_SEG_006;Segeberg;-;Glasau;-;18,9;-;-;-
+PR3_SEG_007;Segeberg;-;Bosau, Seedorf;-;51,8;-;-;-
+PR3_SEG_008;Segeberg;-;Glasau;-;30,1;-;-;-
+PR3_SEG_009;Segeberg;-;Tarbek;-;219,2;-;-;-
+PR3_SEG_010;Segeberg;-;Seedorf;-;25,6;-;-;-
+PR3_SEG_011;Segeberg;-;Tarbek;-;45,6;-;-;-
+PR3_SEG_012;Segeberg;-;Nehms, Seedorf;-;97,6;-;-;-
+PR3_SEG_013;Segeberg;Segeberg;Travenhorst;Travenhorst;38,6;25,4;-;-
+PR3_SEG_014;Segeberg;-;Daldorf;-;63,9;-;-;-
+PR3_SEG_015;Segeberg;-;Blunk;-;111,7;-;-;-
+PR3_SEG_016;Segeberg;-;Wensin;-;36,4;-;-;-
+PR3_SEG_017;Segeberg;-;Travenhorst;-;16,6;-;-;-
+PR3_SEG_018;Segeberg;Segeberg;Boostedt, Großenaspe, Neumünster, Stadt;Großenaspe;238,9;38,0;-;-
+PR3_SEG_019;Segeberg;Segeberg;Arpsdorf, Hardebek, Hasenkrug;Hardebek, Hasenkrug;165,5;162,4;WKA in Betrieb;WKA in Betrieb
+PR3_SEG_020;Segeberg;-;Blunk;-;28,7;-;-;-
+PR3_SEG_021;Segeberg;-;Blunk, Groß Rönnau, Krems II;-;142,8;-;-;-
+PR3_SEG_022;Segeberg;-;Ahrensbök, Pronstorf;-;112,9;-;-;-
+PR3_SEG_023;Segeberg;-;Ahrensbök, Pronstorf;-;40,8;-;-;-
+PR3_SEG_024;Segeberg;Segeberg;Großenaspe, Wiemersdorf;Großenaspe, Wiemersdorf;339,3;307,6;WKA in Betrieb;WKA in Betrieb
+PR3_SEG_025;Segeberg;-;Armstedt, Wiemersdorf;-;34,3;-;-;-
+PR3_SEG_026;Segeberg;-;Armstedt, Fuhlendorf, Hagen;-;147,7;-;-;-
+PR3_SEG_027;Segeberg;Segeberg;Wiemersdorf;Wiemersdorf;55,6;41,7;-;-
+PR3_SEG_028;Segeberg;Segeberg;Ahrensbök, Pronstorf, Stockelsdorf;Ahrensbök, Pronstorf, Stockelsdorf;217,0;217,0;WKA in Betrieb;WKA in Betrieb
+PR3_SEG_029;Segeberg;Segeberg;Bad Segeberg, Schieren, Stipsdorf, Weede;Weede;180,5;26,1;-;-
+PR3_SEG_030;Segeberg;-;Hagen, Hitzhusen;-;32,2;-;-;-
+PR3_SEG_031;Segeberg;-;Pronstorf;-;27,9;-;-;-
+PR3_SEG_032;Segeberg;Segeberg;Föhrden-Barl, Hitzhusen, Weddelbrook;Föhrden-Barl, Hitzhusen,Weddelbrook;124,0;19,8;-;-
+PR3_SEG_033;Segeberg;-;Geschendorf, Strukdorf, Weede;-;53,2;-;-;-
+PR3_SEG_034;Segeberg;-;Strukdorf;-;79,1;-;-;-
+PR3_SEG_035;Segeberg;Segeberg;Neuengörs, Weede;Neuengörs, Weede;193,7;148,8;WKA in Betrieb;WKA in Betrieb
+PR3_SEG_036;Segeberg;-;Klein Gladebrügge, Traventhal;-;17,4;-;-;-
+PR3_SEG_037;Segeberg;-;Högersdorf, Schwissel;-;50,4;-;-;-
+PR3_SEG_038;Segeberg;-;Bark, Kükels, Todesfelde, Wittenborn;-;324,1;-;-;-
+PR3_SEG_039;Segeberg;-;Mönkloh;-;24,4;-;-;-
+PR3_SEG_040;Segeberg;Segeberg;Bebensee, Leezen, Mözen;Bebensee, Leezen, Mözen;172,4;60,6;-;-
+PR3_SEG_041;Segeberg;-;Mönkloh;-;34,7;-;-;-
+PR3_SEG_042;Segeberg;Segeberg;Bühnsdorf, Feldhorst, Neuengörs, Rehhorst;Bühnsdorf, Feldhorst, Neuengörs,Rehhorst;101,4;29,9;-;-
+PR3_SEG_043;Segeberg;Segeberg;Lentföhrden, Weddelbrook;Lentföhrden, Weddelbrook;117,0;34,7;-;-
+PR3_SEG_044;Segeberg;-;Fredesdorf, Todesfelde;-;15,1;-;-;-
+PR3_SEG_045;Segeberg;-;Weddelbrook;-;45,5;-;-;-
+PR3_SEG_046;Segeberg;-;Fredesdorf, Kükels, Leezen;-;91,4;-;-;-
+PR3_SEG_047;Segeberg;-;Fredesdorf, Seth, Struvenhütten, Stuvenborn,Todesfelde;-;795,8;-;-;-
+PR3_SEG_049;Segeberg;-;Lentföhrden, Nützen;-;38,4;-;-;-
+PR3_SEG_052;Segeberg;Segeberg;Kaltenkirchen, Nützen, Schmalfeld;Schmalfeld;96,0;17,8;-;-
+PR3_SEG_054;Segeberg;-;Fredesdorf, Groß Niendorf, Leezen, Seth,Sülfeld;-;424,5;-;-;-
+PR3_SEG_055;Segeberg;Segeberg;Sievershütten, Struvenhütten;Sievershütten, Struvenhütten;47,0;20,2;-;-
+PR3_SEG_057;Segeberg;Segeberg;Groß Niendorf, Leezen, Neversdorf;Groß Niendorf;155,2;23,5;WKA in Betrieb;WKA in Betrieb
+PR3_SEG_058;Segeberg;-;Seth;-;39,0;-;-;-
+PR3_SEG_059;Segeberg;Segeberg;Heidmoor, Lentföhrden, Lutzhorn;Heidmoor;432,7;68,2;-;-
+PR3_SEG_061;Segeberg;-;Alveslohe;-;20,2;-;-;-
+PR3_SEG_062;Segeberg;-;Alveslohe, Kaltenkirchen;-;21,8;-;-;-
+PR3_SEG_301;Segeberg, Plön;-;Bornhöved, Gönnebek, Rendswühren;-;197,6;-;-;-
+PR3_SEG_302;Segeberg, Plön;Segeberg, Plön;Gönnebek, Groß Kummerfeld, Rendswühren;Gönnebek, Groß Kummerfeld;343,5;163,4;-;-
+PR3_SEG_303;Segeberg;-;Heidmühlen, Latendorf, Rickling;-;174,9;-;-;-
+PR3_SEG_304;Segeberg;-;Großenaspe, Hardebek;-;62,1;-;-;-
+PR3_SEG_306;Segeberg;Segeberg;Armstedt, Hardebek, Wiemersdorf;Armstedt;188,2;23,1;-;-
+PR3_SEG_307;Segeberg;-;Negernbötel;-;18,8;-;-;-
+PR3_SEG_309;Segeberg;Segeberg;Rickling, Wahlstedt;Rickling, Wahlstedt;127,9;64,4;-;-
+PR3_SEG_310;Segeberg;-;Bark, Heidmühlen;-;35,1;-;-;-
+PR3_SEG_311;Segeberg;-;Heidmühlen;-;16,0;-;-;-
+PR3_SEG_312;Segeberg;-;Fahrenkrug, Wittenborn;-;66,1;-;-;-
+PR3_SEG_314;Segeberg;-;Großenaspe;-;71,9;-;-;-
+PR3_SEG_315;Segeberg;-;Großenaspe;-;40,2;-;-;-
+PR3_SEG_316;Segeberg;-;Großenaspe;-;142,4;-;-;-
+PR3_SEG_317;Segeberg;-;Bimöhlen;-;93,3;-;-;-
+PR3_SEG_318;Segeberg;Segeberg;Bimöhlen, Hasenmoor;Bimöhlen;176,6;50,1;-;-
+PR3_SEG_319;Segeberg;-;Bad Bramstedt;-;46,8;-;-;-
+PR3_SEG_320;Segeberg;-;Hasenmoor;-;21,8;-;-;-
+PR3_SEG_321;Segeberg;-;Bark, Todesfelde;-;174,2;-;-;-
+PR3_SEG_322;Segeberg;-;Hartenholm, Struvenhütten, Todesfelde;-;177,1;-;-;-
+PR3_SEG_323;Segeberg;Segeberg;Hartenholm, Hasenmoor, Schmalfeld,Struvenhütten;Hasenmoor, Struvenhütten;183,6;43,5;-;-
+PR3_SEG_324;Segeberg;-;Bad Bramstedt, Lentföhrden, Schmalfeld;-;56,0;-;-;-
+PR3_SEG_325;Segeberg;-;Lentföhrden;-;28,5;-;-;-
+PR3_SEG_326;Segeberg;-;Heidmoor;-;17,0;-;-;-
+PR3_SEG_327;Segeberg;Segeberg;Heidmoor, Lentföhrden, Nützen;Heidmoor, Lentföhrden, Nützen;307,2;73,9;WKA in Betrieb;WKA in Betrieb
+PR3_SEG_328;Segeberg, Pinneberg;-;Alveslohe, Bilsen, Ellerau;-;91,8;-;-;-
+PR3_SEG_329;Segeberg;-;Oering, Seth;-;28,4;-;-;-
+PR3_SEG_330;Segeberg;-;Nahe;-;60,9;-;-;-
+PR3_SEG_331;Segeberg;-;Itzstedt, Sülfeld;-;17,7;-;-;-
+PR3_SEG_332;Segeberg;-;Groß Niendorf, Sülfeld, Travenbrück;-;127,7;-;-;-
+PR3_SEG_333;Segeberg;-;Sülfeld;-;20,7;-;-;-
+PR3_SEG_335;Segeberg;-;Norderstedt;-;74,9;-;-;-
+PR3_SEG_401;Segeberg;-;Bad Bramstedt, Bimöhlen;-;23,9;-;-;-
+PR3_SEG_402;Segeberg;-;Nützen;-;16,8;-;-;-
+PR3_SEG_403;Segeberg;-;Henstedt-Ulzburg, Wakendorf II;-;32,6;-;-;-
+PR3_SEG_404;Segeberg;-;Kisdorf;-;21,5;-;-;-
+PR3_SEG_405;Segeberg;-;Kisdorf, Oering, Sievershütten;-;27,8;-;-;-
+PR3_SEG_406;Segeberg;-;Geschendorf, Schieren, Westerrade;-;67,8;-;-;-
+PR3_SEG_407;Segeberg;-;Pronstorf, Westerrade;-;15,5;-;-;-
+PR3_SEG_501;Segeberg;-;Henstedt-Ulzburg;-;18,2;-;-;-
+PR3_SEG_601;Segeberg;-;Sülfeld;-;69,1;-;-;-

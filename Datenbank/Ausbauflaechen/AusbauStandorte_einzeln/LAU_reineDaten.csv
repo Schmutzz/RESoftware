@@ -1,89 +1,89 @@
-ID;KreisPot;KreisVor;StadtPot;StadtVor;haPot;haVor
-PR3_LAU_001;Herzogtum Lauenburg;Herzogtum Lauenburg;Bliestorf, Kastorf, Siebenbäumen;Bliestorf, Kastorf, Siebenbäumen;229,9;86,4
-PR3_LAU_002;Herzogtum Lauenburg;-;Rondeshagen;-;28,1;-
-PR3_LAU_003;Herzogtum Lauenburg;-;Berkenthin;-;72,2;-
-PR3_LAU_005;Herzogtum Lauenburg;-;Groß Boden, Schürensöhlen, Steinhorst;-;188,7;-
-PR3_LAU_006;Herzogtum Lauenburg;Herzogtum Lauenburg;Lasbek, Stubben;Lasbek;131,8;106,2
-PR3_LAU_009;Herzogtum Lauenburg;-;Buchholz, Einhaus;-;23,5;-
-PR3_LAU_011;Herzogtum Lauenburg;-;Düchelsdorf, Göldenitz, Klinkrade, Niendorfbei Berkenthin, Sierksrade;-;156,8;-
-PR3_LAU_012;Herzogtum Lauenburg;-;Behlendorf;-;24,6;-
-PR3_LAU_013;Herzogtum Lauenburg;-;Kulpin;-;42,6;-
-PR3_LAU_014;Herzogtum Lauenburg;-;Schiphorst, Stubben;-;76,8;-
-PR3_LAU_015;Herzogtum Lauenburg;-;Sandesneben, Schiphorst, Steinhorst;-;114,7;-
-PR3_LAU_017;Herzogtum Lauenburg;-;Behlendorf;-;31,8;-
-PR3_LAU_018;Herzogtum Lauenburg;-;Duvensee, Kühsen, Niendorf bei Berkenthin;-;62,6;-
-PR3_LAU_019;Herzogtum Lauenburg;-;Behlendorf;-;40,4;-
-PR3_LAU_020;Herzogtum Lauenburg;-;Fredeburg, Giesensdorf, Ratzeburg;-;22,8;-
-PR3_LAU_021;Herzogtum Lauenburg;-;Behlendorf, Lankau;-;55,7;-
-PR3_LAU_022;Herzogtum Lauenburg;-;Lüchow, Sirksfelde;-;74,6;-
-PR3_LAU_023;Herzogtum Lauenburg;-;Schmilau;-;95,0;-
-PR3_LAU_024;Herzogtum Lauenburg;-;Wentorf (Amt Sandesneben);-;22,1;-
-PR3_LAU_025;Herzogtum Lauenburg;-;Kühsen, Nusse;-;54,0;-
-PR3_LAU_026;Herzogtum Lauenburg;-;Schmilau;-;89,2;-
-PR3_LAU_027;Herzogtum Lauenburg;-;Lankau;-;82,3;-
-PR3_LAU_028;Herzogtum Lauenburg;-;Koberg, Ritzerau;-;45,7;-
-PR3_LAU_029;Herzogtum Lauenburg;-;Horst, Sterley;-;121,5;-
-PR3_LAU_030;Herzogtum Lauenburg;-;Sterley;-;15,4;-
-PR3_LAU_031;Herzogtum Lauenburg;-;Koberg, Linau;-;149,8;-
-PR3_LAU_032;Herzogtum Lauenburg;-;Horst, Sterley;-;43,4;-
-PR3_LAU_033;Herzogtum Lauenburg;Herzogtum Lauenburg;Alt Mölln, Bälau, Panten, Poggensee;Bälau, Panten, Poggensee;382,9;186,5
-PR3_LAU_034;Herzogtum Lauenburg;-;Horst, Sterley;-;105,5;-
-PR3_LAU_035;Herzogtum Lauenburg;-;Walksfelde;-;25,7;-
-PR3_LAU_036;Herzogtum Lauenburg;-;Seedorf;-;58,7;-
-PR3_LAU_037;Herzogtum Lauenburg;-;Sterley;-;30,6;-
-PR3_LAU_038;Herzogtum Lauenburg;-;Bälau, Borstorf, Breitenfelde,Niendorf/Stecknitz;-;124,2;-
-PR3_LAU_039;Herzogtum Lauenburg;-;Hollenbek, Seedorf;-;39,3;-
-PR3_LAU_041;Herzogtum Lauenburg;Herzogtum Lauenburg;Breitenfelde;Breitenfelde;82,7;31,8
-PR3_LAU_042;Herzogtum Lauenburg;Herzogtum Lauenburg;Breitenfelde, Woltersdorf;Breitenfelde, Woltersdorf;155,8;75,4
-PR3_LAU_043;Herzogtum Lauenburg;-;Gudow, Lehmrade;-;93,7;-
-PR3_LAU_044;Herzogtum Lauenburg;-;Klein Zecher;-;48,6;-
-PR3_LAU_045;Herzogtum Lauenburg;-;Gudow, Hollenbek;-;283,2;-
-PR3_LAU_046;Herzogtum Lauenburg;-;Besenthal, Gudow;-;95,7;-
-PR3_LAU_047;Herzogtum Lauenburg;-;Besenthal, Göttin;-;123,5;-
-PR3_LAU_048;Herzogtum Lauenburg;-;Elmenhorst, Groß Pampau, Kankelau, Sahms;-;92,4;-
-PR3_LAU_049;Herzogtum Lauenburg;-;Roseburg;-;40,1;-
-PR3_LAU_050;Herzogtum Lauenburg;-;Roseburg;-;34,7;-
-PR3_LAU_052;Herzogtum Lauenburg;-;Klein Pampau, Siebeneichen;-;38,3;-
-PR3_LAU_053;Herzogtum Lauenburg;-;Fitzen;-;18,8;-
-PR3_LAU_054;Herzogtum Lauenburg;-;Brunstorf, Dassendorf;-;114,0;-
-PR3_LAU_055;Herzogtum Lauenburg;-;Brunstorf, Dassendorf, Worth;-;96,2;-
-PR3_LAU_056;Herzogtum Lauenburg;-;Büchen, Schulendorf;-;30,7;-
-PR3_LAU_057;Herzogtum Lauenburg;-;Bröthen;-;54,1;-
-PR3_LAU_058;Herzogtum Lauenburg;-;Hohenhorn;-;17,0;-
-PR3_LAU_059;Herzogtum Lauenburg;-;Schulendorf;-;96,1;-
-PR3_LAU_060;Herzogtum Lauenburg;-;Schulendorf;-;25,9;-
-PR3_LAU_061;Herzogtum Lauenburg;-;Witzeeze;-;23,3;-
-PR3_LAU_062;Herzogtum Lauenburg;Herzogtum Lauenburg;Hamwarde, Kollow, Wiershop;Hamwarde;73,6;19,1
-PR3_LAU_063;Herzogtum Lauenburg;Herzogtum Lauenburg;Basedow, Dalldorf, Lütau, Wangelau,Witzeeze;Wangelau, Witzeeze;484,2;99,7
-PR3_LAU_064;Herzogtum Lauenburg;-;Gülzow, Kollow, Wiershop;-;150,3;-
-PR3_LAU_065;Herzogtum Lauenburg;-;Gülzow, Lütau, Wangelau;-;115,5;-
-PR3_LAU_066;Herzogtum Lauenburg;-;Juliusburg;-;57,2;-
-PR3_LAU_067;Herzogtum Lauenburg;Herzogtum Lauenburg;Basedow, Juliusburg, Krüzen, Lütau;Basedow, Lütau;222,7;200,9
-PR3_LAU_068;Herzogtum Lauenburg;-;Juliusburg, Krukow, Schnakenbek;-;200,7;-
-PR3_LAU_069;Herzogtum Lauenburg;-;Krüzen;-;45,5;-
-PR3_LAU_070;Herzogtum Lauenburg;-;Buchhorst, Lanze;-;67,3;-
-PR3_LAU_071;Herzogtum Lauenburg;-;Schnakenbek;-;26,4;-
-PR3_LAU_301;Herzogtum Lauenburg;-;Groß Sarau, Klempau;-;73,2;-
-PR3_LAU_302;Herzogtum Lauenburg;-;Groß Sarau, Klempau, Pogeez;-;98,1;-
-PR3_LAU_303;Herzogtum Lauenburg;-;Schönberg;-;22,1;-
-PR3_LAU_304;Herzogtum Lauenburg;-;Schönberg;-;22,6;-
-PR3_LAU_305;Herzogtum Lauenburg;-;Linau;-;21,5;-
-PR3_LAU_306;Herzogtum Lauenburg;-;Fuhlenhagen, Talkau;-;24,2;-
-PR3_LAU_307;Herzogtum Lauenburg;-;Fuhlenhagen, Schretstaken;-;31,1;-
-PR3_LAU_308;Herzogtum Lauenburg;-;Basthorst, Hamfelde, Mühlenrade;-;28,9;-
-PR3_LAU_309;Herzogtum Lauenburg;-;Kasseburg, Kuddewörde;-;98,3;-
-PR3_LAU_310;Herzogtum Lauenburg;-;Basthorst, Kasseburg, Kuddewörde, Möhnsen;-;51,9;-
-PR3_LAU_311;Herzogtum Lauenburg;-;Basthorst, Havekost, Möhnsen;-;95,8;-
-PR3_LAU_312;Herzogtum Lauenburg;-;Kasseburg, Möhnsen;-;30,9;-
-PR3_LAU_313;Herzogtum Lauenburg;-;Grove, Havekost;-;24,4;-
-PR3_LAU_314;Herzogtum Lauenburg;-;Sahms;-;19,2;-
-PR3_LAU_315;Herzogtum Lauenburg;-;Müssen;-;72,4;-
-PR3_LAU_316;Herzogtum Lauenburg;-;Müssen;-;35,1;-
-PR3_LAU_317;Herzogtum Lauenburg;-;Gülzow, Müssen;-;39,8;-
-PR3_LAU_318;Herzogtum Lauenburg;-;Brunstorf;-;65,1;-
-PR3_LAU_319;Herzogtum Lauenburg;-;Kollow;-;26,2;-
-PR3_LAU_320;Herzogtum Lauenburg;-;Worth;-;43,6;-
-PR3_LAU_402;Herzogtum Lauenburg;-;Groß Schenkenberg;-;19,4;-
-PR3_LAU_403;Herzogtum Lauenburg;-;Geesthacht, Wiershop;-;27,9;-
-PR3_LAU_404;Herzogtum Lauenburg;-;Krummesse, Lübeck, Hansestadt;-;67,0;-
-PR3_LAU_501;Herzogtum Lauenburg;-;Krüzen;-;18,8;-
+ID;KreisPot;KreisVor;StadtPot;StadtVor;haPot;haVor;WKAPot;WKAVor
+PR3_LAU_001;Herzogtum Lauenburg;Herzogtum Lauenburg;Bliestorf, Kastorf, Siebenbäumen;Bliestorf, Kastorf, Siebenbäumen;229,9;86,4;WKA in Betrieb;WKA in Betrieb
+PR3_LAU_002;Herzogtum Lauenburg;-;Rondeshagen;-;28,1;-;-;-
+PR3_LAU_003;Herzogtum Lauenburg;-;Berkenthin;-;72,2;-;-;-
+PR3_LAU_005;Herzogtum Lauenburg;-;Groß Boden, Schürensöhlen, Steinhorst;-;188,7;-;-;-
+PR3_LAU_006;Herzogtum Lauenburg;Herzogtum Lauenburg;Lasbek, Stubben;Lasbek;131,8;106,2;WKA in Betrieb;WKA in Betrieb
+PR3_LAU_009;Herzogtum Lauenburg;-;Buchholz, Einhaus;-;23,5;-;-;-
+PR3_LAU_011;Herzogtum Lauenburg;-;Düchelsdorf, Göldenitz, Klinkrade, Niendorfbei Berkenthin, Sierksrade;-;156,8;-;-;-
+PR3_LAU_012;Herzogtum Lauenburg;-;Behlendorf;-;24,6;-;-;-
+PR3_LAU_013;Herzogtum Lauenburg;-;Kulpin;-;42,6;-;-;-
+PR3_LAU_014;Herzogtum Lauenburg;-;Schiphorst, Stubben;-;76,8;-;WKA in Betrieb;-
+PR3_LAU_015;Herzogtum Lauenburg;-;Sandesneben, Schiphorst, Steinhorst;-;114,7;-;-;-
+PR3_LAU_017;Herzogtum Lauenburg;-;Behlendorf;-;31,8;-;-;-
+PR3_LAU_018;Herzogtum Lauenburg;-;Duvensee, Kühsen, Niendorf bei Berkenthin;-;62,6;-;-;-
+PR3_LAU_019;Herzogtum Lauenburg;-;Behlendorf;-;40,4;-;-;-
+PR3_LAU_020;Herzogtum Lauenburg;-;Fredeburg, Giesensdorf, Ratzeburg;-;22,8;-;-;-
+PR3_LAU_021;Herzogtum Lauenburg;-;Behlendorf, Lankau;-;55,7;-;-;-
+PR3_LAU_022;Herzogtum Lauenburg;-;Lüchow, Sirksfelde;-;74,6;-;-;-
+PR3_LAU_023;Herzogtum Lauenburg;-;Schmilau;-;95,0;-;-;-
+PR3_LAU_024;Herzogtum Lauenburg;-;Wentorf (Amt Sandesneben);-;22,1;-;-;-
+PR3_LAU_025;Herzogtum Lauenburg;-;Kühsen, Nusse;-;54,0;-;-;-
+PR3_LAU_026;Herzogtum Lauenburg;-;Schmilau;-;89,2;-;-;-
+PR3_LAU_027;Herzogtum Lauenburg;-;Lankau;-;82,3;-;-;-
+PR3_LAU_028;Herzogtum Lauenburg;-;Koberg, Ritzerau;-;45,7;-;-;-
+PR3_LAU_029;Herzogtum Lauenburg;-;Horst, Sterley;-;121,5;-;-;-
+PR3_LAU_030;Herzogtum Lauenburg;-;Sterley;-;15,4;-;-;-
+PR3_LAU_031;Herzogtum Lauenburg;-;Koberg, Linau;-;149,8;-;-;-
+PR3_LAU_032;Herzogtum Lauenburg;-;Horst, Sterley;-;43,4;-;-;-
+PR3_LAU_033;Herzogtum Lauenburg;Herzogtum Lauenburg;Alt Mölln, Bälau, Panten, Poggensee;Bälau, Panten, Poggensee;382,9;186,5;WKA in Betrieb;WKA in Betrieb
+PR3_LAU_034;Herzogtum Lauenburg;-;Horst, Sterley;-;105,5;-;-;-
+PR3_LAU_035;Herzogtum Lauenburg;-;Walksfelde;-;25,7;-;-;-
+PR3_LAU_036;Herzogtum Lauenburg;-;Seedorf;-;58,7;-;-;-
+PR3_LAU_037;Herzogtum Lauenburg;-;Sterley;-;30,6;-;-;-
+PR3_LAU_038;Herzogtum Lauenburg;-;Bälau, Borstorf, Breitenfelde,Niendorf/Stecknitz;-;124,2;-;-;-
+PR3_LAU_039;Herzogtum Lauenburg;-;Hollenbek, Seedorf;-;39,3;-;-;-
+PR3_LAU_041;Herzogtum Lauenburg;Herzogtum Lauenburg;Breitenfelde;Breitenfelde;82,7;31,8;-;-
+PR3_LAU_042;Herzogtum Lauenburg;Herzogtum Lauenburg;Breitenfelde, Woltersdorf;Breitenfelde, Woltersdorf;155,8;75,4;-;-
+PR3_LAU_043;Herzogtum Lauenburg;-;Gudow, Lehmrade;-;93,7;-;-;-
+PR3_LAU_044;Herzogtum Lauenburg;-;Klein Zecher;-;48,6;-;-;-
+PR3_LAU_045;Herzogtum Lauenburg;-;Gudow, Hollenbek;-;283,2;-;-;-
+PR3_LAU_046;Herzogtum Lauenburg;-;Besenthal, Gudow;-;95,7;-;-;-
+PR3_LAU_047;Herzogtum Lauenburg;-;Besenthal, Göttin;-;123,5;-;-;-
+PR3_LAU_048;Herzogtum Lauenburg;-;Elmenhorst, Groß Pampau, Kankelau, Sahms;-;92,4;-;-;-
+PR3_LAU_049;Herzogtum Lauenburg;-;Roseburg;-;40,1;-;-;-
+PR3_LAU_050;Herzogtum Lauenburg;-;Roseburg;-;34,7;-;-;-
+PR3_LAU_052;Herzogtum Lauenburg;-;Klein Pampau, Siebeneichen;-;38,3;-;-;-
+PR3_LAU_053;Herzogtum Lauenburg;-;Fitzen;-;18,8;-;-;-
+PR3_LAU_054;Herzogtum Lauenburg;-;Brunstorf, Dassendorf;-;114,0;-;-;-
+PR3_LAU_055;Herzogtum Lauenburg;-;Brunstorf, Dassendorf, Worth;-;96,2;-;-;-
+PR3_LAU_056;Herzogtum Lauenburg;-;Büchen, Schulendorf;-;30,7;-;-;-
+PR3_LAU_057;Herzogtum Lauenburg;-;Bröthen;-;54,1;-;-;-
+PR3_LAU_058;Herzogtum Lauenburg;-;Hohenhorn;-;17,0;-;-;-
+PR3_LAU_059;Herzogtum Lauenburg;-;Schulendorf;-;96,1;-;-;-
+PR3_LAU_060;Herzogtum Lauenburg;-;Schulendorf;-;25,9;-;-;-
+PR3_LAU_061;Herzogtum Lauenburg;-;Witzeeze;-;23,3;-;-;-
+PR3_LAU_062;Herzogtum Lauenburg;Herzogtum Lauenburg;Hamwarde, Kollow, Wiershop;Hamwarde;73,6;19,1;-;-
+PR3_LAU_063;Herzogtum Lauenburg;Herzogtum Lauenburg;Basedow, Dalldorf, Lütau, Wangelau,Witzeeze;Wangelau, Witzeeze;484,2;99,7;WKA in Betrieb;WKA in Betrieb
+PR3_LAU_064;Herzogtum Lauenburg;-;Gülzow, Kollow, Wiershop;-;150,3;-;-;-
+PR3_LAU_065;Herzogtum Lauenburg;-;Gülzow, Lütau, Wangelau;-;115,5;-;-;-
+PR3_LAU_066;Herzogtum Lauenburg;-;Juliusburg;-;57,2;-;-;-
+PR3_LAU_067;Herzogtum Lauenburg;Herzogtum Lauenburg;Basedow, Juliusburg, Krüzen, Lütau;Basedow, Lütau;222,7;200,9;WKA in Betrieb;WKA in Betrieb
+PR3_LAU_068;Herzogtum Lauenburg;-;Juliusburg, Krukow, Schnakenbek;-;200,7;-;-;-
+PR3_LAU_069;Herzogtum Lauenburg;-;Krüzen;-;45,5;-;-;-
+PR3_LAU_070;Herzogtum Lauenburg;-;Buchhorst, Lanze;-;67,3;-;-;-
+PR3_LAU_071;Herzogtum Lauenburg;-;Schnakenbek;-;26,4;-;-;-
+PR3_LAU_301;Herzogtum Lauenburg;-;Groß Sarau, Klempau;-;73,2;-;-;-
+PR3_LAU_302;Herzogtum Lauenburg;-;Groß Sarau, Klempau, Pogeez;-;98,1;-;-;-
+PR3_LAU_303;Herzogtum Lauenburg;-;Schönberg;-;22,1;-;-;-
+PR3_LAU_304;Herzogtum Lauenburg;-;Schönberg;-;22,6;-;-;-
+PR3_LAU_305;Herzogtum Lauenburg;-;Linau;-;21,5;-;-;-
+PR3_LAU_306;Herzogtum Lauenburg;-;Fuhlenhagen, Talkau;-;24,2;-;-;-
+PR3_LAU_307;Herzogtum Lauenburg;-;Fuhlenhagen, Schretstaken;-;31,1;-;-;-
+PR3_LAU_308;Herzogtum Lauenburg;-;Basthorst, Hamfelde, Mühlenrade;-;28,9;-;-;-
+PR3_LAU_309;Herzogtum Lauenburg;-;Kasseburg, Kuddewörde;-;98,3;-;-;-
+PR3_LAU_310;Herzogtum Lauenburg;-;Basthorst, Kasseburg, Kuddewörde, Möhnsen;-;51,9;-;-;-
+PR3_LAU_311;Herzogtum Lauenburg;-;Basthorst, Havekost, Möhnsen;-;95,8;-;-;-
+PR3_LAU_312;Herzogtum Lauenburg;-;Kasseburg, Möhnsen;-;30,9;-;-;-
+PR3_LAU_313;Herzogtum Lauenburg;-;Grove, Havekost;-;24,4;-;-;-
+PR3_LAU_314;Herzogtum Lauenburg;-;Sahms;-;19,2;-;-;-
+PR3_LAU_315;Herzogtum Lauenburg;-;Müssen;-;72,4;-;-;-
+PR3_LAU_316;Herzogtum Lauenburg;-;Müssen;-;35,1;-;-;-
+PR3_LAU_317;Herzogtum Lauenburg;-;Gülzow, Müssen;-;39,8;-;-;-
+PR3_LAU_318;Herzogtum Lauenburg;-;Brunstorf;-;65,1;-;-;-
+PR3_LAU_319;Herzogtum Lauenburg;-;Kollow;-;26,2;-;-;-
+PR3_LAU_320;Herzogtum Lauenburg;-;Worth;-;43,6;-;-;-
+PR3_LAU_402;Herzogtum Lauenburg;-;Groß Schenkenberg;-;19,4;-;-;-
+PR3_LAU_403;Herzogtum Lauenburg;-;Geesthacht, Wiershop;-;27,9;-;-;-
+PR3_LAU_404;Herzogtum Lauenburg;-;Krummesse, Lübeck, Hansestadt;-;67,0;-;-;-
+PR3_LAU_501;Herzogtum Lauenburg;-;Krüzen;-;18,8;-;-;-

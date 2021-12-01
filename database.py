@@ -39,7 +39,7 @@ def dateList_dataFrame(start,stop,freq, list=False):
     if list == True:
         return Datumabgleich
 
-def testErzeugungszusammenfassungSolar(Year, state, source, avarage= True, weatherConnect = True):
+def ErzeugungszusammenfassungSolar(Year, state, source, avarage= True, weatherConnect = True):
     """Diese Funktion addiert alle Solarleistung aus einer Datei vor dem angegeben Jahr.
     Die Leistung im angegeben Jahr werden halbiert um die Mitte des bestcase/worstcase zu erreichen
     Die Leistungen werden nach Wetterstationen sortiert."""
@@ -105,14 +105,7 @@ def testErzeugungszusammenfassungSolar(Year, state, source, avarage= True, weath
 
         """"IN BEARBEITUNG NOCH NICHT FERTIG"""
 
-
-
-
-
-
-
-
-def testTxtWetterdatenSolarToCSV():
+def TxtWetterdatenSolarToCSV():
     print('Start')
     files = findoutFiles('Datenbank\Wetter\SolarText')
     dataFrame = {1: ['1', '2'], 2: ['3', '4']}
@@ -150,26 +143,47 @@ def testTxtWetterdatenSolarToCSV():
 
     print(df)
 
-def testTxtWetterdatenWindToCSV(Year):
-    print('Start testTxtWetterdatenWindToCSV')
+def TxtWetterdatenToCSV(Year, source):
+    print('Start testTxtdatenWindToCSV ',source )
     "Kontrolle der Daten"
 
     FilesName = []
     FilesTrueFalse = []
     AnzahlDaten = []
     DatenTrue = []
-    DatenFalse = []
-    DatenProzent = []
-
+    DatenD_TFalse = []
+    DatenDFalse = []
+    D_T_Prozent = []
+    D_Prozent = []
 
     Datumabgleich = dateList_dataFrame('01.01.' + str(Year) + ' 00:00',
                                        '31.12.' + str(Year) + ' 23:00', '60min', list=True)
-
-    files = findoutFiles('Datenbank\Wetter\WindText')
-
     valueOfDatesInYear = Datumabgleich.__len__()
+    if source =='PV':
+        sourceName1 = 'PV_LBERG_'
+        sourceName2 = 'PV_Zenit_'
+        textName = 'produkt_st_stunde'
+        MessDate = 'MESS_DATUM_WOZ'
+        MessDateType ='%Y%m%d%H:%M'
+        MessSource1 = 'FG_LBERG'
+        MessSource2 = 'ZENIT'
+    if source == 'Wind':
+        sourceName1 = 'Wind_m/s_'
+        sourceName2 = 'Wind_grad_'
+        textName = "produkt_ff_stunde"
+        MessDate = 'MESS_DATUM'
+        MessSource1 = '   F'
+        MessSource2 = '   D'
+        MessDateType = '%Y%m%d%H'
 
-    matches = [match for match in files if "produkt_ff_stunde" in match]
+
+    try:
+        files = findoutFiles('Datenbank\Wetter/'+ source +'Text')
+    except ValueError:
+        print('WARNING')
+
+
+    matches = [match for match in files if textName in match]
     print(matches)
 
     lengthOFWeatherStations = matches.__len__()
@@ -179,7 +193,7 @@ def testTxtWetterdatenWindToCSV(Year):
         windMperS = []
         windDegree = []
         try:
-            openfilename = 'Datenbank\Wetter\WindText/' + matches[i]
+            openfilename = 'Datenbank\Wetter/'+ source +'Text/' + matches[i]
             print(openfilename)
             df = pd.read_csv(openfilename, delimiter=';', decimal='.', header=0)
             FilesTrueFalse.append(True)
@@ -194,27 +208,30 @@ def testTxtWetterdatenWindToCSV(Year):
 
         FilesName.append(matches[i])
 
-        Wind_MproS = 'Wind_m/s_' + str(df['STATIONS_ID'][2])
-        Wind_grad = 'Wind_grad_' + str(df['STATIONS_ID'][2])
+        Source_1 = sourceName1 + str(df['STATIONS_ID'][2])
+        Source_2 = sourceName2 + str(df['STATIONS_ID'][2])
 
         importLength = df.__len__()
         #print(df)
         start = 0
         falseExpiry = 0
         trueExpiry = 0
+        falseValueExpiry = 0
         "Um fehlende Messwerte sinnvoll zu füllen wird der Zeitpunktunt in 7 vergangenen Punkten angeschaut"
         "1 Tag / 2 Tage /3 Tage /1 Jahr /1 Jahr + 1 Tag / 1 Jahr +2 Tage /1 Jahr + 3 Tage"
         "Es wird dann aus diesen Daten ein mittel gebildet. Sollte ein Wert fehlen wir dieser ignoriert"
         "Gibt es gar keine Werte wird -999 eingetragen"
 
-        lostWeatherValue = [24, 48, 72, 8760, 8784, 8808, 17616, 17520, 17568, 17616 ]
-
+        lostWeatherValueDate = [2, 8, 12, 16, 24, 48, 36, 52, 72, 8760, 8784, 8808, 17616, 17520, 17568, 17616]
+        #lostWeatherValueDate = [2, 8, 12, 16]
+        lostWeatherValueError = [1, 2, 3, -1, -2, -3, 24, 72, 8760, 8784, 8808, 17616, 17520, 17568, 17616]
         for k in range(importLength):
             if start >= valueOfDatesInYear:
                 "Fehlerhandling muss noch gemacht werden!"
                 break
 
-            datetime_object = datetime.strptime(str(df['MESS_DATUM'][k]), '%Y%m%d%H')
+            datetime_object = datetime.strptime(str(df[MessDate][k]), MessDateType)
+            #datetime_object = datetime.strptime(str(df['MESS_DATUM'][k]), '%Y%m%d%H:%M')
             try:
                 if Datumabgleich[0] <= datetime_object and datetime_object != Datumabgleich[start]:
                     print('fehlender Messert und fehlendes Datum')
@@ -223,23 +240,19 @@ def testTxtWetterdatenWindToCSV(Year):
                     while datetime_object != Datumabgleich[start]:
                         substituteWeather = []
                         substituteDegree = []
-                        for j in lostWeatherValue:
+                        for j in lostWeatherValueDate:
                             if (k - j) < 0:
                                 continue
-                            asd = datetime.strptime(str(df['MESS_DATUM'][k-j]), '%Y%m%d%H')
-                            #print(asd)
-                            #print(datetime_object)
-                            #print(df['   F'][k - j])
-                            #print(df['   D'][k - j])
+
                             "Eintragen wenn die Messwerte Falsch sind "
-                            if df['   F'][k-j] > -999 and df['   D'][k - j] > -999:
-                                substituteWeather.append(df['   F'][k - j])
-                                substituteDegree.append(df['   D'][k - j])
+                            if df[MessSource1][k-j] > -999 and df[MessSource2][k - j] > -999:
+                                substituteWeather.append(df[MessSource1][k - j])
+                                substituteDegree.append(df[MessSource2][k - j])
                             "Anzahl der Eintragungen"
                         lengthOfsubstituteWeather = len(substituteWeather)
                         lengthOfsubstituteDegree = len(substituteDegree)
                         "Fehler wenn kein Eintrag erfolgt ist"
-                        if lengthOfsubstituteWeather == 0 or lengthOfsubstituteDegree ==0:
+                        if lengthOfsubstituteWeather == 0 or lengthOfsubstituteDegree == 0:
                             "Fehlerhandling muss noch gemacht werden!"
                             break
 
@@ -261,22 +274,18 @@ def testTxtWetterdatenWindToCSV(Year):
                 falseExpiry += 1
             if start >= valueOfDatesInYear:
                 break
-            if Datumabgleich[0] <= datetime_object and (df['   F'][k] < 0 or df['   F'][k] < 0):
+            if Datumabgleich[0] <= datetime_object and (df[MessSource1][k] < 0 or df[MessSource2][k] < 0):
                 print('fehlender Messert -999')
                 substituteWeather = []
                 substituteDegree = []
-                for j in lostWeatherValue:
+                for j in lostWeatherValueError:
                     if (k-j) < 0:
                         continue
-                    asd = datetime.strptime(str(df['MESS_DATUM'][k - j]), '%Y%m%d%H')
-                    #print(asd)
-                    #print(datetime_object)
-                    #print(df['   F'][k - j])
-                    #print(df['   D'][k - j])
+
                     "Eintragen wenn die Messwerte Falsch sind "
-                    if df['   F'][k - j] > -999 and df['   D'][k - j] > -999:
-                        substituteWeather.append(df['   F'][k - j])
-                        substituteDegree.append(df['   D'][k - j])
+                    if df[MessSource1][k - j] > -999 and df[MessSource2][k - j] > -999:
+                        substituteWeather.append(df[MessSource1][k - j])
+                        substituteDegree.append(df[MessSource2][k - j])
                     "Anzahl der Eintragungen"
                 lengthOfsubstituteWeather = len(substituteWeather)
                 lengthOfsubstituteDegree = len(substituteDegree)
@@ -292,15 +301,18 @@ def testTxtWetterdatenWindToCSV(Year):
                 "Ermitteln des neuen Werts"
                 windMperS.append(MperS)
                 windDegree.append(Degree)
-                falseExpiry += 1
+
+
+                falseValueExpiry += 1
                 start +=1
 
             if datetime_object == Datumabgleich[start]:
                 #print('Die beiden nächsten')
                 #print(Datumabgleich[start])
                 #print(datetime_object)
-                windMperS.append(df['   F'][k])
-                windDegree.append(df['   D'][k])
+                windMperS.append(df[MessSource1][k])
+                windDegree.append(df[MessSource2][k])
+
                 start += 1
                 trueExpiry += 1
                 continue
@@ -308,23 +320,25 @@ def testTxtWetterdatenWindToCSV(Year):
         #print(str(start) + openfilename)
         AnzahlDaten.append(start)
         DatenTrue.append(trueExpiry)
-        DatenFalse.append(falseExpiry)
-        DatenProzent.append(trueExpiry/start)
+        DatenD_TFalse.append(falseExpiry)
+        DatenDFalse.append(falseValueExpiry)
+        D_Prozent.append(falseValueExpiry/start)
+        D_T_Prozent.append(trueExpiry/start)
 
         if firsttime == True:
             firsttime = False
             exportFrame = pd.DataFrame(
                 {'Datum': Datumabgleich,
-                    Wind_MproS: windMperS,
-                    Wind_grad: windDegree}
+                    Source_1: windMperS,
+                    Source_2: windDegree}
             )
 
             continue
         if valueOfDatesInYear != start:
             print("Stop")
         if firsttime == False:
-            exportFrame[Wind_MproS] = windMperS
-            exportFrame[Wind_grad] = windDegree
+            exportFrame[Source_1] = windMperS
+            exportFrame[Source_2] = windDegree
             #print(exportFrame)
 
 
@@ -334,16 +348,20 @@ def testTxtWetterdatenWindToCSV(Year):
          'Daten eingelesen': FilesTrueFalse,
          'Daten Anzahl': AnzahlDaten,
          'Daten Richtig': DatenTrue,
-         'Daten Falsch': DatenFalse,
-         'Daten in Prozent': DatenProzent
+         'Error Anzahl': DatenDFalse,
+         'Kein Datum': DatenD_TFalse,
+         'Error in Prozent':D_Prozent,
+         'Kein Datum in Prozent': D_T_Prozent
          }
     )
 
-    exportname1 = 'WindWetterdaten_'+str(Year)+'.csv'
+    exportname1 = 'Datenbank\Wetter/' + source + '_Wetterdaten_'+ str(Year) +'.csv'
     exportFrame.to_csv(exportname1, sep=';', encoding='utf-8', index=False, decimal=',')
-    exportname2 = 'Datenauswertung.csv'
+    exportname2 = 'Datenbank\Wetter/' + source +'_Datenauswertung' + str(Year) + '.csv'
     KontrolFrame.to_csv(exportname2, sep=';', encoding='utf-8', index=False, decimal=',')
-    print('Fertig')
+    print('Fertig testTxtdatenWindToCSV ',source )
+
+
 
 
 class regulatedImport():
@@ -470,6 +488,8 @@ class openLocationdata():
         self.StadtVor = []
         self.haPot = []
         self.haVor = []
+        self.WKAPot = []
+        self.WKAVor = []
 
     def setSheetnumber(self, neuSheet):
         if neuSheet < 5 and neuSheet > 0:
@@ -485,7 +505,8 @@ class openLocationdata():
             #print(openfile)
             ausnaheme = False
             zeilennummer = 1
-
+            setPot = False
+            setVor = False
             with open(openfile, mode='r', newline='\n') as SHflaeche:
                 spamreader = csv.reader(SHflaeche, delimiter=',')
 
@@ -525,21 +546,139 @@ class openLocationdata():
                     if zeilennummer == 6 and ausnaheme == False:
                         self.haPot.append(column[2])
                         self.haVor.append(column[6])
-                    if zeilennummer > 6 and ausnaheme == False:
-                        break
+                    #if zeilennummer > 6 and ausnaheme == False:
+                        #break
                     if zeilennummer == 7 and ausnaheme == True:
                         self.haPot.append(column[2])
                         self.haVor.append(column[6])
-                    if zeilennummer > 7 and ausnaheme == True:
-                        break
+                    #if zeilennummer > 7 and ausnaheme == True:
+                        #break
+                    if zeilennummer == 11:
+                        holecloumn = column
+                        print(column)
+                        matches = [match for match in holecloumn if "WKA in Betrieb" in match]
+                        print(type(matches))
+                        print(matches)
 
+                        if not matches:
+                            print('empty')
+                        else:
+                            if 'WKA in Betrieb' in column[0]:
+                                self.WKAPot.append('WKA in Betrieb')
+                                setPot = True
+                            if 'WKA in Betrieb' in column[1]:
+                                self.WKAPot.append('WKA in Betrieb')
+                                setPot = True
+                            if 'WKA in Betrieb' in column[2]:
+                                self.WKAPot.append('WKA in Betrieb')
+                                setPot = True
+                            if 'WKA in Betrieb' in column[3]:
+                                self.WKAPot.append('WKA in Betrieb')
+                                setPot = True
+                            if 'WKA in Betrieb' in column[4]:
+                                self.WKAVor.append('WKA in Betrieb')
+                                setVor = True
+                            if 'WKA in Betrieb' in column[5]:
+                                self.WKAVor.append('WKA in Betrieb')
+                                setVor = True
+                            if 'WKA in Betrieb' in column[6]:
+                                self.WKAVor.append('WKA in Betrieb')
+                                setVor = True
+                            if setPot == True and setVor == False:
+                                self.WKAVor.append('-')
+                            if setPot == False and setVor == True:
+                                self.WKAPot.append('-')
+                            print(column)
+                            print(matches)
+                            break
+                    if zeilennummer == 12:
+                        holecloumn = column
+                        print(column)
+                        matches = [match for match in holecloumn if "WKA in Betrieb" in match]
+                        print(type(matches))
+
+                        print(matches)
+                        if not matches:
+                            print('empty')
+                        else:
+                            if 'WKA in Betrieb' in column[0]:
+                                self.WKAPot.append('WKA in Betrieb')
+                                setPot = True
+                            if 'WKA in Betrieb' in column[1]:
+                                self.WKAPot.append('WKA in Betrieb')
+                                setPot = True
+                            if 'WKA in Betrieb' in column[2]:
+                                self.WKAPot.append('WKA in Betrieb')
+                                setPot = True
+                            if 'WKA in Betrieb' in column[3]:
+                                self.WKAPot.append('WKA in Betrieb')
+                                setPot = True
+                            if 'WKA in Betrieb' in column[4]:
+                                self.WKAVor.append('WKA in Betrieb')
+                                setVor = True
+                            if 'WKA in Betrieb' in column[5]:
+                                self.WKAVor.append('WKA in Betrieb')
+                                setVor = True
+                            if 'WKA in Betrieb' in column[6]:
+                                self.WKAVor.append('WKA in Betrieb')
+                                setVor = True
+                            if setPot == True and setVor == False:
+                                self.WKAVor.append('-')
+                            if setPot == False and setVor == True:
+                                self.WKAPot.append('-')
+                            print(column)
+                            print(matches)
+                            break
+                    if zeilennummer == 13:
+                        holecloumn = column
+                        print(column)
+                        matches = [match for match in holecloumn if "WKA in Betrieb" in match]
+
+                        print(type(matches))
+                        print(matches)
+                        if not matches:
+                            print('empty')
+                            self.WKAPot.append('-')
+                            self.WKAVor.append('-')
+                            break
+                        else:
+                            if 'WKA in Betrieb' in column[0]:
+                                self.WKAPot.append('WKA in Betrieb')
+                                setPot = True
+                            if 'WKA in Betrieb' in column[1]:
+                                self.WKAPot.append('WKA in Betrieb')
+                                setPot = True
+                            if 'WKA in Betrieb' in column[2]:
+                                self.WKAPot.append('WKA in Betrieb')
+                                setPot = True
+                            if 'WKA in Betrieb' in column[3]:
+                                self.WKAPot.append('WKA in Betrieb')
+                                setPot = True
+                            if 'WKA in Betrieb' in column[4]:
+                                self.WKAVor.append('WKA in Betrieb')
+                                setVor = True
+                            if 'WKA in Betrieb' in column[5]:
+                                self.WKAVor.append('WKA in Betrieb')
+                                setVor = True
+                            if 'WKA in Betrieb' in column[6]:
+                                self.WKAVor.append('WKA in Betrieb')
+                                setVor = True
+                            if setPot == True and setVor == False:
+                                self.WKAVor.append('-')
+                            if setPot == False and setVor == True:
+                                self.WKAPot.append('-')
+                            print(column)
+                            print(matches)
+                            break
                     zeilennummer += 1
             SHflaeche.close()
             self.sheetnumber +=1
 
         #print(self.ID, self.KreisPot, self.KreisVor, self.StadtPot, self.StadtVor, self.haPot, self.haVor)
         #print(self.ID)
-
+        print(len(self.WKAPot))
+        print(len(self.WKAVor))
+        print(len(self.KreisPot))
         exportFrame = pd.DataFrame(
             {'ID': self.ID,
              'KreisPot': self.KreisPot,
@@ -547,10 +686,12 @@ class openLocationdata():
              'StadtPot': self.StadtPot,
              'StadtVor': self.StadtVor,
              'haPot': self.haPot,
-             'haVor': self.haVor
+             'haVor': self.haVor,
+             'WKAPot': self.WKAPot,
+             'WKAVor': self.WKAVor
             }
         )
-        exportname = "Datenbank/Wind/AusbauStandorte_einzeln/" + self.location + "_reineDaten" + ".csv"
+        exportname = "Datenbank\Ausbauflaechen\AusbauStandorte_einzeln/" + self.location + "_reineDaten" + ".csv"
         exportFrame.to_csv(exportname, sep=';', encoding='utf-8', index=False)
         return exportFrame
 
@@ -566,7 +707,8 @@ class openLocationdata():
 
             with open(openfile, mode='r', newline='\n') as SHflaeche:
                 spamreader = csv.reader(SHflaeche, delimiter=',')
-
+                setPot = False
+                setVor = False
                 for column in spamreader:
                     lengthCloumn = len(column)
                     if lengthCloumn != 5:
@@ -606,13 +748,64 @@ class openLocationdata():
                     if zeilennummer == 6 and ausnaheme == False:
                         self.haPot.append(column[2])
                         self.haVor.append(column[4])
-                    if zeilennummer > 6 and ausnaheme == False:
-                        break
+
                     if zeilennummer == 7 and ausnaheme == True:
                         self.haPot.append(column[2])
                         self.haVor.append(column[4])
-                    if zeilennummer > 7 and ausnaheme == True:
-                        break
+
+                    if zeilennummer == 10 or zeilennummer == 11 or zeilennummer == 12 or zeilennummer == 13 or zeilennummer == 14:
+                        holecloumn = column
+                        print(column)
+                        matches = [match for match in holecloumn if "WKA in Betrieb" in match]
+                        print(type(matches))
+                        lengthmatches = matches.__len__()
+                        print(matches)
+                        if not matches:
+                            print('empty')
+
+                            if zeilennummer < 14:
+                                zeilennummer += 1
+                                continue
+                        else:
+                            if 'WKA in Betrieb' in column[0] and setPot == False:
+                                self.WKAPot.append('WKA in Betrieb')
+                                setPot = True
+                            if 'WKA in Betrieb' in column[1] and setPot == False:
+                                self.WKAPot.append('WKA in Betrieb')
+                                setPot = True
+                            if 'WKA in Betrieb' in column[2] and setPot == False:
+                                self.WKAPot.append('WKA in Betrieb')
+                                setPot = True
+                            if 'WKA in Betrieb' in column[3] and setVor == False:
+                                self.WKAVor.append('WKA in Betrieb')
+                                setVor = True
+                            if 'WKA in Betrieb' in column[4] and setVor == False:
+                                self.WKAVor.append('WKA in Betrieb')
+                                setVor = True
+                            if lengthmatches > 1 and setPot == True and setVor == False:
+                                self.WKAVor.append('WKA in Betrieb')
+                                setVor = True
+                            if lengthmatches > 1 and setVor == True and setPot == False:
+                                self.WKAPot.append('WKA in Betrieb')
+                                setPot = True
+
+                            print(column)
+                            print(matches)
+
+                        if (setPot==True and setVor==True):
+                            break
+
+                        if zeilennummer == 14:
+
+                            if setPot == True and setVor == False:
+                                self.WKAVor.append('-')
+                            if setPot == False and setVor == True:
+                                self.WKAPot.append('-')
+                            if setPot == False and setVor == False:
+                                self.WKAPot.append('-')
+                                self.WKAVor.append('-')
+                            break
+
 
                     zeilennummer += 1
             SHflaeche.close()
@@ -620,6 +813,9 @@ class openLocationdata():
 
         #print(self.ID, self.KreisPot, self.KreisVor, self.StadtPot, self.StadtVor, self.haPot, self.haVor)
         #print(self.ID)
+        print(len(self.WKAPot))
+        print(len(self.WKAVor))
+        print(len(self.KreisPot))
 
         exportFrame = pd.DataFrame(
             {'ID': self.ID,
@@ -628,10 +824,12 @@ class openLocationdata():
              'StadtPot': self.StadtPot,
              'StadtVor': self.StadtVor,
              'haPot': self.haPot,
-             'haVor': self.haVor
-            }
+             'haVor': self.haVor,
+             'WKAPot': self.WKAPot,
+             'WKAVor': self.WKAVor
+             }
         )
-        exportname = "Datenbank/Wind/AusbauStandorte_einzeln/" + self.location + "_reineDatenSpecial" + ".csv"
+        exportname = "Datenbank\Ausbauflaechen\AusbauStandorte_einzeln/" + self.location + "_reineDatenSpecial" + ".csv"
         exportFrame.to_csv(exportname, sep=';', encoding='utf-8', index=False)
         return exportFrame
 
@@ -642,7 +840,8 @@ class openLocationdata():
         # print(openfile)
         ausnaheme = False
         zeilennummer = 1
-
+        setPot = False
+        setVor = False
         with open(openfile, mode='r', newline='\n') as SHflaeche:
             spamreader = csv.reader(SHflaeche, delimiter=',')
 
@@ -685,29 +884,147 @@ class openLocationdata():
                 if zeilennummer == 6 and ausnaheme == False:
                     self.haPot.append(column[2])
                     self.haVor.append(column[4])
-                if zeilennummer > 6 and ausnaheme == False:
-                    break
+
                 if zeilennummer == 7 and ausnaheme == True:
                     self.haPot.append(column[2])
                     self.haVor.append(column[4])
-                if zeilennummer > 7 and ausnaheme == True:
-                    break
+                if zeilennummer == 11:
+                    holecloumn = column
+                    print(column)
+                    matches = [match for match in holecloumn if "WKA in Betrieb" in match]
+                    print(type(matches))
+                    print(matches)
+
+                    if not matches:
+                        print('empty')
+                    else:
+                        if 'WKA in Betrieb' in column[0]:
+                            self.WKAPot.append('WKA in Betrieb')
+                            setPot = True
+                        if 'WKA in Betrieb' in column[1]:
+                            self.WKAPot.append('WKA in Betrieb')
+                            setPot = True
+                        if 'WKA in Betrieb' in column[2]:
+                            self.WKAPot.append('WKA in Betrieb')
+                            setPot = True
+                        if 'WKA in Betrieb' in column[3]:
+                            self.WKAPot.append('WKA in Betrieb')
+                            setPot = True
+                        if 'WKA in Betrieb' in column[4]:
+                            self.WKAVor.append('WKA in Betrieb')
+                            setVor = True
+                        if 'WKA in Betrieb' in column[5]:
+                            self.WKAVor.append('WKA in Betrieb')
+                            setVor = True
+                        if 'WKA in Betrieb' in column[6]:
+                            self.WKAVor.append('WKA in Betrieb')
+                        if setPot == True and setVor == False:
+                            self.WKAVor.append('-')
+                        if setPot == False and setVor == True:
+                            self.WKAPot.append('-')
+                        print(column)
+                        print(matches)
+                        break
+                if zeilennummer == 12:
+                    holecloumn = column
+                    print(column)
+                    matches = [match for match in holecloumn if "WKA in Betrieb" in match]
+                    print(type(matches))
+
+                    print(matches)
+                    if not matches:
+                        print('empty')
+                    else:
+                        if 'WKA in Betrieb' in column[0]:
+                            self.WKAPot.append('WKA in Betrieb')
+                            setPot = True
+                        if 'WKA in Betrieb' in column[1]:
+                            self.WKAPot.append('WKA in Betrieb')
+                            setPot = True
+                        if 'WKA in Betrieb' in column[2]:
+                            self.WKAPot.append('WKA in Betrieb')
+                            setPot = True
+                        if 'WKA in Betrieb' in column[3]:
+                            self.WKAPot.append('WKA in Betrieb')
+                            setPot = True
+                        if 'WKA in Betrieb' in column[4]:
+                            self.WKAVor.append('WKA in Betrieb')
+                            setVor = True
+                        if 'WKA in Betrieb' in column[5]:
+                            self.WKAVor.append('WKA in Betrieb')
+                            setVor = True
+                        if 'WKA in Betrieb' in column[6]:
+                            self.WKAVor.append('WKA in Betrieb')
+                            setVor = True
+                        if setPot == True and setVor == False:
+                            self.WKAVor.append('-')
+                        if setPot == False and setVor == True:
+                            self.WKAPot.append('-')
+                        print(column)
+                        print(matches)
+                        break
+                if zeilennummer == 13:
+                    holecloumn = column
+                    print(column)
+                    matches = [match for match in holecloumn if "WKA in Betrieb" in match]
+
+                    print(type(matches))
+                    print(matches)
+                    if not matches:
+                        print('empty')
+                        self.WKAPot.append('-')
+                        self.WKAVor.append('-')
+                        break
+                    else:
+                        if 'WKA in Betrieb' in column[0]:
+                            self.WKAPot.append('WKA in Betrieb')
+                            setPot = True
+                        if 'WKA in Betrieb' in column[1]:
+                            self.WKAPot.append('WKA in Betrieb')
+                            setPot = True
+                        if 'WKA in Betrieb' in column[2]:
+                            self.WKAPot.append('WKA in Betrieb')
+                            setPot = True
+                        if 'WKA in Betrieb' in column[3]:
+                            self.WKAPot.append('WKA in Betrieb')
+                            setPot = True
+                        if 'WKA in Betrieb' in column[4]:
+                            self.WKAVor.append('WKA in Betrieb')
+                            setVor = True
+                        if 'WKA in Betrieb' in column[5]:
+                            self.WKAVor.append('WKA in Betrieb')
+                            setVor = True
+                        if 'WKA in Betrieb' in column[6]:
+                            self.WKAVor.append('WKA in Betrieb')
+                            setVor = True
+                        if setPot == True and setVor == False:
+                            self.WKAVor.append('-')
+                        if setPot == False and setVor == True:
+                            self.WKAPot.append('-')
+                        print(column)
+                        print(matches)
+                        break
 
                 zeilennummer += 1
         SHflaeche.close()
         self.sheetnumber += 1
 
+        print(len(self.WKAPot))
+        print(len(self.WKAVor))
+        print(len(self.KreisPot))
         exportFrames = pd.DataFrame(
-        {'ID': self.ID,
-         'KreisPot': self.KreisPot,
-         'KreisVor': self.KreisVor,
-         'StadtPot': self.StadtPot,
-         'StadtVor': self.StadtVor,
-         'haPot': self.haPot,
-         'haVor': self.haVor
-            }
+            {'ID': self.ID,
+             'KreisPot': self.KreisPot,
+             'KreisVor': self.KreisVor,
+             'StadtPot': self.StadtPot,
+             'StadtVor': self.StadtVor,
+             'haPot': self.haPot,
+             'haVor': self.haVor,
+             'WKAPot': self.WKAPot,
+             'WKAVor': self.WKAVor
+             }
         )
-        exportname = "Datenbank/Wind/AusbauStandorte_einzeln/" + self.location + "_reineDatenSpecial" + str(sheet) + ".csv"
+        exportname = "Datenbank\Ausbauflaechen\AusbauStandorte_einzeln/" + self.location + "_reineDatenSpecial" + str(sheet) + ".csv"
         exportFrames.to_csv(exportname, sep=';', encoding='utf-8', index=False)
         return exportFrames
 

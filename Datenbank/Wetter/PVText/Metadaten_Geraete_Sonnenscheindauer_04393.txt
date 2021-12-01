@@ -1,0 +1,5 @@
+Stations_ID;Stationsname;Geo. Laenge [Grad];Geo. Breite [Grad];Stationshoehe [m];Geberhoehe ueber Grund [m];Von_Datum;Bis_Datum;Geraetetyp Name;Messverfahren;eor;
+4393;Sankt Peter-Ording;8.6;54.33;4.88;4;20080701;20081029;SCAPP;Sonnenscheind/Strahlungsmessung, elektr.;eor;
+4393;Sankt Peter-Ording;8.6;54.33;4.88;4;20081030;20140922;SONIe Sonnenenergie-Sensor;Sonnenscheindauer, elektr.;eor;
+4393;Sankt Peter-Ording;8.6;54.33;4.88;4;20140930;20211109;SONIe Sonnenenergie-Sensor;Sonnenscheindauer, elektr.;eor;
+generiert: 10.11.2021 --  Deutscher Wetterdienst  --
