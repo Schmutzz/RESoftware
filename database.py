@@ -4,6 +4,64 @@ import os
 from datetime import datetime
 from zipfile import ZipFile
 
+class weatherStation():
+    __conuter = 0
+
+    def __init__(self, ID, Source, stationshoehe):
+        self.ID = ID
+        self.Source = Source
+        self.stationshoehe = stationshoehe
+
+    def infoStation(self):
+        print('Stationnummer: ',self.ID)
+        print('Messart', self.Source)
+
+class windWeatherStation(weatherStation):
+    maxSpeed = 100
+    maxDegree = 361
+
+    def __init__(self):
+        self.__Speed_ms = []
+        self.__Degree_Gd = []
+        self.__maxSpeed = 100
+        self.__maxDegree = 361
+
+    def setSpeed_ms(self,Value):
+        if isinstance(Value, float) == False and isinstance(Value,int) == False:
+            self.__Speed_ms.append(0)
+            return False
+        elif  Value < 0 or Value > self.__maxSpeed:
+            self.__Speed_ms.append(0)
+            return False
+        else:
+            self.__Speed_ms.append(Value)
+
+    def counterOfHourseperStep(self):
+        listparameter = []
+        falsch = []
+
+
+        if len(self.__Speed_ms) == 0:
+            return  False
+        for i in self.__maxSpeed:
+            for k in range(35):
+                if float(i) >= float(k):
+                    listparameter[k] += 1
+                else:
+                    falsch[k] += 1
+
+
+
+
+
+
+
+
+
+
+        return df
+
+
 def findoutFiles(filename):
     print("Suche beginnt")
     files = os.listdir(filename)
@@ -39,29 +97,29 @@ def dateList_dataFrame(start,stop,freq, list=False):
     if list == True:
         return Datumabgleich
 
-def ErzeugungszusammenfassungSolar(Year, state, source, avarage= True, weatherConnect = True):
+def erzeugungsZsmPV(year, state, source = 'PV', weatherConnect = True):
     """Diese Funktion addiert alle Solarleistung aus einer Datei vor dem angegeben Jahr.
     Die Leistung im angegeben Jahr werden halbiert um die Mitte des bestcase/worstcase zu erreichen
     Die Leistungen werden nach Wetterstationen sortiert."""
 
     "Dataframe Listen vorbereitung"
     Erzeugungsjahr = []
+    Bundesland = []
     LeistungBisJahr = []
     LeistungInJahr = []
     LeistungGesamt = []
     WetterStation = []
-    print('Start testErzeugungszusammenfassungSolar ')
+    print('Start erzeugungsZsmPV ')
     if weatherConnect == True:
         weatherIDConnect = 'zugeordnet'
     if weatherConnect == False:
         weatherIDConnect = 'gewichtet'
 
-    Datumabgleich = dateList_dataFrame('01.01.' + str(Year-1),
-                                       '01.01.' + str(Year+1), 'Y', list=True)
-    lengthDatumabgleich = Datumabgleich.__len__()
+    Datumabgleich = dateList_dataFrame('01.01.' + str(year - 1),
+                                       '01.01.' + str(year + 1), 'Y', list=True)
     print(Datumabgleich)
     #2021 muss ersetzt werden durch Zeitfunktion
-    filelist = findoutFiles('Datenbank\ConnectwithID\TEST')
+    filelist = findoutFiles('Datenbank\ConnectwithID\PV_einzelneAnlagen')
     matchfilelist1 = [match for match in filelist if state in match]
     matchfilelist2 = [match for match in matchfilelist1 if source in match]
     matchfilelist3 = [match for match in matchfilelist2 if str(2021) in match]
@@ -69,25 +127,41 @@ def ErzeugungszusammenfassungSolar(Year, state, source, avarage= True, weatherCo
 
     try:
         headerlistLokation = ['Nettonennleistung der Einheit', 'Inbetriebnahmedatum der Einheit', 'Wetter-ID_Head']
-        openfilename1 = 'Datenbank\ConnectwithID\TEST/' + matchfilelist4[0]
+        openfilename1 = 'Datenbank\ConnectwithID\PV_einzelneAnlagen/' + matchfilelist4[0]
         print(openfilename1)
 
-        lokationsdaten = pd.read_csv(openfilename1, delimiter=';', usecols=headerlistLokation, decimal='.',
+        lokationsdaten = pd.read_csv(openfilename1, delimiter=';', usecols=headerlistLokation, decimal=',',
                                      header=0, encoding='latin1')
 
-        lengthLokationsDaten = lokationsdaten.__len__()
+
         print(lokationsdaten)
     except ValueError:
         print("falsches Format")
 
+    try:
+        headerlistLokation2 = ['Stations_id', 'Bundesland']
+        openfilename2 = 'Import\Wetterstationen/StundeWindStationen.csv'
+        print(openfilename2)
+
+        wetterID = pd.read_csv(openfilename2, delimiter=';', usecols=headerlistLokation2, decimal=',',
+                                     header=0, encoding='latin1')
+
+
+        print(wetterID)
+    except ValueError:
+        print("falsches Format")
+
+
+
     #print(lokationsdaten['Wetter-ID_Head'].describe())
 
-    for k in lokationsdaten['Wetter-ID_Head']:
+    for i, k in enumerate(wetterID['Stations_id']):
 
         summeBisYear = 0
         SummeInYear = 0
 
-        for j in range(lengthLokationsDaten):
+        for j in range(len(lokationsdaten)):
+
             datetime_object = datetime.strptime(str(lokationsdaten['Inbetriebnahmedatum der Einheit'][j]), '%d.%m.%Y')
 
             if datetime_object <= Datumabgleich[0] and k == lokationsdaten['Wetter-ID_Head'][j]:
@@ -95,15 +169,38 @@ def ErzeugungszusammenfassungSolar(Year, state, source, avarage= True, weatherCo
 
             if datetime_object > Datumabgleich[0] and datetime_object < Datumabgleich[1] and k == lokationsdaten['Wetter-ID_Head'][j]:
                 SummeInYear += lokationsdaten['Nettonennleistung der Einheit'][j]
+        #wird für die Bedingung gebraucht
+        sum_3 = summeBisYear + SummeInYear
+
+        if sum_3 == 0:
+            continue
 
         SummeInYear /= 2
-        Erzeugungsjahr.append(Year)
+        Erzeugungsjahr.append(year)
         LeistungBisJahr.append(summeBisYear)
         LeistungInJahr.append(SummeInYear)
         LeistungGesamt.append(summeBisYear + SummeInYear)
-        WetterStation.append(k)
+        WetterStation.append(wetterID['Stations_id'][i])
+        Bundesland.append(wetterID['Bundesland'][i])
+        print('New Value')
+        print(wetterID['Stations_id'][i])
 
-        """"IN BEARBEITUNG NOCH NICHT FERTIG"""
+    AusgabeFrame = pd.DataFrame(
+        {
+            'Jahr': Erzeugungsjahr,
+            'LeistungBisJahr': LeistungBisJahr,
+            'LeistungInJahr': LeistungInJahr,
+            'Leistung': LeistungGesamt,
+            'Wetter-ID': WetterStation,
+            'Bundesland': Bundesland
+        }
+    )
+
+    exportname = 'Datenbank\ConnectwithID\Erzeugung/PV_Anlagen_'+ state +'_WetterID_'+ str(year) +'_komuliert.csv'
+    AusgabeFrame.to_csv(exportname, sep=';', encoding='utf-8', index=False, decimal=',')
+
+    print('ENDE erzeugungsZsmPV ')
+
 
 def TxtWetterdatenSolarToCSV():
     print('Start')

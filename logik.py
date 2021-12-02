@@ -2,6 +2,55 @@ import pandas as pd
 from database import findoutFiles
 """Erzeugt ein DataFrame oder eine Liste mit fortlaufenden Datum+Uhrzeit"""
 from database import dateList_dataFrame as DateList
+
+
+class WKAmodell:
+    __counter = 0
+
+    def __init__(self, Modell, Ein_ms, Nenn_ms, Abs_ms, Nenn_kW):
+        type(self).__counter += 1
+        self.modellName = Modell
+        self.Ein_ms = Ein_ms
+        self.Nenn_ms = Nenn_ms
+        self.Abs_ms = Abs_ms
+        self.Nenn_kW = Nenn_kW
+
+    def __del__(self):
+        type(self).__counter -= 1
+
+    def showItems(self):
+        print(self.modellName)
+        print(self.Ein_ms)
+        print(self.Nenn_ms)
+        print(self.Abs_ms)
+        print(self.Nenn_kW)
+        return 'Siehste'
+
+    def leistung_kw(self, wind_ms):
+        'Fehler Winddaten'
+        if wind_ms < 0:
+            return 0
+        'Außerhalb der Betriebs_ms'
+        if wind_ms > self.Abs_ms or wind_ms < self.Ein_ms:
+            return 0
+        'Von Ein_ms bis Nenn_ms'
+        if wind_ms >= self.Ein_ms and wind_ms <= self.Nenn_ms:
+            P_kw = (self.Nenn_kW / self.Nenn_ms) * wind_ms
+            return P_kw
+        'Ab Nenn_ms bis Abs_ms'
+        if wind_ms > self.Nenn_ms and wind_ms <= self.Abs_ms:
+            return self.Nenn_kW
+
+
+    @staticmethod
+    def getAnzahlWKAmodell():
+        return WKAmodell.__counter
+
+
+
+
+
+
 def WEAmodellDictionary():
     try:
         headerlistModell = ['Modell', 'Einschaltgeschwindigkeit m/s', 'Nenngeschwindigkeit m/s',
@@ -28,6 +77,47 @@ def WEAmodellDictionary():
 
     return dict
 
+def WEAmodellDictionary_Class():
+    try:
+        headerlistModell = ['Modell','Leistung', 'Einschaltgeschwindigkeit m/s', 'Nenngeschwindigkeit m/s',
+                            'Abschaltgeschwindigkeit m/s']
+        openfilename3 = 'Datenbank\WEAModell/WEAModell_Alex.csv'
+        print(openfilename3)
+        df = pd.read_csv(openfilename3, usecols=headerlistModell, delimiter=';', decimal=',', header=0,
+                                  encoding='latin1')
+        print(df)
+    except ValueError:
+        print("falsches Format")
+
+    #Erstellen des Dictionary
+    WKA = dict()
+
+    for i in range(len(df['Modell'])):
+        if isinstance(df['Modell'][i], str) == False:
+            df['Modell'][i] = "unbekannt"
+        if isinstance(df['Einschaltgeschwindigkeit m/s'][i], float) == False and isinstance(df['Einschaltgeschwindigkeit m/s'][i], int) == False:
+            print(isinstance(df['Einschaltgeschwindigkeit m/s'][i], float))
+            print(df['Einschaltgeschwindigkeit m/s'][i])
+            print(type(df['Einschaltgeschwindigkeit m/s'][i]))
+            df['Einschaltgeschwindigkeit m/s'][i] = 3
+        if isinstance(df['Nenngeschwindigkeit m/s'][i], float) == False and isinstance(df['Nenngeschwindigkeit m/s'][i], int) == False:
+            df['Nenngeschwindigkeit m/s'][i] = 13
+        if isinstance(df['Abschaltgeschwindigkeit m/s'][i], float) == False and isinstance(df['Abschaltgeschwindigkeit m/s'][i], int) == False:
+            df['Abschaltgeschwindigkeit m/s'][i] = 25
+        if isinstance(df['Leistung'][i], float) == False and isinstance(df['Leistung'][i], int) == False:
+            df['Leistung'][i] = 1500
+
+
+    Ein_ms = df['Einschaltgeschwindigkeit m/s'].tolist()
+    Nenn_ms = df['Nenngeschwindigkeit m/s'].tolist()
+    Abs_ms = df['Abschaltgeschwindigkeit m/s'].tolist()
+    P_kw = df['Leistung'].tolist()
+
+    for index, k in enumerate(df['Modell']):
+        WKA[k] = WKAmodell(k, Ein_ms[index], Nenn_ms[index], Abs_ms[index], P_kw[index])
+
+    return WKA
+
 
 
 def erzeugungsdatenEEAnlagen(year, source , state):
@@ -43,7 +133,7 @@ def erzeugungsdatenEEAnlagen(year, source , state):
     print('Hello')
 
     try:
-        openfilename2 = 'Datenbank\Wetter/'+ source +'Wetterdaten_' + str(year) + '.csv'
+        openfilename2 = 'Datenbank\Wetter/'+ source +'_Wetterdaten_' + str(year) + '.csv'
         print(openfilename2)
         wetterdaten = pd.read_csv(openfilename2, delimiter=';', decimal=',', header=0)
         print(wetterdaten)
@@ -67,6 +157,7 @@ def erzeugungsdatenEEAnlagen(year, source , state):
         dictModell = WEAmodellDictionary()
 
         for i in range(lengthLocation):
+            print('Durchlaufnummer: ', i)
             Leistung = []
             print(str(lokationsdaten['Wetter-ID'][i]))
             matcheswetterdaten = [match for match in wetterdaten.columns.values.tolist() if
@@ -79,13 +170,17 @@ def erzeugungsdatenEEAnlagen(year, source , state):
                 lokationsdaten['MODELL'][i]) + '_' + str(lokationsdaten['Wetter-ID'][i])
             try:
                 Ein_ms = dictModell[lokationsdaten['MODELL'][i]][0]
-                Nenn_ms = dictModell[lokationsdaten['MODELL'][i]][1]
-                Abs_ms = dictModell[lokationsdaten['MODELL'][i]][2]
             except:
                 Ein_ms = 3
+            try:
+                Nenn_ms = dictModell[lokationsdaten['MODELL'][i]][1]
+            except:
                 Nenn_ms = 13
+            try:
+                Abs_ms = dictModell[lokationsdaten['MODELL'][i]][2]
+            except:
                 Abs_ms = 25
-                print('Use Execpt')
+                #print('Use Execpt')
             for k in wetterdaten[matcheswetterdaten[0]]:
 
                 # Fehler raus suchen
@@ -94,7 +189,7 @@ def erzeugungsdatenEEAnlagen(year, source , state):
                     continue
 
                 # ueber nennleistung
-                if k >= Nenn_ms:
+                if k >= Nenn_ms and k < Abs_ms:
                     Leistung.append(int(lokationsdaten['LEISTUNG'][i]))
                     continue
                 # außerhalb der Betriebsgeschwindigekeit
@@ -108,11 +203,11 @@ def erzeugungsdatenEEAnlagen(year, source , state):
                     Leistung.append(int(x))
                     continue
 
-            print('Eintrag bei ', i)
+            #print('Eintrag bei ', i)
 
             exportFrame[columnName] = Leistung
 
-            print('Eintrag Efolgreich ', i)
+            #print('Eintrag Efolgreich ', i)
 
     if source == 'PV':
         try:
@@ -221,7 +316,7 @@ def erzeugungPerStunde(year, source1, source2):
     AusgabeFrame = pd.DataFrame(
         {
             'Datum': Datumabgleich,
-            'SummeGruen': sum_3
+            'Erzeugung': sum_3
         }
     )
 

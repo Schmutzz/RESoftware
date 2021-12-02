@@ -3,7 +3,6 @@ import pandas as pd
 import database
 import database as db
 import geo as gpd
-import logik as lgk
 import internetDownload as itd
 import sandbox
 
@@ -93,7 +92,7 @@ def testStandartImport():
 #testStandartImport()
 #itd.cdcdataobservations_germanyHourly('wind', 'StundeWindStationen')
 #itd.cdcdataobservations_germanyHourly('solar', 'StundeSolarStationen')
-#sandbox.testMail()
+
 #liste = database.findoutFiles('Datenbank\Wetter\WindZipDateien')
 #for i in range(len(liste)):
    #zipfilename = 'Datenbank\Wetter\WindZipDateien/' + liste[i]
@@ -120,12 +119,10 @@ def ablauf2020():
     lgk.erzeugungsdatenEEAnlagen(2020, 'PV', 'SH')
     lgk.erzeugungsdatenEEAnlagen(2020, 'PV', 'HH')
 
-def ablaufPV():
-    lgk.erzeugungsdatenEEAnlagen(2020, 'PV', 'SH')
-    lgk.erzeugungsdatenEEAnlagen(2020, 'PV', 'HH')
-    lgk.erzeugungsdatenEEAnlagen(2019, 'PV', 'SH')
-    lgk.erzeugungsdatenEEAnlagen(2019, 'PV', 'HH')
-
+#database.erzeugungsZsmPV(2019,'HH')
+#database.erzeugungsZsmPV(2020,'HH')
+#database.erzeugungsZsmPV(2019,'SH')
+#database.erzeugungsZsmPV(2020,'SH')
 #database.testErzeugungszusammenfassungSolar(2019,'HH', 'PV')
 #database.testErzeugungszusammenfassungSolar(2020,'HH', 'PV')
 #database.testErzeugungszusammenfassungSolar(2019,'SH', 'PV')
@@ -133,8 +130,8 @@ def ablaufPV():
 
 
 #ablauf2019()
-#ablaufPV()
-
+#ablauf2020()
+#lgk.WEAmodellDictionary_Class()
 #erneuerbareLeistung1 = lgk.erzeugungPerStunde(2019, 'Wind','PV')
 #erneuerbareLeistung2 = lgk.erzeugungPerStunde(2020, 'Wind', 'PV')
 
@@ -144,8 +141,23 @@ def ablaufPV():
 #lgk.analyseEE(2019, erneuerbareLeistung1, verbrauch1)
 #lgk.analyseEE(2020, erneuerbareLeistung2, verbrauch2)
 
-lgk.analyseAusbauFl()
+#lgk.analyseAusbauFl()
 #print('end')
+lilila = [1,2,3,4,5,6,9,7,5,6,84,1,3,5,4,2,1,3,5,4,8,7,49,7,6,4,1,3,4,6,4,6,46,5]
+listparameter = []
+falsch = []
+for i in lilila:
+    for k in range(35):
+        if float(i) >= float(k):
+            listparameter[k] += 1
+        else:
+            falsch[k] += 1
+
+
+
+
+
+
 
 
 

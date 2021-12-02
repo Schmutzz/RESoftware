@@ -98,6 +98,31 @@ def testListemiteinzelnenWerten(list):
     return listeNeu
 
 
+#rint(lgk.WKAmodell.getAnzahlWKAmodell())
+class TestAlex:
+    def __init__(self, x):
+        self.x = x
+
+    @property
+    def x(self):
+        return self.__x
+    @x.setter
+    def x(self, x):
+        if x < 0:
+            self.__x = 0
+        elif x > 100:
+            self.__x = 100
+        else:
+            self.__x = x
+
+p1= TestAlex(999)
+print(p1.x)
+p2 = TestAlex(-999)
+print(p2.x)
+p3 = TestAlex(14)
+print(p3.x)
+b = p3.x
+print(b)
 
 
 
