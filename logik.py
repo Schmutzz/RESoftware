@@ -140,46 +140,57 @@ def erzeugungsdatenEEAnlagen(year, source , state):
     except ValueError:
         print("falsches Format")
 
+    modellunbekannt = 0
+    wetterIDunbekannt = 0
     if source == 'Wind':
-        try:
-            headerlistLokation = ['TYP', 'LEISTUNG', 'MODELL', 'Wetter-ID']
-            openfilename1 = 'Datenbank\ConnectwithID\Erzeugung/' + matchfilelist3[0]
-            print(openfilename1)
+        #try:
+        headerlistLokation = ['TYP', 'Modell', 'Wetter-ID','LEISTUNG' ]
+        openfilename1 = 'Datenbank\ConnectwithID\Erzeugung/' + matchfilelist3[0]
+        print(openfilename1)
 
-            lokationsdaten = pd.read_csv(openfilename1, delimiter=';', usecols=headerlistLokation, decimal='.',
+        lokationsdaten = pd.read_csv(openfilename1, delimiter=';', usecols=headerlistLokation, decimal='.',
                                          header=0, encoding='latin1')
 
-            lengthLocation = lokationsdaten.__len__()
-            print(lokationsdaten)
-        except ValueError:
-            print("falsches Format")
-
+        lengthLocation = lokationsdaten.__len__()
+        print(lokationsdaten)
+        #except ValueError:
+        print("falsches Format")
+        modellunbekannt = 0
         dictModell = WEAmodellDictionary()
 
         for i in range(lengthLocation):
             #print('Durchlaufnummer: ', i)
             Leistung = []
+
             #print(str(lokationsdaten['Wetter-ID'][i]))
             matcheswetterdaten = [match for match in wetterdaten.columns.values.tolist() if
                                   str(lokationsdaten['Wetter-ID'][i]) in match]
             #print(matcheswetterdaten)
             if len(matcheswetterdaten) != 2:
                 print('Fehler Wetterdaten nicht schlimm')
-                break
+                wetterIDunbekannt += 1
+                continue
+
             columnName = str(i) + '_Ezg_' + str(lokationsdaten['TYP'][i]) + '_' + str(
-                lokationsdaten['MODELL'][i]) + '_' + str(lokationsdaten['Wetter-ID'][i])
+                lokationsdaten['Modell'][i]) + '_' + str(lokationsdaten['Wetter-ID'][i])
             try:
-                Ein_ms = dictModell[lokationsdaten['MODELL'][i]][0]
+                Ein_ms = dictModell[lokationsdaten['Modell'][i]][0]
             except:
                 Ein_ms = 3
+                print("Modell unbekannt")
+                modellunbekannt += 1
             try:
-                Nenn_ms = dictModell[lokationsdaten['MODELL'][i]][1]
+                Nenn_ms = dictModell[lokationsdaten['Modell'][i]][1]
             except:
                 Nenn_ms = 13
+                print("Modell unbekannt")
+                modellunbekannt += 1
             try:
-                Abs_ms = dictModell[lokationsdaten['MODELL'][i]][2]
+                Abs_ms = dictModell[lokationsdaten['Modell'][i]][2]
             except:
                 Abs_ms = 25
+                print("Modell unbekannt")
+                modellunbekannt += 1
                 #print('Use Execpt')
             for k in wetterdaten[matcheswetterdaten[0]]:
 
@@ -261,6 +272,8 @@ def erzeugungsdatenEEAnlagen(year, source , state):
     print(exportFrame)
     exportname = 'Datenbank\Erzeugung\Einzel/Erz_'+ source +'_' + state +'_' + str(year) + '.csv'
     exportFrame.to_csv(exportname, sep=';', encoding='utf-8', index=False, decimal=',')
+    print("Modell ungekannt Anzahl: ", modellunbekannt)
+    print("Wetter-ID ungekannt Anzahl: ", wetterIDunbekannt)
 
     print('Fertig')
 
@@ -367,7 +380,9 @@ def analyseEE(year, EE_Erz, verbrauch):
     #print(FrameVerbrauch)
     #print(FrameErzeung)
     EE_Erz['Erzeugung_Gesamt'] = EE_Erz['Erzeugung_Wind'] + EE_Erz['Erzeugung_PV']
-    EE_Erz['Verbrauch_Gesamt'] = verbrauch['Verbrauch_Gesamt']
+    EE_Erz['Defizit/Sufizit'] = verbrauch['Verbrauch_Gesamt'] - EE_Erz['Erzeugung_Gesamt']
+    EE_Erz['Verbrauch_Gesamt'] = verbrauch['Verbrauch_HH'] + verbrauch['Verbrauch_SH']
+
     EE_Erz['Verbrauch_HH'] = verbrauch['Verbrauch_HH']
     EE_Erz['Verbrauch_SH'] = verbrauch['Verbrauch_SH']
     print(EE_Erz)
@@ -432,12 +447,12 @@ def analyseEE(year, EE_Erz, verbrauch):
             liste_k45.append(True)
             continue
 
-    EE_Erz['>100%'] = liste_100
-    EE_Erz['>75%'] = liste_75
-    EE_Erz['>60%'] = liste_60
-    EE_Erz['>50%'] = liste_50
-    EE_Erz['>45%'] = liste_45
-    EE_Erz['<45%'] = liste_k45
+    EE_Erz['EE>100%'] = liste_100
+    EE_Erz['EE>75%'] = liste_75
+    EE_Erz['EE>60%'] = liste_60
+    EE_Erz['EE>50%'] = liste_50
+    EE_Erz['EE>45%'] = liste_45
+    EE_Erz['EE<45%'] = liste_k45
 
     print(EE_Erz)
     exportname = "GruenEnergie_" + str(year) + ".csv"
