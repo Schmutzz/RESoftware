@@ -81,7 +81,7 @@ def WEAmodellDictionary_Class():
     try:
         headerlistModell = ['Modell','Leistung', 'Einschaltgeschwindigkeit m/s', 'Nenngeschwindigkeit m/s',
                             'Abschaltgeschwindigkeit m/s']
-        openfilename3 = 'Datenbank\WEAModell/WEAModell_Alex.csv'
+        openfilename3 = 'Datenbank\WEAModell/WEAModell.csv'
         print(openfilename3)
         df = pd.read_csv(openfilename3, usecols=headerlistModell, delimiter=';', decimal=',', header=0,
                                   encoding='latin1')
@@ -157,14 +157,14 @@ def erzeugungsdatenEEAnlagen(year, source , state):
         dictModell = WEAmodellDictionary()
 
         for i in range(lengthLocation):
-            print('Durchlaufnummer: ', i)
+            #print('Durchlaufnummer: ', i)
             Leistung = []
-            print(str(lokationsdaten['Wetter-ID'][i]))
+            #print(str(lokationsdaten['Wetter-ID'][i]))
             matcheswetterdaten = [match for match in wetterdaten.columns.values.tolist() if
                                   str(lokationsdaten['Wetter-ID'][i]) in match]
-            print(matcheswetterdaten)
+            #print(matcheswetterdaten)
             if len(matcheswetterdaten) != 2:
-                print('Fehler Wetterdaten')
+                print('Fehler Wetterdaten nicht schlimm')
                 break
             columnName = str(i) + '_Ezg_' + str(lokationsdaten['TYP'][i]) + '_' + str(
                 lokationsdaten['MODELL'][i]) + '_' + str(lokationsdaten['Wetter-ID'][i])
@@ -186,24 +186,26 @@ def erzeugungsdatenEEAnlagen(year, source , state):
                 # Fehler raus suchen
                 if k < 0:
                     Leistung.append(int(0))
-                    continue
 
-                # ueber nennleistung
-                if k >= Nenn_ms and k < Abs_ms:
-                    Leistung.append(int(lokationsdaten['LEISTUNG'][i]))
-                    continue
-                # außerhalb der Betriebsgeschwindigekeit
-                if k >= Abs_ms or k < Ein_ms:
-                    Leistung.append(int(0))
-                    continue
                 # unter Nennleistung
-                if k >= Ein_ms and k < Nenn_ms:
+                elif k >= Ein_ms and k < Nenn_ms:
                     x = (lokationsdaten['LEISTUNG'][i] / (Nenn_ms)) * k
 
                     Leistung.append(int(x))
-                    continue
+                # ueber nennleistung
+                elif k >= Nenn_ms and k < Abs_ms:
+                    Leistung.append(int(lokationsdaten['LEISTUNG'][i]))
 
-            #print('Eintrag bei ', i)
+                # außerhalb der Betriebsgeschwindigekeit
+                elif k >= Abs_ms or k < Ein_ms:
+                    Leistung.append(int(0))
+
+
+                else:
+                    print("Fehler")
+                    Leistung.append(int(0))
+
+            print('Eintrag bei ', i)
 
             exportFrame[columnName] = Leistung
 
@@ -263,64 +265,58 @@ def erzeugungsdatenEEAnlagen(year, source , state):
     print('Fertig')
 
 
-def erzeugungPerStunde(year, source1, source2):
+def erzeugungPerStunde(year, source1):
 
     print("Start Erzeugung per Stunde")
 
     files = findoutFiles('Datenbank\Erzeugung/Einzel')
 
     matches = [match for match in files if str(year) in match]
+    matches = [match for match in matches if str(source1) in match]
 
     Datumabgleich = DateList('01.01.' + str(year)+ ' 00:00',
                                         '31.12.' + str(year) + ' 23:00', '60min', list=True)
     lengthmachtes = matches.__len__()
-    lengthmachtes -= 1
-    try:
-        openfilename = 'Datenbank\Erzeugung/Einzel/' + matches[0]
-        print(openfilename)
-        df = pd.read_csv(openfilename, delimiter=';', decimal='.', header=0)
-        print(df.index)
-    except:
-        print('FEHLER')
+
 
     for i in range(lengthmachtes):
         try:
-            openfilename2 = 'Datenbank\Erzeugung/Einzel/' + matches[i+1]
+            openfilename2 = 'Datenbank\Erzeugung/Einzel/' + matches[i]
             print(openfilename2)
-            df2 = pd.read_csv(openfilename2, delimiter=';', decimal='.', header=0)
+            df2 = pd.read_csv(openfilename2, delimiter=';', decimal=',', header=0)
 
         except:
             print('FEHLER')
+
         if i == 0:
-            #df.merge(right=df2, left_index=True, right_on='Datum')
-            df3 = pd.concat([df, df2], axis=1, sort=False)
-            print(df3)
+            df = df2.copy()
+            print(df)
         if i > 0:
-            df3 = pd.concat([df3, df2], axis=1, sort=False)
-            print(df3)
-    exportname = 'Datenbank\Erzeugung/erzeugungsdatenGesamt_' + str(year) + '.csv'
-    df3.to_csv(exportname, sep=';', encoding='utf-8', index=False, decimal=',')
+            del df2['Datum']
+            #df.merge(right=df2, left_index=True, right_on='Datum')
+            df = pd.concat([df, df2], axis=1, sort=False)
+            sum_1 = df.sum(axis=1, numeric_only=None)
+            print(sum_1)
 
-    del df3['Datum']
 
-    sum_3= df3.sum(axis=1, numeric_only=None)
-    #sum_3 = df3.iloc[2].sum(axis=0)
-    #print(df3.values.sum())
+    del df['Datum']
+    sum_3 = df.sum(axis=1, numeric_only=None)
+
     print(sum_3)
     lengthDatum = len(Datumabgleich)
     lentghSum_3 = len(sum_3)
     if lengthDatum != lentghSum_3:
         print('FEHLER')
 
-
+    Erz_Name = 'Erzeugung_' + str(source1)
     AusgabeFrame = pd.DataFrame(
         {
             'Datum': Datumabgleich,
-            'Erzeugung': sum_3
+            Erz_Name: sum_3
         }
     )
 
-    exportname = 'Datenbank\Erzeugung/erzeugungsdatenGesamt_komuliert_' + str(year) + '.csv'
+    exportname = 'Datenbank\Erzeugung/Erz_komuliert_' + str(year) +'_'+ source1 +'.csv'
     AusgabeFrame.to_csv(exportname, sep=';', encoding='utf-8', index=False, decimal=',')
 
     return AusgabeFrame
@@ -334,24 +330,29 @@ def verbrauchGesamt(year):
     Datumabgleich = DateList('01.01.' + str(year) + ' 00:00',
                              '31.12.' + str(year) + ' 23:00', '60min', list=True)
 
-    #try:
-    openfilename = 'Datenbank\Verbrauch\Einzeln/' + matches[0]
-    print(openfilename)
-    df = pd.read_csv(openfilename, encoding='latin1' ,delimiter=';', decimal=',', header=0)
-    print(df.index)
-    #except:
-    print('FEHLER')
+    try:
+        openfilename = 'Datenbank\Verbrauch\Einzeln/' + matches[0]
+        print(openfilename)
+        df = pd.read_csv(openfilename, encoding='latin1' ,delimiter=';', decimal=',', header=0)
+        print(df.index)
+    except:
+        print('FEHLER')
 
     del df['Datum']
 
-    sum_3 = df.sum(axis=1, numeric_only=None)
-    lengthDatum = len(Datumabgleich)
-    lentghSum_3 = len(sum_3)
+    sum_G = df.sum(axis=1, numeric_only=None)
+    sum_HH = df['HH_NETZ_Hamburg']
+    del df['HH_NETZ_Hamburg']
+    sum_SH = df.sum(axis=1, numeric_only=None)
+    lentghSum_3 = len(sum_G)
+    print(sum_G)
 
     AusgabeFrame = pd.DataFrame(
         {
             'Datum': Datumabgleich,
-            'SummeVerbrauch': sum_3
+            'Verbrauch_Gesamt': sum_G,
+            'Verbrauch_HH': sum_HH,
+            'Verbrauch_SH': sum_SH,
         }
     )
 
@@ -360,14 +361,18 @@ def verbrauchGesamt(year):
 
     return AusgabeFrame
 
-def analyseEE(year, FrameErzeung, FrameVerbrauch):
+def analyseEE(year, EE_Erz, verbrauch):
 
-    del FrameVerbrauch['Datum']
+    del verbrauch['Datum']
     #print(FrameVerbrauch)
     #print(FrameErzeung)
-    FrameErzeung['Verbrauch'] = FrameVerbrauch['SummeVerbrauch']
-    print(FrameErzeung)
-    FrameErzeung['EE_Anteil'] = FrameErzeung['SummeGruen']/FrameVerbrauch['SummeVerbrauch']
+    EE_Erz['Erzeugung_Gesamt'] = EE_Erz['Erzeugung_Wind'] + EE_Erz['Erzeugung_PV']
+    EE_Erz['Verbrauch_Gesamt'] = verbrauch['Verbrauch_Gesamt']
+    EE_Erz['Verbrauch_HH'] = verbrauch['Verbrauch_HH']
+    EE_Erz['Verbrauch_SH'] = verbrauch['Verbrauch_SH']
+    print(EE_Erz)
+
+    EE_Erz['EE_Anteil'] = EE_Erz['Erzeugung_Gesamt']/verbrauch['Verbrauch_Gesamt']
     liste_100 = []
     liste_75 = []
     liste_60 = []
@@ -376,39 +381,39 @@ def analyseEE(year, FrameErzeung, FrameVerbrauch):
     liste_k45 = []
 
 
-    for i in FrameErzeung['EE_Anteil']:
+    for i in EE_Erz['EE_Anteil']:
 
         if i >= 1.0:
             liste_100.append(True)
-            liste_75.append(False)
-            liste_60.append(False)
-            liste_50.append(False)
-            liste_45.append(False)
-            liste_k45.append(False)
+            liste_75.append(True)
+            liste_60.append(True)
+            liste_50.append(True)
+            liste_45.append(True)
+            liste_k45.append(True)
             continue
         if i >= 0.75:
             liste_100.append(False)
             liste_75.append(True)
-            liste_60.append(False)
-            liste_50.append(False)
-            liste_45.append(False)
-            liste_k45.append(False)
+            liste_60.append(True)
+            liste_50.append(True)
+            liste_45.append(True)
+            liste_k45.append(True)
             continue
         if i >= 0.6:
             liste_100.append(False)
             liste_75.append(False)
             liste_60.append(True)
-            liste_50.append(False)
-            liste_45.append(False)
-            liste_k45.append(False)
+            liste_50.append(True)
+            liste_45.append(True)
+            liste_k45.append(True)
             continue
         if i >= 0.5:
             liste_100.append(False)
             liste_75.append(False)
             liste_60.append(False)
             liste_50.append(True)
-            liste_45.append(False)
-            liste_k45.append(False)
+            liste_45.append(True)
+            liste_k45.append(True)
             continue
         if i >= 0.45:
             liste_100.append(False)
@@ -416,7 +421,7 @@ def analyseEE(year, FrameErzeung, FrameVerbrauch):
             liste_60.append(False)
             liste_50.append(False)
             liste_45.append(True)
-            liste_k45.append(False)
+            liste_k45.append(True)
             continue
         if i < 0.45:
             liste_100.append(False)
@@ -427,16 +432,16 @@ def analyseEE(year, FrameErzeung, FrameVerbrauch):
             liste_k45.append(True)
             continue
 
-    FrameErzeung['>100%'] = liste_100
-    FrameErzeung['>75%'] = liste_75
-    FrameErzeung['>60%'] = liste_60
-    FrameErzeung['>50%'] = liste_50
-    FrameErzeung['>45%'] = liste_45
-    FrameErzeung['<45%'] = liste_k45
+    EE_Erz['>100%'] = liste_100
+    EE_Erz['>75%'] = liste_75
+    EE_Erz['>60%'] = liste_60
+    EE_Erz['>50%'] = liste_50
+    EE_Erz['>45%'] = liste_45
+    EE_Erz['<45%'] = liste_k45
 
-    print(FrameErzeung)
-    exportname = "GruenEnergie_"+ str(year) + ".csv"
-    FrameErzeung.to_csv(exportname, sep=';', encoding='utf-8', index=False, decimal=',')
+    print(EE_Erz)
+    exportname = "GruenEnergie_" + str(year) + ".csv"
+    EE_Erz.to_csv(exportname, sep=';', encoding='utf-8', index=False, decimal=',')
 
 def analyseAusbauFl():
     print('Start mit Analyse')
