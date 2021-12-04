@@ -4,79 +4,54 @@ from database import findoutFiles
 from database import dateList_dataFrame as DateList
 import time
 
+
 class WKAmodell:
-    __counter = 0
 
     def __init__(self, Modell, Ein_ms, Nenn_ms, Abs_ms, Nenn_kW):
-        type(self).__counter += 1
+
         self.modellName = Modell
         self.Ein_ms = Ein_ms
         self.Nenn_ms = Nenn_ms
         self.Abs_ms = Abs_ms
         self.Nenn_kW = Nenn_kW
+        self.__dict = self.filldict()
 
-    def __del__(self):
-        type(self).__counter -= 1
 
-    def showItems(self):
-        print(self.modellName)
-        print(self.Ein_ms)
-        print(self.Nenn_ms)
-        print(self.Abs_ms)
-        print(self.Nenn_kW)
-        return 'Siehste'
 
-    def leistung_kw_interneLeistung_einzel(self, wind_ms):
-        'Fehler Winddaten'
-        if wind_ms < 0:
-            return 0
-        'Außerhalb der Betriebs_ms'
-        if wind_ms >= self.Abs_ms or wind_ms < self.Ein_ms:
-            return 0
-        'Von Ein_ms bis Nenn_ms'
-        if wind_ms >= self.Ein_ms and wind_ms <= self.Nenn_ms:
-            P_kw = (self.Nenn_kW / self.Nenn_ms) * wind_ms
-            return P_kw
-        'Ab Nenn_ms bis Abs_ms'
-        if wind_ms > self.Nenn_ms and wind_ms <= self.Abs_ms:
-            return self.Nenn_kW
+    def filldict(self):
+        temp_dict = {}
+        for index, i in enumerate(self.modellName):
+            temp_dict[i] = {'Ein_ms': self.Ein_ms[index], 'Nenn_ms': self.Nenn_ms[index],
+                            'Abs_ms': self.Abs_ms[index], 'Nenn_kW': self.Nenn_kW[index]}
+            #print(temp_dict)
 
-    def leistung_kw_externeLeistung_einzel(self, wind_ms, Nenn_kW):
-        'Fehler Winddaten'
-        if wind_ms < 0:
-            return 0
-        'Außerhalb der Betriebs_ms'
-        if wind_ms >= self.Abs_ms or wind_ms < self.Ein_ms:
-            return 0
-        'Von Ein_ms bis Nenn_ms'
-        if wind_ms >= self.Ein_ms and wind_ms <= self.Nenn_ms:
-            P_kw = (Nenn_kW / self.Nenn_ms) * wind_ms
-            return P_kw
-        'Ab Nenn_ms bis Abs_ms'
-        if wind_ms > self.Nenn_ms and wind_ms <= self.Abs_ms:
-            return Nenn_kW
-    def leistung_kw_externeLeistung_liste(self, wind_ms, Nenn_kW):
-        Leistung = []
-        for i in wind_ms:
-            'Fehler Winddaten'
-            if i < 0:
-                Leistung.append(0)
-            'Außerhalb der Betriebs_ms'
-            if i >= self.Abs_ms or i < self.Ein_ms:
-                Leistung.append(0)
-            'Von Ein_ms bis Nenn_ms'
-            if i >= self.Ein_ms and i <= self.Nenn_ms:
-                P_kw = (Nenn_kW / self.Nenn_ms) * wind_ms
-                Leistung.append(P_kw)
-            'Ab Nenn_ms bis Abs_ms'
-            if i > self.Nenn_ms and i <= self.Abs_ms:
-                Leistung.append(self.Nenn_kW)
+        return temp_dict
 
-        return Leistung
+    def getAnzahlWKAmodell(self):
+        return len(self.__dict)
 
-    @staticmethod
-    def getAnzahlWKAmodell():
-        return WKAmodell.__counter
+
+    def getdict(self):
+        return self.__dict
+
+    def changedict_singel(self, key, type, value):
+
+        self.__dict[key][type] = value
+
+    def getWKAModell(self, key):
+
+        return self.__dict[key]
+
+    def printWKAModelle(self):
+        for p_id, p_info in self.__dict.items():
+            print("\n WKA ID:", p_id)
+            for key in p_info:
+                print(key + ':' , p_info[key])
+
+
+
+
+
 
 
 
@@ -109,6 +84,7 @@ def WEAmodellDictionary():
 
     return dict
 
+
 def WEAmodellDictionary_Class():
     try:
         headerlistModell = ['Modell','Leistung', 'Einschaltgeschwindigkeit m/s', 'Nenngeschwindigkeit m/s',
@@ -122,7 +98,7 @@ def WEAmodellDictionary_Class():
         print("falsches Format")
 
     #Erstellen des Dictionary
-    WKA = dict()
+
 
     for i in range(len(df['Modell'])):
         if isinstance(df['Modell'][i], str) == False:
@@ -139,17 +115,16 @@ def WEAmodellDictionary_Class():
         if isinstance(df['Leistung'][i], float) == False and isinstance(df['Leistung'][i], int) == False:
             df['Leistung'][i] = int(1500)
 
-
+    Modell = df['Modell'].tolist()
     Ein_ms = df['Einschaltgeschwindigkeit m/s'].tolist()
     Nenn_ms = df['Nenngeschwindigkeit m/s'].tolist()
     Abs_ms = df['Abschaltgeschwindigkeit m/s'].tolist()
     P_kw = df['Leistung'].tolist()
 
-    for index, k in enumerate(df['Modell']):
-        WKA[k] = WKAmodell(k, Ein_ms[index], Nenn_ms[index], Abs_ms[index], P_kw[index])
+    peter = WKAmodell(Modell, Ein_ms, Nenn_ms, Abs_ms, P_kw)
+   #WKAmodell(k, Ein_ms[index], Nenn_ms[index], Abs_ms[index], P_kw[index])
 
-    return WKA
-
+    return peter
 
 
 def erzeugungsdatenEEAnlagen(year, source , state):
@@ -176,25 +151,27 @@ def erzeugungsdatenEEAnlagen(year, source , state):
     wetterIDunbekannt = 0
     lengthLocation2 = 0
     if source == 'Wind':
-        #try:
-        headerlistLokation = ['TYP', 'Modell', 'Wetter-ID','LEISTUNG' ]
-        openfilename1 = 'Datenbank\ConnectwithID\Erzeugung/' + matchfilelist3[0]
-        print(openfilename1)
+        try:
+            headerlistLokation = ['TYP', 'Modell', 'Wetter-ID','LEISTUNG' ]
+            openfilename1 = 'Datenbank\ConnectwithID\Erzeugung/' + matchfilelist3[0]
+            print(openfilename1)
 
-        lokationsdaten = pd.read_csv(openfilename1, delimiter=';', usecols=headerlistLokation, decimal='.',
+            lokationsdaten = pd.read_csv(openfilename1, delimiter=';', usecols=headerlistLokation, decimal='.',
                                          header=0, encoding='latin1')
 
-        lengthLocation = lokationsdaten.__len__()
-        lengthLocation2 = lengthLocation
-        #print(lokationsdaten)
-        #except ValueError:
-        print("falsches Format")
+            lengthLocation = lokationsdaten.__len__()
+            lengthLocation2 = lengthLocation
+            #print(lokationsdaten)
+        except ValueError:
+            print("falsches Format")
 
-        dictModell = WEAmodellDictionary()
+        peter = WEAmodellDictionary_Class()
+        dictModell = peter.getdict()
+
 
         for i in range(lengthLocation):
-            #print('Durchlaufnummer: ', i)
-            Leistung = []
+
+            leistung = []
             WKAunbekannt = False
             #print(str(lokationsdaten['Wetter-ID'][i]))
             matcheswetterdaten = [match for match in wetterdaten.columns.values.tolist() if
@@ -208,20 +185,21 @@ def erzeugungsdatenEEAnlagen(year, source , state):
 
             columnName = str(i) + '_Ezg_' + str(lokationsdaten['TYP'][i]) + '_' + str(
                 lokationsdaten['Modell'][i]) + '_' + str(lokationsdaten['Wetter-ID'][i])
+
             try:
-                Ein_ms = dictModell[lokationsdaten['Modell'][i]][0]
+                Ein_ms = dictModell[lokationsdaten['Modell'][i]]['Ein_ms']
             except:
                 Ein_ms = 3
                 #print("Modell unbekannt")
                 WKAunbekannt = True
             try:
-                Nenn_ms = dictModell[lokationsdaten['Modell'][i]][1]
+                Nenn_ms = dictModell[lokationsdaten['Modell'][i]]['Nenn_ms']
             except:
                 Nenn_ms = 13
                 #print("Modell unbekannt")
                 WKAunbekannt = True
             try:
-                Abs_ms = dictModell[lokationsdaten['Modell'][i]][2]
+                Abs_ms = dictModell[lokationsdaten['Modell'][i]]['Abs_ms']
             except:
                 Abs_ms = 25
                 WKAunbekannt = True
@@ -233,33 +211,33 @@ def erzeugungsdatenEEAnlagen(year, source , state):
 
             for k in wetterdaten[matcheswetterdaten[0]]:
 
-                # Fehler raus suchen
+                #Fehler raus suchen
                 if k < 0:
-                    Leistung.append(int(0))
+                    leistung.append(int(0))
 
                 # unter Nennleistung
                 elif k >= Ein_ms and k < Nenn_ms:
                     x = (lokationsdaten['LEISTUNG'][i] / (Nenn_ms)) * k
 
-                    Leistung.append(int(x))
+                    leistung.append(int(x))
                 # ueber nennleistung
                 elif k >= Nenn_ms and k < Abs_ms:
-                    Leistung.append(int(lokationsdaten['LEISTUNG'][i]))
+                    leistung.append(int(lokationsdaten['LEISTUNG'][i]))
 
                 # außerhalb der Betriebsgeschwindigekeit
                 elif k >= Abs_ms or k < Ein_ms:
-                    Leistung.append(int(0))
+                    leistung.append(int(0))
 
 
                 else:
                     print("Fehler")
-                    Leistung.append(int(0))
+                    leistung.append(int(0))
 
             #print('Eintrag bei ', i)
 
-            exportFrame[columnName] = Leistung
+            exportFrame[columnName] = leistung
 
-            #print('Eintrag Efolgreich ', i)
+
 
     if source == 'PV':
         try:
@@ -276,7 +254,7 @@ def erzeugungsdatenEEAnlagen(year, source , state):
             print("falsches Format")
 
         for i in range(lengthLocation):
-            Leistung = []
+            leistung = []
             #print(i)
             #print(str(lokationsdaten['Wetter-ID'][i]))
 
@@ -296,15 +274,15 @@ def erzeugungsdatenEEAnlagen(year, source , state):
             for k in wetterdaten[matcheswetterdaten[0]]:
 
                 if k < 0:
-                    Leistung.append(0)
+                    leistung.append(0)
                 else:
                     #print(lokationsdaten['Bruttoleistung der Einheit'][i])
                     #print(type(lokationsdaten['Bruttoleistung der Einheit'][i]))
                     x = lokationsdaten['Leistung'][i] * (k/fkt_Bestrahlung)*fkt_Solar
-                    Leistung.append(x)
+                    leistung.append(x)
 
             #print('Eintrag bei ', i)
-            exportFrame[columnName] = Leistung
+            exportFrame[columnName] = leistung
             #print('Eintrag Efolgreich ', i)
 
 
@@ -421,7 +399,7 @@ def analyseEE(year, EE_Erz, verbrauch):
     #print(FrameVerbrauch)
     #print(FrameErzeung)
     EE_Erz['Erzeugung_Gesamt'] = EE_Erz['Erzeugung_Wind'] + EE_Erz['Erzeugung_PV']
-    EE_Erz['Defizit/Sufizit'] = verbrauch['Verbrauch_Gesamt'] - EE_Erz['Erzeugung_Gesamt']
+    EE_Erz['Diff_EE_zu_Verb'] = EE_Erz['Erzeugung_Gesamt'] - verbrauch['Verbrauch_Gesamt']
     EE_Erz['Verbrauch_Gesamt'] = verbrauch['Verbrauch_HH'] + verbrauch['Verbrauch_SH']
 
     EE_Erz['Verbrauch_HH'] = verbrauch['Verbrauch_HH']

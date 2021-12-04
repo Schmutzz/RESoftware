@@ -129,9 +129,9 @@ def ablauf2020():
 #database.testErzeugungszusammenfassungSolar(2020,'SH', 'PV')
 
 
-#ablauf2019()
-#ablauf2020()
-'''
+ablauf2019()
+ablauf2020()
+
 PV_2019 = lgk.erzeugungPerStunde(2019, 'PV')
 PV_2020 = lgk.erzeugungPerStunde(2020, 'PV')
 Wind_2019 = lgk.erzeugungPerStunde(2019, 'Wind')
@@ -150,24 +150,10 @@ lgk.analyseEE(2020, EE_Erz_2020, verbrauch_2020)
 
 #lgk.analyseAusbauFl()'''
 
-lgk.Windlastprofil(2019, 'Wind')
-lgk.Windlastprofil(2020, 'Wind')
+#lgk.Windlastprofil(2019, 'Wind')
+#lgk.Windlastprofil(2020, 'Wind')
 
 #print('end')
-'''lilila = [1,2,3,4,5,6,9,7,5,6,84,1,3,5,4,2,1,3,5,4,8,7,49,7,6,4,1,3,4,6,4,6,46,5]
-listparameter = []
-falsch = []
-for i in lilila:
-    for k in range(35):
-        if float(i) >= float(k):
-            listparameter[k] += 1
-        else:
-            falsch[k] += 1'''
-
-
-
-
-
 
 
 
