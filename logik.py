@@ -2,7 +2,7 @@ import pandas as pd
 from database import findoutFiles
 """Erzeugt ein DataFrame oder eine Liste mit fortlaufenden Datum+Uhrzeit"""
 from database import dateList_dataFrame as DateList
-
+import time
 
 class WKAmodell:
     __counter = 0
@@ -26,12 +26,12 @@ class WKAmodell:
         print(self.Nenn_kW)
         return 'Siehste'
 
-    def leistung_kw(self, wind_ms):
+    def leistung_kw_interneLeistung_einzel(self, wind_ms):
         'Fehler Winddaten'
         if wind_ms < 0:
             return 0
         'Außerhalb der Betriebs_ms'
-        if wind_ms > self.Abs_ms or wind_ms < self.Ein_ms:
+        if wind_ms >= self.Abs_ms or wind_ms < self.Ein_ms:
             return 0
         'Von Ein_ms bis Nenn_ms'
         if wind_ms >= self.Ein_ms and wind_ms <= self.Nenn_ms:
@@ -41,6 +41,38 @@ class WKAmodell:
         if wind_ms > self.Nenn_ms and wind_ms <= self.Abs_ms:
             return self.Nenn_kW
 
+    def leistung_kw_externeLeistung_einzel(self, wind_ms, Nenn_kW):
+        'Fehler Winddaten'
+        if wind_ms < 0:
+            return 0
+        'Außerhalb der Betriebs_ms'
+        if wind_ms >= self.Abs_ms or wind_ms < self.Ein_ms:
+            return 0
+        'Von Ein_ms bis Nenn_ms'
+        if wind_ms >= self.Ein_ms and wind_ms <= self.Nenn_ms:
+            P_kw = (Nenn_kW / self.Nenn_ms) * wind_ms
+            return P_kw
+        'Ab Nenn_ms bis Abs_ms'
+        if wind_ms > self.Nenn_ms and wind_ms <= self.Abs_ms:
+            return Nenn_kW
+    def leistung_kw_externeLeistung_liste(self, wind_ms, Nenn_kW):
+        Leistung = []
+        for i in wind_ms:
+            'Fehler Winddaten'
+            if i < 0:
+                Leistung.append(0)
+            'Außerhalb der Betriebs_ms'
+            if i >= self.Abs_ms or i < self.Ein_ms:
+                Leistung.append(0)
+            'Von Ein_ms bis Nenn_ms'
+            if i >= self.Ein_ms and i <= self.Nenn_ms:
+                P_kw = (Nenn_kW / self.Nenn_ms) * wind_ms
+                Leistung.append(P_kw)
+            'Ab Nenn_ms bis Abs_ms'
+            if i > self.Nenn_ms and i <= self.Abs_ms:
+                Leistung.append(self.Nenn_kW)
+
+        return Leistung
 
     @staticmethod
     def getAnzahlWKAmodell():
@@ -56,10 +88,10 @@ def WEAmodellDictionary():
         headerlistModell = ['Modell', 'Einschaltgeschwindigkeit m/s', 'Nenngeschwindigkeit m/s',
                             'Abschaltgeschwindigkeit m/s']
         openfilename3 = 'Datenbank\WEAModell/WEAModell.csv'
-        print(openfilename3)
+        #print(openfilename3)
         df = pd.read_csv(openfilename3, usecols=headerlistModell, delimiter=';', decimal=',', header=0,
                                   encoding='latin1')
-        print(df)
+        #print(df)
     except ValueError:
         print("falsches Format")
 
@@ -105,7 +137,7 @@ def WEAmodellDictionary_Class():
         if isinstance(df['Abschaltgeschwindigkeit m/s'][i], float) == False and isinstance(df['Abschaltgeschwindigkeit m/s'][i], int) == False:
             df['Abschaltgeschwindigkeit m/s'][i] = 25
         if isinstance(df['Leistung'][i], float) == False and isinstance(df['Leistung'][i], int) == False:
-            df['Leistung'][i] = 1500
+            df['Leistung'][i] = int(1500)
 
 
     Ein_ms = df['Einschaltgeschwindigkeit m/s'].tolist()
@@ -136,12 +168,13 @@ def erzeugungsdatenEEAnlagen(year, source , state):
         openfilename2 = 'Datenbank\Wetter/'+ source +'_Wetterdaten_' + str(year) + '.csv'
         print(openfilename2)
         wetterdaten = pd.read_csv(openfilename2, delimiter=';', decimal=',', header=0)
-        print(wetterdaten)
+        #print(wetterdaten)
     except ValueError:
         print("falsches Format")
 
     modellunbekannt = 0
     wetterIDunbekannt = 0
+    lengthLocation2 = 0
     if source == 'Wind':
         #try:
         headerlistLokation = ['TYP', 'Modell', 'Wetter-ID','LEISTUNG' ]
@@ -152,22 +185,24 @@ def erzeugungsdatenEEAnlagen(year, source , state):
                                          header=0, encoding='latin1')
 
         lengthLocation = lokationsdaten.__len__()
-        print(lokationsdaten)
+        lengthLocation2 = lengthLocation
+        #print(lokationsdaten)
         #except ValueError:
         print("falsches Format")
-        modellunbekannt = 0
+
         dictModell = WEAmodellDictionary()
 
         for i in range(lengthLocation):
             #print('Durchlaufnummer: ', i)
             Leistung = []
-
+            WKAunbekannt = False
             #print(str(lokationsdaten['Wetter-ID'][i]))
             matcheswetterdaten = [match for match in wetterdaten.columns.values.tolist() if
                                   str(lokationsdaten['Wetter-ID'][i]) in match]
             #print(matcheswetterdaten)
             if len(matcheswetterdaten) != 2:
                 print('Fehler Wetterdaten nicht schlimm')
+                print(lokationsdaten['Wetter-ID'][i])
                 wetterIDunbekannt += 1
                 continue
 
@@ -177,21 +212,25 @@ def erzeugungsdatenEEAnlagen(year, source , state):
                 Ein_ms = dictModell[lokationsdaten['Modell'][i]][0]
             except:
                 Ein_ms = 3
-                print("Modell unbekannt")
-                modellunbekannt += 1
+                #print("Modell unbekannt")
+                WKAunbekannt = True
             try:
                 Nenn_ms = dictModell[lokationsdaten['Modell'][i]][1]
             except:
                 Nenn_ms = 13
-                print("Modell unbekannt")
-                modellunbekannt += 1
+                #print("Modell unbekannt")
+                WKAunbekannt = True
             try:
                 Abs_ms = dictModell[lokationsdaten['Modell'][i]][2]
             except:
                 Abs_ms = 25
-                print("Modell unbekannt")
+                WKAunbekannt = True
+
+            if WKAunbekannt == True:
+                #print("Modell unbekannt")
                 modellunbekannt += 1
-                #print('Use Execpt')
+
+
             for k in wetterdaten[matcheswetterdaten[0]]:
 
                 # Fehler raus suchen
@@ -216,7 +255,7 @@ def erzeugungsdatenEEAnlagen(year, source , state):
                     print("Fehler")
                     Leistung.append(int(0))
 
-            print('Eintrag bei ', i)
+            #print('Eintrag bei ', i)
 
             exportFrame[columnName] = Leistung
 
@@ -232,13 +271,13 @@ def erzeugungsdatenEEAnlagen(year, source , state):
                                          header=0, encoding='latin1')
 
             lengthLocation = lokationsdaten.__len__()
-            print(lokationsdaten)
+            #print(lokationsdaten)
         except ValueError:
             print("falsches Format")
 
         for i in range(lengthLocation):
             Leistung = []
-            print(i)
+            #print(i)
             #print(str(lokationsdaten['Wetter-ID'][i]))
 
             matcheswetterdaten = [match for match in wetterdaten.columns.values.tolist() if
@@ -269,11 +308,13 @@ def erzeugungsdatenEEAnlagen(year, source , state):
             #print('Eintrag Efolgreich ', i)
 
 
-    print(exportFrame)
+    #print(exportFrame)
     exportname = 'Datenbank\Erzeugung\Einzel/Erz_'+ source +'_' + state +'_' + str(year) + '.csv'
     exportFrame.to_csv(exportname, sep=';', encoding='utf-8', index=False, decimal=',')
     print("Modell ungekannt Anzahl: ", modellunbekannt)
     print("Wetter-ID ungekannt Anzahl: ", wetterIDunbekannt)
+    print("Eingelesene Zeilen", lengthLocation2)
+    print("Ausgegebene Zeilen", len(exportFrame.columns))
 
     print('Fertig')
 
@@ -493,3 +534,67 @@ def analyseAusbauFl():
     print('Vorrang Fläche: ', vorValue_ohneWKA)
     print('Anzahl PotentialFl: ', potAnz_ohneWKA)
     print('Anzahl Vorrang: ', vorAnz_ohneWKA)
+
+def Windlastprofil(year, source):
+    print("Start WindLastProfil")
+    schritt = 1
+    try:
+        openfilename2 = 'Datenbank\Wetter/'+ source +'_Wetterdaten_' + str(year) + '.csv'
+        print(openfilename2)
+        wetterdaten = pd.read_csv(openfilename2, delimiter=';', decimal=',', header=0)
+        #print(wetterdaten)
+    except ValueError:
+        print("falsches Format")
+
+    mWd = [match for match in wetterdaten.columns.values.tolist() if
+                          str('m/s') in match]
+    mwd = [match for match in mWd if
+                          str('19171') in match]
+    WindAnalyseSchritte = []
+
+    for i in range(29):
+        WindAnalyseSchritte.append(i)
+        #WindAnalyseSchritte.append(i+schritt)
+
+    del WindAnalyseSchritte[0:1]
+
+    AnalyseProfilbz = []
+    for i in WindAnalyseSchritte:
+        AnalyseProfilbz.append('von_'+str(i-schritt)+'_bis_'+str(i)+'_ms')
+
+    print(WindAnalyseSchritte)
+    print(AnalyseProfilbz)
+
+
+    'Header Names für die Auswertung'
+    exportFrame = pd.DataFrame(
+        {'AnalyseProfil': AnalyseProfilbz
+         }
+    )
+
+    print(mWd)
+
+    for i in range(len(mWd)):
+        listparameter = [0] * len(WindAnalyseSchritte)
+        #print(wetterdaten[mWd[i]])
+
+        for j in wetterdaten[mWd[i]]:
+
+            for index, k in enumerate(WindAnalyseSchritte):
+                #print(float(j), float(k))
+                if float(k)-schritt < float(j) and float(k) >= float(j):
+                    listparameter[index] += 1
+
+                    #print(listparameter[index])
+
+        exportFrame[mWd[i]] = listparameter
+    exportFrame.set_index('AnalyseProfil', inplace=True)
+    print(exportFrame)
+    exportFrame2 = exportFrame.T
+    print(exportFrame2)
+    #exportFrame2.loc['AnalyseProfil',:] = AnalyseProfilbz
+
+    exportname2 = 'Datenbank\Wetter\WindAnalyse/Windanlyse_' + str(year) + '.csv'
+    exportFrame2.to_csv(exportname2, sep=';', encoding='utf-8', index=True , decimal=',')
+
+    print('Ende')

@@ -1,7 +1,7 @@
 KREIS;GEMEINDE;TYP;Modell;HERSTELLER;NABENHOEHE;ROTORDURCHMESSER;SCHALLLEISTUNGSPEGEL;LEISTUNG;LEISTUNGSBEZUG;OSTWERT (EPSG:4647);NORDWERT (EPSG:4647);GENEHMIGT_AM;INBETRIEBNAHME;STATUS;BST_NR;ANL_NR;DATENDATUM;DATENQUELLE;BETREIBER;Coords;Wetter-ID
-HH;Altenwerder;Enercon-126;;Enercon;;;;6000;kW Nennleist. Rotor.;32560845;5929336;;2008;;;;;;Windpark GmbH;[53.5047, 9.92056];1975
-HH;Altenwerder;Enercon-126;;Enercon;;;;6000;kW Nennleist. Rotor.;32560845;5929336;;2008;;;;;;Windpark GmbH;[53.5047, 9.92056];1975
-HH;Curslacker Deich;SÃ¼dwind N3127;;;;;;270;kW Nennleist. Rotor.;32582645;5921815;;1995;;;;;;;[53.4645807, 10.2020093];1975
+HH;Altenwerder;Enercon-126;Enercon E-66/1800;Enercon;;;;6000;kW Nennleist. Rotor.;32560845;5929336;;2008;;;;;;Windpark GmbH;[53.5047, 9.92056];1975
+HH;Altenwerder;Enercon-126;Enercon E-66/1800;Enercon;;;;6000;kW Nennleist. Rotor.;32560845;5929336;;2008;;;;;;Windpark GmbH;[53.5047, 9.92056];1975
+HH;Curslacker Deich;SÃ¼dwind N3127;Nordex N117/3000;;;;;270;kW Nennleist. Rotor.;32582645;5921815;;1995;;;;;;;[53.4645807, 10.2020093];1975
 HH;Hohe Schaar;Enercon E-66/18.70;Enercon E-66/1800;Enercon;;;;1800;kW Nennleist. Rotor.;32563487;5927423;;2000;;;;;;;[53.4803887, 9.9820636];1975
 HH;Hohe Schaar;Enercon E-66/18.70;Enercon E-66/1800;Enercon;;;;1800;kW Nennleist. Rotor.;32563487;5927423;;2000;;;;;;;[53.4803887, 9.9820636];1975
 HH;KÃ¶hlbrandthÃ¶ft;Nordex N117/3000;Nordex N117/3000;Nordex;;;;3000;kW Nennleist. Rotor.;32562394;5932014;;2014;;;;;;Hamburg Energie;[0, 0];1975
