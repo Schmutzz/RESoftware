@@ -129,7 +129,7 @@ def ablauf2020():
 #database.testErzeugungszusammenfassungSolar(2020,'SH', 'PV')
 
 
-ablauf2019()
+'''ablauf2019()
 ablauf2020()
 
 PV_2019 = lgk.erzeugungPerStunde(2019, 'PV')
@@ -146,10 +146,43 @@ verbrauch_2019 = lgk.verbrauchGesamt(2019)
 verbrauch_2020 = lgk.verbrauchGesamt(2020)
 
 lgk.analyseEE(2019, EE_Erz_2019, verbrauch_2019)
-lgk.analyseEE(2020, EE_Erz_2020, verbrauch_2020)
+lgk.analyseEE(2020, EE_Erz_2020, verbrauch_2020)'''
+
+'''database.utm_to_gk(2019, 'Wind', 'SH')
+database.utm_to_gk(2019, 'Wind', 'HH')
+database.utm_to_gk(2020, 'Wind', 'SH')
+database.utm_to_gk(2020, 'Wind', 'HH')'''
+'''
+try:
+    openfilename1 = 'Datenbank\Ausbauflaechen\AusbauStandorte_gesamt_SH/AlleStandorte.csv'
+    print(openfilename1)
+
+    df = pd.read_csv(openfilename1, delimiter=';', decimal=',', encoding='latin1')
+
+except:
+    print('falsches Format')
+
+df = gpd.addCoords(df, 'StadtPot', 'KreisPot', 'Coords Pot', '')
+df = gpd.addCoords(df, 'StadtVor', 'KreisVor', 'Coords Vor', '')
+
+finished_filename = 'Datenbank\ConnectwithID/AlleStandorte_Coords.csv'
+
+df.to_csv(finished_filename, sep=';', index=False, encoding='utf-8-sig')
+
 
 #lgk.analyseAusbauFl()'''
 
+try:
+    openfilename1 = 'Datenbank\ConnectwithID/AlleStandorte_Coords.csv'
+    print(openfilename1)
+
+    df = pd.read_csv(openfilename1, delimiter=';', decimal=',', encoding='latin1')
+
+except:
+    print('falsches Format')
+
+verbaut2019 = lgk.stand_distance_analyse(2019, df)
+verbaut2020 = lgk.stand_distance_analyse(2020, df)
 #lgk.Windlastprofil(2019, 'Wind')
 #lgk.Windlastprofil(2020, 'Wind')
 

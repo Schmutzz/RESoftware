@@ -3,6 +3,9 @@ import csv
 import os
 from datetime import datetime
 from zipfile import ZipFile
+from pyproj import Proj
+from geopy import distance
+import geo
 
 class weatherStation():
     __conuter = 0
@@ -50,16 +53,6 @@ class windWeatherStation(weatherStation):
                 else:
                     falsch[k] += 1
 
-
-
-
-
-
-
-
-
-
-        return df
 
 
 def findoutFiles(filename):
@@ -458,6 +451,47 @@ def TxtWetterdatenToCSV(Year, source):
     KontrolFrame.to_csv(exportname2, sep=';', encoding='utf-8', index=False, decimal=',')
     print('Fertig testTxtdatenWindToCSV ',source )
 
+def utm_to_gk(year, source, state):
+
+    filelist = findoutFiles('Datenbank\ConnectwithID\Erzeugung')
+    matches1 = [match for match in filelist if str(year) in match]
+    matches2 = [match for match in matches1 if source in match]
+    matches3 = [match for match in matches2 if state in match]
+
+
+        #headerlistLokation = ['OSTWERT (EPSG:4647)', 'NORDWERT (EPSG:4647']
+    try:
+        openfilename1 = 'Datenbank\ConnectwithID\Erzeugung/' + matches3[0]
+        print(openfilename1)
+
+        df = pd.read_csv(openfilename1, delimiter=';', decimal=',', encoding='latin1')
+
+    except:
+        print('falsches Format')
+
+    #myProj = Proj(proj='utm', zone=32 , ellps='WGS84' ,preserve_units=False
+    myProj = Proj("epsg:4647", preserve_units=False)
+
+    lon, lat = myProj(df['OSTWERT (EPSG:4647)'].tolist(), df['NORDWERT (EPSG:4647)'].tolist(), inverse=True)
+
+    coords_old = df['Coords'].tolist()
+    coords = []
+    dist = []
+
+    for i in range(len(lon)):
+        coords.append([lat[i], lon[i]])
+        coords[i] = geo.editCoords(coords[i])
+        coords_old[i] = geo.editCoords(coords_old[i])
+        dist.append(distance.distance(coords[i], coords_old[i]).km)
+
+    df['Coords UTM'] = coords
+    df['Distance UTM to old'] = dist
+
+
+    exportname = 'Datenbank\ConnectwithID\Erzeugung/Windparks' + state + '_WetterID_' + str(year) + '_UTM.csv'
+    df.to_csv(exportname, sep=';', encoding='utf-8', index=False, decimal=',')
+
+    return df
 
 
 

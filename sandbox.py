@@ -125,6 +125,57 @@ b = p3.x
 print(b)
 
 
+def stand_distance_analyse(year, standorte):
+    filelist = findoutFiles('Datenbank\ConnectwithID\Erzeugung')
+    matches1 = [match for match in filelist if str(year) in match]
+    matches1 = [match for match in matches1 if 'SH' in match]
+    matches1 = [match for match in matches1 if 'UTM' in match]
+
+    try:
+        openfilename1 = 'Datenbank\ConnectwithID\Erzeugung/' + matches1[0]
+        print(openfilename1)
+
+        WKA = pd.read_csv(openfilename1, delimiter=';', decimal=',', encoding='latin1')
+
+    except:
+        print('falsches Format')
+
+    list = []
+    listnames = []
+
+    testTuper = ('0', '0')
+    for index, i in enumerate(WKA['Coords UTM']):
+        tempList = []
+        temp_wka = geo.editCoords(i)
+
+        for kindex, j in enumerate(standorte['Coords Vor']):
+
+            temp_ausbau = geo.editCoords(j)
+            if temp_ausbau != testTuper and standorte['WKAVor'][kindex] == 'WKA in Betrieb':
+                tempList.append(geo.distance(temp_wka, temp_ausbau))
+
+        list.append(tempList)
+
+    p = 1
+    for index, i in enumerate(standorte['ID']):
+        temp_ausbau = geo.editCoords(standorte['Coords Vor'][index])
+
+        if temp_ausbau != testTuper and standorte['WKAVor'][index] == 'WKA in Betrieb':
+            columnName = str(p) + '_' + i
+            p += 1
+            listnames.append(columnName)
+
+    # del exportFrame['Datum']
+    # print(exportFrame)
+
+    exportFrame = pd.DataFrame(np.c_[list], columns=listnames)
+    exportFrame.insert(loc=0, column='Typ', value=WKA['TYP'])
+    finished_filename = 'KurzAnschauen.csv'
+
+    exportFrame.to_csv(finished_filename, sep=';', decimal=',', index=False, encoding='UTF-8')
+
+
+
 
 
 

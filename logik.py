@@ -1,8 +1,11 @@
 import pandas as pd
+import numpy as np
 from database import findoutFiles
 """Erzeugt ein DataFrame oder eine Liste mit fortlaufenden Datum+Uhrzeit"""
 from database import dateList_dataFrame as DateList
 import time
+from geopy import distance
+import geo
 
 
 class WKAmodell:
@@ -47,15 +50,6 @@ class WKAmodell:
             print("\n WKA ID:", p_id)
             for key in p_info:
                 print(key + ':' , p_info[key])
-
-
-
-
-
-
-
-
-
 
 
 def WEAmodellDictionary():
@@ -576,3 +570,127 @@ def Windlastprofil(year, source):
     exportFrame2.to_csv(exportname2, sep=';', encoding='utf-8', index=True , decimal=',')
 
     print('Ende')
+
+def stand_distance_analyse_alt(year,standorte):
+
+    filelist = findoutFiles('Datenbank\ConnectwithID\Erzeugung')
+    matches1 = [match for match in filelist if str(year) in match]
+    matches1 = [match for match in matches1 if 'SH' in match]
+    matches1 = [match for match in matches1 if 'UTM' in match]
+
+    try:
+        openfilename1 = 'Datenbank\ConnectwithID\Erzeugung/' + matches1[0]
+        print(openfilename1)
+
+        WKA = pd.read_csv(openfilename1, delimiter=';', decimal=',', encoding='latin1')
+
+    except:
+        print('falsches Format')
+
+
+    list = []
+    listnames = []
+
+    testTuper = ('0', '0')
+    for index, i in enumerate(WKA['Coords UTM']):
+        tempList = []
+        temp_wka = geo.editCoords(i)
+
+        for kindex, j in enumerate(standorte['Coords Vor']):
+
+            temp_ausbau = geo.editCoords(j)
+            if temp_ausbau != testTuper and standorte['WKAVor'][kindex] == 'WKA in Betrieb':
+                tempList.append(geo.distance(temp_wka, temp_ausbau))
+
+
+        list.append(tempList)
+
+
+    p = 1
+    for index, i in enumerate(standorte['ID']):
+        temp_ausbau = geo.editCoords(standorte['Coords Vor'][index])
+
+        if temp_ausbau != testTuper and standorte['WKAVor'][index] == 'WKA in Betrieb':
+            columnName = str(p)+'_'+ i
+            p += 1
+            listnames.append(columnName)
+
+
+
+
+    #del exportFrame['Datum']
+    #print(exportFrame)
+
+    exportFrame = pd.DataFrame(np.c_[list], columns=listnames)
+    exportFrame.insert(loc=0, column='Typ', value=WKA['TYP'])
+    finished_filename = 'KurzAnschauen.csv'
+
+    exportFrame.to_csv(finished_filename, sep=';',decimal=',', index=False, encoding='UTF-8')
+
+def stand_distance_analyse(year, standorte):
+    filelist = findoutFiles('Datenbank\ConnectwithID\Erzeugung')
+    matches1 = [match for match in filelist if str(year) in match]
+    matches1 = [match for match in matches1 if 'SH' in match]
+    matches1 = [match for match in matches1 if 'UTM' in match]
+
+    try:
+        openfilename1 = 'Datenbank\ConnectwithID\Erzeugung/' + matches1[0]
+        print(openfilename1)
+
+        WKA = pd.read_csv(openfilename1, delimiter=';', decimal=',', encoding='latin1')
+
+    except:
+        print('falsches Format')
+    testTuple = ('0', '0')
+    faktorAusbaufl = 1.5
+    listnames = []
+    p = 1
+    for qindex, i in enumerate(standorte['ID']):
+        temp_ausbau = geo.editCoords(standorte['Coords Vor'][qindex])
+
+        if temp_ausbau != testTuple and standorte['WKAVor'][qindex] == 'WKA in Betrieb':
+            columnName = str(p) + '_' + i
+            p += 1
+            listnames.append(columnName)
+
+    listFl = [0] * len(listnames)
+    anzahl = [0] * len(listnames)
+    standortindex = 0
+    for index, i in enumerate(standorte['Coords Vor']):
+
+        temp_ausbau = geo.editCoords(i)
+        if temp_ausbau != testTuple and standorte['WKAVor'][index] == 'WKA in Betrieb':
+
+            for kindex, j in enumerate(WKA['Coords UTM']):
+
+                temp_wka = geo.editCoords(j)
+                distance = geo.distance(temp_wka, temp_ausbau)
+
+                if distance <= faktorAusbaufl:
+                    listFl[standortindex] = listFl[standortindex] + ((15 * np.square(float(WKA['ROTORDURCHMESSER'][kindex])))/10000 )
+                    anzahl[standortindex] += 1
+
+            listFl[standortindex] = round(listFl[standortindex], 3)
+            listFl[standortindex] = float(listFl[standortindex])
+            standortindex +=1
+
+
+
+
+
+    print(listFl)
+
+    # del exportFrame['Datum']
+    # print(exportFrame)
+
+    exportFrame = pd.DataFrame(np.c_[listnames, listFl, anzahl], columns=['FlächenID', 'Fläche in ha', 'Anzahl WEAs'])
+    #exportFrame.insert(loc=0, column='Typ', value=WKA['TYP'])
+    finished_filename = 'Datenbank\Ausbauflaechen/VerbauteFlaechen_radius_'+str(faktorAusbaufl)+'_'+str(year)+'.csv'
+
+    exportFrame.to_csv(finished_filename, sep=';',decimal=',', index=False, encoding='utf-8-sig')
+
+    return exportFrame
+
+
+
+
