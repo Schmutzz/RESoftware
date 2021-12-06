@@ -377,7 +377,7 @@ def addCoords(df, locationPot, specifierHeader, newCol):
 
 
 # adds weatherstation-ID to a dataframe ('Wetter-ID_Head')
-def addWeather(df_locations, df_weatherStations, locationCoordsHead, stationCoordsHead, ID_Head, finished_filename):
+def addWeather(df_locations, df_weatherStations, locationCoordsHead, stationCoordsHead, ID_Head):
     ids = df_weatherStations[ID_Head].tolist()
     weatherCoords = df_weatherStations[stationCoordsHead].tolist()
     locationCoords = df_locations[locationCoordsHead].tolist()
@@ -391,7 +391,7 @@ def addWeather(df_locations, df_weatherStations, locationCoordsHead, stationCoor
         locationCoords[i] = editCoords(locationCoords[i])
         for index, station in enumerate(weatherCoords):
             station = editCoords(station)
-            temp_dist = distance.distance(locationCoords[i], station).km
+            temp_dist = distance(locationCoords[i], station)
             if (temp_dist < min_dist) or index == 0:
                 min_dist = temp_dist
                 min_id = ids[index]
@@ -400,7 +400,9 @@ def addWeather(df_locations, df_weatherStations, locationCoordsHead, stationCoor
         print(i)
 
     df_locations['Wetter-ID_Head'] = id_list
-    df_locations.to_csv(finished_filename, sep=';', index=False, encoding='UTF-8')
+    #df_locations.to_csv(finished_filename, sep=';', index=False, encoding='UTF-8')
+
+    return df_locations
 
 
 # adds list of weatherstation-IDs and corresponding weighting factors ('Wetter-ID_Head', 'Gewichtung)

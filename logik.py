@@ -471,6 +471,8 @@ def analyseEE(year, EE_Erz, verbrauch):
     exportname = "GruenEnergie_" + str(year) + ".csv"
     EE_Erz.to_csv(exportname, sep=';', encoding='utf-8', index=False, decimal=',')
 
+    return EE_Erz
+
 def analyseAusbauFl():
     print('Start mit Analyse')
     filelist = findoutFiles('Datenbank\Ausbauflaechen\AusbauStandorte_gesamt_SH')
@@ -570,6 +572,7 @@ def Windlastprofil(year, source):
     exportFrame2.to_csv(exportname2, sep=';', encoding='utf-8', index=True , decimal=',')
 
     print('Ende')
+    return exportname2
 
 def stand_distance_analyse_alt(year,standorte):
 
@@ -642,16 +645,15 @@ def stand_distance_analyse(year, standorte):
     except:
         print('falsches Format')
     testTuple = ('0', '0')
-    faktorAusbaufl = 1.5
+    faktorAusbaufl = 1.1
     listnames = []
     p = 1
     for qindex, i in enumerate(standorte['ID']):
         temp_ausbau = geo.editCoords(standorte['Coords Vor'][qindex])
 
         if temp_ausbau != testTuple and standorte['WKAVor'][qindex] == 'WKA in Betrieb':
-            columnName = str(p) + '_' + i
             p += 1
-            listnames.append(columnName)
+            listnames.append(i)
 
     listFl = [0] * len(listnames)
     anzahl = [0] * len(listnames)
@@ -683,13 +685,107 @@ def stand_distance_analyse(year, standorte):
     # del exportFrame['Datum']
     # print(exportFrame)
 
-    exportFrame = pd.DataFrame(np.c_[listnames, listFl, anzahl], columns=['FlächenID', 'Fläche in ha', 'Anzahl WEAs'])
+    exportFrame = pd.DataFrame(np.c_[listnames, listFl, anzahl], columns=['ID', 'Fläche in ha', 'Anzahl WEAs'])
     #exportFrame.insert(loc=0, column='Typ', value=WKA['TYP'])
     finished_filename = 'Datenbank\Ausbauflaechen/VerbauteFlaechen_radius_'+str(faktorAusbaufl)+'_'+str(year)+'.csv'
 
     exportFrame.to_csv(finished_filename, sep=';',decimal=',', index=False, encoding='utf-8-sig')
 
     return exportFrame
+
+def freie_ha_vor(year, standorte, belgegteha):
+    print('Start freie_ha_pot')
+
+    print(standorte)
+    print(belgegteha)
+
+    temp_freiVor = []
+    temp_belegtVor = []
+    for index, i in enumerate(standorte['haVor']):
+        x = 0
+        y = 0
+        for kindex, j in enumerate(belgegteha['Fläche in ha']):
+
+            if belgegteha['ID'][kindex] == standorte['ID'][index]:
+                print(belgegteha['ID'][kindex], standorte['ID'][index])
+                print(i, j)
+                x = (float(i)-float(j))
+                y = float(j)
+        print(standorte['haVor'][index], standorte['WKAVor'][index] )
+        if standorte['haVor'][index] > 0 and standorte['WKAVor'][index] == '-':
+            x = standorte['haVor'][index]
+
+        temp_freiVor.append(x)
+        temp_belegtVor.append(y)
+    print(temp_freiVor)
+    standorte['besetze Fläche'] = temp_belegtVor
+    standorte['freieVor in ha'] = temp_freiVor
+
+    # exportFrame.insert(loc=0, column='Typ', value=WKA['TYP'])
+    finished_filename = 'KurzAnschauen_'+str(year)+'.csv'
+
+    standorte.to_csv(finished_filename, sep=';', decimal=',', index=False, encoding='utf-8-sig')
+    print(standorte)
+    return standorte
+
+
+    print('Ende freie_ha_pot')
+
+def freie_leistung_Vor(year, standort):
+    print('Start freie_leistung_Vor')
+    WeaModell_fl_name = 'Enercon E-126/3500'
+    WeaModell_fl_leistung = 3500
+    WeaModell_fl = ((15 * np.square(float(127)))/10000)
+    temp_anzahl = []
+    temp_leistung = []
+    temp_fl = []
+
+    for index, i in enumerate(standort['freieVor in ha']):
+
+        if i > 0:
+            anzahl = i/WeaModell_fl
+            leistung = int(anzahl) * WeaModell_fl_leistung
+            temp_anzahl.append(int(anzahl))
+            temp_leistung.append(leistung)
+            temp_fl.append(WeaModell_fl)
+        else:
+            temp_anzahl.append(0)
+            temp_leistung.append(0)
+            temp_fl.append(0)
+
+    standort[WeaModell_fl_name] = temp_fl
+    standort['temp_anzahl'] = temp_anzahl
+    standort['temp_leistung'] = temp_leistung
+
+    print('freie_leistung_pot')
+    return standort
+
+def ausbau(year, EE_Analyse, Standort):
+    print('Start Analyse Ausbau')
+    print(EE_Analyse)
+    b = EE_Analyse.sort_values(by=['Diff_EE_zu_Verb'], ascending=False)
+    qindex = int(8760 * 0.75)
+    value = 0
+    for index, i in enumerate(b['Diff_EE_zu_Verb']):
+        if index == qindex:
+            value= i
+
+    #b.to_csv('kurzzz.csv', sep=';',decimal=',', index=False, encoding='utf-8-sig')
+    #print(b['Diff_EE_zu_Verb'][qindex])
+    #print(b)
+    print('Ende Anlyse Ausbau')
+
+    return value
+
+def leistung_im_Jahr(year, Windlastprofil, standorte, value):
+
+
+    if value > 0:
+        print('hallo')
+
+
+
+
 
 
 

@@ -73,11 +73,7 @@ def openAusbauflaechen(export=True):
         exportname = "Datenbank\Ausbauflaechen\AusbauStandorte_gesamt_SH/" + "AlleStandorte" + ".csv"
         merge_df.to_csv(exportname, sep=';', encoding='utf-8-sig', index=False)
 
-def testGPD():
-    a = gpd.SingleLocation("Bietigheim-Bissingen", "74321")
-    print(a.getRaw())
-    liste = ["Bietigheim-Bissingen", "Asperg","Ingersheim", "Ludwigsburg", "Heimfeld"]
-    b = gpd.Multiple(liste,"Deutschland")
+
 
 def testStandartImport():
     standartListe = ["Date", "Time", "Cons_Prod", "Location", "Energynetwork", "Energy_in_kWh", "Energysource"]
@@ -129,30 +125,31 @@ def ablauf2020():
 #database.testErzeugungszusammenfassungSolar(2020,'SH', 'PV')
 
 
-'''ablauf2019()
-ablauf2020()
+#ablauf2019()
+#ablauf2020()
 
 PV_2019 = lgk.erzeugungPerStunde(2019, 'PV')
-PV_2020 = lgk.erzeugungPerStunde(2020, 'PV')
+#PV_2020 = lgk.erzeugungPerStunde(2020, 'PV')
 Wind_2019 = lgk.erzeugungPerStunde(2019, 'Wind')
-Wind_2020 = lgk.erzeugungPerStunde(2020, 'Wind')
+#Wind_2020 = lgk.erzeugungPerStunde(2020, 'Wind')
 del PV_2019['Datum']
 EE_Erz_2019 = pd.concat([Wind_2019, PV_2019], axis=1, sort=False)
-del PV_2020['Datum']
-EE_Erz_2020 = pd.concat([Wind_2020, PV_2020], axis=1, sort=False)
+#del PV_2020['Datum']
+#EE_Erz_2020 = pd.concat([Wind_2020, PV_2020], axis=1, sort=False)
 
 
 verbrauch_2019 = lgk.verbrauchGesamt(2019)
-verbrauch_2020 = lgk.verbrauchGesamt(2020)
+#verbrauch_2020 = lgk.verbrauchGesamt(2020)
 
-lgk.analyseEE(2019, EE_Erz_2019, verbrauch_2019)
-lgk.analyseEE(2020, EE_Erz_2020, verbrauch_2020)'''
+EE_Analyse = lgk.analyseEE(2019, EE_Erz_2019, verbrauch_2019)
+#lgk.analyseEE(2020, EE_Erz_2020, verbrauch_2020)
 
-'''database.utm_to_gk(2019, 'Wind', 'SH')
+'''
+database.utm_to_gk(2019, 'Wind', 'SH')
 database.utm_to_gk(2019, 'Wind', 'HH')
 database.utm_to_gk(2020, 'Wind', 'SH')
-database.utm_to_gk(2020, 'Wind', 'HH')'''
-'''
+database.utm_to_gk(2020, 'Wind', 'HH')
+
 try:
     openfilename1 = 'Datenbank\Ausbauflaechen\AusbauStandorte_gesamt_SH/AlleStandorte.csv'
     print(openfilename1)
@@ -162,31 +159,60 @@ try:
 except:
     print('falsches Format')
 
-df = gpd.addCoords(df, 'StadtPot', 'KreisPot', 'Coords Pot', '')
-df = gpd.addCoords(df, 'StadtVor', 'KreisVor', 'Coords Vor', '')
+df = gpd.addCoords(df, 'StadtPot', 'KreisPot', 'Coords Pot')
+df = gpd.addCoords(df, 'StadtVor', 'KreisVor', 'Coords Vor')
 
 finished_filename = 'Datenbank\ConnectwithID/AlleStandorte_Coords.csv'
 
 df.to_csv(finished_filename, sep=';', index=False, encoding='utf-8-sig')
 
 
-#lgk.analyseAusbauFl()'''
+#lgk.analyseAusbauFl()
+'''
 
 try:
     openfilename1 = 'Datenbank\ConnectwithID/AlleStandorte_Coords.csv'
     print(openfilename1)
 
-    df = pd.read_csv(openfilename1, delimiter=';', decimal=',', encoding='latin1')
+    alleStandorte_Coords = pd.read_csv(openfilename1, delimiter=';', encoding='utf-8')
 
 except:
     print('falsches Format')
 
-verbaut2019 = lgk.stand_distance_analyse(2019, df)
-verbaut2020 = lgk.stand_distance_analyse(2020, df)
-#lgk.Windlastprofil(2019, 'Wind')
-#lgk.Windlastprofil(2020, 'Wind')
+try:
+    openfilename1 = 'Import\Wetterstationen/StundeWindStationen.csv'
+    print(openfilename1)
 
-#print('end')
+    weather = pd.read_csv(openfilename1, delimiter=';', encoding='latin1')
+
+except:
+    print('falsches Format')
+
+df = gpd.addCoords(weather, 'Stationsname', 'Bundesland', 'Coords')
+
+weather_neu = gpd.addWeather(alleStandorte_Coords, df, 'Coords Pot', 'Coords', 'Stations_id')
+print(weather_neu)
+
+
+verbaut2019 = lgk.stand_distance_analyse(2019, alleStandorte_Coords)
+#verbaut2020 = lgk.stand_distance_analyse(2020, alleStandorte_Coords)
+
+
+freieha2019 = lgk.freie_ha_vor(2019, alleStandorte_Coords, verbaut2019)
+standort_mitfreierLeistung = lgk.freie_leistung_Vor(2019, freieha2019)
+
+finished_filename = 'KORZ.csv'
+
+standort_mitfreierLeistung.to_csv(finished_filename, sep=';',decimal=',', index=False, encoding='utf-8-sig')
+
+
+value = lgk.ausbau(2019, EE_Analyse,standort_mitfreierLeistung)
+
+
+Windlastprofil = lgk.Windlastprofil(2019, 'Wind')
+#lgk.Windlastprofil(2020, 'Wind')
+lgk.leistung_im_Jahr(2019, Windlastprofil, standort_mitfreierLeistung,value )
+print('end')
 
 
 
