@@ -1,9 +1,11 @@
+import numpy
 import pandas as pd
 import numpy as np
+
 from database import findoutFiles
 """Erzeugt ein DataFrame oder eine Liste mit fortlaufenden Datum+Uhrzeit"""
 from database import dateList_dataFrame as DateList
-import time
+from datetime import datetime
 from geopy import distance
 import geo
 
@@ -51,6 +53,52 @@ class WKAmodell:
             for key in p_info:
                 print(key + ':' , p_info[key])
 
+class WetterStation:
+
+    def __init__(self,ID ,NameORT, state, Messhight):
+
+        self.NameORT = NameORT
+        self.ID = ID
+        self.Messhight = Messhight
+        self.state = state
+        self.__dict = self.filldict()
+
+    def filldict(self):
+        temp_dict = {}
+        for index, i in enumerate(self.ID):
+            temp_dict[i] = {'NameORT': self.NameORT[index], 'ID': self.ID[index],
+                            'Messhight': self.Messhight[index], 'state': self.state[index]}
+            #print(temp_dict)
+
+        return temp_dict
+
+    def getAnzahlWKAmodell(self):
+        return len(self.__dict)
+
+
+    def getdict(self):
+        return self.__dict
+
+    def changedict_singel(self, key, type, value):
+
+        self.__dict[key][type] = value
+
+    def getWetterStation(self, key):
+
+        return self.__dict[key]
+
+    def printWetterStation(self):
+        for p_id, p_info in self.__dict.items():
+            print("\n ID ID:", p_id)
+            for key in p_info:
+                print(key + ':' , p_info[key])
+
+def wind_hochrechnung(wind, naben_hight, mess_hight):
+
+    hellmann_konst = 0.25
+    delte_hight = naben_hight/mess_hight
+    wind = wind * (delte_hight ** hellmann_konst)
+    return wind
 
 def WEAmodellDictionary():
     try:
@@ -77,7 +125,6 @@ def WEAmodellDictionary():
         dict[modell[index]] = [Ein_ms[index], Nenn_ms[index], Abs_ms[index]]
 
     return dict
-
 
 def WEAmodellDictionary_Class():
     try:
@@ -120,8 +167,47 @@ def WEAmodellDictionary_Class():
 
     return peter
 
+def WeatherStationDictionary_Class():
+    try:
+        headerlistModell = ['Stations_id','Messhoehe', 'Stationsname', 'Bundesland']
+        openfilename3 = 'Import\Wetterstationen/StundeWindStationen.csv'
+        print(openfilename3)
+        df = pd.read_csv(openfilename3, usecols=headerlistModell, delimiter=';', decimal=',', header=0,
+                                  encoding='latin1')
+        print(df)
+    except ValueError:
+        print("falsches Format")
 
-def erzeugungsdatenEEAnlagen(year, source , state):
+    #Erstellen des Dictionary
+
+
+    for i in range(len(df['Stations_id'])):
+        if isinstance(df['Messhoehe'][i], float) == False and isinstance(df['Messhoehe'][i], int) == False:
+            df['Messhoehe'][i] = 9999
+        if isinstance(df['Stations_id'][i], float) == False and isinstance(df['Stations_id'][i], numpy.int64) == False:
+            print(type(df['Stations_id'][i]))
+            print(isinstance(df['Stations_id'][i], float))
+            print(isinstance(df['Stations_id'][i], int))
+            df['Stations_id'][i] = '0'
+        if isinstance(df['Stationsname'][i], str) == False:
+            df['Stationsname'][i] = "unbekannt"
+        if isinstance(df['Bundesland'][i], str) == False:
+            df['Bundesland'][i] = "unbekannt"
+
+
+    Stations_id = df['Stations_id'].tolist()
+    Messhoehe = df['Messhoehe'].tolist()
+    Stationsname = df['Stationsname'].tolist()
+    Bundesland = df['Bundesland'].tolist()
+
+    #print(Stations_id, Stationsname, Bundesland, Messhoehe)
+
+    peter = WetterStation(Stations_id,Stationsname,Bundesland,Messhoehe )
+   #WKAmodell(k, Ein_ms[index], Nenn_ms[index], Abs_ms[index], P_kw[index])
+
+    return peter
+
+def erzeugungsdatenEEAnlagen(year, source, state ):
 
     exportFrame = DateList('01.01.' + str(year) + ' 00:00', '31.12.' + str(year) + ' 23:00','60min')
 
@@ -146,7 +232,7 @@ def erzeugungsdatenEEAnlagen(year, source , state):
     lengthLocation2 = 0
     if source == 'Wind':
         try:
-            headerlistLokation = ['TYP', 'Modell', 'Wetter-ID','LEISTUNG' ]
+            headerlistLokation = ['TYP', 'Modell', 'Wetter-ID','LEISTUNG', 'NABENHOEHE' ]
             openfilename1 = 'Datenbank\ConnectwithID\Erzeugung/' + matchfilelist3[0]
             print(openfilename1)
 
@@ -159,8 +245,10 @@ def erzeugungsdatenEEAnlagen(year, source , state):
         except ValueError:
             print("falsches Format")
 
-        peter = WEAmodellDictionary_Class()
-        dictModell = peter.getdict()
+        temp_wea = WEAmodellDictionary_Class()
+        dictModell = temp_wea.getdict()
+        temp_WeatherID = WeatherStationDictionary_Class()
+        dictWeatherID = temp_WeatherID.getdict()
 
 
         for i in range(lengthLocation):
@@ -168,14 +256,18 @@ def erzeugungsdatenEEAnlagen(year, source , state):
             leistung = []
             WKAunbekannt = False
             #print(str(lokationsdaten['Wetter-ID'][i]))
+
             matcheswetterdaten = [match for match in wetterdaten.columns.values.tolist() if
                                   str(lokationsdaten['Wetter-ID'][i]) in match]
             #print(matcheswetterdaten)
             if len(matcheswetterdaten) != 2:
                 print('Fehler Wetterdaten nicht schlimm')
                 print(lokationsdaten['Wetter-ID'][i])
+                lokationsdaten['Wetter-ID'][i] = 3086
+                matcheswetterdaten = [match for match in wetterdaten.columns.values.tolist() if
+                                      str(lokationsdaten['Wetter-ID'][i]) in match]
                 wetterIDunbekannt += 1
-                continue
+
 
             columnName = str(i) + '_Ezg_' + str(lokationsdaten['TYP'][i]) + '_' + str(
                 lokationsdaten['Modell'][i]) + '_' + str(lokationsdaten['Wetter-ID'][i])
@@ -203,7 +295,11 @@ def erzeugungsdatenEEAnlagen(year, source , state):
                 modellunbekannt += 1
 
 
-            for k in wetterdaten[matcheswetterdaten[0]]:
+            temp_wetter = wetterdaten[matcheswetterdaten[0]]
+
+            temp_wetter = wind_hochrechnung(wetterdaten[matcheswetterdaten[0]], lokationsdaten['NABENHOEHE'][i],
+                                            dictWeatherID[lokationsdaten['Wetter-ID'][i]]['Messhight'])
+            for k in temp_wetter:
 
                 #Fehler raus suchen
                 if k < 0:
@@ -398,7 +494,7 @@ def analyseEE(year, EE_Erz, verbrauch):
 
     EE_Erz['Verbrauch_HH'] = verbrauch['Verbrauch_HH']
     EE_Erz['Verbrauch_SH'] = verbrauch['Verbrauch_SH']
-    print(EE_Erz)
+
 
     EE_Erz['EE_Anteil'] = EE_Erz['Erzeugung_Gesamt']/verbrauch['Verbrauch_Gesamt']
     liste_100 = []
@@ -466,9 +562,10 @@ def analyseEE(year, EE_Erz, verbrauch):
     EE_Erz['EE>50%'] = liste_50
     EE_Erz['EE>45%'] = liste_45
     EE_Erz['EE<45%'] = liste_k45
+    uhrzeit = datetime.now().strftime('%Y%m%d_%H-%M')
 
-    print(EE_Erz)
-    exportname = "GruenEnergie_" + str(year) + ".csv"
+    exportname = 'GruenEnergie_' + str(year) + '_' + str(uhrzeit) + '.csv'
+    print(exportname)
     EE_Erz.to_csv(exportname, sep=';', encoding='utf-8', index=False, decimal=',')
 
     return EE_Erz
@@ -509,11 +606,11 @@ def analyseAusbauFl():
     print('Anzahl PotentialFl: ', potAnz_ohneWKA)
     print('Anzahl Vorrang: ', vorAnz_ohneWKA)
 
-def Windlastprofil(year, source):
+def windlastprofil(year):
     print("Start WindLastProfil")
-    schritt = 1
+
     try:
-        openfilename2 = 'Datenbank\Wetter/'+ source +'_Wetterdaten_' + str(year) + '.csv'
+        openfilename2 = 'Datenbank\Wetter/Wind_Wetterdaten_' + str(year) + '.csv'
         print(openfilename2)
         wetterdaten = pd.read_csv(openfilename2, delimiter=';', decimal=',', header=0)
         #print(wetterdaten)
@@ -522,11 +619,10 @@ def Windlastprofil(year, source):
 
     mWd = [match for match in wetterdaten.columns.values.tolist() if
                           str('m/s') in match]
-    mwd = [match for match in mWd if
-                          str('19171') in match]
+
     WindAnalyseSchritte = []
 
-    for i in range(29):
+    for i in range(36):
         WindAnalyseSchritte.append(i)
         #WindAnalyseSchritte.append(i+schritt)
 
@@ -534,10 +630,10 @@ def Windlastprofil(year, source):
 
     AnalyseProfilbz = []
     for i in WindAnalyseSchritte:
-        AnalyseProfilbz.append('von_'+str(i-schritt)+'_bis_'+str(i)+'_ms')
+        AnalyseProfilbz.append('von_'+str(i-1)+'_bis_'+str(i)+'_ms')
 
-    print(WindAnalyseSchritte)
-    print(AnalyseProfilbz)
+    #print(WindAnalyseSchritte)
+    #print(AnalyseProfilbz)
 
 
     'Header Names für die Auswertung'
@@ -546,33 +642,43 @@ def Windlastprofil(year, source):
          }
     )
 
-    print(mWd)
+    #print(exportFrame)
 
     for i in range(len(mWd)):
-        listparameter = [0] * len(WindAnalyseSchritte)
+
         #print(wetterdaten[mWd[i]])
 
-        for j in wetterdaten[mWd[i]]:
+        for q in range(1, 6, 1):
+            listparameter = [0] * len(WindAnalyseSchritte)
+            hight1 = 25 * q
+            hight2 = 10
+            temp_wather = wetterdaten[mWd[i]]
+            temp_wather = temp_wather * ((hight1/hight2)**0.25)
+            for j in temp_wather:
+                #print(len(temp_wather))
+                for index, k in enumerate(WindAnalyseSchritte):
+                    # print(float(j), float(k))
+                    if index > k:
+                        print('Stop')
+                    if float(j) > float(index) and float(j) <= float(k):
+                        listparameter[index] += 1
 
-            for index, k in enumerate(WindAnalyseSchritte):
-                #print(float(j), float(k))
-                if float(k)-schritt < float(j) and float(k) >= float(j):
-                    listparameter[index] += 1
+                        # print(listparameter[index])
 
-                    #print(listparameter[index])
+            name = mWd[i] +'_hight_' + str(hight1) + 'm'
+            exportFrame[name] = listparameter
 
-        exportFrame[mWd[i]] = listparameter
     exportFrame.set_index('AnalyseProfil', inplace=True)
-    print(exportFrame)
-    exportFrame2 = exportFrame.T
-    print(exportFrame2)
+    #print(exportFrame)
+    #exportFrame2 = exportFrame.T
+    #print(exportFrame2)
     #exportFrame2.loc['AnalyseProfil',:] = AnalyseProfilbz
 
     exportname2 = 'Datenbank\Wetter\WindAnalyse/Windanlyse_' + str(year) + '.csv'
-    exportFrame2.to_csv(exportname2, sep=';', encoding='utf-8', index=True , decimal=',')
+    exportFrame.to_csv(exportname2, sep=';', encoding='utf-8', index=True , decimal=',')
 
     print('Ende')
-    return exportname2
+    return exportFrame
 
 def stand_distance_analyse_alt(year,standorte):
 
@@ -696,8 +802,8 @@ def stand_distance_analyse(year, standorte):
 def freie_ha_vor(year, standorte, belgegteha):
     print('Start freie_ha_pot')
 
-    print(standorte)
-    print(belgegteha)
+    #print(standorte)
+    #print(belgegteha)
 
     temp_freiVor = []
     temp_belegtVor = []
@@ -707,17 +813,17 @@ def freie_ha_vor(year, standorte, belgegteha):
         for kindex, j in enumerate(belgegteha['Fläche in ha']):
 
             if belgegteha['ID'][kindex] == standorte['ID'][index]:
-                print(belgegteha['ID'][kindex], standorte['ID'][index])
-                print(i, j)
+                #print(belgegteha['ID'][kindex], standorte['ID'][index])
+                #print(i, j)
                 x = (float(i)-float(j))
                 y = float(j)
-        print(standorte['haVor'][index], standorte['WKAVor'][index] )
+        #print(standorte['haVor'][index], standorte['WKAVor'][index] )
         if standorte['haVor'][index] > 0 and standorte['WKAVor'][index] == '-':
             x = standorte['haVor'][index]
 
         temp_freiVor.append(x)
         temp_belegtVor.append(y)
-    print(temp_freiVor)
+    #print(temp_freiVor)
     standorte['besetze Fläche'] = temp_belegtVor
     standorte['freieVor in ha'] = temp_freiVor
 
@@ -725,7 +831,7 @@ def freie_ha_vor(year, standorte, belgegteha):
     finished_filename = 'KurzAnschauen_'+str(year)+'.csv'
 
     standorte.to_csv(finished_filename, sep=';', decimal=',', index=False, encoding='utf-8-sig')
-    print(standorte)
+    #print(standorte)
     return standorte
 
 
@@ -762,13 +868,22 @@ def freie_leistung_Vor(year, standort):
 
 def ausbau(year, EE_Analyse, Standort):
     print('Start Analyse Ausbau')
-    print(EE_Analyse)
+    #print(EE_Analyse)
+    trueHours = 0
+    for i in EE_Analyse['EE>100%']:
+        if i == 'True':
+            trueHours += 1
+
+
     b = EE_Analyse.sort_values(by=['Diff_EE_zu_Verb'], ascending=False)
     qindex = int(8760 * 0.75)
     value = 0
-    for index, i in enumerate(b['Diff_EE_zu_Verb']):
-        if index == qindex:
-            value= i
+    if qindex >= trueHours:
+        for index, i in enumerate(b['Diff_EE_zu_Verb']):
+            if index == qindex:
+                value = i
+
+    print(value)
 
     #b.to_csv('kurzzz.csv', sep=';',decimal=',', index=False, encoding='utf-8-sig')
     #print(b['Diff_EE_zu_Verb'][qindex])
@@ -777,11 +892,126 @@ def ausbau(year, EE_Analyse, Standort):
 
     return value
 
-def leistung_im_Jahr(year, Windlastprofil, standorte, value):
+def leistung_im_Jahr(year, standorte, value, standort_main):
 
 
     if value > 0:
         print('hallo')
+    filelist = findoutFiles('Datenbank\Erzeugung\Einzel')
+    matchfilelist = [match for match in filelist if 'Wind' in match]
+    matchfilelist = [match for match in matchfilelist if str(year) in match]
+    matchfilelist = [match for match in matchfilelist if 'SH' in match]
+
+    try:
+        openfilename1 = 'Datenbank\Erzeugung\Einzel/' + matchfilelist[0]
+        #print(openfilename1)
+
+        lokdaten = pd.read_csv(openfilename1, delimiter=';', decimal=',',
+                                     header=0, encoding='latin1')
+
+        #lengthLokationsdaten = lokdaten.__len__()
+        #print(lokdaten)
+
+    except ValueError:
+        print("falsches Format")
+
+    p = windenergie(standorte,standort_main)
+
+    #print(p)
+
+    lokdaten[p[1]] = p[0]
+
+    finished_filename = 'Datenbank\Erzeugung\Einzel/' + matchfilelist[0]
+    lokdaten.to_csv(finished_filename, sep=';', decimal=',', index=False, encoding='latin1')
+
+    return p[2], p[3], p[4], p[5]
+
+def windenergie(standort,standort_main):
+
+    try:
+        openfilename1 = 'Datenbank\Wetter/Wind_Wetterdaten_2019.csv'
+        #print(openfilename1)
+
+        Wetterdaten = pd.read_csv(openfilename1, delimiter=';', decimal=',',
+                                     header=0, encoding='latin1')
+
+        #lengthLokationsdaten = lokdaten.__len__()
+        #print(lokdaten)
+
+    except ValueError:
+        print("falsches Format")
+
+    #print(Wetterdaten)
+    #print(standort)
+
+    leistung = []
+
+    name = 'Enercon E-126/3500'
+    Ein_ms = 2
+    Nenn_ms = 14
+    Abs_ms = 30
+    leistung_einzel = 3500
+    weatherID = '1200'
+    standortbesetzt = standort_main
+    anzahl_2 = 0
+    name_2 = ''
+    leistung_Gesamt = 123
+
+    cloumFrame = Wetterdaten.columns.values.tolist()
+
+    for qindex, i in enumerate(standort['temp_anzahl']):
+        if i > 0 and qindex > standortbesetzt:
+            anzahl_2 = i
+            leistung_Gesamt = leistung_einzel * i
+            weatherID = str(standort['Wetter-ID_Head'][qindex])
+            name_2 = str(standort['ID'][qindex])
+            standortbesetzt = qindex
+            break
+    if leistung_Gesamt == 123:
+        print('Hallo')
+
+
+
+
+    columnName = str(qindex)+'_Ezg_' + '_' + str(name_2)
+    matchfilelist = [match for match in cloumFrame if weatherID in match]
+    lengthlist = len(matchfilelist)
+
+    if lengthlist != 2:
+        matchfilelist.append('Wind_m/s_788')
+
+    for index, k in enumerate(Wetterdaten[matchfilelist[0]]):
+
+        # Fehler raus suchen
+        if k < 0:
+                leistung.append(int(0))
+        # unter Nennleistung
+        elif k >= Ein_ms and k < Nenn_ms:
+            x = (leistung_Gesamt / (Nenn_ms)) * k
+
+            leistung.append(int(x))
+        # ueber nennleistung
+        elif k >= Nenn_ms and k < Abs_ms:
+            leistung.append(int(leistung_Gesamt))
+
+            # außerhalb der Betriebsgeschwindigekeit
+        elif k >= Abs_ms or k < Ein_ms:
+            leistung.append(int(0))
+
+
+        else:
+            print("Fehler")
+            leistung.append(int(0))
+
+        # print('Eintrag bei ', i)
+
+    print(leistung)
+
+    return leistung, columnName, standortbesetzt, anzahl_2, leistung_Gesamt, name_2
+
+
+
+
 
 
 

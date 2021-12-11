@@ -110,7 +110,7 @@ def erzeugungsZsmPV(year, state, source = 'PV', weatherConnect = True):
 
     Datumabgleich = dateList_dataFrame('01.01.' + str(year - 1),
                                        '01.01.' + str(year + 1), 'Y', list=True)
-    print(Datumabgleich)
+    #print(Datumabgleich)
     #2021 muss ersetzt werden durch Zeitfunktion
     filelist = findoutFiles('Datenbank\ConnectwithID\PV_einzelneAnlagen')
     matchfilelist1 = [match for match in filelist if state in match]
@@ -121,26 +121,26 @@ def erzeugungsZsmPV(year, state, source = 'PV', weatherConnect = True):
     try:
         headerlistLokation = ['Nettonennleistung der Einheit', 'Inbetriebnahmedatum der Einheit', 'Wetter-ID_Head']
         openfilename1 = 'Datenbank\ConnectwithID\PV_einzelneAnlagen/' + matchfilelist4[0]
-        print(openfilename1)
+        #print(openfilename1)
 
         lokationsdaten = pd.read_csv(openfilename1, delimiter=';', usecols=headerlistLokation, decimal=',',
                                      header=0, encoding='latin1')
 
 
-        print(lokationsdaten)
+        #print(lokationsdaten)
     except ValueError:
         print("falsches Format")
 
     try:
         headerlistLokation2 = ['Stations_id', 'Bundesland']
         openfilename2 = 'Import\Wetterstationen/StundeWindStationen.csv'
-        print(openfilename2)
+        #print(openfilename2)
 
         wetterID = pd.read_csv(openfilename2, delimiter=';', usecols=headerlistLokation2, decimal=',',
                                      header=0, encoding='latin1')
 
 
-        print(wetterID)
+        #print(wetterID)
     except ValueError:
         print("falsches Format")
 
@@ -175,8 +175,8 @@ def erzeugungsZsmPV(year, state, source = 'PV', weatherConnect = True):
         LeistungGesamt.append(summeBisYear + SummeInYear)
         WetterStation.append(wetterID['Stations_id'][i])
         Bundesland.append(wetterID['Bundesland'][i])
-        print('New Value')
-        print(wetterID['Stations_id'][i])
+        #print('New Value')
+        #print(wetterID['Stations_id'][i])
 
     AusgabeFrame = pd.DataFrame(
         {
