@@ -227,7 +227,7 @@ print('Fertig')
 
 print(standortliste_123)
 print(list_value)
-
+print('Fertig')
 
 
 

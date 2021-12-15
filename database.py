@@ -490,6 +490,7 @@ def utm_to_gk(year, source, state):
 
     exportname = 'Datenbank\ConnectwithID\Erzeugung/Windparks' + state + '_WetterID_' + str(year) + '_UTM.csv'
     df.to_csv(exportname, sep=';', encoding='utf-8', index=False, decimal=',')
+    print('Fertig')
 
     return df
 

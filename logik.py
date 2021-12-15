@@ -489,6 +489,7 @@ def verbrauchGesamt(year):
 
     exportname = "Datenbank\Verbrauch\Verbrauch_komuliert_"+ str(year) + ".csv"
     AusgabeFrame.to_csv(exportname, sep=';', encoding='utf-8', index=False, decimal=',')
+    print('Fertig')
 
     return AusgabeFrame
 
