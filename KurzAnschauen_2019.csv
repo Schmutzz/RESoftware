@@ -292,7 +292,7 @@ PR1_NFL_318;Nordfriesland;-;TetenbÃ¼ll;-;53,1;0,0;-;-;[54.3513668, 8.8261692];
 PR1_NFL_319;Nordfriesland;-;Tating;-;99,5;0,0;WKA in Betrieb;-;[54.3256494, 8.7063937];[0, 0];4393;0,0;0,0
 PR1_NFL_401;Nordfriesland;-;Sylt;-;33,7;0,0;-;-;[54.9017773, 8.331346];[0, 0];2907;0,0;0,0
 PR1_NFL_402;Nordfriesland;-;Sylt;-;77,6;0,0;-;-;[54.9017773, 8.331346];[0, 0];2907;0,0;0,0
-PR1_NFL_403;Nordfriesland;-;Alkersum,Borgsum,Midlum,Nieblum,Oevenum,Oldsum,SÃ¼derende,Wrixum;-;669,4;0,0;-;-;[54.7101873, 8.4932484];[0, 0];4919;0,0;0,0
+PR1_NFL_403;Nordfriesland;-;Alkersum,Borgsum,Midlum,Nieblum,Oevenum,Oldsum,SÃ¼derende,Wrixum;-;669,4;0,0;-;-;[54.7101873, 8.4932484];[0, 0];2907;0,0;0,0
 PR1_NFL_404;Nordfriesland;-;Oevenum;-;25,0;0,0;-;-;[54.7108916, 8.5309084];[0, 0];2907;0,0;0,0
 PR1_NFL_405;Nordfriesland;-;SÃ¼derlÃ¼gum;-;28,1;0,0;-;-;[54.8725632, 8.9073837];[0, 0];2907;0,0;0,0
 PR1_NFL_406;Nordfriesland;Nordfriesland;Bramstedtlund,Ladelund,Weesby;Bramstedtlund,Weesby;257,2;58,5;-;-;[54.8403869, 9.0543542];[54.8411238, 9.0848044];2907;0,0;58,5
@@ -403,7 +403,7 @@ PR3_OHS_503;Ostholstein;-;Sierksdorf,SÃ¼sel;-;83,3;0,0;-;-;[54.0729579, 10.741
 PR3_PIN_001;Pinneberg;Pinneberg;Bokel;Bokel;44,3;21,8;-;-;[53.8667, 9.73333];[53.8667, 9.73333];2429;0,0;21,8
 PR3_PIN_002;Pinneberg;-;Bokel;-;30,5;0,0;-;-;[53.8667, 9.73333];[0, 0];2429;0,0;0,0
 PR3_PIN_003;Pinneberg;-;Bokel,Brande-HÃ¶rnerkirchen,Lutzhorn;-;176,6;0,0;-;-;[53.8476352, 9.7417358];[0, 0];2429;0,0;0,0
-PR3_PIN_004;Pinneberg;-;Heede;-;22,9;0,0;-;-;[53.7833, 9.8];[0, 0];1975;0,0;0,0
+PR3_PIN_004;Pinneberg;-;Heede;-;22,9;0,0;-;-;[53.7833, 9.8];[0, 0];4466;0,0;0,0
 PR3_PIN_005;Pinneberg;Pinneberg;Raa-Besenbek;Raa-Besenbek;54,0;54,0;-;-;[53.755585, 9.6025433];[53.755585, 9.6025433];6108;0,0;54,0
 PR3_PIN_006;Pinneberg;Pinneberg;Raa-Besenbek;Raa-Besenbek;47,5;47,5;-;-;[53.755585, 9.6025433];[53.755585, 9.6025433];6108;0,0;47,5
 PR3_PIN_007;Pinneberg;-;Seester;-;65,2;0,0;-;-;[53.7175933, 9.5972582];[0, 0];6108;0,0;0,0
@@ -429,16 +429,16 @@ PR2_PLO_010;PlÃ¶n;-;Fargau-Pratjau;-;102,8;0,0;-;-;[54.3259862, 10.3879623];[0
 PR2_PLO_011;PlÃ¶n;-;Fargau-Pratjau,Stoltenberg;-;60,3;0,0;-;-;[54.3348732, 10.3670358];[0, 0];2564;0,0;0,0
 PR2_PLO_028;PlÃ¶n;-;Bosau,BÃ¶sdorf;-;110,2;0,0;-;-;[54.1400045, 10.4899217];[0, 0];3897;0,0;0,0
 PR2_PLO_029;PlÃ¶n;-;Bosau,BÃ¶sdorf;-;107,0;0,0;-;-;[54.1400045, 10.4899217];[0, 0];3897;0,0;0,0
-PR2_PLO_030;PlÃ¶n;PlÃ¶n;RendswÃ¼hren,Ruhwinkel,Schillsdorf;RendswÃ¼hren,Ruhwinkel,Schillsdorf;271,0;168,6;WKA in Betrieb;WKA in Betrieb;[54.0936119, 10.175391];[54.0936119, 10.175391];4466;0,0;168,6
-PR2_PLO_031;PlÃ¶n;-;Schillsdorf;-;48,1;0,0;-;-;[54.1140799, 10.1258122];[0, 0];4466;0,0;0,0
-PR2_PLO_032;PlÃ¶n;PlÃ¶n;BÃ¶nebÃ¼ttel,RendswÃ¼hren;BÃ¶nebÃ¼ttel;213,1;51,6;-;-;[54.0764448, 10.119592];[54.0792518, 10.0588094];4466;0,0;51,6
-PR2_PLO_302;PlÃ¶n;-;GroÃharrie,Negenharrie;-;150,8;0,0;-;-;[54.1188393, 10.0485857];[0, 0];4466;0,0;0,0
-PR2_PLO_303;PlÃ¶n;PlÃ¶n;BÃ¶nebÃ¼ttel,GroÃharrie,Schillsdorf,Tasdorf;BÃ¶nebÃ¼ttel,GroÃharrie,Schillsdorf,Tasdorf;189,7;131,7;-;-;[54.1019319, 10.0661281];[54.1019319, 10.0661281];4466;0,0;131,7
-PR2_PLO_304;PlÃ¶n;-;BÃ¶nebÃ¼ttel;-;26,9;0,0;-;-;[54.0792518, 10.0588094];[0, 0];4466;0,0;0,0
-PR2_PLO_305;PlÃ¶n;-;BÃ¶nebÃ¼ttel;-;32,3;0,0;-;-;[54.0792518, 10.0588094];[0, 0];4466;0,0;0,0
-PR2_PLO_306;PlÃ¶n;PlÃ¶n;BÃ¶nebÃ¼ttel,GroÃ Kummerfeld;BÃ¶nebÃ¼ttel;103,6;24,9;-;-;[54.0792518, 10.0588094];[54.0792518, 10.0588094];4466;0,0;24,9
+PR2_PLO_030;PlÃ¶n;PlÃ¶n;RendswÃ¼hren,Ruhwinkel,Schillsdorf;RendswÃ¼hren,Ruhwinkel,Schillsdorf;271,0;168,6;WKA in Betrieb;WKA in Betrieb;[54.0936119, 10.175391];[54.0936119, 10.175391];2564;0,0;168,6
+PR2_PLO_031;PlÃ¶n;-;Schillsdorf;-;48,1;0,0;-;-;[54.1140799, 10.1258122];[0, 0];2564;0,0;0,0
+PR2_PLO_032;PlÃ¶n;PlÃ¶n;BÃ¶nebÃ¼ttel,RendswÃ¼hren;BÃ¶nebÃ¼ttel;213,1;51,6;-;-;[54.0764448, 10.119592];[54.0792518, 10.0588094];2564;0,0;51,6
+PR2_PLO_302;PlÃ¶n;-;GroÃharrie,Negenharrie;-;150,8;0,0;-;-;[54.1188393, 10.0485857];[0, 0];2564;0,0;0,0
+PR2_PLO_303;PlÃ¶n;PlÃ¶n;BÃ¶nebÃ¼ttel,GroÃharrie,Schillsdorf,Tasdorf;BÃ¶nebÃ¼ttel,GroÃharrie,Schillsdorf,Tasdorf;189,7;131,7;-;-;[54.1019319, 10.0661281];[54.1019319, 10.0661281];2564;0,0;131,7
+PR2_PLO_304;PlÃ¶n;-;BÃ¶nebÃ¼ttel;-;26,9;0,0;-;-;[54.0792518, 10.0588094];[0, 0];2564;0,0;0,0
+PR2_PLO_305;PlÃ¶n;-;BÃ¶nebÃ¼ttel;-;32,3;0,0;-;-;[54.0792518, 10.0588094];[0, 0];2564;0,0;0,0
+PR2_PLO_306;PlÃ¶n;PlÃ¶n;BÃ¶nebÃ¼ttel,GroÃ Kummerfeld;BÃ¶nebÃ¼ttel;103,6;24,9;-;-;[54.0792518, 10.0588094];[54.0792518, 10.0588094];2564;0,0;24,9
 PR2_PLO_501;PlÃ¶n;-;Krummbek,Stakendorf;-;16,1;0,0;-;-;[54.3832717, 10.4128159];[0, 0];2564;0,0;0,0
-PR2_PLO_502;PlÃ¶n;-;GroÃharrie,Schillsdorf;-;33,7;0,0;-;-;[54.1164596, 10.087199];[0, 0];4466;0,0;0,0
+PR2_PLO_502;PlÃ¶n;-;GroÃharrie,Schillsdorf;-;33,7;0,0;-;-;[54.1164596, 10.087199];[0, 0];2564;0,0;0,0
 PR3_PLO_012;PlÃ¶n;-;Wangels;-;26,8;0,0;-;-;[0, 0];[0, 0];6108;0,0;0,0
 PR2_RDE_001;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;DÃ¶rphof;DÃ¶rphof;101,9;51,6;-;-;[54.6184868, 9.9770988];[54.6184868, 9.9770988];5930;0,0;51,6
 PR2_RDE_002;Rendsburg-EckernfÃ¶rde;-;Damp,DÃ¶rphof,Thumby;-;114,7;0,0;-;-;[54.5955605, 9.9699323];[0, 0];5930;0,0;0,0
@@ -468,105 +468,105 @@ PR2_RDE_026;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Gettorf,Osdorf;Get
 PR2_RDE_027;Rendsburg-EckernfÃ¶rde;-;GroÃ Wittensee;-;15,0;0,0;-;-;[54.4055005, 9.7687811];[0, 0];2303;0,0;0,0
 PR2_RDE_028;Rendsburg-EckernfÃ¶rde;-;Gettorf,Lindau,Neudorf-Bornstein;-;49,9;0,0;-;-;[54.4069994, 9.9417974];[0, 0];2564;0,0;0,0
 PR2_RDE_029;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Owschlag;Owschlag;125,5;81,2;WKA in Betrieb;WKA in Betrieb;[54.393739, 9.5910158];[54.393739, 9.5910158];2303;0,0;81,2
-PR2_RDE_030;Rendsburg-EckernfÃ¶rde;-;Haby,Holtsee;-;51,8;0,0;-;-;[54.3966177, 9.8370986];[0, 0];4466;0,0;0,0
+PR2_RDE_030;Rendsburg-EckernfÃ¶rde;-;Haby,Holtsee;-;51,8;0,0;-;-;[54.3966177, 9.8370986];[0, 0];2564;0,0;0,0
 PR2_RDE_032;Rendsburg-EckernfÃ¶rde;-;GroÃ Wittensee,Klein Wittensee;-;44,8;0,0;-;-;[54.3984659, 9.7510341];[0, 0];2303;0,0;0,0
 PR2_RDE_033;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Felm,TÃ¼ttendorf;Felm,TÃ¼ttendorf;133,0;117,3;WKA in Betrieb;WKA in Betrieb;[54.4011827, 10.0298351];[54.4011827, 10.0298351];2564;54,432;62,867999999999995
 PR2_RDE_034;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Holtsee,Lindau,Neudorf-Bornstein;Holtsee,Lindau,Neudorf-Bornstein;67,0;56,0;WKA in Betrieb;WKA in Betrieb;[54.4048379, 9.9005026];[54.4048379, 9.9005026];2564;80,808;-24,808000000000007
-PR2_RDE_035;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Holtsee;Holtsee;90,8;74,9;-;-;[54.3988114, 9.8547044];[54.3988114, 9.8547044];4466;0,0;74,9
-PR2_RDE_036;Rendsburg-EckernfÃ¶rde;-;Holtsee;-;36,0;0,0;-;-;[54.3988114, 9.8547044];[0, 0];4466;0,0;0,0
+PR2_RDE_035;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Holtsee;Holtsee;90,8;74,9;-;-;[54.3988114, 9.8547044];[54.3988114, 9.8547044];2564;0,0;74,9
+PR2_RDE_036;Rendsburg-EckernfÃ¶rde;-;Holtsee;-;36,0;0,0;-;-;[54.3988114, 9.8547044];[0, 0];2564;0,0;0,0
 PR2_RDE_037;Rendsburg-EckernfÃ¶rde;-;TÃ¼ttendorf;-;32,9;0,0;-;-;[54.3922068, 9.9932757];[0, 0];2564;0,0;0,0
 PR2_RDE_038;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Alt Duvenstedt,Owschlag;Owschlag;266,0;56,7;-;-;[54.3761713, 9.6173868];[54.393739, 9.5910158];2303;0,0;56,7
-PR2_RDE_039;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Sehestedt;Sehestedt;33,6;32,6;WKA in Betrieb;WKA in Betrieb;[54.3667005, 9.8166689];[54.3667005, 9.8166689];4466;40,927;-8,326999999999998
+PR2_RDE_039;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Sehestedt;Sehestedt;33,6;32,6;WKA in Betrieb;WKA in Betrieb;[54.3667005, 9.8166689];[54.3667005, 9.8166689];2303;40,927;-8,326999999999998
 PR2_RDE_040;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Neuwittenbek,TÃ¼ttendorf;Neuwittenbek,TÃ¼ttendorf;85,1;42,9;-;-;[54.3799686, 10.0080265];[54.3799686, 10.0080265];2564;0,0;42,9
-PR2_RDE_042;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Holtsee,Lindau;Holtsee,Lindau;146,8;88,9;-;-;[54.3917282, 9.8790658];[54.3917282, 9.8790658];4466;0,0;88,9
-PR2_RDE_043;Rendsburg-EckernfÃ¶rde;-;Lindau,Schinkel;-;17,1;0,0;-;-;[54.3701463, 9.9291103];[0, 0];4466;0,0;0,0
+PR2_RDE_042;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Holtsee,Lindau;Holtsee,Lindau;146,8;88,9;-;-;[54.3917282, 9.8790658];[54.3917282, 9.8790658];2564;0,0;88,9
+PR2_RDE_043;Rendsburg-EckernfÃ¶rde;-;Lindau,Schinkel;-;17,1;0,0;-;-;[54.3701463, 9.9291103];[0, 0];2564;0,0;0,0
 PR2_RDE_044;Rendsburg-EckernfÃ¶rde;-;Owschlag;-;78,1;0,0;-;-;[54.393739, 9.5910158];[0, 0];2303;0,0;0,0
 PR2_RDE_045;Rendsburg-EckernfÃ¶rde;-;BÃ¼nsdorf;-;63,4;0,0;-;-;[54.3697645, 9.7432452];[0, 0];2303;0,0;0,0
-PR2_RDE_046;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Bovenau;Bovenau;279,8;152,0;WKA in Betrieb;WKA in Betrieb;[54.3301544, 9.8288452];[54.3301544, 9.8288452];4466;0,0;152,0
+PR2_RDE_046;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Bovenau;Bovenau;279,8;152,0;WKA in Betrieb;WKA in Betrieb;[54.3301544, 9.8288452];[54.3301544, 9.8288452];2303;0,0;152,0
 PR2_RDE_047;Rendsburg-EckernfÃ¶rde;-;Alt Duvenstedt,Borgstedt,Neu Duvenstedt,Rickert;-;129,6;0,0;-;-;[54.3452024, 9.6796498];[0, 0];2303;0,0;0,0
 PR2_RDE_048;Rendsburg-EckernfÃ¶rde;-;Borgstedt;-;18,0;0,0;-;-;[54.3333048, 9.7100898];[0, 0];2303;0,0;0,0
 PR2_RDE_049;Rendsburg-EckernfÃ¶rde;-;Alt Duvenstedt,Rickert;-;93,2;0,0;-;-;[54.3459519, 9.655214];[0, 0];2303;0,0;0,0
-PR2_RDE_050;Rendsburg-EckernfÃ¶rde;-;Bovenau;-;108,1;0,0;-;-;[54.3301544, 9.8288452];[0, 0];4466;0,0;0,0
-PR2_RDE_051;Rendsburg-EckernfÃ¶rde;-;Bovenau,Krummwisch;-;28,1;0,0;-;-;[54.3325231, 9.8632893];[0, 0];4466;0,0;0,0
+PR2_RDE_050;Rendsburg-EckernfÃ¶rde;-;Bovenau;-;108,1;0,0;-;-;[54.3301544, 9.8288452];[0, 0];2303;0,0;0,0
+PR2_RDE_051;Rendsburg-EckernfÃ¶rde;-;Bovenau,Krummwisch;-;28,1;0,0;-;-;[54.3325231, 9.8632893];[0, 0];2564;0,0;0,0
 PR2_RDE_052;Rendsburg-EckernfÃ¶rde;-;Alt Duvenstedt,Rendsburg,Rickert;-;82,9;0,0;-;-;[54.3321913, 9.6583131];[0, 0];2303;0,0;0,0
 PR2_RDE_053;Rendsburg-EckernfÃ¶rde;-;Lohe-FÃ¶hrden;-;26,8;0,0;-;-;[54.3360338, 9.54112];[0, 0];2303;0,0;0,0
 PR2_RDE_054;Rendsburg-EckernfÃ¶rde;-;Bovenau,Ostenfeld (Rendsburg),Rade b.Rendsburg;-;55,6;0,0;-;-;[54.2497135, 9.7755315];[0, 0];2303;0,0;0,0
-PR2_RDE_056;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Melsdorf,Quarnbek;Quarnbek;101,3;42,5;-;-;[54.3231251, 10.0073259];[54.3298252, 9.983987];4466;0,0;42,5
+PR2_RDE_056;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Melsdorf,Quarnbek;Quarnbek;101,3;42,5;-;-;[54.3231251, 10.0073259];[54.3298252, 9.983987];2564;0,0;42,5
 PR2_RDE_058;Rendsburg-EckernfÃ¶rde;-;Bovenau,Ostenfeld (Rendsburg);-;22,5;0,0;-;-;[54.3233368, 9.8047365];[0, 0];2303;0,0;0,0
 PR2_RDE_059;Rendsburg-EckernfÃ¶rde;-;Fockbek;-;30,3;0,0;-;-;[54.3065487, 9.6066841];[0, 0];2303;0,0;0,0
-PR2_RDE_060;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Bredenbek,HaÃmoor;Bredenbek,HaÃmoor;93,0;85,7;-;-;[54.3079802, 9.8442229];[54.3079802, 9.8442229];4466;0,0;85,7
-PR2_RDE_061;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Bredenbek,HaÃmoor;Bredenbek,HaÃmoor;53,8;19,8;-;-;[54.3079802, 9.8442229];[54.3079802, 9.8442229];4466;0,0;19,8
+PR2_RDE_060;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Bredenbek,HaÃmoor;Bredenbek,HaÃmoor;93,0;85,7;-;-;[54.3079802, 9.8442229];[54.3079802, 9.8442229];2564;0,0;85,7
+PR2_RDE_061;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Bredenbek,HaÃmoor;Bredenbek,HaÃmoor;53,8;19,8;-;-;[54.3079802, 9.8442229];[54.3079802, 9.8442229];2564;0,0;19,8
 PR2_RDE_062;Rendsburg-EckernfÃ¶rde;-;Schacht-Audorf,SchÃ¼lldorf;-;95,5;0,0;-;-;[54.3070549, 9.7261667];[0, 0];2303;0,0;0,0
-PR2_RDE_063;Rendsburg-EckernfÃ¶rde;-;Westensee;-;128,3;0,0;-;-;[54.2756511, 9.9021081];[0, 0];4466;0,0;0,0
+PR2_RDE_063;Rendsburg-EckernfÃ¶rde;-;Westensee;-;128,3;0,0;-;-;[54.2756511, 9.9021081];[0, 0];2564;0,0;0,0
 PR2_RDE_064;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Elsdorf-WestermÃ¼hlen,Fockbek,Hohn;Elsdorf-WestermÃ¼hlen,Fockbek,Hohn;478,3;256,4;-;-;[54.2879689, 9.5469093];[54.2879689, 9.5469093];2303;0,0;256,4
-PR2_RDE_065;Rendsburg-EckernfÃ¶rde;-;Emkendorf,HaÃmoor;-;35,3;0,0;-;-;[54.2770906, 9.8337931];[0, 0];4466;0,0;0,0
-PR2_RDE_066;Rendsburg-EckernfÃ¶rde;-;HaÃmoor;-;33,6;0,0;-;-;[54.2918794, 9.8205177];[0, 0];4466;0,0;0,0
+PR2_RDE_065;Rendsburg-EckernfÃ¶rde;-;Emkendorf,HaÃmoor;-;35,3;0,0;-;-;[54.2770906, 9.8337931];[0, 0];2303;0,0;0,0
+PR2_RDE_066;Rendsburg-EckernfÃ¶rde;-;HaÃmoor;-;33,6;0,0;-;-;[54.2918794, 9.8205177];[0, 0];2303;0,0;0,0
 PR2_RDE_067;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;SchÃ¼lldorf;SchÃ¼lldorf;27,9;27,9;-;-;[54.3008688, 9.7338022];[54.3008688, 9.7338022];2303;0,0;27,9
 PR2_RDE_068;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;HaÃmoor,SchÃ¼lldorf;SchÃ¼lldorf;112,8;36,6;-;-;[54.2963741, 9.7771599];[54.3008688, 9.7338022];2303;0,0;36,6
-PR2_RDE_069;Rendsburg-EckernfÃ¶rde;-;Emkendorf;-;42,2;0,0;-;-;[54.2623019, 9.8470685];[0, 0];4466;0,0;0,0
-PR2_RDE_070;Rendsburg-EckernfÃ¶rde;-;Boksee,Flintbek;-;75,3;0,0;-;-;[54.2432092, 10.0633244];[0, 0];4466;0,0;0,0
+PR2_RDE_069;Rendsburg-EckernfÃ¶rde;-;Emkendorf;-;42,2;0,0;-;-;[54.2623019, 9.8470685];[0, 0];2303;0,0;0,0
+PR2_RDE_070;Rendsburg-EckernfÃ¶rde;-;Boksee,Flintbek;-;75,3;0,0;-;-;[54.2432092, 10.0633244];[0, 0];2564;0,0;0,0
 PR2_RDE_071;Rendsburg-EckernfÃ¶rde;-;Jevenstedt,WesterrÃ¶nfeld;-;71,6;0,0;-;-;[54.2576029, 9.6563758];[0, 0];2303;0,0;0,0
 PR2_RDE_072;Rendsburg-EckernfÃ¶rde;-;Elsdorf-WestermÃ¼hlen,Fockbek,NÃ¼bbel,SchÃ¼lp b. Rendsburg;-;750,4;0,0;-;-;[54.2502746, 9.6583228];[0, 0];2303;0,0;0,0
 PR2_RDE_073;Rendsburg-EckernfÃ¶rde;-;Bargstall,Elsdorf-WestermÃ¼hlen;-;49,8;0,0;-;-;[54.2594074, 9.4943079];[0, 0];2303;0,0;0,0
-PR2_RDE_074;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Flintbek;Flintbek;55,8;19,3;-;-;[54.2432092, 10.0633244];[54.2432092, 10.0633244];4466;0,0;19,3
+PR2_RDE_074;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Flintbek;Flintbek;55,8;19,3;-;-;[54.2432092, 10.0633244];[54.2432092, 10.0633244];2564;0,0;19,3
 PR2_RDE_075;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Elsdorf-WestermÃ¼hlen,Hamdorf;Elsdorf-WestermÃ¼hlen,Hamdorf;94,3;88,3;WKA in Betrieb;WKA in Betrieb;[54.242448, 9.5231582];[54.242448, 9.5231582];2303;122,78;-34,480000000000004
 PR2_RDE_077;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Jevenstedt,SchÃ¼lp b. Rendsburg;Jevenstedt,SchÃ¼lp b. Rendsburg;97,8;38,6;-;-;[54.1981684, 9.7696861];[54.1981684, 9.7696861];2303;0,0;38,6
-PR2_RDE_078;Rendsburg-EckernfÃ¶rde;-;Langwedel;-;43,8;0,0;-;-;[54.2116886, 9.9301891];[0, 0];4466;0,0;0,0
-PR2_RDE_080;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Bokel,Emkendorf;Bokel,Emkendorf;132,2;111,7;-;-;[54.2390429, 9.8205602];[54.2390429, 9.8205602];4466;0,0;111,7
-PR2_RDE_082;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Bokel,Emkendorf;Bokel,Emkendorf;30,3;30,3;-;-;[54.2390429, 9.8205602];[54.2390429, 9.8205602];4466;0,0;30,3
+PR2_RDE_078;Rendsburg-EckernfÃ¶rde;-;Langwedel;-;43,8;0,0;-;-;[54.2116886, 9.9301891];[0, 0];2564;0,0;0,0
+PR2_RDE_080;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Bokel,Emkendorf;Bokel,Emkendorf;132,2;111,7;-;-;[54.2390429, 9.8205602];[54.2390429, 9.8205602];2303;0,0;111,7
+PR2_RDE_082;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Bokel,Emkendorf;Bokel,Emkendorf;30,3;30,3;-;-;[54.2390429, 9.8205602];[54.2390429, 9.8205602];2303;0,0;30,3
 PR2_RDE_083;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Bokel,Jevenstedt;Bokel;68,1;35,2;-;-;[54.2247064, 9.7273695];[54.215784, 9.7940518];2303;0,0;35,2
-PR2_RDE_084;Rendsburg-EckernfÃ¶rde;-;GroÃ Vollstedt,Warder;-;79,2;0,0;-;-;[54.2233952, 9.8763621];[0, 0];4466;0,0;0,0
-PR2_RDE_085;Rendsburg-EckernfÃ¶rde;-;Langwedel;-;16,2;0,0;-;-;[54.2116886, 9.9301891];[0, 0];4466;0,0;0,0
+PR2_RDE_084;Rendsburg-EckernfÃ¶rde;-;GroÃ Vollstedt,Warder;-;79,2;0,0;-;-;[54.2233952, 9.8763621];[0, 0];2564;0,0;0,0
+PR2_RDE_085;Rendsburg-EckernfÃ¶rde;-;Langwedel;-;16,2;0,0;-;-;[54.2116886, 9.9301891];[0, 0];2564;0,0;0,0
 PR2_RDE_086;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Jevenstedt;Jevenstedt;99,7;80,5;-;-;[54.2336289, 9.6606871];[54.2336289, 9.6606871];2303;0,0;80,5
 PR2_RDE_087;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Jevenstedt;Jevenstedt;59,9;59,9;-;-;[54.2336289, 9.6606871];[54.2336289, 9.6606871];2303;0,0;59,9
-PR2_RDE_088;Rendsburg-EckernfÃ¶rde;-;Langwedel;-;67,8;0,0;-;-;[54.2116886, 9.9301891];[0, 0];4466;0,0;0,0
-PR2_RDE_089;Rendsburg-EckernfÃ¶rde;-;Ellerdorf,GroÃ Vollstedt;-;35,3;0,0;-;-;[54.213108, 9.853023];[0, 0];4466;0,0;0,0
+PR2_RDE_088;Rendsburg-EckernfÃ¶rde;-;Langwedel;-;67,8;0,0;-;-;[54.2116886, 9.9301891];[0, 0];2564;0,0;0,0
+PR2_RDE_089;Rendsburg-EckernfÃ¶rde;-;Ellerdorf,GroÃ Vollstedt;-;35,3;0,0;-;-;[54.213108, 9.853023];[0, 0];2303;0,0;0,0
 PR2_RDE_090;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Jevenstedt;Jevenstedt;72,7;31,0;-;-;[54.2336289, 9.6606871];[54.2336289, 9.6606871];2303;0,0;31,0
 PR2_RDE_092;Rendsburg-EckernfÃ¶rde;-;Brammer,Jevenstedt;-;82,9;0,0;-;-;[54.2171959, 9.7123556];[0, 0];2303;0,0;0,0
 PR2_RDE_093;Rendsburg-EckernfÃ¶rde;-;Jevenstedt,Luhnstedt;-;100,8;0,0;-;-;[54.2026669, 9.6809277];[0, 0];2303;0,0;0,0
 PR2_RDE_094;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Bokel,Brammer,Ellerdorf;Bokel,Brammer,Ellerdorf;104,0;98,7;WKA in Betrieb;WKA in Betrieb;[54.2031543, 9.7991507];[54.2031543, 9.7991507];2303;113,574;-14,873999999999995
-PR2_RDE_098;Rendsburg-EckernfÃ¶rde;-;DÃ¤tgen;-;57,5;0,0;-;-;[54.1804173, 9.9313829];[0, 0];4466;0,0;0,0
-PR2_RDE_100;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Ellerdorf,Nortorf;Ellerdorf,Nortorf;58,2;20,2;-;-;[54.1806924, 9.8476704];[54.1806924, 9.8476704];4466;0,0;20,2
+PR2_RDE_098;Rendsburg-EckernfÃ¶rde;-;DÃ¤tgen;-;57,5;0,0;-;-;[54.1804173, 9.9313829];[0, 0];2564;0,0;0,0
+PR2_RDE_100;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Ellerdorf,Nortorf;Ellerdorf,Nortorf;58,2;20,2;-;-;[54.1806924, 9.8476704];[54.1806924, 9.8476704];2303;0,0;20,2
 PR2_RDE_101;Rendsburg-EckernfÃ¶rde;-;Bargstedt,Brammer;-;97,7;0,0;-;-;[54.1831252, 9.7722982];[0, 0];2303;0,0;0,0
-PR2_RDE_102;Rendsburg-EckernfÃ¶rde;-;Borgdorf-Seedorf,Eisendorf,Nortorf;-;57,8;0,0;-;-;[54.1798859, 9.8678844];[0, 0];4466;0,0;0,0
+PR2_RDE_102;Rendsburg-EckernfÃ¶rde;-;Borgdorf-Seedorf,Eisendorf,Nortorf;-;57,8;0,0;-;-;[54.1798859, 9.8678844];[0, 0];2303;0,0;0,0
 PR2_RDE_104;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Bargstedt,Luhnstedt;Bargstedt,Luhnstedt;55,1;18,6;-;-;[54.1685963, 9.7408703];[54.1685963, 9.7408703];2303;0,0;18,6
 PR2_RDE_105;Rendsburg-EckernfÃ¶rde;-;Luhnstedt,Stafstedt;-;36,5;0,0;-;-;[54.1722582, 9.6805481];[0, 0];2303;0,0;0,0
-PR2_RDE_106;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Bissee,GroÃ Buchwald;Bissee,GroÃ Buchwald;86,0;61,0;-;-;[54.1761479, 10.0977138];[54.1761479, 10.0977138];4466;0,0;61,0
-PR2_RDE_107;Rendsburg-EckernfÃ¶rde;-;Bargstedt,Nortorf;-;180,0;0,0;-;-;[54.1669782, 9.8182686];[0, 0];4466;0,0;0,0
-PR2_RDE_108;Rendsburg-EckernfÃ¶rde;-;Borgdorf-Seedorf,DÃ¤tgen,Loop,SchÃ¶nbek,SchÃ¼lp b. Nortorf;-;140,1;0,0;-;-;[54.1652213, 9.9252335];[0, 0];4466;0,0;0,0
+PR2_RDE_106;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Bissee,GroÃ Buchwald;Bissee,GroÃ Buchwald;86,0;61,0;-;-;[54.1761479, 10.0977138];[54.1761479, 10.0977138];2564;0,0;61,0
+PR2_RDE_107;Rendsburg-EckernfÃ¶rde;-;Bargstedt,Nortorf;-;180,0;0,0;-;-;[54.1669782, 9.8182686];[0, 0];2303;0,0;0,0
+PR2_RDE_108;Rendsburg-EckernfÃ¶rde;-;Borgdorf-Seedorf,DÃ¤tgen,Loop,SchÃ¶nbek,SchÃ¼lp b. Nortorf;-;140,1;0,0;-;-;[54.1652213, 9.9252335];[0, 0];2564;0,0;0,0
 PR2_RDE_109;Rendsburg-EckernfÃ¶rde;-;Haale;-;29,4;0,0;-;-;[54.172212, 9.5468899];[0, 0];2303;0,0;0,0
 PR2_RDE_110;Rendsburg-EckernfÃ¶rde;-;Luhnstedt,Stafstedt;-;33,1;0,0;-;-;[54.1722582, 9.6805481];[0, 0];2303;0,0;0,0
 PR2_RDE_112;Rendsburg-EckernfÃ¶rde;-;Brinjahe,Nienborstel,Stafstedt;-;25,9;0,0;-;-;[54.1601349, 9.6348016];[0, 0];2303;0,0;0,0
-PR2_RDE_114;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Loop,MÃ¼hbrook,SchÃ¶nbek;Loop,SchÃ¶nbek;77,2;36,0;-;-;[54.1560408, 9.9794235];[54.1558856, 9.961872];4466;0,0;36,0
-PR2_RDE_117;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Loop,SchÃ¶nbek;Loop;50,8;15,0;-;-;[54.1558856, 9.961872];[54.1485013, 9.949449];4466;0,0;15,0
-PR2_RDE_118;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;GroÃ Buchwald,Negenharrie;GroÃ Buchwald,Negenharrie;115,9;72,1;-;-;[54.1531612, 10.0801462];[54.1531612, 10.0801462];4466;0,0;72,1
-PR2_RDE_119;Rendsburg-EckernfÃ¶rde;-;Krogaspe,Loop,SchÃ¼lp b. Nortorf,Timmaspe;-;175,0;0,0;-;-;[54.1443096, 9.9154607];[0, 0];4466;0,0;0,0
+PR2_RDE_114;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Loop,MÃ¼hbrook,SchÃ¶nbek;Loop,SchÃ¶nbek;77,2;36,0;-;-;[54.1560408, 9.9794235];[54.1558856, 9.961872];2564;0,0;36,0
+PR2_RDE_117;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Loop,SchÃ¶nbek;Loop;50,8;15,0;-;-;[54.1558856, 9.961872];[54.1485013, 9.949449];2564;0,0;15,0
+PR2_RDE_118;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;GroÃ Buchwald,Negenharrie;GroÃ Buchwald,Negenharrie;115,9;72,1;-;-;[54.1531612, 10.0801462];[54.1531612, 10.0801462];2564;0,0;72,1
+PR2_RDE_119;Rendsburg-EckernfÃ¶rde;-;Krogaspe,Loop,SchÃ¼lp b. Nortorf,Timmaspe;-;175,0;0,0;-;-;[54.1443096, 9.9154607];[0, 0];2564;0,0;0,0
 PR2_RDE_120;Rendsburg-EckernfÃ¶rde;-;Bargstedt;-;28,3;0,0;-;-;[54.1654876, 9.7805723];[0, 0];2303;0,0;0,0
-PR2_RDE_121;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Gnutz,SchÃ¼lp b. Nortorf,Timmaspe;Gnutz,SchÃ¼lp b. Nortorf,Timmaspe;49,8;42,5;WKA in Betrieb;WKA in Betrieb;[54.1443183, 9.8698023];[54.1443183, 9.8698023];4466;75,96;-33,459999999999994
+PR2_RDE_121;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Gnutz,SchÃ¼lp b. Nortorf,Timmaspe;Gnutz,SchÃ¼lp b. Nortorf,Timmaspe;49,8;42,5;WKA in Betrieb;WKA in Betrieb;[54.1443183, 9.8698023];[54.1443183, 9.8698023];2303;75,96;-33,459999999999994
 PR2_RDE_122;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Hanerau-Hademarschen,OldenbÃ¼ttel,Steenfeld;Hanerau-Hademarschen,OldenbÃ¼ttel,Steenfeld;143,2;143,2;WKA in Betrieb;WKA in Betrieb;[54.1476483, 9.4251515];[54.1476483, 9.4251515];2303;175,446;-32,24600000000001
 PR2_RDE_123;Rendsburg-EckernfÃ¶rde;-;OldenhÃ¼tten;-;48,0;0,0;-;-;[54.157326, 9.7395423];[0, 0];2303;0,0;0,0
 PR2_RDE_124;Rendsburg-EckernfÃ¶rde;-;Nienborstel,Nindorf,Remmels,Stafstedt;-;55,0;0,0;-;-;[54.1425901, 9.6574721];[0, 0];2303;0,0;0,0
-PR2_RDE_125;Rendsburg-EckernfÃ¶rde;-;Bargstedt,Gnutz,Nortorf;-;157,5;0,0;-;-;[54.1565965, 9.8207933];[0, 0];4466;0,0;0,0
-PR2_RDE_126;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Gnutz,SchÃ¼lp b. Nortorf,Timmaspe;Gnutz,SchÃ¼lp b. Nortorf,Timmaspe;89,7;85,9;-;-;[54.1443183, 9.8698023];[54.1443183, 9.8698023];4466;0,0;85,9
+PR2_RDE_125;Rendsburg-EckernfÃ¶rde;-;Bargstedt,Gnutz,Nortorf;-;157,5;0,0;-;-;[54.1565965, 9.8207933];[0, 0];2303;0,0;0,0
+PR2_RDE_126;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Gnutz,SchÃ¼lp b. Nortorf,Timmaspe;Gnutz,SchÃ¼lp b. Nortorf,Timmaspe;89,7;85,9;-;-;[54.1443183, 9.8698023];[54.1443183, 9.8698023];2303;0,0;85,9
 PR2_RDE_127;Rendsburg-EckernfÃ¶rde;-;TodenbÃ¼ttel;-;90,7;0,0;-;-;[54.1295992, 9.5587816];[0, 0];2303;0,0;0,0
 PR2_RDE_128;Rendsburg-EckernfÃ¶rde;-;Nindorf,Remmels;-;24,7;0,0;-;-;[54.1280995, 9.676948];[0, 0];2303;0,0;0,0
 PR2_RDE_129;Rendsburg-EckernfÃ¶rde;-;Nindorf,OldenhÃ¼tten;-;57,1;0,0;-;-;[54.1443787, 9.720637];[0, 0];2303;0,0;0,0
-PR2_RDE_130;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Krogaspe,Loop;Krogaspe,Loop;102,7;57,7;-;-;[54.1400582, 9.9391392];[54.1400582, 9.9391392];4466;0,0;57,7
+PR2_RDE_130;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Krogaspe,Loop;Krogaspe,Loop;102,7;57,7;-;-;[54.1400582, 9.9391392];[54.1400582, 9.9391392];2564;0,0;57,7
 PR2_RDE_132;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Aukrug,Gnutz;Gnutz;197,2;74,9;-;-;[54.1100278, 9.8070957];[54.1358329, 9.8258427];2429;0,0;74,9
-PR2_RDE_133;Rendsburg-EckernfÃ¶rde;-;Krogaspe,Timmaspe;-;22,3;0,0;-;-;[54.1361732, 9.9100655];[0, 0];4466;0,0;0,0
+PR2_RDE_133;Rendsburg-EckernfÃ¶rde;-;Krogaspe,Timmaspe;-;22,3;0,0;-;-;[54.1361732, 9.9100655];[0, 0];2564;0,0;0,0
 PR2_RDE_134;Rendsburg-EckernfÃ¶rde;-;Heinkenborstel;-;34,6;0,0;-;-;[54.1263518, 9.7647573];[0, 0];2303;0,0;0,0
 PR2_RDE_135;Rendsburg-EckernfÃ¶rde;-;Nindorf,Remmels;-;87,3;0,0;-;-;[54.1280995, 9.676948];[0, 0];2303;0,0;0,0
 PR2_RDE_136;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Nienborstel,Remmels;Remmels;82,0;31,0;-;-;[54.1330587, 9.6341144];[54.1247676, 9.6521643];2303;0,0;31,0
-PR2_RDE_137;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Gnutz,Timmaspe;Gnutz,Timmaspe;436,3;180,5;-;-;[54.1382822, 9.8585722];[54.1382822, 9.8585722];4466;0,0;180,5
+PR2_RDE_137;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Gnutz,Timmaspe;Gnutz,Timmaspe;436,3;180,5;-;-;[54.1382822, 9.8585722];[54.1382822, 9.8585722];2303;0,0;180,5
 PR2_RDE_138;Rendsburg-EckernfÃ¶rde;-;Nindorf;-;33,1;0,0;-;-;[54.1314314, 9.7017317];[0, 0];2303;0,0;0,0
 PR2_RDE_139;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Beringstedt,Gokels,LÃ¼tjenwestedt,Seefeld,TodenbÃ¼ttel;Gokels,LÃ¼tjenwestedt,Seefeld;286,6;103,8;-;-;[54.1194468, 9.509056];[54.1190573, 9.4835565];2303;0,0;103,8
 PR2_RDE_140;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Nienborstel,Osterstedt;Nienborstel,Osterstedt;54,7;45,1;-;WKA in Betrieb;[54.124809, 9.5990368];[54.124809, 9.5990368];2303;82,134;-37,034
-PR2_RDE_141;Rendsburg-EckernfÃ¶rde;-;Timmaspe;-;32,6;0,0;-;-;[54.1407315, 9.8913017];[0, 0];4466;0,0;0,0
+PR2_RDE_141;Rendsburg-EckernfÃ¶rde;-;Timmaspe;-;32,6;0,0;-;-;[54.1407315, 9.8913017];[0, 0];2303;0,0;0,0
 PR2_RDE_142;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Beldorf,Bornholt,Steenfeld;Beldorf,Bornholt,Steenfeld;141,5;118,7;WKA in Betrieb;WKA in Betrieb;[54.1181099, 9.3527883];[54.1181099, 9.3527883];4039;91,459;27,241
 PR2_RDE_144;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Bendorf,Thaden;Bendorf,Thaden;273,4;238,3;WKA in Betrieb;WKA in Betrieb;[54.0912174, 9.3999582];[54.0912174, 9.3999582];4039;0,0;238,3
 PR2_RDE_145;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Aukrug,Gnutz;Aukrug;108,4;73,7;-;-;[54.1100278, 9.8070957];[54.0842226, 9.7883486];2429;0,0;73,7
 PR2_RDE_147;Rendsburg-EckernfÃ¶rde;-;Hohenwestedt,Wapelfeld;-;115,6;0,0;-;-;[54.0880651, 9.6349229];[0, 0];2429;0,0;0,0
-PR2_RDE_148;Rendsburg-EckernfÃ¶rde;-;Wasbek;-;17,2;0,0;-;-;[54.0846322, 9.8956117];[0, 0];4466;0,0;0,0
+PR2_RDE_148;Rendsburg-EckernfÃ¶rde;-;Wasbek;-;17,2;0,0;-;-;[54.0846322, 9.8956117];[0, 0];2429;0,0;0,0
 PR2_RDE_150;Rendsburg-EckernfÃ¶rde;-;Osterstedt,Puls,Reher;-;61,8;0,0;-;-;[54.0937477, 9.558063];[0, 0];2429;0,0;0,0
 PR2_RDE_155;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Aukrug,Wasbek;Aukrug,Wasbek;61,6;55,4;-;-;[54.0844274, 9.8419801];[54.0844274, 9.8419801];2429;0,0;55,4
 PR2_RDE_156;Rendsburg-EckernfÃ¶rde;-;Hohenwestedt,Tappendorf;-;59,6;0,0;-;-;[54.0969316, 9.6786355];[0, 0];2429;0,0;0,0
@@ -579,14 +579,14 @@ PR2_RDE_164;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Arpsdorf,Padensted
 PR2_RDE_301;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Gammelby,Rieseby;Gammelby,Rieseby;65,5;42,2;-;-;[54.5208281, 9.8049562];[54.5208281, 9.8049562];5930;0,0;42,2
 PR2_RDE_303;Rendsburg-EckernfÃ¶rde;-;Osterby,Windeby;-;97,3;0,0;-;-;[54.4585566, 9.7847458];[0, 0];5930;0,0;0,0
 PR2_RDE_304;Rendsburg-EckernfÃ¶rde;-;Altenholz,Felm;-;45,8;0,0;-;-;[54.4029174, 10.092582];[0, 0];2564;0,0;0,0
-PR2_RDE_306;Rendsburg-EckernfÃ¶rde;-;Rodenbek;-;45,8;0,0;-;-;[54.2756036, 10.0190938];[0, 0];4466;0,0;0,0
-PR2_RDE_307;Rendsburg-EckernfÃ¶rde;-;Rodenbek,Rumohr,Schierensee;-;15,1;0,0;-;-;[54.2624071, 10.0095231];[0, 0];4466;0,0;0,0
-PR2_RDE_308;Rendsburg-EckernfÃ¶rde;-;Bissee,BrÃ¼gge;-;27,6;0,0;-;-;[54.182124, 10.0903788];[0, 0];4466;0,0;0,0
+PR2_RDE_306;Rendsburg-EckernfÃ¶rde;-;Rodenbek;-;45,8;0,0;-;-;[54.2756036, 10.0190938];[0, 0];2564;0,0;0,0
+PR2_RDE_307;Rendsburg-EckernfÃ¶rde;-;Rodenbek,Rumohr,Schierensee;-;15,1;0,0;-;-;[54.2624071, 10.0095231];[0, 0];2564;0,0;0,0
+PR2_RDE_308;Rendsburg-EckernfÃ¶rde;-;Bissee,BrÃ¼gge;-;27,6;0,0;-;-;[54.182124, 10.0903788];[0, 0];2564;0,0;0,0
 PR2_RDE_309;Rendsburg-EckernfÃ¶rde;-;Jevenstedt,OsterrÃ¶nfeld;-;65,1;0,0;-;-;[54.2609506, 9.6774721];[0, 0];2303;0,0;0,0
 PR2_RDE_310;Rendsburg-EckernfÃ¶rde;-;Jevenstedt;-;47,0;0,0;-;-;[54.2336289, 9.6606871];[0, 0];2303;0,0;0,0
-PR2_RDE_311;Rendsburg-EckernfÃ¶rde;-;Krogaspe,Wasbek;-;45,0;0,0;-;-;[54.1081236, 9.9122205];[0, 0];4466;0,0;0,0
-PR2_RDE_312;Rendsburg-EckernfÃ¶rde;-;Timmaspe,Wasbek;-;15,1;0,0;-;-;[54.1126819, 9.8934567];[0, 0];4466;0,0;0,0
-PR2_RDE_313;Rendsburg-EckernfÃ¶rde;-;Wasbek;-;125,2;0,0;-;-;[54.0846322, 9.8956117];[0, 0];4466;0,0;0,0
+PR2_RDE_311;Rendsburg-EckernfÃ¶rde;-;Krogaspe,Wasbek;-;45,0;0,0;-;-;[54.1081236, 9.9122205];[0, 0];2429;0,0;0,0
+PR2_RDE_312;Rendsburg-EckernfÃ¶rde;-;Timmaspe,Wasbek;-;15,1;0,0;-;-;[54.1126819, 9.8934567];[0, 0];2429;0,0;0,0
+PR2_RDE_313;Rendsburg-EckernfÃ¶rde;-;Wasbek;-;125,2;0,0;-;-;[54.0846322, 9.8956117];[0, 0];2429;0,0;0,0
 PR2_RDE_314;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Aukrug,Ehndorf,Wasbek;Aukrug,Ehndorf,Wasbek;226,6;179,3;-;-;[54.0726457, 9.8496535];[54.0726457, 9.8496535];2429;0,0;179,3
 PR2_RDE_315;Rendsburg-EckernfÃ¶rde;-;Ehndorf;-;36,0;0,0;-;-;[54.0490823, 9.8650003];[0, 0];2429;0,0;0,0
 PR2_RDE_316;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Arpsdorf,Padenstedt;Arpsdorf,Padenstedt;115,7;85,2;-;-;[54.0441266, 9.8879563];[54.0441266, 9.8879563];2429;0,0;85,2
@@ -594,37 +594,37 @@ PR2_RDE_317;Rendsburg-EckernfÃ¶rde;Rendsburg-EckernfÃ¶rde;Padenstedt;Padenst
 PR2_RDE_401;Rendsburg-EckernfÃ¶rde;-;Kosel;-;47,1;0,0;-;-;[54.5056225, 9.7546389];[0, 0];5930;0,0;0,0
 PR2_RDE_402;Rendsburg-EckernfÃ¶rde;-;Gammelby,Kosel,Rieseby;-;37,9;0,0;-;-;[54.5157596, 9.7881838];[0, 0];5930;0,0;0,0
 PR2_RDE_403;Rendsburg-EckernfÃ¶rde;-;GÃ¼by,Hummelfeld;-;19,4;0,0;-;-;[54.473548, 9.6922465];[0, 0];2303;0,0;0,0
-PR2_RDE_404;Rendsburg-EckernfÃ¶rde;-;Sehestedt;-;47,7;0,0;-;-;[54.3667005, 9.8166689];[0, 0];4466;0,0;0,0
+PR2_RDE_404;Rendsburg-EckernfÃ¶rde;-;Sehestedt;-;47,7;0,0;-;-;[54.3667005, 9.8166689];[0, 0];2303;0,0;0,0
 PR2_RDE_405;Rendsburg-EckernfÃ¶rde;-;Hohn,Lohe-FÃ¶hrden;-;44,1;0,0;-;-;[54.3170949, 9.5237554];[0, 0];2303;0,0;0,0
-PR2_RDE_407;Rendsburg-EckernfÃ¶rde;-;Emkendorf;-;18,1;0,0;-;-;[54.2623019, 9.8470685];[0, 0];4466;0,0;0,0
-PR2_RDE_408;Rendsburg-EckernfÃ¶rde;-;Bokel,Emkendorf;-;22,7;0,0;-;-;[54.2390429, 9.8205602];[0, 0];4466;0,0;0,0
-PR2_RDE_409;Rendsburg-EckernfÃ¶rde;-;BÃ¶hnhusen,Reesdorf,Techelsdorf;-;21,0;0,0;-;-;[54.2093403, 10.0541433];[0, 0];4466;0,0;0,0
+PR2_RDE_407;Rendsburg-EckernfÃ¶rde;-;Emkendorf;-;18,1;0,0;-;-;[54.2623019, 9.8470685];[0, 0];2303;0,0;0,0
+PR2_RDE_408;Rendsburg-EckernfÃ¶rde;-;Bokel,Emkendorf;-;22,7;0,0;-;-;[54.2390429, 9.8205602];[0, 0];2303;0,0;0,0
+PR2_RDE_409;Rendsburg-EckernfÃ¶rde;-;BÃ¶hnhusen,Reesdorf,Techelsdorf;-;21,0;0,0;-;-;[54.2093403, 10.0541433];[0, 0];2564;0,0;0,0
 PR2_RDE_410;Rendsburg-EckernfÃ¶rde;-;Hohenwestedt,Tappendorf;-;23,1;0,0;-;-;[54.0969316, 9.6786355];[0, 0];2429;0,0;0,0
 PR2_RDE_411;Rendsburg-EckernfÃ¶rde;-;AasbÃ¼ttel,Bendorf,Bokhorst;-;21,9;0,0;-;-;[54.1276691, 9.4074113];[0, 0];4039;0,0;0,0
-PR2_RDE_412;Rendsburg-EckernfÃ¶rde;-;Negenharrie;-;26,3;0,0;-;-;[54.1437717, 10.0755472];[0, 0];4466;0,0;0,0
+PR2_RDE_412;Rendsburg-EckernfÃ¶rde;-;Negenharrie;-;26,3;0,0;-;-;[54.1437717, 10.0755472];[0, 0];2564;0,0;0,0
 PR2_RDE_420;Rendsburg-EckernfÃ¶rde;-;Beldorf,Bornholt;-;17,8;0,0;-;-;[54.107189, 9.334234];[0, 0];4039;0,0;0,0
 PR2_RDE_501;Rendsburg-EckernfÃ¶rde;-;Brekendorf,Owschlag;-;52,9;0,0;-;-;[54.4073667, 9.6110937];[0, 0];2303;0,0;0,0
 PR2_RDE_502;Rendsburg-EckernfÃ¶rde;-;Holzdorf,Rieseby;-;29,3;0,0;-;-;[54.5478693, 9.8561636];[0, 0];5930;0,0;0,0
 PR2_RDE_503;Rendsburg-EckernfÃ¶rde;-;Schwedeneck,Strande;-;103,9;0,0;-;-;[54.4554667, 10.1390144];[0, 0];2564;0,0;0,0
-PR2_RDE_504;Rendsburg-EckernfÃ¶rde;-;Langwedel;-;27,5;0,0;-;-;[54.2116886, 9.9301891];[0, 0];4466;0,0;0,0
-PR2_RDE_505;Rendsburg-EckernfÃ¶rde;-;Eisendorf,Ellerdorf;-;25,4;0,0;-;-;[54.1932886, 9.8541434];[0, 0];4466;0,0;0,0
+PR2_RDE_504;Rendsburg-EckernfÃ¶rde;-;Langwedel;-;27,5;0,0;-;-;[54.2116886, 9.9301891];[0, 0];2564;0,0;0,0
+PR2_RDE_505;Rendsburg-EckernfÃ¶rde;-;Eisendorf,Ellerdorf;-;25,4;0,0;-;-;[54.1932886, 9.8541434];[0, 0];2303;0,0;0,0
 PR2_RDE_506;Rendsburg-EckernfÃ¶rde;-;Holzdorf,Rieseby;-;30,3;0,0;-;-;[54.5478693, 9.8561636];[0, 0];5930;0,0;0,0
-PR3_SEG_001;Segeberg;-;Belau,Dersau,Schmalensee,Stocksee;-;212,7;0,0;-;-;[54.0932584, 10.3209389];[0, 0];4466;0,0;0,0
-PR3_SEG_003;Segeberg;Segeberg;Damsdorf,Schmalensee,Stocksee,Tarbek;Damsdorf,Schmalensee;307,2;40,6;WKA in Betrieb;WKA in Betrieb;[54.0733558, 10.3001321];[54.0738817, 10.293399];4466;40,159;0,4410000000000025
-PR3_SEG_005;Segeberg;-;BornhÃ¶ved;-;39,3;0,0;-;-;[54.0699273, 10.2271367];[0, 0];4466;0,0;0,0
+PR3_SEG_001;Segeberg;-;Belau,Dersau,Schmalensee,Stocksee;-;212,7;0,0;-;-;[54.0932584, 10.3209389];[0, 0];2564;0,0;0,0
+PR3_SEG_003;Segeberg;Segeberg;Damsdorf,Schmalensee,Stocksee,Tarbek;Damsdorf,Schmalensee;307,2;40,6;WKA in Betrieb;WKA in Betrieb;[54.0733558, 10.3001321];[54.0738817, 10.293399];2564;40,159;0,4410000000000025
+PR3_SEG_005;Segeberg;-;BornhÃ¶ved;-;39,3;0,0;-;-;[54.0699273, 10.2271367];[0, 0];2564;0,0;0,0
 PR3_SEG_006;Segeberg;-;Glasau;-;18,9;0,0;-;-;[54.0446763, 10.5270196];[0, 0];3897;0,0;0,0
 PR3_SEG_007;Segeberg;-;Bosau,Seedorf;-;51,8;0,0;-;-;[54.0502773, 10.4098784];[0, 0];3897;0,0;0,0
 PR3_SEG_008;Segeberg;-;Glasau;-;30,1;0,0;-;-;[54.0446763, 10.5270196];[0, 0];3897;0,0;0,0
-PR3_SEG_009;Segeberg;-;Tarbek;-;219,2;0,0;-;-;[54.0561488, 10.266654];[0, 0];4466;0,0;0,0
+PR3_SEG_009;Segeberg;-;Tarbek;-;219,2;0,0;-;-;[54.0561488, 10.266654];[0, 0];2564;0,0;0,0
 PR3_SEG_010;Segeberg;-;Seedorf;-;25,6;0,0;-;-;[54.0502773, 10.4098784];[0, 0];3897;0,0;0,0
-PR3_SEG_011;Segeberg;-;Tarbek;-;45,6;0,0;-;-;[54.0561488, 10.266654];[0, 0];4466;0,0;0,0
+PR3_SEG_011;Segeberg;-;Tarbek;-;45,6;0,0;-;-;[54.0561488, 10.266654];[0, 0];2564;0,0;0,0
 PR3_SEG_012;Segeberg;-;Nehms,Seedorf;-;97,6;0,0;-;-;[54.0344784, 10.3840784];[0, 0];3897;0,0;0,0
 PR3_SEG_013;Segeberg;Segeberg;Travenhorst;Travenhorst;38,6;25,4;-;-;[54.0155103, 10.4640916];[54.0155103, 10.4640916];3897;0,0;25,4
-PR3_SEG_014;Segeberg;-;Daldorf;-;63,9;0,0;-;-;[54.0180943, 10.248455];[0, 0];4466;0,0;0,0
+PR3_SEG_014;Segeberg;-;Daldorf;-;63,9;0,0;-;-;[54.0180943, 10.248455];[0, 0];3086;0,0;0,0
 PR3_SEG_015;Segeberg;-;Blunk;-;111,7;0,0;-;-;[54.0102315, 10.3121951];[0, 0];3086;0,0;0,0
 PR3_SEG_016;Segeberg;-;Wensin;-;36,4;0,0;-;-;[53.9937539, 10.4194668];[0, 0];3086;0,0;0,0
 PR3_SEG_017;Segeberg;-;Travenhorst;-;16,6;0,0;-;-;[54.0155103, 10.4640916];[0, 0];3897;0,0;0,0
-PR3_SEG_018;Segeberg;Segeberg;Boostedt,GroÃenaspe,NeumÃ¼nster,Stadt;GroÃenaspe;238,9;38,0;-;-;[53.9258971, 10.0113701];[53.9737843, 9.9687538];2429;0,0;38,0
+PR3_SEG_018;Segeberg;Segeberg;Boostedt,GroÃenaspe,NeumÃ¼nster,Stadt;GroÃenaspe;238,9;38,0;-;-;[53.9258971, 10.0113701];[53.9737843, 9.9687538];4466;0,0;38,0
 PR3_SEG_019;Segeberg;Segeberg;Arpsdorf,Hardebek,Hasenkrug;Hardebek,Hasenkrug;165,5;162,4;WKA in Betrieb;WKA in Betrieb;[53.9864386, 9.8593398];[53.9864386, 9.8593398];2429;0,0;162,4
 PR3_SEG_020;Segeberg;-;Blunk;-;28,7;0,0;-;-;[54.0102315, 10.3121951];[0, 0];3086;0,0;0,0
 PR3_SEG_021;Segeberg;-;Blunk,GroÃ RÃ¶nnau,Krems II;-;142,8;0,0;-;-;[53.9900819, 10.3266669];[0, 0];3086;0,0;0,0
@@ -644,64 +644,64 @@ PR3_SEG_034;Segeberg;-;Strukdorf;-;79,1;0,0;-;-;[53.9202193, 10.486009];[0, 0];3
 PR3_SEG_035;Segeberg;Segeberg;NeuengÃ¶rs,Weede;NeuengÃ¶rs,Weede;193,7;148,8;WKA in Betrieb;WKA in Betrieb;[53.9110633, 10.3779588];[53.9110633, 10.3779588];3086;46,338;102,46200000000002
 PR3_SEG_036;Segeberg;-;Klein GladebrÃ¼gge,Traventhal;-;17,4;0,0;-;-;[53.9081666, 10.3185449];[0, 0];3086;0,0;0,0
 PR3_SEG_037;Segeberg;-;HÃ¶gersdorf,Schwissel;-;50,4;0,0;-;-;[53.9086915, 10.2878073];[0, 0];3086;0,0;0,0
-PR3_SEG_038;Segeberg;-;Bark,KÃ¼kels,Todesfelde,Wittenborn;-;324,1;0,0;-;-;[53.9068953, 10.2056101];[0, 0];1975;0,0;0,0
+PR3_SEG_038;Segeberg;-;Bark,KÃ¼kels,Todesfelde,Wittenborn;-;324,1;0,0;-;-;[53.9068953, 10.2056101];[0, 0];4466;0,0;0,0
 PR3_SEG_039;Segeberg;-;MÃ¶nkloh;-;24,4;0,0;-;-;[53.8879889, 9.7892835];[0, 0];2429;0,0;0,0
 PR3_SEG_040;Segeberg;Segeberg;Bebensee,Leezen,MÃ¶zen;Bebensee,Leezen,MÃ¶zen;172,4;60,6;-;-;[53.8843732, 10.2723161];[53.8843732, 10.2723161];3086;0,0;60,6
 PR3_SEG_041;Segeberg;-;MÃ¶nkloh;-;34,7;0,0;-;-;[53.8879889, 9.7892835];[0, 0];2429;0,0;0,0
 PR3_SEG_042;Segeberg;Segeberg;BÃ¼hnsdorf,Feldhorst,NeuengÃ¶rs,Rehhorst;BÃ¼hnsdorf,Feldhorst,NeuengÃ¶rs,Rehhorst;101,4;29,9;-;-;[53.87535, 10.2927499];[53.87535, 10.2927499];3086;0,0;29,9
 PR3_SEG_043;Segeberg;Segeberg;LentfÃ¶hrden,Weddelbrook;LentfÃ¶hrden,Weddelbrook;117,0;34,7;-;-;[53.8882263, 9.8574754];[53.8882263, 9.8574754];2429;0,0;34,7
-PR3_SEG_044;Segeberg;-;Fredesdorf,Todesfelde;-;15,1;0,0;-;-;[53.8859291, 10.1898469];[0, 0];1975;0,0;0,0
+PR3_SEG_044;Segeberg;-;Fredesdorf,Todesfelde;-;15,1;0,0;-;-;[53.8859291, 10.1898469];[0, 0];4466;0,0;0,0
 PR3_SEG_045;Segeberg;-;Weddelbrook;-;45,5;0,0;-;-;[53.9033941, 9.8293928];[0, 0];2429;0,0;0,0
 PR3_SEG_046;Segeberg;-;Fredesdorf,KÃ¼kels,Leezen;-;91,4;0,0;-;-;[53.8797922, 10.2296669];[0, 0];1975;0,0;0,0
-PR3_SEG_047;Segeberg;-;Fredesdorf,Seth,StruvenhÃ¼tten,Stuvenborn,Todesfelde;-;795,8;0,0;-;-;[53.8673836, 10.146787];[0, 0];1975;0,0;0,0
-PR3_SEG_049;Segeberg;-;LentfÃ¶hrden,NÃ¼tzen;-;38,4;0,0;-;-;[53.8692084, 9.9031695];[0, 0];2429;0,0;0,0
-PR3_SEG_052;Segeberg;Segeberg;Kaltenkirchen,NÃ¼tzen,Schmalfeld;Schmalfeld;96,0;17,8;-;-;[53.8592465, 9.9550729];[53.8752099, 9.982949];1975;0,0;17,8
+PR3_SEG_047;Segeberg;-;Fredesdorf,Seth,StruvenhÃ¼tten,Stuvenborn,Todesfelde;-;795,8;0,0;-;-;[53.8673836, 10.146787];[0, 0];4466;0,0;0,0
+PR3_SEG_049;Segeberg;-;LentfÃ¶hrden,NÃ¼tzen;-;38,4;0,0;-;-;[53.8692084, 9.9031695];[0, 0];4466;0,0;0,0
+PR3_SEG_052;Segeberg;Segeberg;Kaltenkirchen,NÃ¼tzen,Schmalfeld;Schmalfeld;96,0;17,8;-;-;[53.8592465, 9.9550729];[53.8752099, 9.982949];4466;0,0;17,8
 PR3_SEG_054;Segeberg;-;Fredesdorf,GroÃ Niendorf,Leezen,Seth,SÃ¼lfeld;-;424,5;0,0;-;-;[53.8479619, 10.2209628];[0, 0];1975;0,0;0,0
-PR3_SEG_055;Segeberg;Segeberg;SievershÃ¼tten,StruvenhÃ¼tten;SievershÃ¼tten,StruvenhÃ¼tten;47,0;20,2;-;-;[53.8548645, 10.0834847];[53.8548645, 10.0834847];1975;0,0;20,2
+PR3_SEG_055;Segeberg;Segeberg;SievershÃ¼tten,StruvenhÃ¼tten;SievershÃ¼tten,StruvenhÃ¼tten;47,0;20,2;-;-;[53.8548645, 10.0834847];[53.8548645, 10.0834847];4466;0,0;20,2
 PR3_SEG_057;Segeberg;Segeberg;GroÃ Niendorf,Leezen,Neversdorf;GroÃ Niendorf;155,2;23,5;WKA in Betrieb;WKA in Betrieb;[53.8586525, 10.2619245];[53.847448, 10.2449855];3086;0,0;23,5
-PR3_SEG_058;Segeberg;-;Seth;-;39,0;0,0;-;-;[53.8494522, 10.1750076];[0, 0];1975;0,0;0,0
+PR3_SEG_058;Segeberg;-;Seth;-;39,0;0,0;-;-;[53.8494522, 10.1750076];[0, 0];4466;0,0;0,0
 PR3_SEG_059;Segeberg;Segeberg;Heidmoor,LentfÃ¶hrden,Lutzhorn;Heidmoor;432,7;68,2;-;-;[53.8604977, 9.8383495];[53.8669174, 9.8168026];2429;0,0;68,2
-PR3_SEG_061;Segeberg;-;Alveslohe;-;20,2;0,0;-;-;[53.7890889, 9.9160002];[0, 0];1975;0,0;0,0
-PR3_SEG_062;Segeberg;-;Alveslohe,Kaltenkirchen;-;21,8;0,0;-;-;[53.8131302, 9.9387445];[0, 0];1975;0,0;0,0
-PR3_SEG_301;Segeberg,PlÃ¶n;-;BornhÃ¶ved,GÃ¶nnebek,RendswÃ¼hren;-;197,6;0,0;-;-;[54.064649, 10.2235392];[0, 0];4466;0,0;0,0
+PR3_SEG_061;Segeberg;-;Alveslohe;-;20,2;0,0;-;-;[53.7890889, 9.9160002];[0, 0];4466;0,0;0,0
+PR3_SEG_062;Segeberg;-;Alveslohe,Kaltenkirchen;-;21,8;0,0;-;-;[53.8131302, 9.9387445];[0, 0];4466;0,0;0,0
+PR3_SEG_301;Segeberg,PlÃ¶n;-;BornhÃ¶ved,GÃ¶nnebek,RendswÃ¼hren;-;197,6;0,0;-;-;[54.064649, 10.2235392];[0, 0];2564;0,0;0,0
 PR3_SEG_302;Segeberg,PlÃ¶n;Segeberg,PlÃ¶n;GÃ¶nnebek,GroÃ Kummerfeld,RendswÃ¼hren;GÃ¶nnebek,GroÃ Kummerfeld;343,5;163,4;-;-;[0, 0];[0, 0];6108;0,0;163,4
 PR3_SEG_303;Segeberg;-;HeidmÃ¼hlen,Latendorf,Rickling;-;174,9;0,0;-;-;[53.991204, 10.105119];[0, 0];4466;0,0;0,0
 PR3_SEG_304;Segeberg;-;GroÃenaspe,Hardebek;-;62,1;0,0;-;-;[53.9809611, 9.9186235];[0, 0];2429;0,0;0,0
 PR3_SEG_306;Segeberg;Segeberg;Armstedt,Hardebek,Wiemersdorf;Armstedt;188,2;23,1;-;-;[53.9719826, 9.8750091];[53.9698863, 9.8516456];2429;0,0;23,1
 PR3_SEG_307;Segeberg;-;NegernbÃ¶tel;-;18,8;0,0;-;-;[53.9830727, 10.2494962];[0, 0];3086;0,0;0,0
-PR3_SEG_309;Segeberg;Segeberg;Rickling,Wahlstedt;Rickling,Wahlstedt;127,9;64,4;-;-;[53.9793097, 10.1898692];[53.9793097, 10.1898692];4466;0,0;64,4
-PR3_SEG_310;Segeberg;-;Bark,HeidmÃ¼hlen;-;35,1;0,0;-;-;[53.9415805, 10.1337058];[0, 0];1975;0,0;0,0
+PR3_SEG_309;Segeberg;Segeberg;Rickling,Wahlstedt;Rickling,Wahlstedt;127,9;64,4;-;-;[53.9793097, 10.1898692];[53.9793097, 10.1898692];3086;0,0;64,4
+PR3_SEG_310;Segeberg;-;Bark,HeidmÃ¼hlen;-;35,1;0,0;-;-;[53.9415805, 10.1337058];[0, 0];4466;0,0;0,0
 PR3_SEG_311;Segeberg;-;HeidmÃ¼hlen;-;16,0;0,0;-;-;[53.9721076, 10.0847274];[0, 0];4466;0,0;0,0
 PR3_SEG_312;Segeberg;-;Fahrenkrug,Wittenborn;-;66,1;0,0;-;-;[53.9346518, 10.2383943];[0, 0];3086;0,0;0,0
 PR3_SEG_314;Segeberg;-;GroÃenaspe;-;71,9;0,0;-;-;[53.9737843, 9.9687538];[0, 0];2429;0,0;0,0
 PR3_SEG_315;Segeberg;-;GroÃenaspe;-;40,2;0,0;-;-;[53.9737843, 9.9687538];[0, 0];2429;0,0;0,0
 PR3_SEG_316;Segeberg;-;GroÃenaspe;-;142,4;0,0;-;-;[53.9737843, 9.9687538];[0, 0];2429;0,0;0,0
 PR3_SEG_317;Segeberg;-;BimÃ¶hlen;-;93,3;0,0;-;-;[53.9366307, 9.9533923];[0, 0];2429;0,0;0,0
-PR3_SEG_318;Segeberg;Segeberg;BimÃ¶hlen,Hasenmoor;BimÃ¶hlen;176,6;50,1;-;-;[53.9182019, 9.9671677];[53.9366307, 9.9533923];2429;0,0;50,1
+PR3_SEG_318;Segeberg;Segeberg;BimÃ¶hlen,Hasenmoor;BimÃ¶hlen;176,6;50,1;-;-;[53.9182019, 9.9671677];[53.9366307, 9.9533923];4466;0,0;50,1
 PR3_SEG_319;Segeberg;-;Bad Bramstedt;-;46,8;0,0;-;-;[53.9167, 9.88333];[0, 0];2429;0,0;0,0
-PR3_SEG_320;Segeberg;-;Hasenmoor;-;21,8;0,0;-;-;[53.8997732, 9.9809431];[0, 0];1975;0,0;0,0
-PR3_SEG_321;Segeberg;-;Bark,Todesfelde;-;174,2;0,0;-;-;[53.9029532, 10.1818452];[0, 0];1975;0,0;0,0
-PR3_SEG_322;Segeberg;-;Hartenholm,StruvenhÃ¼tten,Todesfelde;-;177,1;0,0;-;-;[53.8863977, 10.098374];[0, 0];1975;0,0;0,0
-PR3_SEG_323;Segeberg;Segeberg;Hartenholm,Hasenmoor,Schmalfeld,StruvenhÃ¼tten;Hasenmoor,StruvenhÃ¼tten;183,6;43,5;-;-;[53.8848308, 10.019502];[53.8819596, 10.0174938];1975;0,0;43,5
-PR3_SEG_324;Segeberg;-;Bad Bramstedt,LentfÃ¶hrden,Schmalfeld;-;56,0;0,0;-;-;[53.8883228, 9.917279];[0, 0];2429;0,0;0,0
-PR3_SEG_325;Segeberg;-;LentfÃ¶hrden;-;28,5;0,0;-;-;[53.8730585, 9.885558];[0, 0];2429;0,0;0,0
+PR3_SEG_320;Segeberg;-;Hasenmoor;-;21,8;0,0;-;-;[53.8997732, 9.9809431];[0, 0];4466;0,0;0,0
+PR3_SEG_321;Segeberg;-;Bark,Todesfelde;-;174,2;0,0;-;-;[53.9029532, 10.1818452];[0, 0];4466;0,0;0,0
+PR3_SEG_322;Segeberg;-;Hartenholm,StruvenhÃ¼tten,Todesfelde;-;177,1;0,0;-;-;[53.8863977, 10.098374];[0, 0];4466;0,0;0,0
+PR3_SEG_323;Segeberg;Segeberg;Hartenholm,Hasenmoor,Schmalfeld,StruvenhÃ¼tten;Hasenmoor,StruvenhÃ¼tten;183,6;43,5;-;-;[53.8848308, 10.019502];[53.8819596, 10.0174938];4466;0,0;43,5
+PR3_SEG_324;Segeberg;-;Bad Bramstedt,LentfÃ¶hrden,Schmalfeld;-;56,0;0,0;-;-;[53.8883228, 9.917279];[0, 0];4466;0,0;0,0
+PR3_SEG_325;Segeberg;-;LentfÃ¶hrden;-;28,5;0,0;-;-;[53.8730585, 9.885558];[0, 0];4466;0,0;0,0
 PR3_SEG_326;Segeberg;-;Heidmoor;-;17,0;0,0;-;-;[53.8669174, 9.8168026];[0, 0];2429;0,0;0,0
-PR3_SEG_327;Segeberg;Segeberg;Heidmoor,LentfÃ¶hrden,NÃ¼tzen;Heidmoor,LentfÃ¶hrden,NÃ¼tzen;307,2;73,9;WKA in Betrieb;WKA in Betrieb;[53.8684447, 9.8743805];[53.8684447, 9.8743805];2429;0,0;73,9
+PR3_SEG_327;Segeberg;Segeberg;Heidmoor,LentfÃ¶hrden,NÃ¼tzen;Heidmoor,LentfÃ¶hrden,NÃ¼tzen;307,2;73,9;WKA in Betrieb;WKA in Betrieb;[53.8684447, 9.8743805];[53.8684447, 9.8743805];4466;0,0;73,9
 PR3_SEG_328;Segeberg,Pinneberg;-;Alveslohe,Bilsen,Ellerau;-;91,8;0,0;-;-;[0, 0];[0, 0];6108;0,0;0,0
-PR3_SEG_329;Segeberg;-;Oering,Seth;-;28,4;0,0;-;-;[53.836877, 10.1621526];[0, 0];1975;0,0;0,0
+PR3_SEG_329;Segeberg;-;Oering,Seth;-;28,4;0,0;-;-;[53.836877, 10.1621526];[0, 0];4466;0,0;0,0
 PR3_SEG_330;Segeberg;-;Nahe;-;60,9;0,0;-;-;[53.7942267, 10.13793];[0, 0];1975;0,0;0,0
 PR3_SEG_331;Segeberg;-;Itzstedt,SÃ¼lfeld;-;17,7;0,0;-;-;[53.8036558, 10.1938697];[0, 0];1975;0,0;0,0
 PR3_SEG_332;Segeberg;-;GroÃ Niendorf,SÃ¼lfeld,TravenbrÃ¼ck;-;127,7;0,0;-;-;[53.8238853, 10.2380866];[0, 0];1975;0,0;0,0
 PR3_SEG_333;Segeberg;-;SÃ¼lfeld;-;20,7;0,0;-;-;[53.8003225, 10.2311878];[0, 0];1975;0,0;0,0
-PR3_SEG_335;Segeberg;-;Norderstedt;-;74,9;0,0;-;-;[53.7089898, 9.9891914];[0, 0];1975;0,0;0,0
+PR3_SEG_335;Segeberg;-;Norderstedt;-;74,9;0,0;-;-;[53.7089898, 9.9891914];[0, 0];4466;0,0;0,0
 PR3_SEG_401;Segeberg;-;Bad Bramstedt,BimÃ¶hlen;-;23,9;0,0;-;-;[53.9266654, 9.9183612];[0, 0];2429;0,0;0,0
-PR3_SEG_402;Segeberg;-;NÃ¼tzen;-;16,8;0,0;-;-;[53.8653583, 9.9207809];[0, 0];1975;0,0;0,0
-PR3_SEG_403;Segeberg;-;Henstedt-Ulzburg,Wakendorf II;-;32,6;0,0;-;-;[53.7873673, 10.0314477];[0, 0];1975;0,0;0,0
-PR3_SEG_404;Segeberg;-;Kisdorf;-;21,5;0,0;-;-;[53.8103523, 10.0101077];[0, 0];1975;0,0;0,0
-PR3_SEG_405;Segeberg;-;Kisdorf,Oering,SievershÃ¼tten;-;27,8;0,0;-;-;[53.8267457, 10.0907767];[0, 0];1975;0,0;0,0
+PR3_SEG_402;Segeberg;-;NÃ¼tzen;-;16,8;0,0;-;-;[53.8653583, 9.9207809];[0, 0];4466;0,0;0,0
+PR3_SEG_403;Segeberg;-;Henstedt-Ulzburg,Wakendorf II;-;32,6;0,0;-;-;[53.7873673, 10.0314477];[0, 0];4466;0,0;0,0
+PR3_SEG_404;Segeberg;-;Kisdorf;-;21,5;0,0;-;-;[53.8103523, 10.0101077];[0, 0];4466;0,0;0,0
+PR3_SEG_405;Segeberg;-;Kisdorf,Oering,SievershÃ¼tten;-;27,8;0,0;-;-;[53.8267457, 10.0907767];[0, 0];4466;0,0;0,0
 PR3_SEG_406;Segeberg;-;Geschendorf,Schieren,Westerrade;-;67,8;0,0;-;-;[53.9335304, 10.4315712];[0, 0];3086;0,0;0,0
 PR3_SEG_407;Segeberg;-;Pronstorf,Westerrade;-;15,5;0,0;-;-;[53.9463481, 10.4652462];[0, 0];3086;0,0;0,0
-PR3_SEG_501;Segeberg;-;Henstedt-Ulzburg;-;18,2;0,0;-;-;[53.7926888, 9.9808134];[0, 0];1975;0,0;0,0
+PR3_SEG_501;Segeberg;-;Henstedt-Ulzburg;-;18,2;0,0;-;-;[53.7926888, 9.9808134];[0, 0];4466;0,0;0,0
 PR3_SEG_601;Segeberg;-;SÃ¼lfeld;-;69,1;0,0;-;-;[53.8003225, 10.2311878];[0, 0];1975;0,0;0,0
 PR1_SLF_001;Schleswig-Flensburg;Schleswig-Flensburg;BÃ¶xlund,Jardelund,Weesby;BÃ¶xlund,Jardelund,Weesby;159,6;159,6;-;-;[54.8352473, 9.1809374];[54.8352473, 9.1809374];2907;0,0;159,6
 PR1_SLF_002;Schleswig-Flensburg;-;BÃ¶xlund,Weesby;-;34,4;0,0;-;-;[54.8349748, 9.1658544];[0, 0];2907;0,0;0,0

@@ -294,6 +294,13 @@ def erzeugungsdatenEEAnlagen(year, source, state ):
                 #print("Modell unbekannt")
                 modellunbekannt += 1
 
+            if isinstance(lokationsdaten['LEISTUNG'][i], float) == False and isinstance(
+                    lokationsdaten['LEISTUNG'][i], numpy.int64) == False:
+
+                lokationsdaten['LEISTUNG'][i] = 1000
+                print('Fehler Leistungsdaten nicht schlimm')
+                print(columnName)
+
 
             temp_wetter = wetterdaten[matcheswetterdaten[0]]
 
@@ -307,8 +314,9 @@ def erzeugungsdatenEEAnlagen(year, source, state ):
 
                 # unter Nennleistung
                 elif k >= Ein_ms and k < Nenn_ms:
-                    x = (lokationsdaten['LEISTUNG'][i] / (Nenn_ms)) * k
-
+                    x = FORMEL_WKA_Leistung(Nenn_ms, Ein_ms, lokationsdaten['LEISTUNG'][i], k)
+                    #print('moment_ms',k ,'Leistung', lokationsdaten['LEISTUNG'][i], 'Erzeigung', x )
+                    #print(k ,lokationsdaten['LEISTUNG'][i], x)
                     leistung.append(int(x))
                 # ueber nennleistung
                 elif k >= Nenn_ms and k < Abs_ms:
@@ -326,6 +334,7 @@ def erzeugungsdatenEEAnlagen(year, source, state ):
             #print('Eintrag bei ', i)
 
             exportFrame[columnName] = leistung
+            print(columnName)
 
 
 
@@ -412,19 +421,19 @@ def erzeugungPerStunde(year, source1):
 
         if i == 0:
             df = df2.copy()
-            print(df)
+            #print(df)
         if i > 0:
             del df2['Datum']
             #df.merge(right=df2, left_index=True, right_on='Datum')
             df = pd.concat([df, df2], axis=1, sort=False)
             sum_1 = df.sum(axis=1, numeric_only=None)
-            print(sum_1)
+            #print(sum_1)
 
 
     del df['Datum']
     sum_3 = df.sum(axis=1, numeric_only=None)
 
-    print(sum_3)
+    #print(sum_3)
     lengthDatum = len(Datumabgleich)
     lentghSum_3 = len(sum_3)
     if lengthDatum != lentghSum_3:
@@ -456,7 +465,7 @@ def verbrauchGesamt(year):
         openfilename = 'Datenbank\Verbrauch\Einzeln/' + matches[0]
         print(openfilename)
         df = pd.read_csv(openfilename, encoding='latin1' ,delimiter=';', decimal=',', header=0)
-        print(df.index)
+        #print(df.index)
     except:
         print('FEHLER')
 
@@ -467,7 +476,7 @@ def verbrauchGesamt(year):
     del df['HH_NETZ_Hamburg']
     sum_SH = df.sum(axis=1, numeric_only=None)
     lentghSum_3 = len(sum_G)
-    print(sum_G)
+    #print(sum_G)
 
     AusgabeFrame = pd.DataFrame(
         {
@@ -483,7 +492,7 @@ def verbrauchGesamt(year):
 
     return AusgabeFrame
 
-def analyseEE(year, EE_Erz, verbrauch):
+def analyseEE(year, EE_Erz, verbrauch, export= False):
 
     del verbrauch['Datum']
     #print(FrameVerbrauch)
@@ -564,9 +573,10 @@ def analyseEE(year, EE_Erz, verbrauch):
     EE_Erz['EE<45%'] = liste_k45
     uhrzeit = datetime.now().strftime('%Y%m%d_%H-%M')
 
-    exportname = 'GruenEnergie_' + str(year) + '_' + str(uhrzeit) + '.csv'
-    print(exportname)
-    EE_Erz.to_csv(exportname, sep=';', encoding='utf-8', index=False, decimal=',')
+    if export == True:
+        exportname = 'GruenEnergie_' + str(year) + '_' + str(uhrzeit) + '.csv'
+        print(exportname)
+        EE_Erz.to_csv(exportname, sep=';', encoding='utf-8', index=False, decimal=',')
 
     return EE_Erz
 
@@ -582,7 +592,7 @@ def analyseAusbauFl():
                                      header=0, encoding='latin1')
 
         lengthLokationsdaten = lokdaten.__len__()
-        print(lokdaten)
+        #print(lokdaten)
     except ValueError:
         print("falsches Format")
     lokdaten['haVor'] = lokdaten['haVor'].astype(float)
@@ -818,7 +828,7 @@ def freie_ha_vor(year, standorte, belgegteha):
                 x = (float(i)-float(j))
                 y = float(j)
         #print(standorte['haVor'][index], standorte['WKAVor'][index] )
-        if standorte['haVor'][index] > 0 and standorte['WKAVor'][index] == '-':
+        if int(standorte['haVor'][index]) > 0 and standorte['WKAVor'][index] == '-':
             x = standorte['haVor'][index]
 
         temp_freiVor.append(x)
@@ -839,9 +849,9 @@ def freie_ha_vor(year, standorte, belgegteha):
 
 def freie_leistung_Vor(year, standort):
     print('Start freie_leistung_Vor')
-    WeaModell_fl_name = 'Enercon E-126/3500'
-    WeaModell_fl_leistung = 3500
-    WeaModell_fl = ((15 * np.square(float(127)))/10000)
+    WeaModell_fl_name = 'Enercon E-82/3000'
+    WeaModell_fl_leistung = 3000
+    WeaModell_fl = ((15 * np.square(float(82)))/10000)
     temp_anzahl = []
     temp_leistung = []
     temp_fl = []
@@ -946,11 +956,12 @@ def windenergie(standort,standort_main):
 
     leistung = []
 
-    name = 'Enercon E-126/3500'
-    Ein_ms = 2
-    Nenn_ms = 14
-    Abs_ms = 30
-    leistung_einzel = 3500
+    name = 'Enercon E-82/3000'
+    Ein_ms = 3
+    Nenn_ms = 16
+    Abs_ms = 34
+    leistung_einzel = 3000
+    nabenhohe = 82
     weatherID = '1200'
     standortbesetzt = standort_main
     anzahl_2 = 0
@@ -980,21 +991,26 @@ def windenergie(standort,standort_main):
     if lengthlist != 2:
         matchfilelist.append('Wind_m/s_788')
 
-    for index, k in enumerate(Wetterdaten[matchfilelist[0]]):
+    temp_wetter = Wetterdaten[matchfilelist[0]]
+    temp_wetter = wind_hochrechnung(Wetterdaten[matchfilelist[0]], nabenhohe,10)
+
+    for k in temp_wetter:
 
         # Fehler raus suchen
         if k < 0:
-                leistung.append(int(0))
+            leistung.append(int(0))
+
         # unter Nennleistung
         elif k >= Ein_ms and k < Nenn_ms:
-            x = (leistung_Gesamt / (Nenn_ms)) * k
-
+            x = FORMEL_WKA_Leistung(Nenn_ms, Ein_ms, leistung_einzel, k)
+            # print('moment_ms',k ,'Leistung', lokationsdaten['LEISTUNG'][i], 'Erzeigung', x )
+            # print(k ,lokationsdaten['LEISTUNG'][i], x)
             leistung.append(int(x))
         # ueber nennleistung
         elif k >= Nenn_ms and k < Abs_ms:
-            leistung.append(int(leistung_Gesamt))
+            leistung.append(int(leistung_einzel))
 
-            # außerhalb der Betriebsgeschwindigekeit
+        # außerhalb der Betriebsgeschwindigekeit
         elif k >= Abs_ms or k < Ein_ms:
             leistung.append(int(0))
 
@@ -1003,11 +1019,21 @@ def windenergie(standort,standort_main):
             print("Fehler")
             leistung.append(int(0))
 
-        # print('Eintrag bei ', i)
 
-    print(leistung)
+    #print(leistung)
 
     return leistung, columnName, standortbesetzt, anzahl_2, leistung_Gesamt, name_2
+
+def FORMEL_WKA_Leistung(nenn_ms, ein_ms , leistung_s, moment_ms):
+
+    a = 5
+
+    vp_WP = ein_ms + ((nenn_ms)/2) + 1
+    k = np.log(a/(leistung_s-a))/(leistung_s*vp_WP*(-1))
+
+    temp_p = (a*leistung_s)/(a+(leistung_s-a)*np.exp(leistung_s*k*moment_ms*(-1)))
+
+    return temp_p
 
 
 
