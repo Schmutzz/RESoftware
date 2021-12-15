@@ -4,6 +4,7 @@ import geo as gpd
 import internetDownload as itd
 import sandbox
 import logik as lgk
+import time
 
 print('start')
 
@@ -189,15 +190,25 @@ verbaut2019 = lgk.stand_distance_analyse(2019, alleStandorte_Coord)
 freieha2019 = lgk.freie_ha_vor(2019, alleStandorte_Coord, verbaut2019)
 standort_mitfreierLeistung = lgk.freie_leistung_Vor(2019, freieha2019)
 
+PV_Gesamt = lgk.erzeugungPerStunde(2019, 'PV')
+del PV_Gesamt['Datum']
+Wind_Gesamt = lgk.erzeugungPerStunde(2019, 'Wind')
+verbrauch_HH_SH = lgk.verbrauchGesamt(2019)
+del verbrauch_HH_SH['Datum']
 
-for i in range(250):
+for i in range(1000):
+    print('Start: ', i)
+    start = time.process_time()
     # verbaut2020 = lgk.stand_distance_analyse(2020, alleStandorte_Coords)
     if i == 0:
-        EE_Analyse = ablaufVorAusbau(2019, export = True)
-        finished_filename = 'KORZ.csv'
-        standort_mitfreierLeistung.to_csv(finished_filename, sep=';', decimal=',', index=False, encoding='utf-8-sig')
+
+        EE_Erz_Wind_Gesamt = pd.concat([Wind_Gesamt, PV_Gesamt], axis=1, sort=False)
+        EE_Analyse = lgk.analyseEE(2019, EE_Erz_Wind_Gesamt, verbrauch_HH_SH, export=True)
+
+
     else:
-        EE_Analyse = ablaufVorAusbau(2019, export = False)
+        EE_Erz_Wind_Gesamt = pd.concat([Wind_Gesamt, PV_Gesamt], axis=1, sort=False)
+        EE_Analyse = lgk.analyseEE(2019, EE_Erz_Wind_Gesamt, verbrauch_HH_SH)
 
 
 
@@ -206,23 +217,25 @@ for i in range(250):
     if value >= 0:
         print(standortliste_123)
         print(value)
-        finished_filename = 'FERTIG.csv'
 
-        EE_Analyse.to_csv(finished_filename, sep=';', decimal=',', index=False, encoding='utf-8-sig')
         break
+
     list_value.append(value)
-    print(value)
     #print(Windlastprofil)
     # lgk.Windlastprofil(2020, 'Wind')
     standort = lgk.leistung_im_Jahr(2019, standort_mitfreierLeistung, value, standort_main)
-    print('end')
+    Wind_Gesamt['Erzeugung_Wind'] += standort[4]
     standortliste_123.append(standort[0])
     anzahl_2.append(standort[1])
     leistung_Gesamt.append(standort[2])
     name_2.append(standort[3])
     standort_main = int(standort[0])
+    end = time.process_time()
+    print('End: ', i, 'Zeit: ', end-start, 'Leistung', sum(standort[4])/1000)
 
 
+finished_filename = 'FERTIG.csv'
+EE_Analyse.to_csv(finished_filename, sep=';', decimal=',', index=False, encoding='utf-8-sig')
 print('Fertig')
 
 print(standortliste_123)

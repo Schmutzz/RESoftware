@@ -495,7 +495,7 @@ def verbrauchGesamt(year):
 
 def analyseEE(year, EE_Erz, verbrauch, export= False):
 
-    del verbrauch['Datum']
+
     #print(FrameVerbrauch)
     #print(FrameErzeung)
     EE_Erz['Erzeugung_Gesamt'] = EE_Erz['Erzeugung_Wind'] + EE_Erz['Erzeugung_PV']
@@ -906,7 +906,7 @@ def ausbau(year, EE_Analyse, Standort):
 def leistung_im_Jahr(year, standorte, value, standort_main):
 
 
-    if value > 0:
+    '''if value > 0:
         print('hallo')
     filelist = findoutFiles('Datenbank\Erzeugung\Einzel')
     matchfilelist = [match for match in filelist if 'Wind' in match]
@@ -924,18 +924,18 @@ def leistung_im_Jahr(year, standorte, value, standort_main):
         #print(lokdaten)
 
     except ValueError:
-        print("falsches Format")
+        print("falsches Format")'''
 
     p = windenergie(standorte,standort_main)
 
     #print(p)
 
-    lokdaten[p[1]] = p[0]
+    '''lokdaten[p[1]] = p[0]
 
     finished_filename = 'Datenbank\Erzeugung\Einzel/' + matchfilelist[0]
-    lokdaten.to_csv(finished_filename, sep=';', decimal=',', index=False, encoding='latin1')
+    lokdaten.to_csv(finished_filename, sep=';', decimal=',', index=False, encoding='latin1')'''
 
-    return p[2], p[3], p[4], p[5]
+    return p[2], p[3], p[4], p[5], p[0]
 
 def windenergie(standort,standort_main):
 
@@ -955,7 +955,7 @@ def windenergie(standort,standort_main):
     #print(Wetterdaten)
     #print(standort)
 
-    leistung = []
+
 
     name = 'Enercon E-82/3000'
     Ein_ms = 3
@@ -968,8 +968,10 @@ def windenergie(standort,standort_main):
     anzahl_2 = 0
     name_2 = ''
     leistung_Gesamt = 123
+    temp_leistung = [0] * 8760
 
     cloumFrame = Wetterdaten.columns.values.tolist()
+
 
     for qindex, i in enumerate(standort['temp_anzahl']):
         if i > 0 and qindex > standortbesetzt:
@@ -979,13 +981,16 @@ def windenergie(standort,standort_main):
             name_2 = str(standort['ID'][qindex])
             standortbesetzt = qindex
             break
+    columnName = str(qindex) + '_Ezg_' + '_' + str(name_2)
+
     if leistung_Gesamt == 123:
-        print('Hallo')
+        print('Keine Anlage Verfügbar')
+        return temp_leistung, columnName, standortbesetzt, anzahl_2, leistung_Gesamt, name_2
 
 
 
 
-    columnName = str(qindex)+'_Ezg_' + '_' + str(name_2)
+
     matchfilelist = [match for match in cloumFrame if weatherID in match]
     lengthlist = len(matchfilelist)
 
@@ -995,35 +1000,38 @@ def windenergie(standort,standort_main):
     temp_wetter = Wetterdaten[matchfilelist[0]]
     temp_wetter = wind_hochrechnung(Wetterdaten[matchfilelist[0]], nabenhohe,10)
 
-    for k in temp_wetter:
+
+
+    for index, k in enumerate(temp_wetter):
 
         # Fehler raus suchen
         if k < 0:
-            leistung.append(int(0))
+
+            temp_leistung[index] = 0
 
         # unter Nennleistung
         elif k >= Ein_ms and k < Nenn_ms:
-            x = FORMEL_WKA_Leistung(Nenn_ms, Ein_ms, leistung_einzel, k)
+            x = FORMEL_WKA_Leistung(Nenn_ms, Ein_ms, leistung_Gesamt, k)
             # print('moment_ms',k ,'Leistung', lokationsdaten['LEISTUNG'][i], 'Erzeigung', x )
             # print(k ,lokationsdaten['LEISTUNG'][i], x)
-            leistung.append(int(x))
+            temp_leistung[index] =int(x)
         # ueber nennleistung
         elif k >= Nenn_ms and k < Abs_ms:
-            leistung.append(int(leistung_einzel))
+            temp_leistung[index] = int(leistung_Gesamt)
 
         # außerhalb der Betriebsgeschwindigekeit
         elif k >= Abs_ms or k < Ein_ms:
-            leistung.append(int(0))
+            temp_leistung[index] = int(0)
 
 
         else:
             print("Fehler")
-            leistung.append(int(0))
+            temp_leistung[index] = 0
 
 
     #print(leistung)
 
-    return leistung, columnName, standortbesetzt, anzahl_2, leistung_Gesamt, name_2
+    return temp_leistung, columnName, standortbesetzt, anzahl_2, leistung_Gesamt, name_2
 
 def FORMEL_WKA_Leistung(nenn_ms, ein_ms , leistung_s, moment_ms):
 
