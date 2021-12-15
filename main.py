@@ -196,7 +196,7 @@ Wind_Gesamt = lgk.erzeugungPerStunde(2019, 'Wind')
 verbrauch_HH_SH = lgk.verbrauchGesamt(2019)
 del verbrauch_HH_SH['Datum']
 
-for i in range(1000):
+for i in range(500):
     print('Start: ', i)
     start = time.process_time()
     # verbaut2020 = lgk.stand_distance_analyse(2020, alleStandorte_Coords)
@@ -231,7 +231,7 @@ for i in range(1000):
     name_2.append(standort[3])
     standort_main = int(standort[0])
     end = time.process_time()
-    print('End: ', i, 'Zeit: ', end-start, 'Leistung', sum(standort[4])/1000)
+    print('End: ', i, 'Zeit: ', end-start, 'Leistung MW', sum(standort[4])/1000)
 
 
 finished_filename = 'FERTIG.csv'

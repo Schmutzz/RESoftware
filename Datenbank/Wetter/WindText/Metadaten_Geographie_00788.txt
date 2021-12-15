@@ -1,3 +1,0 @@
-Stations_id;Stationshoehe;Geogr.Breite;Geogr.Laenge;von_datum;bis_datum;Stationsname
-   788;    7.00; 54.1297;  8.8611;18910501;19640430;Büsum
-   788;    3.00; 54.1193;  8.8584;19640501;        ;Büsum

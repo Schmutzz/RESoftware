@@ -1,5 +1,0 @@
-Stations_id;Stationshoehe;Geogr.Breite;Geogr.Laenge;von_datum;bis_datum;Stationsname
-  3086;   17.00; 53.8092; 10.7051;19380801;19450331;Lübeck-Blankensee
-  3086;   13.70; 53.8092; 10.7051;19450401;19850214;Lübeck-Blankensee
-  3086;   13.70; 53.8092; 10.7051;19850215;20060330;Lübeck-Blankensee
-  3086;   14.74; 53.8025; 10.6989;20060331;        ;Lübeck-Blankensee

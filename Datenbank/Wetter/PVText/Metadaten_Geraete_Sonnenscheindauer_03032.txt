@@ -1,8 +1,0 @@
-Stations_ID;Stationsname;Geo. Laenge [Grad];Geo. Breite [Grad];Stationshoehe [m];Geberhoehe ueber Grund [m];Von_Datum;Bis_Datum;Geraetetyp Name;Messverfahren;eor;
-3032;List auf Sylt;8.41;55.01;26.2;1.5;19720101;19951207;Sonnenscheinschreiber nach Campbell-Stokes;Sonnenscheinregistrierung, konv.;eor;
-3032;List auf Sylt;8.41;55.01;26.2;1.5;19951208;20080930;SONIe Sonnenenergie-Sensor;Sonnenscheindauer, elektr.;eor;
-3032;List auf Sylt;8.41;55.01;26.2;1.5;20081001;20091117;SCAPP;Sonnenscheind/Strahlungsmessung, elektr.;eor;
-3032;List auf Sylt;8.41;55.01;24.7;1.5;20091118;20150725;SCAPP;Sonnenscheind/Strahlungsmessung, elektr.;eor;
-3032;List auf Sylt;8.41;55.01;24.7;1.5;20150728;20170718;SCAPP;Sonnenscheind/Strahlungsmessung, elektr.;eor;
-3032;List auf Sylt;8.41;55.01;24.7;2;20170719;20211109;SCAPP;Sonnenscheind/Strahlungsmessung, elektr.;eor;
-generiert: 10.11.2021 --  Deutscher Wetterdienst  --

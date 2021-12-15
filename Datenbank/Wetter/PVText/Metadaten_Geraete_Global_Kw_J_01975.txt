@@ -1,6 +1,0 @@
-Stations_ID;Stationsname;Geo. Laenge [Grad];Geo. Breite [Grad];Stationshoehe [m];Geberhoehe ueber Grund [m];Von_Datum;Bis_Datum;Geraetetyp Name;Messverfahren;eor;
-1975;Hamburg-Fuhlsbüttel;9.99;53.63;14.05;1.8;20050101;20190424;Pyranometer CM11;Strahlungsmessung, elektr.;eor;
-1975;Hamburg-Fuhlsbüttel;9.99;53.63;10.65;1.8;20190425;20190611;Pyranometer CM11;Strahlungsmessung, elektr.;eor;
-1975;Hamburg-Fuhlsbüttel;9.99;53.63;10.65;1.6;20190612;20210426;Pyranometer CMP22;Strahlungsmessung, elektr.;eor;
-1975;Hamburg-Fuhlsbüttel;9.99;53.63;10.65;1.6;20210427;20211109;Pyranometer CMP22 (+Sonne);Strahlungs-/Sonnenscheinmessung, elektr.;eor;
-generiert: 10.11.2021 --  Deutscher Wetterdienst  --

@@ -1,3 +1,0 @@
-Stations_ID;Stations_Name;Parameter;Von_Datum;Bis_Datum;Gesamt_Fehlwerte;Beschreibung;eor;                                                                                                              
-1200;Elpersbüttel;F;20.11.2007;29.03.2021;978;Gesamt_Messzeitraum;eor;                                                                                                                                  
-1200;Elpersbüttel;D;20.11.2007;29.03.2021;968;Gesamt_Messzeitraum;eor;                                                                                                                                  

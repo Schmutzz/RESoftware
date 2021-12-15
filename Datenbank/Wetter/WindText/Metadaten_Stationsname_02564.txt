@@ -1,3 +1,0 @@
-Stations_ID;Stationsname;Von_Datum;Bis_Datum
-  2564;Kiel-Holtenau                           ;19680101;19860531
-  2564;Kiel-Holtenau                           ;19860601;

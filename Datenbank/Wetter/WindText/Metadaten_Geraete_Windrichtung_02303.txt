@@ -1,7 +1,0 @@
-Stations_ID;Stationsname;Geo. Laenge [Grad];Geo. Breite [Grad];Stationshoehe [m];Geberhoehe ueber Grund [m];Von_Datum;Bis_Datum;Geraetetyp Name;Messverfahren;eor;
-2303;Hohn;;;;;19750101;19810930;Gerätetyp unbekannt;Windmessung, mechanisch;eor;
-2303;Hohn;9.53;54.31;10;10;19811001;19820930;Windregistriergerät nach WOELFLE;Windmessung, mechanisch;eor;
-2303;Hohn;9.53;54.31;10;10;19821001;19880331;Windmessanlage FA 106;Windmessung, elektromechanisch;eor;
-2303;Hohn;9.53;54.31;10;10;19880401;20071217;Windmessanlage, unbekannt;Windmessung;eor;
-2303;Hohn;9.54;54.31;10;10;20071218;20210327;Windmessanlage, unbekannt;Windmessung;eor;
-generiert: 30.03.2021 --  Deutscher Wetterdienst  --

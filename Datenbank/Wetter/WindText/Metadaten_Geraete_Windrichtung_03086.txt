@@ -1,7 +1,0 @@
-Stations_ID;Stationsname;Geo. Laenge [Grad];Geo. Breite [Grad];Stationshoehe [m];Geberhoehe ueber Grund [m];Von_Datum;Bis_Datum;Geraetetyp Name;Messverfahren;eor;
-3086;Lübeck-Blankensee;10.71;53.81;13.7;10;19850301;19950531;Universal-Windschreiber 90;Windmessung, elektromechanisch;eor;
-3086;Lübeck-Blankensee;10.71;53.81;13.7;10;19950601;20060330;Windrichtungssensor Classic 4.3121;Windmessung, elektr.;eor;
-3086;Lübeck-Blankensee;10.7;53.8;14.74;10;20060401;20130903;Windrichtungssensor Classic 4.3121;Windmessung, elektr.;eor;
-3086;Lübeck-Blankensee;10.7;53.8;14.74;10;20130521;20201105;Ultrasonic Anemometer 2D;Windmessung, elektr.;eor;
-3086;Lübeck-Blankensee;10.7;53.8;14.74;10;20201112;20210327;Ultrasonic Anemometer 2D compact;Windmessung, elektr.;eor;
-generiert: 30.03.2021 --  Deutscher Wetterdienst  --

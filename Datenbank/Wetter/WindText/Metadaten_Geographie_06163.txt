@@ -1,2 +1,0 @@
-Stations_id;Stationshoehe;Geogr.Breite;Geogr.Laenge;von_datum;bis_datum;Stationsname
-  6163;   27.03; 54.1654; 10.3519;19990906;        ;Dörnick

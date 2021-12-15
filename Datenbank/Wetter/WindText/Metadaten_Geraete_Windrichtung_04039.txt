@@ -1,7 +1,0 @@
-Stations_ID;Stationsname;Geo. Laenge [Grad];Geo. Breite [Grad];Stationshoehe [m];Geberhoehe ueber Grund [m];Von_Datum;Bis_Datum;Geraetetyp Name;Messverfahren;eor;
-4039;Quickborn;9.88;53.73;12.6;10;19821201;19840630;Windregistriergerät nach WOELFLE;Windmessung, mechanisch;eor;
-4039;Quickborn;9.88;53.73;12.6;10;19840701;19871130;Universal-Windschreiber 90;Windmessung, elektromechanisch;eor;
-4039;Quickborn;9.88;53.73;12.6;12;19871201;19880111;Windrichtungssensor Classic 4.3121;Windmessung, elektr.;eor;
-4039;Quickborn;9.88;53.73;10.99;10;19880112;20201012;Windrichtungssensor Classic 4.3121;Windmessung, elektr.;eor;
-4039;Quickborn;9.88;53.73;10.99;10;20201013;20210327;Ultrasonic Anemometer 2D compact;Windmessung, elektr.;eor;
-generiert: 30.03.2021 --  Deutscher Wetterdienst  --

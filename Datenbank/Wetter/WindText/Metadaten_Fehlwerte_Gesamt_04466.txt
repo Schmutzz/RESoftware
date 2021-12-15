@@ -1,3 +1,0 @@
-Stations_ID;Stations_Name;Parameter;Von_Datum;Bis_Datum;Gesamt_Fehlwerte;Beschreibung;eor;                                                                                                              
-4466;Schleswig;F;01.02.1958;29.03.2021;739;Gesamt_Messzeitraum;eor;                                                                                                                                     
-4466;Schleswig;D;01.02.1958;29.03.2021;664;Gesamt_Messzeitraum;eor;                                                                                                                                     

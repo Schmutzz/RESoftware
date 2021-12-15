@@ -1,3 +1,0 @@
-Stations_ID;Stations_Name;Parameter;Von_Datum;Bis_Datum;Gesamt_Fehlwerte;Beschreibung;eor;                                                                                                              
-4393;Sankt Peter-Ording;F;01.01.1969;29.03.2021;42160;Gesamt_Messzeitraum;eor;                                                                                                                          
-4393;Sankt Peter-Ording;D;01.01.1969;29.03.2021;43721;Gesamt_Messzeitraum;eor;                                                                                                                          

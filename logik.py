@@ -495,7 +495,7 @@ def verbrauchGesamt(year):
 
 def analyseEE(year, EE_Erz, verbrauch, export= False):
 
-
+    temp_list = [300000]*8760
     #print(FrameVerbrauch)
     #print(FrameErzeung)
     EE_Erz['Erzeugung_Gesamt'] = EE_Erz['Erzeugung_Wind'] + EE_Erz['Erzeugung_PV']
@@ -792,10 +792,6 @@ def stand_distance_analyse(year, standorte):
             listFl[standortindex] = round(listFl[standortindex], 3)
             listFl[standortindex] = float(listFl[standortindex])
             standortindex +=1
-
-
-
-
 
     print(listFl)
 

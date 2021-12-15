@@ -1,2 +1,0 @@
-Stations_id;Stationshoehe;Geogr.Breite;Geogr.Laenge;von_datum;bis_datum;Stationsname
- 19171;   13.00; 54.0038;  9.8553;20200116;        ;Hasenkrug-Hardebek

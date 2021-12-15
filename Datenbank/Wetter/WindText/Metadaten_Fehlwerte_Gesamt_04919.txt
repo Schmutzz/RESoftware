@@ -1,3 +1,0 @@
-Stations_ID;Stations_Name;Parameter;Von_Datum;Bis_Datum;Gesamt_Fehlwerte;Beschreibung;eor;                                                                                                              
-4919;Strucklahnungshörn;F;01.10.1977;29.03.2021;22177;Gesamt_Messzeitraum;eor;                                                                                                                          
-4919;Strucklahnungshörn;D;01.10.1977;29.03.2021;22174;Gesamt_Messzeitraum;eor;                                                                                                                          
