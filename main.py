@@ -6,10 +6,10 @@ import sandbox
 import logik as lgk
 import time
 
-print('start')
 
 #lgk.windlastprofil(2019)
 #lgk.windlastprofil(2019)
+
 
 
 def openAusbauflaechen(export=True):
@@ -175,7 +175,8 @@ df = gpd.addCoords(weather, 'Stationsname', 'Bundesland', 'Coords')
 
 alleStandorte_Coord = gpd.addWeather(alleStandorte_Coords, df, 'Coords Pot', 'Coords', 'Stations_id')
 print(alleStandorte_Coord)
-'''alleStandorte_Coords = gpd.addCoords(alleStandorte_Coords, 'StadtPot', 'KreisPot', 'Coords Pot')
+'''
+alleStandorte_Coords = gpd.addCoords(alleStandorte_Coords, 'StadtPot', 'KreisPot', 'Coords Pot')
 alleStandorte_Coords = gpd.addCoords(alleStandorte_Coords, 'StadtVor', 'KreisVor', 'Coords Vor')
 
 finished_filename = 'Datenbank\ConnectwithID/AlleStandorte_Coords.csv'
@@ -223,15 +224,16 @@ for i in range(500):
     list_value.append(value)
     #print(Windlastprofil)
     # lgk.Windlastprofil(2020, 'Wind')
-    standort = lgk.leistung_im_Jahr(2019, standort_mitfreierLeistung, value, standort_main)
-    Wind_Gesamt['Erzeugung_Wind'] += standort[4]
-    standortliste_123.append(standort[0])
-    anzahl_2.append(standort[1])
-    leistung_Gesamt.append(standort[2])
-    name_2.append(standort[3])
-    standort_main = int(standort[0])
+
+    standort = lgk.windenergie(standort_mitfreierLeistung, standort_main)
+    Wind_Gesamt['Erzeugung_Wind'] += standort[0]
+    standortliste_123.append(standort[5])
+    anzahl_2.append(standort[3])
+    leistung_Gesamt.append(standort[4])
+    name_2.append(standort[1])
+    standort_main = int(standort[2])
     end = time.process_time()
-    print('End: ', i, 'Zeit: ', end-start, 'Leistung MW', sum(standort[4])/1000)
+    print('End: ', i, 'Zeit: ', end-start, 'Leistung MW', sum(standort[0])/1000)
 
 
 finished_filename = 'FERTIG.csv'
@@ -241,13 +243,3 @@ print('Fertig')
 print(standortliste_123)
 print(list_value)
 print('Fertg')
-
-
-
-
-
-
-
-
-
-

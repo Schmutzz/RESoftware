@@ -1,3 +1,5 @@
+import time
+
 import numpy
 import pandas as pd
 import numpy as np
@@ -922,7 +924,7 @@ def leistung_im_Jahr(year, standorte, value, standort_main):
     except ValueError:
         print("falsches Format")'''
 
-    p = windenergie(standorte,standort_main)
+
 
     #print(p)
 
@@ -983,10 +985,6 @@ def windenergie(standort,standort_main):
         print('Keine Anlage Verfügbar')
         return temp_leistung, columnName, standortbesetzt, anzahl_2, leistung_Gesamt, name_2
 
-
-
-
-
     matchfilelist = [match for match in cloumFrame if weatherID in match]
     lengthlist = len(matchfilelist)
 
@@ -994,30 +992,26 @@ def windenergie(standort,standort_main):
         matchfilelist.append('Wind_m/s_788')
 
     temp_wetter = Wetterdaten[matchfilelist[0]]
-    temp_wetter = wind_hochrechnung(Wetterdaten[matchfilelist[0]], nabenhohe,10)
-
-
+    temp_wetter = wind_hochrechnung(Wetterdaten[matchfilelist[0]], nabenhohe, 10)
 
     for index, k in enumerate(temp_wetter):
 
         # Fehler raus suchen
         if k < 0:
-
             temp_leistung[index] = 0
 
         # unter Nennleistung
         elif k >= Ein_ms and k < Nenn_ms:
             x = FORMEL_WKA_Leistung(Nenn_ms, Ein_ms, leistung_Gesamt, k)
-            # print('moment_ms',k ,'Leistung', lokationsdaten['LEISTUNG'][i], 'Erzeigung', x )
-            # print(k ,lokationsdaten['LEISTUNG'][i], x)
-            temp_leistung[index] =int(x)
+            temp_leistung[index] = int(x)
+
         # ueber nennleistung
         elif k >= Nenn_ms and k < Abs_ms:
             temp_leistung[index] = int(leistung_Gesamt)
 
         # außerhalb der Betriebsgeschwindigekeit
         elif k >= Abs_ms or k < Ein_ms:
-            temp_leistung[index] = int(0)
+            temp_leistung[index] = 0
 
 
         else:
@@ -1025,7 +1019,7 @@ def windenergie(standort,standort_main):
             temp_leistung[index] = 0
 
 
-    #print(leistung)
+
 
     return temp_leistung, columnName, standortbesetzt, anzahl_2, leistung_Gesamt, name_2
 
@@ -1039,6 +1033,12 @@ def FORMEL_WKA_Leistung(nenn_ms, ein_ms , leistung_s, moment_ms):
     temp_p = (a*leistung_s)/(a+(leistung_s-a)*np.exp(leistung_s*k*moment_ms*(-1)))
 
     return temp_p
+
+
+
+
+
+
 
 
 
