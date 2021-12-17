@@ -219,7 +219,7 @@ def erzeugungsdatenEEAnlagen(year, source, state ):
     matchfilelist2 = [match for match in matchfilelist1 if source in match]
     matchfilelist3 = [match for match in matchfilelist2 if str(year) in match]
     print(matchfilelist3)
-    print('Hello')
+
 
     try:
         openfilename2 = 'Datenbank\Wetter/'+ source +'_Wetterdaten_' + str(year) + '.csv'
@@ -308,7 +308,8 @@ def erzeugungsdatenEEAnlagen(year, source, state ):
 
             temp_wetter = wind_hochrechnung(wetterdaten[matcheswetterdaten[0]], lokationsdaten['NABENHOEHE'][i],
                                             dictWeatherID[lokationsdaten['Wetter-ID'][i]]['Messhight'])
-            for k in temp_wetter:
+            for qindex, k in enumerate(temp_wetter):
+
 
                 #Fehler raus suchen
                 if k < 0:
@@ -332,6 +333,9 @@ def erzeugungsdatenEEAnlagen(year, source, state ):
                 else:
                     print("Fehler")
                     leistung.append(int(0))
+
+                if qindex == 7765:
+                    print(k, wetterdaten['Datum'][qindex], leistung[-1])
 
             #print('Eintrag bei ', i)
 
@@ -396,7 +400,6 @@ def erzeugungsdatenEEAnlagen(year, source, state ):
     print("Ausgegebene Zeilen", len(exportFrame.columns))
 
     print('Fertig')
-
 
 def erzeugungPerStunde(year, source1):
 
@@ -901,39 +904,7 @@ def ausbau(year, EE_Analyse, Standort):
 
     return value
 
-def leistung_im_Jahr(year, standorte, value, standort_main):
 
-
-    '''if value > 0:
-        print('hallo')
-    filelist = findoutFiles('Datenbank\Erzeugung\Einzel')
-    matchfilelist = [match for match in filelist if 'Wind' in match]
-    matchfilelist = [match for match in matchfilelist if str(year) in match]
-    matchfilelist = [match for match in matchfilelist if 'SH' in match]
-
-    try:
-        openfilename1 = 'Datenbank\Erzeugung\Einzel/' + matchfilelist[0]
-        #print(openfilename1)
-
-        lokdaten = pd.read_csv(openfilename1, delimiter=';', decimal=',',
-                                     header=0, encoding='latin1')
-
-        #lengthLokationsdaten = lokdaten.__len__()
-        #print(lokdaten)
-
-    except ValueError:
-        print("falsches Format")'''
-
-
-
-    #print(p)
-
-    '''lokdaten[p[1]] = p[0]
-
-    finished_filename = 'Datenbank\Erzeugung\Einzel/' + matchfilelist[0]
-    lokdaten.to_csv(finished_filename, sep=';', decimal=',', index=False, encoding='latin1')'''
-
-    return p[2], p[3], p[4], p[5], p[0]
 
 def windenergie(standort,standort_main):
 

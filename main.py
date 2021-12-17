@@ -1,14 +1,51 @@
 import pandas as pd
 import database as db
+import geo
 import geo as gpd
 import internetDownload as itd
 import sandbox
 import logik as lgk
 import time
 
+try:
+    openfilename1 = 'Import\Wetterstationen/StundeWindStationen.csv'
+    print(openfilename1)
+
+    weather = pd.read_csv(openfilename1, delimiter=';', encoding='latin1')
+
+except:
+    print('falsches Format')
+
 
 #lgk.windlastprofil(2019)
 #lgk.windlastprofil(2019)
+
+def geplanter_Ausbau(source, state, weather ):
+
+    filelist = db.findoutFiles('Datenbank\ConnectwithID\Erzeugung')
+
+    matches = [match for match in filelist if source in match]
+    matches = [match for match in matches if state in match]
+    matches = [match for match in matches if str('geplanterAusbau') in match]
+    name = 'WindparksWindparksSH_geplanterAusbau_UTM'
+    # headerlistLokation = ['OSTWERT (EPSG:4647)', 'NORDWERT (EPSG:4647']
+    try:
+        openfilename1 = 'Datenbank\ConnectwithID\Erzeugung/' + matches[0]
+        print(openfilename1)
+
+        df = pd.read_csv(openfilename1, delimiter=';', decimal=',', encoding='latin1')
+
+    except:
+        print('falsches Format')
+
+
+    db.utm_to_gk(name,df, export=True)
+    geo.addWeather(weather, df, 'Coords UTM', 'Coords', 'Stations_id')
+
+
+
+geplanter_Ausbau('Wind','SH', weather)
+
 
 
 
@@ -76,6 +113,7 @@ def openAusbauflaechen(export=True):
 
 
 
+
 def testStandartImport():
     standartListe = ["Date", "Time", "Cons_Prod", "Location", "Energynetwork", "Energy_in_kWh", "Energysource"]
     egal = db.regulatedImport('Import\Erzeugung/', standartListe).openAndCompleteAllFile()
@@ -103,8 +141,10 @@ def testStandartImport():
 
 def ablauf2019():
     print('2019')
-    lgk.erzeugungsdatenEEAnlagen(2019, 'Wind', 'HH')
+
     lgk.erzeugungsdatenEEAnlagen(2019, 'Wind', 'SH')
+    lgk.erzeugungsdatenEEAnlagen(2019, 'Wind', 'HH')
+
     lgk.erzeugungsdatenEEAnlagen(2019, 'PV', 'SH')
     lgk.erzeugungsdatenEEAnlagen(2019, 'PV', 'HH')
 
@@ -126,7 +166,7 @@ def ablauf2020():
 #db.erzeugungsZsmPV(2019,'SH', 'PV')
 #db.erzeugungsZsmPV(2020,'SH', 'PV')
 
-#ablauf2019()
+ablauf2019()
 
 standortliste_123 = []
 list_value = []
@@ -162,19 +202,12 @@ try:
 except:
     print('falsches Format')
 
-try:
-    openfilename1 = 'Import\Wetterstationen/StundeWindStationen.csv'
-    print(openfilename1)
 
-    weather = pd.read_csv(openfilename1, delimiter=';', encoding='latin1')
-
-except:
-    print('falsches Format')
 
 df = gpd.addCoords(weather, 'Stationsname', 'Bundesland', 'Coords')
 
 alleStandorte_Coord = gpd.addWeather(alleStandorte_Coords, df, 'Coords Pot', 'Coords', 'Stations_id')
-print(alleStandorte_Coord)
+
 '''
 alleStandorte_Coords = gpd.addCoords(alleStandorte_Coords, 'StadtPot', 'KreisPot', 'Coords Pot')
 alleStandorte_Coords = gpd.addCoords(alleStandorte_Coords, 'StadtVor', 'KreisVor', 'Coords Vor')
@@ -238,6 +271,7 @@ for i in range(500):
 
 finished_filename = 'FERTIG.csv'
 EE_Analyse.to_csv(finished_filename, sep=';', decimal=',', index=False, encoding='utf-8-sig')
+
 print('Fertig')
 
 print(standortliste_123)
