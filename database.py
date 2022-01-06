@@ -460,10 +460,7 @@ def utm_to_gk(name, df, export=False):
     myProj = Proj("epsg:4647", preserve_units=False)
 
     lon, lat = myProj(df['OSTWERT (EPSG:4647)'].tolist(), df['NORDWERT (EPSG:4647)'].tolist(), inverse=True)
-
-
     coords = [0] * len(lon)
-    dist = []
 
     for i in range(len(lon)):
         coords[i] = [lat[i], lon[i]]
@@ -475,8 +472,9 @@ def utm_to_gk(name, df, export=False):
 
     if export == True:
 
-        exportname = 'Datenbank\ConnectwithID\Erzeugung/Windparks'+ name + '_UTM.csv'
+        exportname = 'Datenbank\ConnectwithID\Erzeugung/'+ name + '.csv'
         df.to_csv(exportname, sep=';', encoding='utf-8', index=False, decimal=',')
+
     print('Fertig')
 
     return df

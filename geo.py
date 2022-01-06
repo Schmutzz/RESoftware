@@ -377,7 +377,7 @@ def addCoords(df, locationPot, specifierHeader, newCol):
 
 
 # adds weatherstation-ID to a dataframe ('Wetter-ID_Head')
-def addWeather(df_locations, df_weatherStations, locationCoordsHead, stationCoordsHead, ID_Head):
+def addWeather(df_locations, df_weatherStations, locationCoordsHead, stationCoordsHead, ID_Head, nameSupp = ''):
     ids = df_weatherStations[ID_Head].tolist()
     weatherCoords = df_weatherStations[stationCoordsHead].tolist()
     locationCoords = df_locations[locationCoordsHead].tolist()
@@ -389,6 +389,10 @@ def addWeather(df_locations, df_weatherStations, locationCoordsHead, stationCoor
 
         # distance method argument is a tuple
         locationCoords[i] = editCoords(locationCoords[i])
+        if locationCoords[i] == ('0', '0'):
+            id_list.append(0)
+            continue
+
         for index, station in enumerate(weatherCoords):
             station = editCoords(station)
             temp_dist = distance(locationCoords[i], station)
@@ -397,9 +401,8 @@ def addWeather(df_locations, df_weatherStations, locationCoordsHead, stationCoor
                 min_id = ids[index]
 
         id_list.append(min_id)
-        print(i)
 
-    df_locations['Wetter-ID_Head'] = id_list
+    df_locations['Wetter-ID' + nameSupp] = id_list
     #df_locations.to_csv(finished_filename, sep=';', index=False, encoding='UTF-8')
 
     return df_locations
