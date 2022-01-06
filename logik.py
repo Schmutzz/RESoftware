@@ -630,14 +630,15 @@ def verbrauchGesamt(year):
 
 def analyseEE(year, EE_Erz, verbrauch, export= False, geplanterAusbau = True ):
 
-    temp_list = [300000]*8760
+    temp_list = [328000]*len(EE_Erz['Erzeugung_Wind'])
+    EE_Erz['Erzeugung_Biogas'] = temp_list
     #print(FrameVerbrauch)
     #print(FrameErzeung)
     if geplanterAusbau == True:
         EE_Erz['Erzeugung_Gesamt'] = EE_Erz['Erzeugung_Wind'] + EE_Erz['Erzeugung_PV'] + EE_Erz[
-            'Erzeugung_geplanterAusbau_Wind']
+            'Erzeugung_geplanterAusbau_Wind'] + EE_Erz['Erzeugung_Biogas']
     else:
-        EE_Erz['Erzeugung_Gesamt'] = EE_Erz['Erzeugung_Wind'] + EE_Erz['Erzeugung_PV']
+        EE_Erz['Erzeugung_Gesamt'] = EE_Erz['Erzeugung_Wind'] + EE_Erz['Erzeugung_PV'] + EE_Erz['Erzeugung_Biogas']
 
     EE_Erz['Diff_EE_zu_Verb'] = EE_Erz['Erzeugung_Gesamt'] - verbrauch['Verbrauch_Gesamt']
     EE_Erz['Verbrauch_Gesamt'] = verbrauch['Verbrauch_HH'] + verbrauch['Verbrauch_SH']
@@ -799,25 +800,22 @@ def windlastprofil(year):
 
         #print(wetterdaten[mWd[i]])
 
-        for q in range(1, 6, 1):
-            listparameter = [0] * len(WindAnalyseSchritte)
-            hight1 = 25 * q
-            hight2 = 10
-            temp_wather = wetterdaten[mWd[i]]
-            temp_wather = temp_wather * ((hight1/hight2)**0.25)
-            for j in temp_wather:
-                #print(len(temp_wather))
-                for index, k in enumerate(WindAnalyseSchritte):
-                    # print(float(j), float(k))
-                    if index > k:
-                        print('Stop')
-                    if float(j) > float(index) and float(j) <= float(k):
-                        listparameter[index] += 1
 
-                        # print(listparameter[index])
+        listparameter = [0] * len(WindAnalyseSchritte)
 
-            name = mWd[i] +'_hight_' + str(hight1) + 'm'
-            exportFrame[name] = listparameter
+        for j in wetterdaten[mWd[i]]:
+
+            for index, k in enumerate(WindAnalyseSchritte):
+
+                if index > k:
+                    print('Stop')
+                if float(j) > float(index) and float(j) <= float(k):
+                    listparameter[index] += 1
+
+
+
+        name = mWd[i]
+        exportFrame[name] = listparameter
 
     exportFrame.set_index('AnalyseProfil', inplace=True)
     #print(exportFrame)
@@ -830,6 +828,47 @@ def windlastprofil(year):
 
     print('Ende')
     return exportFrame
+
+def windlastprofil_einzel(windWeatherlist):
+    WindAnalyseSchritte = []
+
+    for i in range(36):
+        WindAnalyseSchritte.append(i)
+        #WindAnalyseSchritte.append(i+schritt)
+
+    del WindAnalyseSchritte[0:1]
+
+    listparameter = [0] * len(WindAnalyseSchritte)
+
+    for j in windWeatherlist:
+        # print(len(temp_wather))
+        treffer = False
+        for index, k in enumerate(WindAnalyseSchritte):
+            # print(float(j), float(k))
+            if index > k:
+                print('Stop')
+
+            if float(j) == 0.0:
+                listparameter[0] += 1
+                treffer = True
+                break
+
+            elif float(j) > float(index) and float(j) <= float(k):
+                listparameter[index] += 1
+                treffer = True
+                break
+
+            elif float(j) > 35.0:
+                listparameter[34] += 1
+                treffer = True
+                break
+
+        if treffer == False:
+            print(j)
+
+                # print(listparameter[index])
+    #print(sum(listparameter))
+    return listparameter
 
 def stand_distance_analyse_alt(year,standorte):
 
@@ -1178,6 +1217,119 @@ def FORMEL_WKA_Leistung(nenn_ms, ein_ms , leistung_s, moment_ms):
     temp_p = (a*leistung_s)/(a+(leistung_s-a)*np.exp(leistung_s*k*moment_ms*(-1)))
 
     return temp_p
+
+def standortquality(year, wetterdaten, WKAanlagen):
+    print('Start', year)
+    temp_Header = wetterdaten.columns.values.tolist()
+    exportFrame = pd.DataFrame(columns=['Name','Jahresleistung', 'ReferenzEnergieErtrag', 'Standortquality'])
+    temp_name = []
+    temp_Jahresleistung = []
+    temp_ReferenzEnergieErtrag = []
+    temp_Standortquality = []
+
+
+    WKAunbekannt = False
+
+
+    for i, value in enumerate(WKAanlagen['Modell']):
+        print(i, value)
+        if WKAanlagen['Referenzertrag [kWh]'][i] == 0:
+            continue
+
+        try:
+            Ein_ms = WKAanlagen['Einschaltgeschwindigkeit m/s'][i]
+        except:
+            Ein_ms = 3
+            # print("Modell unbekannt")
+            WKAunbekannt = True
+        try:
+            Nenn_ms = WKAanlagen['Nenngeschwindigkeit m/s'][i]
+        except:
+            Nenn_ms = 13
+            # print("Modell unbekannt")
+            WKAunbekannt = True
+        try:
+            Abs_ms = WKAanlagen['Abschaltgeschwindigkeit m/s'][i]
+        except:
+            Abs_ms = 25
+            WKAunbekannt = True
+
+        if WKAunbekannt == True:
+            print("Modell unbekannt")
+            #modellunbekannt += 1
+
+        if isinstance(WKAanlagen['LEISTUNG'][i], float) == False and isinstance(
+                WKAanlagen['LEISTUNG'][i], numpy.int64) == False:
+            WKAanlagen['LEISTUNG'][i] = 1000
+            print('Fehler Leistungsdaten nicht schlimm')
+        #print(WKAanlagen['NABENHOEHE'])
+
+        mWd = [match for match in wetterdaten.columns.values.tolist() if
+               str('m/s') in match]
+        temp_nabe = WKAanlagen['NABENHOEHE'][i]
+        for j in range(len(mWd)):
+
+            temp_wind = wind_hochrechnung(wetterdaten[mWd[j]], temp_nabe, 10)
+
+            windlastprofil = windlastprofil_einzel(temp_wind)
+
+            temp_leistung = 0
+
+            for qindex, k in enumerate(windlastprofil):
+                qpindex = 1
+                qpindex += qindex
+
+                # Fehler raus suchen
+                if qpindex < 0:
+                    temp_leistung += 0
+
+                # unter Nennleistung
+                elif qpindex >= Ein_ms and qpindex < Nenn_ms:
+                    x = FORMEL_WKA_Leistung(Nenn_ms, Ein_ms, WKAanlagen['LEISTUNG'][i], qpindex)
+                    # print('moment_ms',k ,'Leistung', lokationsdaten['LEISTUNG'][i], 'Erzeigung', x )
+                    # print(k ,lokationsdaten['LEISTUNG'][i], x)
+                    temp_x = k * int(x)
+                    temp_leistung = temp_leistung + temp_x
+                # ueber nennleistung
+                elif qpindex >= Nenn_ms and qpindex < Abs_ms:
+                    temp_x = k * int(WKAanlagen['LEISTUNG'][i])
+                    temp_leistung = temp_leistung + temp_x
+
+                # außerhalb der Betriebsgeschwindigekeit
+                elif qpindex >= Abs_ms or qpindex < Ein_ms:
+                    temp_leistung += 0
+
+                else:
+                    print("Fehler")
+                    temp_leistung += 0
+            name = str(WKAanlagen['Modell'][i]+'_'+ str(WKAanlagen['NABENHOEHE'][i]) + '_' + mWd[j])
+
+            temp_name.append(name)
+            temp_Jahresleistung.append(temp_leistung)
+            #print(WKAanlagen['Referenzertrag [kWh]'][i])
+            temp_ReferenzEnergieErtrag.append(WKAanlagen['Referenzertrag [kWh]'][i])
+            #print(temp_leistung, WKAanlagen['Referenzertrag [kWh]'][i])
+            if WKAanlagen['Referenzertrag [kWh]'][i] != 0:
+                temp_Standortquality.append(temp_leistung / WKAanlagen['Referenzertrag [kWh]'][i])
+            else:
+                temp_Standortquality.append(0)
+
+    exportFrame['Name'] = temp_name
+    exportFrame['Jahresleistung'] = temp_Jahresleistung
+    exportFrame['ReferenzEnergieErtrag'] = temp_ReferenzEnergieErtrag
+    exportFrame['Standortquality'] = temp_Standortquality
+
+    exportname2 = 'Standortquality.csv'
+    exportFrame.to_csv(exportname2, sep=';', encoding='utf-8', index=True, decimal=',')
+
+    return exportFrame
+
+
+
+
+
+
+
 
 
 

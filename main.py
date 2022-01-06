@@ -9,7 +9,7 @@ import logik as lgk
 import time
 
 META_year = 2019
-META_geplanterAusbau = True
+META_geplanterAusbau = False
 META_faktorAusbauFlDist = 1.1
 
 try:
@@ -38,21 +38,34 @@ try:
     print(openfilename6)
     windWeatherData = pd.read_csv(openfilename6, delimiter=';', decimal=',', header=0)
     '-------------------------------------------------------------------------------------'
-    openfilename5 = 'Datenbank\Erzeugung/Erz_komuliert_geplanterAusbau_2019_Wind.csv'
-    print(openfilename5)
-    plannedErzeung = pd.read_csv(openfilename5, delimiter=';', decimal=',', encoding='utf-8')
+    openfilename7 = 'Datenbank\Erzeugung/Erz_komuliert_geplanterAusbau_2019_Wind.csv'
+    print(openfilename7)
+    plannedErzeung = pd.read_csv(openfilename7, delimiter=';', decimal=',', encoding='utf-8')
+    '-------------------------------------------------------------------------------------'
+    openfilename8 = 'Datenbank\WEAModell/WEAModell.csv'
+    print(openfilename8)
+    WEAModell = pd.read_csv(openfilename8, delimiter=';', decimal=',', encoding='latin1')
+    '-------------------------------------------------------------------------------------'
+    openfilename8 = 'Datenbank\Wetter\WindAnalyse/Windanlyse_' + str(META_year) + '.csv'
+    print(openfilename8)
+    windanlyse = pd.read_csv(openfilename8, delimiter=';', decimal=',', encoding='latin1')
 
 
 except:
     print('falsches Format')
+
+
 '----------------------------------------------------------------------------------------------------------------------'
 '''Funktionen welche nur einmal Aufgerufen werden. Diese dienen nur zur Datenvorbereitung. 
     Sie haben nichts mit der Datenanlyse zu tun. Die Analyse finden gesondert statt.'''
 '----------------------------------------------------------------------------------------------------------------------'
-
+print(windWeatherData)
 # dataprep.plannedAreas_toUTM_and_connectWeahterID('Wind', 'SH', windWeatherStation)
 # dataprep.erzeugung_plannendAreas(META_year, plannedWKA)
 # lgk.erzeugungPerStunde(META_year, 'Wind')
+#temp_windlastprofil = lgk.windlastprofil(META_year)
+lgk.standortquality(META_year, windWeatherData, WEAModell)
+
 '______________________________________________________________________________________________________________________'
 "In Bearbeitung"
 # db.utm_to_gk(2019, 'Wind', 'SH')
@@ -125,7 +138,7 @@ for i in range(500):
 
     list_value.append(value)
     # print(Windlastprofil)
-    # lgk.Windlastprofil(2020, 'Wind')
+    # lgk.Windlastprofil(2020)
 
     standort = lgk.windenergie(standort_mitfreierLeistung, standort_main)
     Wind_Gesamt['Erzeugung_Wind'] += standort[0]

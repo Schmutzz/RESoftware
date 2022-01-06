@@ -187,3 +187,9 @@ def erzeugung_plannendAreas(year, geplanterAusbau):
     lgk.erzeugungPerStunde_singleFrame(year, df, export=True)
 
 
+
+
+
+
+
+
