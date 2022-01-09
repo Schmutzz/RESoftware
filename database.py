@@ -4,8 +4,11 @@ import os
 from datetime import datetime
 from zipfile import ZipFile
 from pyproj import Proj
+
+
 from geopy import distance
 import geo
+
 
 class weatherStation():
     __conuter = 0
@@ -16,8 +19,9 @@ class weatherStation():
         self.stationshoehe = stationshoehe
 
     def infoStation(self):
-        print('Stationnummer: ',self.ID)
+        print('Stationnummer: ', self.ID)
         print('Messart', self.Source)
+
 
 class windWeatherStation(weatherStation):
     maxSpeed = 100
@@ -29,11 +33,11 @@ class windWeatherStation(weatherStation):
         self.__maxSpeed = 100
         self.__maxDegree = 361
 
-    def setSpeed_ms(self,Value):
-        if isinstance(Value, float) == False and isinstance(Value,int) == False:
+    def setSpeed_ms(self, Value):
+        if isinstance(Value, float) == False and isinstance(Value, int) == False:
             self.__Speed_ms.append(0)
             return False
-        elif  Value < 0 or Value > self.__maxSpeed:
+        elif Value < 0 or Value > self.__maxSpeed:
             self.__Speed_ms.append(0)
             return False
         else:
@@ -43,9 +47,8 @@ class windWeatherStation(weatherStation):
         listparameter = []
         falsch = []
 
-
         if len(self.__Speed_ms) == 0:
-            return  False
+            return False
         for i in self.__maxSpeed:
             for k in range(35):
                 if float(i) >= float(k):
@@ -54,16 +57,16 @@ class windWeatherStation(weatherStation):
                     falsch[k] += 1
 
 
-
 def findoutFiles(filename):
-    #print("Suche beginnt")
+    # print("Suche beginnt")
     files = os.listdir(filename)
-    #print(files)
-    #print(len(files))
+    # print(files)
+    # print(len(files))
 
     return files
 
-def zipentpacken(zipFileName,source):
+
+def zipentpacken(zipFileName, source):
     try:
         with ZipFile(zipFileName, 'r') as zip:
             zip.extractall('Datenbank\Wetter/' + source + 'Text')
@@ -73,7 +76,9 @@ def zipentpacken(zipFileName,source):
         print("Probleme mit der Zip-Datei")
     except BaseException:
         print("is not a Zipfile")
-def dateList_dataFrame(start,stop,freq, list=False):
+
+
+def dateList_dataFrame(start, stop, freq, list=False):
     "Erzeugt eine DataFrame oder eine Liste mit einer Spalte"
 
     Datumabgleich = []
@@ -91,7 +96,8 @@ def dateList_dataFrame(start,stop,freq, list=False):
     if list == True:
         return Datumabgleich
 
-def erzeugungsZsmPV(year, state, source = 'PV', weatherConnect = True):
+
+def erzeugungsZsmPV(year, state, source='PV', weatherConnect=True):
     """Diese Funktion addiert alle Solarleistung aus einer Datei vor dem angegeben Jahr.
     Die Leistung im angegeben Jahr werden halbiert um die Mitte des bestcase/worstcase zu erreichen
     Die Leistungen werden nach Wetterstationen sortiert."""
@@ -111,8 +117,8 @@ def erzeugungsZsmPV(year, state, source = 'PV', weatherConnect = True):
 
     Datumabgleich = dateList_dataFrame('01.01.' + str(year - 1),
                                        '01.01.' + str(year + 1), 'Y', list=True)
-    #print(Datumabgleich)
-    #2021 muss ersetzt werden durch Zeitfunktion
+    # print(Datumabgleich)
+    # 2021 muss ersetzt werden durch Zeitfunktion
     filelist = findoutFiles('Datenbank\ConnectwithID\PV_einzelneAnlagen')
     matchfilelist1 = [match for match in filelist if state in match]
     matchfilelist2 = [match for match in matchfilelist1 if source in match]
@@ -122,32 +128,28 @@ def erzeugungsZsmPV(year, state, source = 'PV', weatherConnect = True):
     try:
         headerlistLokation = ['Nettonennleistung der Einheit', 'Inbetriebnahmedatum der Einheit', 'Wetter-ID_Head']
         openfilename1 = 'Datenbank\ConnectwithID\PV_einzelneAnlagen/' + matchfilelist4[0]
-        #print(openfilename1)
+        # print(openfilename1)
 
         lokationsdaten = pd.read_csv(openfilename1, delimiter=';', usecols=headerlistLokation, decimal=',',
                                      header=0, encoding='latin1')
 
-
-        #print(lokationsdaten)
+        # print(lokationsdaten)
     except ValueError:
         print("falsches Format")
 
     try:
         headerlistLokation2 = ['Stations_id', 'Bundesland']
         openfilename2 = 'Import\Wetterstationen/StundeWindStationen.csv'
-        #print(openfilename2)
+        # print(openfilename2)
 
         wetterID = pd.read_csv(openfilename2, delimiter=';', usecols=headerlistLokation2, decimal=',',
-                                     header=0, encoding='latin1')
+                               header=0, encoding='latin1')
 
-
-        #print(wetterID)
+        # print(wetterID)
     except ValueError:
         print("falsches Format")
 
-
-
-    #print(lokationsdaten['Wetter-ID_Head'].describe())
+    # print(lokationsdaten['Wetter-ID_Head'].describe())
 
     for i, k in enumerate(wetterID['Stations_id']):
 
@@ -161,9 +163,10 @@ def erzeugungsZsmPV(year, state, source = 'PV', weatherConnect = True):
             if datetime_object <= Datumabgleich[0] and k == lokationsdaten['Wetter-ID_Head'][j]:
                 summeBisYear += lokationsdaten['Nettonennleistung der Einheit'][j]
 
-            if datetime_object > Datumabgleich[0] and datetime_object < Datumabgleich[1] and k == lokationsdaten['Wetter-ID_Head'][j]:
+            if datetime_object > Datumabgleich[0] and datetime_object < Datumabgleich[1] and k == \
+                    lokationsdaten['Wetter-ID_Head'][j]:
                 SummeInYear += lokationsdaten['Nettonennleistung der Einheit'][j]
-        #wird für die Bedingung gebraucht
+        # wird für die Bedingung gebraucht
         sum_3 = summeBisYear + SummeInYear
 
         if sum_3 == 0:
@@ -176,8 +179,8 @@ def erzeugungsZsmPV(year, state, source = 'PV', weatherConnect = True):
         LeistungGesamt.append(summeBisYear + SummeInYear)
         WetterStation.append(wetterID['Stations_id'][i])
         Bundesland.append(wetterID['Bundesland'][i])
-        #print('New Value')
-        #print(wetterID['Stations_id'][i])
+        # print('New Value')
+        # print(wetterID['Stations_id'][i])
 
     AusgabeFrame = pd.DataFrame(
         {
@@ -190,7 +193,7 @@ def erzeugungsZsmPV(year, state, source = 'PV', weatherConnect = True):
         }
     )
 
-    exportname = 'Datenbank\ConnectwithID\Erzeugung/PV_Anlagen_'+ state +'_WetterID_'+ str(year) +'_komuliert.csv'
+    exportname = 'Datenbank\ConnectwithID\Erzeugung/PV_Anlagen_' + state + '_WetterID_' + str(year) + '_komuliert.csv'
     AusgabeFrame.to_csv(exportname, sep=';', encoding='utf-8', index=False, decimal=',')
 
     print('ENDE erzeugungsZsmPV ')
@@ -209,33 +212,31 @@ def TxtWetterdatenSolarToCSV():
     length = matches.__len__()
 
     for i in range(length):
-
-        #try:
+        # try:
         openfilename = 'Datenbank\Wetter\SolarText/' + matches[i]
         print(openfilename)
         df = pd.read_csv(openfilename, usecols=header, delimiter=';', decimal='.', header=0)
 
-        #if firstDataFrame == False:
-           # dataFrame = df
-          #  firstDataFrame = True
+        # if firstDataFrame == False:
+        # dataFrame = df
+        #  firstDataFrame = True
 
-      #  else:
-            #dataFrame.merge(right=df, left_index=True, how='cross', right_on='MESS_DATUM_WOZ')
-            #dataFrame.merge(right=df, how='cross')
-            #print(dataFrame)
+        #  else:
+        # dataFrame.merge(right=df, left_index=True, how='cross', right_on='MESS_DATUM_WOZ')
+        # dataFrame.merge(right=df, how='cross')
+        # print(dataFrame)
 
         exportname = "erzeugungsdatenVersuche" + str(i) + ".csv"
         df.to_csv(exportname, sep=';', encoding='utf-8', index=False, decimal=',')
 
-        #except ValueError:
-            #print("falsches Format")
-
-
+        # except ValueError:
+        # print("falsches Format")
 
     print(df)
 
+
 def TxtWetterdatenToCSV(Year, source):
-    print('Start testTxtdatenWindToCSV ',source )
+    print('Start testTxtdatenWindToCSV ', source)
     "Kontrolle der Daten"
 
     FilesName = []
@@ -250,12 +251,12 @@ def TxtWetterdatenToCSV(Year, source):
     Datumabgleich = dateList_dataFrame('01.01.' + str(Year) + ' 00:00',
                                        '31.12.' + str(Year) + ' 23:00', '60min', list=True)
     valueOfDatesInYear = Datumabgleich.__len__()
-    if source =='PV':
+    if source == 'PV':
         sourceName1 = 'PV_LBERG_'
         sourceName2 = 'PV_Zenit_'
         textName = 'produkt_st_stunde'
         MessDate = 'MESS_DATUM_WOZ'
-        MessDateType ='%Y%m%d%H:%M'
+        MessDateType = '%Y%m%d%H:%M'
         MessSource1 = 'FG_LBERG'
         MessSource2 = 'ZENIT'
     if source == 'Wind':
@@ -267,12 +268,10 @@ def TxtWetterdatenToCSV(Year, source):
         MessSource2 = '   D'
         MessDateType = '%Y%m%d%H'
 
-
     try:
-        files = findoutFiles('Datenbank\Wetter/'+ source +'Text')
+        files = findoutFiles('Datenbank\Wetter/' + source + 'Text')
     except ValueError:
         print('WARNING')
-
 
     matches = [match for match in files if textName in match]
     print(matches)
@@ -284,7 +283,7 @@ def TxtWetterdatenToCSV(Year, source):
         windMperS = []
         windDegree = []
         try:
-            openfilename = 'Datenbank\Wetter/'+ source +'Text/' + matches[i]
+            openfilename = 'Datenbank\Wetter/' + source + 'Text/' + matches[i]
             print(openfilename)
             df = pd.read_csv(openfilename, delimiter=';', decimal='.', header=0)
             FilesTrueFalse.append(True)
@@ -303,7 +302,7 @@ def TxtWetterdatenToCSV(Year, source):
         Source_2 = sourceName2 + str(df['STATIONS_ID'][2])
 
         importLength = df.__len__()
-        #print(df)
+        # print(df)
         start = 0
         falseExpiry = 0
         trueExpiry = 0
@@ -314,7 +313,7 @@ def TxtWetterdatenToCSV(Year, source):
         "Gibt es gar keine Werte wird -999 eingetragen"
 
         lostWeatherValueDate = [2, 8, 12, 16, 24, 48, 36, 52, 72, 8760, 8784, 8808, 17616, 17520, 17568, 17616]
-        #lostWeatherValueDate = [2, 8, 12, 16]
+        # lostWeatherValueDate = [2, 8, 12, 16]
         lostWeatherValueError = [1, 2, 3, -1, -2, -3, 24, 72, 8760, 8784, 8808, 17616, 17520, 17568, 17616]
         for k in range(importLength):
             if start >= valueOfDatesInYear:
@@ -322,7 +321,7 @@ def TxtWetterdatenToCSV(Year, source):
                 break
 
             datetime_object = datetime.strptime(str(df[MessDate][k]), MessDateType)
-            #datetime_object = datetime.strptime(str(df['MESS_DATUM'][k]), '%Y%m%d%H:%M')
+            # datetime_object = datetime.strptime(str(df['MESS_DATUM'][k]), '%Y%m%d%H:%M')
             try:
                 if Datumabgleich[0] <= datetime_object and datetime_object != Datumabgleich[start]:
                     print('fehlender Messert und fehlendes Datum')
@@ -336,7 +335,7 @@ def TxtWetterdatenToCSV(Year, source):
                                 continue
 
                             "Eintragen wenn die Messwerte Falsch sind "
-                            if df[MessSource1][k-j] > -999 and df[MessSource2][k - j] > -999:
+                            if df[MessSource1][k - j] > -999 and df[MessSource2][k - j] > -999:
                                 substituteWeather.append(df[MessSource1][k - j])
                                 substituteDegree.append(df[MessSource2][k - j])
                             "Anzahl der Eintragungen"
@@ -355,7 +354,7 @@ def TxtWetterdatenToCSV(Year, source):
                         "Ermitteln des neuen Werts"
                         windMperS.append(MperS)
                         windDegree.append(Degree)
-                        falseExpiry +=1
+                        falseExpiry += 1
                         start += 1
 
             except IndexError:
@@ -370,7 +369,7 @@ def TxtWetterdatenToCSV(Year, source):
                 substituteWeather = []
                 substituteDegree = []
                 for j in lostWeatherValueError:
-                    if (k-j) < 0:
+                    if (k - j) < 0:
                         continue
 
                     "Eintragen wenn die Messwerte Falsch sind "
@@ -393,14 +392,13 @@ def TxtWetterdatenToCSV(Year, source):
                 windMperS.append(MperS)
                 windDegree.append(Degree)
 
-
                 falseValueExpiry += 1
-                start +=1
+                start += 1
 
             if datetime_object == Datumabgleich[start]:
-                #print('Die beiden nächsten')
-                #print(Datumabgleich[start])
-                #print(datetime_object)
+                # print('Die beiden nächsten')
+                # print(Datumabgleich[start])
+                # print(datetime_object)
                 windMperS.append(df[MessSource1][k])
                 windDegree.append(df[MessSource2][k])
 
@@ -408,20 +406,20 @@ def TxtWetterdatenToCSV(Year, source):
                 trueExpiry += 1
                 continue
 
-        #print(str(start) + openfilename)
+        # print(str(start) + openfilename)
         AnzahlDaten.append(start)
         DatenTrue.append(trueExpiry)
         DatenD_TFalse.append(falseExpiry)
         DatenDFalse.append(falseValueExpiry)
-        D_Prozent.append(falseValueExpiry/start)
-        D_T_Prozent.append(trueExpiry/start)
+        D_Prozent.append(falseValueExpiry / start)
+        D_T_Prozent.append(trueExpiry / start)
 
         if firsttime == True:
             firsttime = False
             exportFrame = pd.DataFrame(
                 {'Datum': Datumabgleich,
-                    Source_1: windMperS,
-                    Source_2: windDegree}
+                 Source_1: windMperS,
+                 Source_2: windDegree}
             )
 
             continue
@@ -430,9 +428,7 @@ def TxtWetterdatenToCSV(Year, source):
         if firsttime == False:
             exportFrame[Source_1] = windMperS
             exportFrame[Source_2] = windDegree
-            #print(exportFrame)
-
-
+            # print(exportFrame)
 
     KontrolFrame = pd.DataFrame(
         {'DatenName': FilesName,
@@ -441,22 +437,20 @@ def TxtWetterdatenToCSV(Year, source):
          'Daten Richtig': DatenTrue,
          'Error Anzahl': DatenDFalse,
          'Kein Datum': DatenD_TFalse,
-         'Error in Prozent':D_Prozent,
+         'Error in Prozent': D_Prozent,
          'Kein Datum in Prozent': D_T_Prozent
          }
     )
 
-    exportname1 = 'Datenbank\Wetter/' + source + '_Wetterdaten_'+ str(Year) +'.csv'
+    exportname1 = 'Datenbank\Wetter/' + source + '_Wetterdaten_' + str(Year) + '.csv'
     exportFrame.to_csv(exportname1, sep=';', encoding='utf-8', index=False, decimal=',')
-    exportname2 = 'Datenbank\Wetter/' + source +'_Datenauswertung' + str(Year) + '.csv'
+    exportname2 = 'Datenbank\Wetter/' + source + '_Datenauswertung' + str(Year) + '.csv'
     KontrolFrame.to_csv(exportname2, sep=';', encoding='utf-8', index=False, decimal=',')
-    print('Fertig testTxtdatenWindToCSV ',source )
+    print('Fertig testTxtdatenWindToCSV ', source)
+
 
 def utm_to_gk(name, df, export=False):
-
-
-
-    #myProj = Proj(proj='utm', zone=32 , ellps='WGS84' ,preserve_units=False
+    # myProj = Proj(proj='utm', zone=32 , ellps='WGS84' ,preserve_units=False
     myProj = Proj("epsg:4647", preserve_units=False)
 
     lon, lat = myProj(df['OSTWERT (EPSG:4647)'].tolist(), df['NORDWERT (EPSG:4647)'].tolist(), inverse=True)
@@ -469,10 +463,8 @@ def utm_to_gk(name, df, export=False):
     print(type(coords))
     df['Coords UTM'] = coords
 
-
     if export == True:
-
-        exportname = 'Datenbank\ConnectwithID\Erzeugung/'+ name + '.csv'
+        exportname = 'Datenbank\ConnectwithID\Erzeugung/' + name + '.csv'
         df.to_csv(exportname, sep=';', encoding='utf-8', index=False, decimal=',')
 
     print('Fertig')
@@ -480,22 +472,19 @@ def utm_to_gk(name, df, export=False):
     return df
 
 
-
 class regulatedImport():
     """Diese Klasse importiert .csv Dateien nach einem Regulierten Schemata
         Das Schema wird in einer List vorgegeben
         Nur die Spalten werden eingelesen
         Häufung von Dateien ist in Ordnung und werden gesucht"""
+
     def __init__(self, filename, headerList):
         self.filename = filename
         self.fileList = findoutFiles(filename)
         self.headerList = headerList
         self.i = len(self.fileList)
 
-
-
-
-    def opensignleCSV(self,i):
+    def opensignleCSV(self, i):
 
         try:
             openfilename = self.filename + self.fileList[i]
@@ -511,7 +500,7 @@ class regulatedImport():
 
     def openAndCompleteAllFile(self):
 
-        dataFrame= {1: ['1', '2'], 2: ['3', '4']}
+        dataFrame = {1: ['1', '2'], 2: ['3', '4']}
 
         firstDataFrame = False
 
@@ -533,6 +522,7 @@ class regulatedImport():
 
         return dataFrame
 
+
 class importValues():
 
     def __init__(self, x):
@@ -545,7 +535,7 @@ class importValues():
 
     def writeCSV(self):
 
-        PrintData = {'col1':[1,2],'col2':[2,3]}
+        PrintData = {'col1': [1, 2], 'col2': [2, 3]}
         export_csv = pd.DataFrame(data=PrintData)
         egal = export_csv.to_csv('ExportDatei\ichsuchedich.csv', sep=';', index=False, header=True)
 
@@ -561,7 +551,6 @@ class importValues():
             TimeStart = []
             TimeStop = []
 
-
             for column in spamreader:
                 ImportDaten.append(column[4])
                 print(column[4])
@@ -570,11 +559,10 @@ class importValues():
                 TimeStart.append(column[22])
                 TimeStop.append(column[23])
 
-
             print('lilalu')
 
-
         dataHH.close()
+
     def openCSVfileTEST(self):
         print('start')
         with open('ImportDatei\ImportROHDaten.csv', mode='r', newline='\n') as dataHH:
@@ -585,17 +573,16 @@ class importValues():
 
             print('lilalu')
 
-
         dataHH.close()
 
-class openLocationdata():
 
+class openLocationdata():
     """Diese Klasse dient zum öffnen Spezieller csv Dateien.
     Daher auch die 3 Speizifikationen"""
 
-    def __init__(self, filename, location,maxLength):
+    def __init__(self, filename, location, maxLength):
         self.filename = filename
-        self.maxLength =maxLength
+        self.maxLength = maxLength
         self.location = location
         self.sheetnumber = 1
         self.ID = []
@@ -617,9 +604,9 @@ class openLocationdata():
 
         for i in range(self.maxLength):
 
-            #print('start')
+            # print('start')
             openfile = self.filename + "/" + self.location + "/Sheet" + str(self.sheetnumber) + ".csv"
-            #print(openfile)
+            # print(openfile)
             ausnaheme = False
             zeilennummer = 1
             setPot = False
@@ -648,28 +635,28 @@ class openLocationdata():
                             self.StadtVor.append(column[6])
                         "Funktioniert"
                     if zeilennummer == 5 and len(column[2]) > 3:
-                            self.StadtPot[-1] = self.StadtPot[-1] + str(column[2])
-                            ausnaheme = True
+                        self.StadtPot[-1] = self.StadtPot[-1] + str(column[2])
+                        ausnaheme = True
                     if zeilennummer == 5 and len(column[3]) > 3:
-                            self.StadtPot[-1] = self.StadtPot[-1] + str(column[3])
-                            ausnaheme = True
+                        self.StadtPot[-1] = self.StadtPot[-1] + str(column[3])
+                        ausnaheme = True
                     if zeilennummer == 5 and len(column[5]) > 3:
-                            self.StadtVor[-1] = self.StadtVor[-1] + str(column[6])
-                            ausnaheme = True
+                        self.StadtVor[-1] = self.StadtVor[-1] + str(column[6])
+                        ausnaheme = True
                     if zeilennummer == 5 and len(column[6]) > 3:
-                            self.StadtVor[-1] = self.StadtVor[-1] + str(column[6])
-                            ausnaheme = True
+                        self.StadtVor[-1] = self.StadtVor[-1] + str(column[6])
+                        ausnaheme = True
 
                     if zeilennummer == 6 and ausnaheme == False:
                         self.haPot.append(column[2])
                         self.haVor.append(column[6])
-                    #if zeilennummer > 6 and ausnaheme == False:
-                        #break
+                    # if zeilennummer > 6 and ausnaheme == False:
+                    # break
                     if zeilennummer == 7 and ausnaheme == True:
                         self.haPot.append(column[2])
                         self.haVor.append(column[6])
-                    #if zeilennummer > 7 and ausnaheme == True:
-                        #break
+                    # if zeilennummer > 7 and ausnaheme == True:
+                    # break
                     if zeilennummer == 11:
                         holecloumn = column
                         print(column)
@@ -789,10 +776,10 @@ class openLocationdata():
                             break
                     zeilennummer += 1
             SHflaeche.close()
-            self.sheetnumber +=1
+            self.sheetnumber += 1
 
-        #print(self.ID, self.KreisPot, self.KreisVor, self.StadtPot, self.StadtVor, self.haPot, self.haVor)
-        #print(self.ID)
+        # print(self.ID, self.KreisPot, self.KreisVor, self.StadtPot, self.StadtVor, self.haPot, self.haVor)
+        # print(self.ID)
         print(len(self.WKAPot))
         print(len(self.WKAVor))
         print(len(self.KreisPot))
@@ -806,7 +793,7 @@ class openLocationdata():
              'haVor': self.haVor,
              'WKAPot': self.WKAPot,
              'WKAVor': self.WKAVor
-            }
+             }
         )
         exportname = "Datenbank\Ausbauflaechen\AusbauStandorte_einzeln/" + self.location + "_reineDaten" + ".csv"
         exportFrame.to_csv(exportname, sep=';', encoding='utf-8', index=False)
@@ -816,9 +803,9 @@ class openLocationdata():
 
         for i in range(self.maxLength):
 
-            #print('start')
+            # print('start')
             openfile = self.filename + "/" + self.location + "/Sheet" + str(self.sheetnumber) + ".csv"
-            #print(openfile)
+            # print(openfile)
             ausnaheme = False
             zeilennummer = 1
 
@@ -850,14 +837,14 @@ class openLocationdata():
                         self.StadtVor.append(column[4])
                         "Funktioniert"
                     if zeilennummer == 5 and len(column[1]) > 3 and len(column[2]) == 0:
-                            self.StadtPot[-1] = self.StadtPot[-1] + str(column[1])
-                            ausnaheme = True
+                        self.StadtPot[-1] = self.StadtPot[-1] + str(column[1])
+                        ausnaheme = True
                     """if zeilennummer == 5 and len(column[3]) > 3:
                             self.StadtPot[-1] = self.StadtPot[-1] + str(column[3])
                             ausnaheme = True"""
                     if zeilennummer == 5 and len(column[3]) > 3 and len(column[4]) == 0:
-                            self.StadtVor[-1] = self.StadtVor[-1] + str(column[3])
-                            ausnaheme = True
+                        self.StadtVor[-1] = self.StadtVor[-1] + str(column[3])
+                        ausnaheme = True
                     """if zeilennummer == 5 and len(column[5]) > 3:
                             self.StadtVor[-1] = self.StadtVor[-1] + str(column[6])
                             ausnaheme = True"""
@@ -909,7 +896,7 @@ class openLocationdata():
                             print(column)
                             print(matches)
 
-                        if (setPot==True and setVor==True):
+                        if (setPot == True and setVor == True):
                             break
 
                         if zeilennummer == 14:
@@ -923,13 +910,12 @@ class openLocationdata():
                                 self.WKAVor.append('-')
                             break
 
-
                     zeilennummer += 1
             SHflaeche.close()
-            self.sheetnumber +=1
+            self.sheetnumber += 1
 
-        #print(self.ID, self.KreisPot, self.KreisVor, self.StadtPot, self.StadtVor, self.haPot, self.haVor)
-        #print(self.ID)
+        # print(self.ID, self.KreisPot, self.KreisVor, self.StadtPot, self.StadtVor, self.haPot, self.haVor)
+        # print(self.ID)
         print(len(self.WKAPot))
         print(len(self.WKAVor))
         print(len(self.KreisPot))
@@ -1141,24 +1127,7 @@ class openLocationdata():
              'WKAVor': self.WKAVor
              }
         )
-        exportname = "Datenbank\Ausbauflaechen\AusbauStandorte_einzeln/" + self.location + "_reineDatenSpecial" + str(sheet) + ".csv"
+        exportname = "Datenbank\Ausbauflaechen\AusbauStandorte_einzeln/" + self.location + "_reineDatenSpecial" + str(
+            sheet) + ".csv"
         exportFrames.to_csv(exportname, sep=';', encoding='utf-8', index=False)
         return exportFrames
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

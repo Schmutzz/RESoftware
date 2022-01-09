@@ -124,59 +124,41 @@ print(p3.x)
 b = p3.x
 print(b)
 
+'''
+def annualOutput_WKA(year, Ein_ms, Nenn_ms, Abs_ms, leistung_Gesamt, weatherData, nabenhohe):
 
-def stand_distance_analyse(year, standorte):
-    filelist = findoutFiles('Datenbank\ConnectwithID\Erzeugung')
-    matches1 = [match for match in filelist if str(year) in match]
-    matches1 = [match for match in matches1 if 'SH' in match]
-    matches1 = [match for match in matches1 if 'UTM' in match]
+    temp_DatelistPerHoure = DateList('01.01.' + str(year) + ' 00:00', '31.12.' + str(year) + ' 23:00', '60min')
 
-    try:
-        openfilename1 = 'Datenbank\ConnectwithID\Erzeugung/' + matches1[0]
-        print(openfilename1)
+    temp_wetter = wind_hochrechnung(weatherData, nabenhohe, 10)
+    temp_leistung = [0] * len(temp_DatelistPerHoure)
 
-        WKA = pd.read_csv(openfilename1, delimiter=';', decimal=',', encoding='latin1')
+    for index, k in enumerate(temp_wetter):
 
-    except:
-        print('falsches Format')
+        # Fehler raus suchen
+        if k < 0:
+            temp_leistung[index] = 0
 
-    list = []
-    listnames = []
+        # unter Nennleistung
+        elif k >= Ein_ms and k < Nenn_ms:
+            x = FORMEL_WKA_Leistung(Nenn_ms, Ein_ms, leistung_Gesamt, k)
+            temp_leistung[index] = int(x)
 
-    testTuper = ('0', '0')
-    for index, i in enumerate(WKA['Coords UTM']):
-        tempList = []
-        temp_wka = geo.editCoords(i)
+        # ueber nennleistung
+        elif k >= Nenn_ms and k < Abs_ms:
+            temp_leistung[index] = int(leistung_Gesamt)
 
-        for kindex, j in enumerate(standorte['Coords Vor']):
-
-            temp_ausbau = geo.editCoords(j)
-            if temp_ausbau != testTuper and standorte['WKAVor'][kindex] == 'WKA in Betrieb':
-                tempList.append(geo.distance(temp_wka, temp_ausbau))
-
-        list.append(tempList)
-
-    p = 1
-    for index, i in enumerate(standorte['ID']):
-        temp_ausbau = geo.editCoords(standorte['Coords Vor'][index])
-
-        if temp_ausbau != testTuper and standorte['WKAVor'][index] == 'WKA in Betrieb':
-            columnName = str(p) + '_' + i
-            p += 1
-            listnames.append(columnName)
-
-    # del exportFrame['Datum']
-    # print(exportFrame)
-
-    exportFrame = pd.DataFrame(np.c_[list], columns=listnames)
-    exportFrame.insert(loc=0, column='Typ', value=WKA['TYP'])
-    finished_filename = 'KurzAnschauen.csv'
-
-    exportFrame.to_csv(finished_filename, sep=';', decimal=',', index=False, encoding='UTF-8')
+        # außerhalb der Betriebsgeschwindigekeit
+        elif k >= Abs_ms or k < Ein_ms:
+            temp_leistung[index] = 0
 
 
+        else:
+            print("Fehler")
+            temp_leistung[index] = 0
 
+    return temp_leistung[index]
 
+'''
 
 
 
