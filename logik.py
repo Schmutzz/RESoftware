@@ -1183,7 +1183,6 @@ def standort_and_WKA_choice(negativGraph, DB_WKA, deepestPointsIndex, ausbauFlWe
                 relevant_PowerWKA += DB_WKA[i][jndex]
 
         if spiecherMethodik == False:
-            # print('Modell Name: ', i)
             relevant_PowerWKA = DB_WKA[i] + copy_negativGraph
             relevant_PowerWKA = negativ_Verlauf(relevant_PowerWKA, speicherVerlauf=False)
             relevant_PowerWKA = abs(sum(copy_negativGraph)) - abs(sum(relevant_PowerWKA))
@@ -1457,7 +1456,7 @@ def negativ_Verlauf(SimuEE_Diff, speicherVerlauf = True):
     # print('Start negativ_Verlauf')
     "Es werden alle Positiven Werte des Verlaufs abgschnitten, sodass nurnoch die ein negativer graph uebrig bleibt"
     # temp_SimuEE_Diff = [0] * len(SimuEE_Diff)
-    temp_DateList = DateList('01.01.' + str(2019) + ' 00:00', '31.12.' + str(2019) + ' 23:00', '60min', list=True)
+
     if speicherVerlauf == True:
         for index, i in enumerate(SimuEE_Diff):
             # Wird für die Mathematische Berechnung benötigt

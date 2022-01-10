@@ -23,6 +23,7 @@ META_VorFl = False
 META_PotFl = False
 temp_ausbau = False
 META_ausbaubegrenzungsfaktor = 0.5
+META_Speicherverlauf = False
 
 try:
     openfilename1 = 'Datenbank\Wetter/StundeWindStationen_Coords.csv'
@@ -156,6 +157,7 @@ freieFlaeche['Anzahl_Pot'] = [0] * len(freieFlaeche['ID'])
 freieFlaeche['Leistung_Pot'] = [0] * len(freieFlaeche['ID'])
 freieFlaeche['InvestKosten_Pot'] = [0] * len(freieFlaeche['ID'])
 freieFlaeche['BetriebsKosten_Pot'] = [0] * len(freieFlaeche['ID'])
+
 "Nun ist bekannt welche Potenzial Flächen und Welche Vorrangflächen frei Verfügbar sind."
 '______________________________________________________________________________________________________________________'
 "ProzentualerAusbau BIOMASSE/PV"
@@ -210,12 +212,12 @@ for i in range(len(dictWeatherID)):
 
     if tempausbauTrue == True:
         temp_Diff_EE = SimulationEE_vorAusbau['Diff_EE_zu_Verb'].copy()
-        EE_Simulation_negativGraph = lgk.negativ_Verlauf(temp_Diff_EE, speicherVerlauf=False)
-        deepestPoints = lgk.deepest_point_negativGraph(EE_Simulation_negativGraph, 10)
+        EE_Simulation_negativGraph = lgk.negativ_Verlauf(temp_Diff_EE, speicherVerlauf=META_Speicherverlauf)
+        deepestPoints = lgk.deepest_point_negativGraph(EE_Simulation_negativGraph, 75)
 
     WKAnameforexpansion = lgk.standort_and_WKA_choice(EE_Simulation_negativGraph, DB_WKA, deepestPoints[1],
                                                       freieFlaeche['Wetter-ID_Vor'].tolist(), temp_ausgebauteAnlagen,
-                                                      dictWKAModell, spiecherMethodik=False)
+                                                      dictWKAModell, spiecherMethodik=META_Speicherverlauf)
     '- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
     'Muss noch überprüft werden'
     #max_Anzahl = lgk.maxAnzahl_WKA(deepestPoints[0], deepestPoints[1], DB_WKA, WKAnameforexpansion,
@@ -255,12 +257,12 @@ for i in range(len(dictWeatherID)):
     anzahl_2.append(standort[2])
     leistung_Gesamt.append(standort[3])
     standortliste_123.append(standort[4])
-    finished_filename = 'KurzAnschauen_' + str(META_year) + '.csv'
+    finished_filename = 'AusgebauteFlaechen_' + str(META_year) + '.csv'
     freieFlaeche.to_csv(finished_filename, sep=';', decimal=',', index=False, encoding='utf-8-sig')
     end = time.process_time()
-    print('End: ', i, 'Zeit: ', end - start, 'Leistung zusatz MWh', sum(standort[0]) / 1000)
-    print('Leistung insgesamt zugebaut in MWh: ', sum(expansionWind) / 1000, 'Freie Fläche: ',
-          sum(freieFlaeche['nettoFreieFlaeche_Vor']))
+    print('End: ', i, 'Zeit: ', end - start, 'Name', standort[1], 'Anzahl: ', standort[2])
+    print('Leistung insgesamt zugebaut in MW: ', sum(leistung_Gesamt) / 1000, 'Leistung Neu:  ',standort[3],
+          'Freie Fläche: ', sum(freieFlaeche['nettoFreieFlaeche_Vor']))
 
 
 temp_wind = Wind_Gesamt.copy()
