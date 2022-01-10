@@ -160,6 +160,20 @@ def annualOutput_WKA(year, Ein_ms, Nenn_ms, Abs_ms, leistung_Gesamt, weatherData
 
 '''
 
+'''while (end_vergleichswert >= vergleichswert * ausbaubegrenzungsfaktor):
+    'Wieviel Impact hat eine weitere WKA auf mein NegativGraph'
+    tempSum_negativGraph = 0
+    max_Anzahl += 1
+    for index, i in enumerate(deepestPointsIndex):
+        tempSum_negativGraph += deepestPointsValues[index] + (DB_WKA[modellName][i] * max_Anzahl)
+
+    if max_Anzahl == 1:
+        vergleichswert = (start_SumNegativGraph * (-1)) - (tempSum_negativGraph * (-1))
+        end_vergleichswert = vergleichswert
+        continue
+
+    end_vergleichswert = ((start_SumNegativGraph * (-1)) - (tempSum_negativGraph * (-1))) / max_Anzahl
+    print(end_vergleichswert)'''
 
 
 

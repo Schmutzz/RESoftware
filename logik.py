@@ -31,6 +31,7 @@ class WKAmodell:
         self.Windklasse = Windklasse
         self.Invest = Invest
         self.Betriebk = Betriebk
+        self.Flaeche = self.getFlaeche()
         self.__dict = self.filldict()
 
     def filldict(self):
@@ -42,11 +43,17 @@ class WKAmodell:
                               'Abs_ms': self.Abs_ms[index], 'Nenn_kW': self.Nenn_kW[index],
                               'Nabenhoehe': self.Nabenhoehe[index], 'Rotor': self.Rotor[index],
                               'AusbauRelv': self.AusbauRelv[index], 'Windklasse': self.Windklasse[index],
-                              'Invest': self.Invest[index], 'Betriebk': self.Betriebk[index]}
+                              'Invest': self.Invest[index], 'Betriebk': self.Betriebk[index],
+                              'Flaeche': self.Flaeche[index]}
             # print(temp_dict)
 
         return temp_dict
+    def getFlaeche(self):
+        x= []
+        for i in self.Rotor:
+            x.append(round(((15 * np.square(float(i))) / 10000),2))
 
+        return x
     def getAnzahlWKAmodell(self):
         return len(self.__dict)
 
@@ -117,6 +124,23 @@ def wind_hochrechnung(wind, naben_hight, mess_hight):
     delte_hight = naben_hight / mess_hight
     wind = wind * (delte_hight ** hellmann_konst)
     return wind
+
+
+def IEC_windklasse(sum_temp_wetter, len_temp_wetter ):
+
+    average_wind = sum_temp_wetter/len_temp_wetter
+
+    if average_wind >= 10:
+        return 1
+    if average_wind >= 8.5:
+        return 2
+    if average_wind >= 7.5:
+        return 3
+    if average_wind >= 6.5:
+        return 4
+    if average_wind < 6.5:
+        return 5
+
 
 
 def WEAmodellDictionary_Class():
@@ -231,11 +255,17 @@ def FORMEL_WKA_Leistung(nenn_ms, ein_ms, leistung_s, moment_ms):
     return temp_p
 
 
-def annualOutput_WKA(year, Ein_ms, Nenn_ms, Abs_ms, leistung_Gesamt, weatherData, nabenhohe, weatherID_hight):
+def annualOutput_WKA(year, Ein_ms, Nenn_ms, Abs_ms, leistung_Gesamt, weatherData, nabenhohe, weatherID_hight,
+                     windklasse_wka):
+
     temp_DatelistPerHoure = DateList('01.01.' + str(year) + ' 00:00', '31.12.' + str(year) + ' 23:00', '60min')
 
     temp_wetter = wind_hochrechnung(weatherData, nabenhohe, weatherID_hight)
     temp_leistung = [0] * len(temp_DatelistPerHoure)
+    temp_IEC_windklasse = IEC_windklasse(sum(temp_wetter), len(temp_wetter))
+    if temp_IEC_windklasse < windklasse_wka:
+        return temp_leistung
+
 
     for index, k in enumerate(temp_wetter):
 
@@ -632,7 +662,7 @@ def analyseEE(year, EE_Erz, PV_Gesamt, erz_Bio, plannedErzeung, verbrauch, ausba
         EE_Erz['Erz_geplAusbau_Wind'] = plannedErzeung
         temp_EE_Erz += EE_Erz['Erz_geplAusbau_Wind']
     if geplanterAusbau == False:
-        print('del EE_Erz["Erz_geplAusbau_Wind"]')
+        # print('del EE_Erz["Erz_geplAusbau_Wind"]')
         '''del EE_Erz['Erz_geplAusbau_Wind']'''
     # Wind Ausbau Software
     if ausbau == True and sum(ausbauWind) > 0:
@@ -1029,6 +1059,8 @@ def freie_ha_vor(year, standorte, belgegteha_Vor, belgegteha_Pot):
                 # print(belgegteha['ID'][kindex], standorte['ID'][index])
                 # print(i, j)
                 x = (float(i) - float(j))
+                if x < 0:
+                    x = 0
                 y = float(j)
                 z = belgegteha_Vor['Anzahl WEAs'][kindex]
         # print(standorte['haVor'][index], standorte['WKAVor'][index] )
@@ -1057,6 +1089,8 @@ def freie_ha_vor(year, standorte, belgegteha_Vor, belgegteha_Pot):
                 # print(belgegteha['ID'][kindex], standorte['ID'][index])
                 # print(i, j)
                 x = (float(i) - float(j))
+                if x < 0:
+                    x = 0
                 y = float(j)
                 z = belgegteha_Pot['Anzahl WEAs'][kindex]
         # print(standorte['haVor'][index], standorte['WKAVor'][index] )
@@ -1111,69 +1145,82 @@ def freie_leistung_Vor(year, standort):
     return standort
 
 
-def standort_and_WKA_choice(negativGraph, DB_WKA, deepestPointsIndex):
+def standort_and_WKA_choice(negativGraph, DB_WKA, deepestPointsIndex, ausbauFlWeatherIDList, temp_ausgebauteAnlagen,
+                            dict_WKA, spiecherMethodik = True):
     print('Start Analyse Ausbau')
     # print(EE_Analyse)
     copy_negativGraph = negativGraph.copy()
-    sumNegativGraph = 0
+    max_boje_value = 0
     # Addition der Tiefsten Punkte
     for k in deepestPointsIndex:
-        sumNegativGraph += copy_negativGraph[k]
+        max_boje_value += copy_negativGraph[k]
 
-
+    max_boje_value = 0
     WKAnameforexpansion = 'unbekannt'
 
     for i in DB_WKA:
-        copy_negativGraph = negativGraph.copy()
-        tempSum_negativGraph = 0
-        # Addition der Tiefsten Punkte + WKA
-        for jndex in deepestPointsIndex:
-             tempSum_negativGraph += copy_negativGraph[jndex] + DB_WKA[i][jndex]
+        temp_name = i.split('_')
+        temp_ID = temp_name[0]
+        temp_Modell = temp_name[1]
+        temp_Modell_hight = temp_name[2]
+        temp_FlproPower = 0
+        if temp_ID not in str(ausbauFlWeatherIDList):
+            del DB_WKA[i]
+            continue
+        if temp_ID in str(temp_ausgebauteAnlagen):
+            del DB_WKA[i]
+            continue
+        '''matchVerbauteAnlage = [match for match in temp_ausgebauteAnlagen if i in match]
 
-        if tempSum_negativGraph > sumNegativGraph:
-            sumNegativGraph = tempSum_negativGraph
+        if len(matchVerbauteAnlage) != 0:
+            continue'''
+
+        copy_negativGraph = negativGraph.copy()
+        relevant_PowerWKA = 0
+        # Addition der Tiefsten Punkte + WKA
+        if spiecherMethodik == True:
+            for jndex in deepestPointsIndex:
+                relevant_PowerWKA += DB_WKA[i][jndex]
+
+        if spiecherMethodik == False:
+            # print('Modell Name: ', i)
+            relevant_PowerWKA = DB_WKA[i] + copy_negativGraph
+            relevant_PowerWKA = negativ_Verlauf(relevant_PowerWKA, speicherVerlauf=False)
+            relevant_PowerWKA = abs(sum(copy_negativGraph)) - abs(sum(relevant_PowerWKA))
+            # print('TW', relevant_PowerWKA/1000000)
+
+
+        temp_FlproPower = relevant_PowerWKA / dict_WKA[temp_Modell + '_'+ temp_Modell_hight]['Flaeche']
+        # print('Max_GW/FL', temp_FlproPower / 1000)
+        # print('Neu_GW/FL', max_boje_value / 1000)
+        if temp_FlproPower > max_boje_value:
+            max_boje_value = temp_FlproPower
             WKAnameforexpansion = i
             #print(WKAnameforexpansion)
         #print(i)
 
     return WKAnameforexpansion
 
-def maxAnzahl_WKA(deepestPointsValues,deepestPointsIndex, DB_WKA,modellName, ausbaubegrenzungsfaktor):
+def maxAnzahl_WKA(deepestPointValues,deepestPointsIndex, DB_WKA,modellName, ausbaubegrenzungsfaktor):
 
-    start_SumNegativGraph = sum(deepestPointsValues)
+    start_deepestPointValues = sum(deepestPointValues)
 
     # Funktioniert noch nicht.
     # Muss angepasst werden!!!
 
-    max_Anzahl = 0
-    tempSum_negativGraph = 0
-    vergleichswert = 10
-    end_vergleichswert = 10
-
-    while (end_vergleichswert >= vergleichswert*ausbaubegrenzungsfaktor):
-        'Wieviel Impact hat eine weitere WKA auf mein NegativGraph'
-        tempSum_negativGraph = 0
-        max_Anzahl += 1
-        for index, i in enumerate(deepestPointsIndex):
-            tempSum_negativGraph += deepestPointsValues[index] + (DB_WKA[modellName][i] * max_Anzahl)
-
-        if max_Anzahl == 1:
-            vergleichswert = (start_SumNegativGraph*(-1)) - (tempSum_negativGraph*(-1))
-            end_vergleichswert = vergleichswert
-            continue
-
-        end_vergleichswert = ((start_SumNegativGraph*(-1)) - (tempSum_negativGraph*(-1)))/ max_Anzahl
-        print(end_vergleichswert)
-        # Erhöhe solange die WKA anzahl, bis ein Ausbau der WKA vom erstausbau 80% ausmacht.
-        # Erstausbau 800 kw/h -> mit einer Anlage
-        # Zwischenstand 600kw/h -> im Schnitt je Anlage -> 75%(ausbaubegrenzungsfaktor) -> OK
-        # weiterer Zwischenstand 580kw/h - 72,5% -> nicht ok, Anzahl stoppen.
-
-
+    max_Anzahl = 1
+    # Erhöhe solange die WKA anzahl, bis ein Ausbau der WKA vom erstausbau 80% ausmacht.
+    # Erstausbau 800 kw/h -> mit einer Anlage
+    # Zwischenstand 600kw/h -> im Schnitt je Anlage -> 75%(ausbaubegrenzungsfaktor) -> OK
+    # weiterer Zwischenstand 580kw/h - 72,5% -> nicht ok, Anzahl stoppen.
+    erstAusbau_WKA = 0
+    # Ausbau einer WKA
+    for index, i in enumerate(deepestPointsIndex):
+        erstAusbau_WKA += (DB_WKA[modellName][i] * max_Anzahl)
     print(max_Anzahl)
 
     return max_Anzahl
-    test = start_SumNegativGraph - DB_WKA[name]
+
     # while start_SumNegativGraph*
     # Muss später noch gemacht werden
 
@@ -1193,60 +1240,68 @@ def Ausbau_WKA(WKAKey,weatherID,WKADict, standort , windWetterdaten, Vor_Pot):
     leistung_Gesamt = 123
     temp_leistung = [0] * 8760
 
-    cloumFrame = windWetterdaten.columns.values.tolist()
+    columnFrame = windWetterdaten.columns.values.tolist()
+    columnName = ''
 
     for mndex, m in enumerate(standort['Wetter-ID_'+Vor_Pot]):
 
         if m != int(weatherID):
-            print(m, weatherID)
+            # print(m, weatherID)
             continue
+
         if standort['nettoFreieFlaeche_'+Vor_Pot][mndex] < 0:
             continue
 
         WeaModell_fl = ((15 * np.square(float(WKADict[WKAKey]['Rotor']))) / 10000)
-        standort['Anzahl'][mndex] = int(standort['nettoFreieFlaeche_'+Vor_Pot][mndex]/WeaModell_fl)
+        standort['Anzahl_'+Vor_Pot][mndex] = int(standort['nettoFreieFlaeche_'+Vor_Pot][mndex]/WeaModell_fl)
 
-        leistung_Gesamt = leistung_einzel * standort['Anzahl'][mndex]
+        leistung_Gesamt = leistung_einzel * standort['Anzahl_'+Vor_Pot][mndex]
 
         if leistung_Gesamt == 0 or leistung_Gesamt == 123:
             continue
-        standort['Modell'][mndex] = WKADict[WKAKey]['Modell']
-        standort['Leistung'][mndex] = leistung_Gesamt
+        standort['nettoFreieFlaeche_' + Vor_Pot][mndex] -= WeaModell_fl * standort['Anzahl_'+Vor_Pot][mndex]
+        standort['Modell_'+Vor_Pot][mndex] = WKADict[WKAKey]['Modell']
+        standort['Leistung_'+Vor_Pot][mndex] = leistung_Gesamt
 
-        columnName = str(m) + '_Ezg_' + '_' + str(WKADict[WKAKey]['Modell'])
+        columnName = str(m) + '_Ezg_' + str(WKADict[WKAKey]['Modell'])
 
 
-        matchfilelist = [match for match in cloumFrame if weatherID in match]
+        matchfilelist = [match for match in columnFrame if weatherID in match]
         lengthlist = len(matchfilelist)
 
         if lengthlist != 2:
             matchfilelist.append('Wind_m/s_788')
 
         temp_wetter = wind_hochrechnung(windWetterdaten[matchfilelist[0]], nabenhohe, 10)
+        temp_IEC_windklasse = IEC_windklasse(sum(temp_wetter), len(temp_wetter))
+
+        if temp_IEC_windklasse < WKADict[WKAKey]['Windklasse']:
+            continue
 
         for index, k in enumerate(temp_wetter):
 
             # Fehler raus suchen
             if k < 0:
-                temp_leistung[index] = 0
+                temp_leistung[index] += 0
 
             # unter Nennleistung
             elif k >= Ein_ms and k < Nenn_ms:
                 x = FORMEL_WKA_Leistung(Nenn_ms, Ein_ms, leistung_Gesamt, k)
-                temp_leistung[index] = int(x)
+                temp_leistung[index] += int(x)
 
             # ueber nennleistung
             elif k >= Nenn_ms and k < Abs_ms:
-                temp_leistung[index] = int(leistung_Gesamt)
+                temp_leistung[index] += int(leistung_Gesamt)
 
             # außerhalb der Betriebsgeschwindigekeit
             elif k >= Abs_ms or k < Ein_ms:
-                temp_leistung[index] = 0
+                temp_leistung[index] += 0
 
 
             else:
                 print("Fehler")
-                temp_leistung[index] = 0
+                temp_leistung[index] += 0
+
 
     return temp_leistung, columnName, anzahl_2, leistung_Gesamt, name_2
 
@@ -1386,33 +1441,43 @@ def DB_WKA(year, dictModell, dictWeatherID, wetterdaten):
             leistung = annualOutput_WKA(year, dictModell[jndex]['Ein_ms'], dictModell[jndex]['Nenn_ms'],
                                         dictModell[jndex]['Abs_ms'], dictModell[jndex]['Nenn_kW'],
                                         wetterdaten[matcheswetterdaten[0]], dictModell[jndex]['Nabenhoehe'],
-                                        float(dictWeatherID[index]['Messhight']))
+                                        float(dictWeatherID[index]['Messhight']), dictModell[jndex]['Windklasse'])
+            if sum(leistung) == 0:
+                WKA_False += 1
+                continue
             WKA_True += 1
             date_perHoure[name] = leistung
 
-        print(wetterstationen, WKA_True, WKA_False)
+        print('Wetterstation:', wetterstationen,'WKA Erfolgreich: ', WKA_True,'WKA nicht gleaden: ', WKA_False)
 
     exportname = 'DB_WKA.csv'
     date_perHoure.to_csv(exportname, sep=';', encoding='utf-8', index=False, decimal=',')
 
-def negativ_Verlauf(SimuEE_Diff):
-    print('Start negativ_Verlauf')
+def negativ_Verlauf(SimuEE_Diff, speicherVerlauf = True):
+    # print('Start negativ_Verlauf')
     "Es werden alle Positiven Werte des Verlaufs abgschnitten, sodass nurnoch die ein negativer graph uebrig bleibt"
     # temp_SimuEE_Diff = [0] * len(SimuEE_Diff)
     temp_DateList = DateList('01.01.' + str(2019) + ' 00:00', '31.12.' + str(2019) + ' 23:00', '60min', list=True)
+    if speicherVerlauf == True:
+        for index, i in enumerate(SimuEE_Diff):
+            # Wird für die Mathematische Berechnung benötigt
+            if index == 0:
+                SimuEE_Diff[index] = 0
+                continue
+            # Wert kleiner Null ->
+            if i + SimuEE_Diff[index - 1] < 0:
+                SimuEE_Diff[index] = i + SimuEE_Diff[index - 1]
+            if i + SimuEE_Diff[index - 1] > 0:
+                SimuEE_Diff[index] = 0
 
-    for index, i in enumerate(SimuEE_Diff):
-        # Wird für die Mathematische Berechnung benötigt
-        if index == 0:
-            SimuEE_Diff[index] = 0
-            continue
-        # Wert kleiner Null ->
-        if i + SimuEE_Diff[index-1] < 0:
-            SimuEE_Diff[index] = i + SimuEE_Diff[index-1]
-        if i + SimuEE_Diff[index-1] > 0:
-            SimuEE_Diff[index] = 0
+    if speicherVerlauf == False:
+        for index, i in enumerate(SimuEE_Diff):
+            if i > 0:
+                SimuEE_Diff[index] = 0
 
-    y = SimuEE_Diff
+
+
+    '''y = SimuEE_Diff
     x = temp_DateList
     # plotting the points
     plt.plot(x, y)
@@ -1426,7 +1491,7 @@ def negativ_Verlauf(SimuEE_Diff):
     plt.title('My first graph!')
 
     # function to show the plot
-    plt.show()
+    plt.show()'''
 
 
 
@@ -1442,24 +1507,28 @@ def deepest_point_negativGraph(negativGraph, anzahl = 100):
     temp_index = anzahl * [0]
 
     temp_negativGraph = negativGraph.tolist()
+    temp_timesteps = len(temp_negativGraph)
+
     for jndex, j in enumerate(temp_value):
         temp_value[jndex] = min(temp_negativGraph)
-        print(temp_value[jndex])
+        # print(temp_value[jndex])
         temp_index[jndex] = temp_negativGraph.index(temp_value[jndex])
         temp_negativGraph[temp_index[jndex]] = 0
-        temp_set = 20
-        if temp_index[jndex] > 11:
-            x = temp_index[jndex]-10
-            temp_set -= 10
-        if temp_index[jndex] < 8749:
-            y = temp_index[jndex]+10
-            temp_set -= 10
-        temp_zero = [0] * temp_set
+
+        if temp_index[jndex] > 31:
+            x = temp_index[jndex]-30
+        else:
+            x = 1
+        if temp_index[jndex] < temp_timesteps -31:
+            y = temp_index[jndex]+30
+        else:
+            y = temp_timesteps-1
+        temp_zero = [0] * (y-x)
         temp_negativGraph[x:y] = temp_zero
 
 
 
-    print(temp_value)
-    print(temp_index)
+    # print(temp_value)
+    # print(temp_index)
 
     return temp_value, temp_index

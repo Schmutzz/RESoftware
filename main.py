@@ -12,13 +12,13 @@ import time
 
 META_EE_Anteil = 0.75  # Muss Decimal angegeben werden
 META_year = 2019
-META_geplanterAusbau = False
+META_geplanterAusbau = True
 META_Biomasse = True
-META_expansionBio = 0.05  # in Prozent
+META_expansionBio = 0.12  # in Prozent
 META_Wind = True
 META_PV= True
-META_expansionPV = 0.05  # in Prozent
-META_faktorAusbauFlDist = 1.1  # in Kilometer
+META_expansionPV = 0.12  # in Prozent
+META_faktorAusbauFlDist = 1.0  # in Kilometer
 META_VorFl = False
 META_PotFl = False
 temp_ausbau = False
@@ -79,8 +79,8 @@ except:
 "KEY = MODELL -> Modell Name"
 temp_WKA = lgk.WEAmodellDictionary_Class()
 dictWKAModell = temp_WKA.getdict()
+#print(dictWKAModell)
 print(dictWKAModell)
-
 "Öffnen der verschiedenen Wetterstationen."
 "KEY = ID -> NUMMER der Wettersation"
 temp_WeatherID = lgk.WeatherStationDictionary_Class()
@@ -90,7 +90,7 @@ dictWeatherID = temp_WeatherID.getdict()
 '''Funktionen welche nur einmal Aufgerufen werden. Diese dienen nur zur Datenvorbereitung. 
     Sie haben nichts mit der Datenanlyse zu tun. Die Analyse finden gesondert statt.'''
 '----------------------------------------------------------------------------------------------------------------------'
-#lgk.DB_WKA(META_year, dictWKAModell, dictWeatherID, windWeatherData)
+# lgk.DB_WKA(META_year, dictWKAModell, dictWeatherID, windWeatherData)
 
 
 # dataprep.plannedAreas_toUTM_and_connectWeahterID('Wind', 'SH', windWeatherStation)
@@ -146,9 +146,16 @@ verbautPot = lgk.stand_distance_analyse(META_year, 'Pot', ausbauStandorte_Coords
                                         export=False, geplanterAusbau=META_geplanterAusbau)
 freieFlaeche = lgk.freie_ha_vor(META_year, ausbauStandorte_Coords, verbauteVor, verbautPot)
 
-freieFlaeche['Modell'] = ['unebkannt/nicht vorhanden'] * len(freieFlaeche['ID'])
-freieFlaeche['Anzahl'] = [0] * len(freieFlaeche['ID'])
-freieFlaeche['Leistung'] = [0] * len(freieFlaeche['ID'])
+freieFlaeche['Modell_Vor'] = ['unebkannt/nicht vorhanden'] * len(freieFlaeche['ID'])
+freieFlaeche['Anzahl_Vor'] = [0] * len(freieFlaeche['ID'])
+freieFlaeche['Leistung_Vor'] = [0] * len(freieFlaeche['ID'])
+freieFlaeche['InvestKosten_Vor'] = [0] * len(freieFlaeche['ID'])
+freieFlaeche['BetriebsKosten_Vor'] = [0] * len(freieFlaeche['ID'])
+freieFlaeche['Modell_Pot'] = ['unebkannt/nicht vorhanden'] * len(freieFlaeche['ID'])
+freieFlaeche['Anzahl_Pot'] = [0] * len(freieFlaeche['ID'])
+freieFlaeche['Leistung_Pot'] = [0] * len(freieFlaeche['ID'])
+freieFlaeche['InvestKosten_Pot'] = [0] * len(freieFlaeche['ID'])
+freieFlaeche['BetriebsKosten_Pot'] = [0] * len(freieFlaeche['ID'])
 "Nun ist bekannt welche Potenzial Flächen und Welche Vorrangflächen frei Verfügbar sind."
 '______________________________________________________________________________________________________________________'
 "ProzentualerAusbau BIOMASSE/PV"
@@ -164,9 +171,11 @@ if META_PV == True:
 '----------------------------------------------------------------------------------------------------------------------'
 "!!!Ausbau WIND STARTET!!!"
 temp_ausbau = True
-
+temp_ausgebauteAnlagen = ['test'] * len(expansionPV)
 expansionWind = [0] * len(expansionPV)
-for i in range(500):
+tempausbauTrue = True
+
+for i in range(len(dictWeatherID)):
     print('Start: ', i)
     start = time.process_time()
 
@@ -179,10 +188,10 @@ for i in range(500):
                                    expansionBio=META_expansionBio)
 
         EE_Anteil = EE_Analyse[1]
-        print(EE_Analyse[1])
+        print('EE Anteil in Prozent: ', round(EE_Analyse[1]*100,2), '%')
         SimulationEE_nachAusbau = EE_Analyse[0].copy()
 
-    else:
+    elif i > 0 and tempausbauTrue == True:
         temp_wind = Wind_Gesamt.copy()
         EE_Analyse = lgk.analyseEE(META_year, Wind_Gesamt, PV_Gesamt, erz_Bio, plannedErzeung, verbrauch_HH_SH,
                                    expansionWind, expansionPV, expansionBio, ausbau=temp_ausbau, export=False,
@@ -191,7 +200,7 @@ for i in range(500):
                                    expansionBio=META_expansionBio)
 
         EE_Anteil = EE_Analyse[1]
-        print(EE_Analyse[1])
+        print('EE Anteil in Prozent: ', round(EE_Analyse[1]*100,2), '%')
         SimulationEE_nachAusbau = EE_Analyse[0].copy()
 
     if EE_Anteil >= META_EE_Anteil:
@@ -199,31 +208,49 @@ for i in range(500):
         print(EE_Anteil)
         break
 
-    EE_Simulation_negativGraph = lgk.negativ_Verlauf(SimulationEE_vorAusbau['Diff_EE_zu_Verb'])
-    deepestPoints = lgk.deepest_point_negativGraph(EE_Simulation_negativGraph, 100)
-    WKAnameforexpansion = lgk.standort_and_WKA_choice(EE_Simulation_negativGraph, DB_WKA, deepestPoints[1])
+    if tempausbauTrue == True:
+        temp_Diff_EE = SimulationEE_vorAusbau['Diff_EE_zu_Verb'].copy()
+        EE_Simulation_negativGraph = lgk.negativ_Verlauf(temp_Diff_EE, speicherVerlauf=False)
+        deepestPoints = lgk.deepest_point_negativGraph(EE_Simulation_negativGraph, 10)
+
+    WKAnameforexpansion = lgk.standort_and_WKA_choice(EE_Simulation_negativGraph, DB_WKA, deepestPoints[1],
+                                                      freieFlaeche['Wetter-ID_Vor'].tolist(), temp_ausgebauteAnlagen,
+                                                      dictWKAModell, spiecherMethodik=False)
+    '- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
+    'Muss noch überprüft werden'
     #max_Anzahl = lgk.maxAnzahl_WKA(deepestPoints[0], deepestPoints[1], DB_WKA, WKAnameforexpansion,
                                    #META_ausbaubegrenzungsfaktor)
-
+    '- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
     list_value.append(WKAnameforexpansion)
-    temp_name = WKAnameforexpansion.split('_')
-    temp_ID = temp_name[0]
-    temp_Modell = temp_name[1]
-    temp_Modell_hight = temp_name[2]
+    try:
+        temp_name = WKAnameforexpansion.split('_')
+        temp_ID = temp_name[0]
+        temp_Modell = temp_name[1]
+        temp_Modell_hight = temp_name[2]
+    except:
+        print(temp_name)
+        continue
     '- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
     # print(Windlastprofil)
     # lgk.Windlastprofil(2020)
+    temp_ausgebauteAnlagen[i] = temp_name[0]
+    standort = lgk.Ausbau_WKA(temp_Modell + '_' + temp_Modell_hight, temp_ID, dictWKAModell, freieFlaeche,
+                              windWeatherData, 'Vor')
+    # print(sum(standort[0]))
+    # print(len(standort[0]))
+    # print(type(standort[0]))
+    if sum(standort[0]) == 0:
+        print('Kein Ausbau mit der Anlage')
+        tempausbauTrue = False
+        continue
+    else:
+        tempausbauTrue = True
 
-    standort = lgk.Ausbau_WKA(temp_Modell + '_' + temp_Modell_hight, temp_ID, dictWKAModell, freieFlaeche, windWeatherData,
-                              'Vor')
-    print(standort[0])
-    print(len(standort[0]))
-    print(type(standort[0]))
     for index, i in enumerate(expansionWind):
         expansionWind[index] = i + standort[0][index]
-    print(expansionWind)
-    print(len(expansionWind))
-    print(type(expansionWind))
+    # print(sum(expansionWind))
+    # print(len(expansionWind))
+    # print(type(expansionWind))
     name_2.append(standort[1])
     anzahl_2.append(standort[2])
     leistung_Gesamt.append(standort[3])
@@ -231,7 +258,9 @@ for i in range(500):
     finished_filename = 'KurzAnschauen_' + str(META_year) + '.csv'
     freieFlaeche.to_csv(finished_filename, sep=';', decimal=',', index=False, encoding='utf-8-sig')
     end = time.process_time()
-    print('End: ', i, 'Zeit: ', end - start, 'Leistung MW', sum(standort[0]) / 1000)
+    print('End: ', i, 'Zeit: ', end - start, 'Leistung zusatz MWh', sum(standort[0]) / 1000)
+    print('Leistung insgesamt zugebaut in MWh: ', sum(expansionWind) / 1000, 'Freie Fläche: ',
+          sum(freieFlaeche['nettoFreieFlaeche_Vor']))
 
 
 temp_wind = Wind_Gesamt.copy()
