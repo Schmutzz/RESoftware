@@ -11,23 +11,82 @@ from database import dateList_dataFrame as DateList
 from datetime import datetime
 import geo
 
+'---------------------------------------------------------------------------------------------------------'
+'Modellparameter AUSBAUFLÄCHEN'
+
+
+class SpeicherModell:
+
+    def __init__(self, modell, location, max_capacity, current_capacity, efficiency, power, invest, operatingk):
+
+        # CAPEX -> Investionskosten
+        # OPEX -> Betriebskosten
+        self.modell = modell
+        self.location = location
+        self.max_capacity = max_capacity
+        self.current_capacity = current_capacity
+        self.efficiency = efficiency
+        self.efficiency_input = round(np.sqrt(efficiency),3)
+        self.efficiency_output = round(np.sqrt(efficiency),3)
+        self.power = power
+        self.invest = invest * max_capacity
+        self.operatingk = operatingk * max_capacity
+
+    def input_power(self, newValue):
+        # Ladeleistung wird positiv gesetzt
+        newValue = abs(newValue)
+        # Ladeleistung auf max Leistung begrenzt
+        if self.current_capacity == self.max_capacity:
+            return 0,0
+        elif (self.max_capacity - self.current_capacity) >= (newValue * self.efficiency_input):
+            if newValue >= self.power:
+                self.current_capacity += self.power * self.efficiency_input
+            else:
+                self.current_capacity += newValue * self.efficiency_input
+        elif (self.max_capacity - self.current_capacity) < (newValue * self.efficiency_input):
+            if newValue >= self.power:
+                self.current_capacity += self.power * self.efficiency_input
+            else:
+                self.current_capacity = self.max_capacity
+
+
+        power_effective = newValue * self.efficiency_input
+        power_loss = newValue - power_effective
+
+        return power_effective, power_loss
+
+    def output_power(self, newValue):
+        # Entladeleistung wird positiv gesetzt
+        newValue = abs(newValue)
+        # Entladeleistung auf max Leistung begrenzt
+        if newValue >= self.power*self.efficiency_output:
+            self.current_capacity -= self.power
+        else:
+            self.current_capacity -= (newValue / self.efficiency_output)
+        # Effektive ladeleistung mit Wirkungsgrad
+        power_effective = newValue * self.efficiency_output
+        power_loss = newValue - power_effective
+
+        return power_effective, power_loss
+
+
 
 class WKAmodell:
 
-    def __init__(self, Modell, Ein_ms, Nenn_ms, Abs_ms, Nenn_kW, Nabenhoehe, Rotor, AusbauRelv, Windklasse, Invest,
-                 Betriebk):
+    def __init__(self, modell, ein_ms, nenn_ms, abs_ms, nenn_kW, nabenhoehe, rotor, ausbauRelv, windklasse, invest,
+                 betriebk):
 
-        self.modellName = Modell
-        self.Ein_ms = Ein_ms
-        self.Nenn_ms = Nenn_ms
-        self.Abs_ms = Abs_ms
-        self.Nenn_kW = Nenn_kW
-        self.Nabenhoehe = Nabenhoehe
-        self.Rotor = Rotor
-        self.AusbauRelv = AusbauRelv
-        self.Windklasse = Windklasse
-        self.Invest = Invest
-        self.Betriebk = Betriebk
+        self.modellName = modell
+        self.Ein_ms = ein_ms
+        self.Nenn_ms = nenn_ms
+        self.Abs_ms = abs_ms
+        self.Nenn_kW = nenn_kW
+        self.Nabenhoehe = nabenhoehe
+        self.Rotor = rotor
+        self.AusbauRelv = ausbauRelv
+        self.Windklasse = windklasse
+        self.Invest = invest
+        self.Betriebk = betriebk
         self.Flaeche = self.getFlaeche()
         self.__dict = self.filldict()
 
@@ -45,12 +104,14 @@ class WKAmodell:
             # print(temp_dict)
 
         return temp_dict
+
     def getFlaeche(self):
-        x= []
+        x = []
         for i in self.Rotor:
-            x.append(round(((15 * np.square(float(i))) / 10000),2))
+            x.append(round(((15 * np.square(float(i))) / 10000), 2))
 
         return x
+
     def getAnzahlWKAmodell(self):
         return len(self.__dict)
 
@@ -117,32 +178,7 @@ class WetterStation:
                 print(key + ':', p_info[key])
 
 
-def wind_hochrechnung(wind, naben_hight, mess_hight):
-    hellmann_konst = 0.25
-    delte_hight = naben_hight / mess_hight
-    wind = wind * (delte_hight ** hellmann_konst)
-    return wind
-
-
-def IEC_windklasse(sum_temp_wetter, len_temp_wetter ):
-
-    average_wind = sum_temp_wetter/len_temp_wetter
-
-    if average_wind >= 10:
-        return 1
-    if average_wind >= 8.5:
-        return 2
-    if average_wind >= 7.5:
-        return 3
-    if average_wind >= 6.5:
-        return 4
-    if average_wind < 6.5:
-        return 5
-
-
-
-def WEAmodellDictionary_Class(WKA_csvFrame, useImport = True):
-
+def wea_modell_dictionary_class(WKA_csvFrame, useImport=True):
     if useImport == True:
         try:
             headerlistModell = ['Modell', 'LEISTUNG', 'NABENHOEHE', 'Einschaltgeschwindigkeit m/s',
@@ -169,13 +205,15 @@ def WEAmodellDictionary_Class(WKA_csvFrame, useImport = True):
             # print(df['Einschaltgeschwindigkeit m/s'][i])
             # print(type(df['Einschaltgeschwindigkeit m/s'][i]))
             WKA_csvFrame['Einschaltgeschwindigkeit m/s'][i] = 3
-        if isinstance(WKA_csvFrame['Nenngeschwindigkeit m/s'][i], float) == False and isinstance(WKA_csvFrame['Nenngeschwindigkeit m/s'][i],
-                                                                                                 int) == False:
+        if isinstance(WKA_csvFrame['Nenngeschwindigkeit m/s'][i], float) == False and isinstance(
+                WKA_csvFrame['Nenngeschwindigkeit m/s'][i],
+                int) == False:
             WKA_csvFrame['Nenngeschwindigkeit m/s'][i] = 13
         if isinstance(WKA_csvFrame['Abschaltgeschwindigkeit m/s'][i], float) == False and isinstance(
                 WKA_csvFrame['Abschaltgeschwindigkeit m/s'][i], int) == False:
             WKA_csvFrame['Abschaltgeschwindigkeit m/s'][i] = 25
-        if isinstance(WKA_csvFrame['LEISTUNG'][i], float) == False and isinstance(WKA_csvFrame['LEISTUNG'][i], int) == False and \
+        if isinstance(WKA_csvFrame['LEISTUNG'][i], float) == False and isinstance(WKA_csvFrame['LEISTUNG'][i],
+                                                                                  int) == False and \
                 isinstance(WKA_csvFrame['LEISTUNG'][i], np.int64) == False:
             WKA_csvFrame['LEISTUNG'][i] = 1500
 
@@ -203,15 +241,15 @@ def WEAmodellDictionary_Class(WKA_csvFrame, useImport = True):
     return peter
 
 
-def WeatherStationDictionary_Class(weatherID_csvFrame, useImport = True):
-
+def weather_station_dictionary_class(weatherID_csvFrame, useImport=True):
     if useImport == True:
         try:
             headerlistModell = ['Stations_id', 'Messhoehe', 'Stationsname', 'Bundesland', 'geoBreite', 'geoLaenge',
                                 'Coords']
             openfilename3 = 'Import\Wetterstationen/StundeWindStationen.csv'
             print(openfilename3)
-            weatherID_csvFrame = pd.read_csv(openfilename3, usecols=headerlistModell, delimiter=';', decimal=',', header=0,
+            weatherID_csvFrame = pd.read_csv(openfilename3, usecols=headerlistModell, delimiter=';', decimal=',',
+                                             header=0,
                                              encoding='latin1')
             # print(df)
         except ValueError:
@@ -253,6 +291,41 @@ def WeatherStationDictionary_Class(weatherID_csvFrame, useImport = True):
     return peter
 
 
+def speicher_List_Class(startcapacity):
+
+    SpeicherListe = []
+    peter = SpeicherModell('PumpspeicherKraftwerk', 'Geesthacht', 600000, startcapacity*600000, 0.8, 120000, 0.0, 0.08)
+    SpeicherListe.append(peter)
+
+    return SpeicherListe
+
+
+'---------------------------------------------------------------------------------------------------------'
+'Allgemeine Formeln'
+
+
+def wind_hochrechnung(wind, naben_hight, mess_hight):
+    hellmann_konst = 0.25
+    delte_hight = naben_hight / mess_hight
+    wind = wind * (delte_hight ** hellmann_konst)
+    return wind
+
+
+def IEC_windklasse(sum_temp_wetter, len_temp_wetter):
+    average_wind = sum_temp_wetter / len_temp_wetter
+
+    if average_wind >= 10:
+        return 1
+    if average_wind >= 8.5:
+        return 2
+    if average_wind >= 7.5:
+        return 3
+    if average_wind >= 6.5:
+        return 4
+    if average_wind < 6.5:
+        return 5
+
+
 def FORMEL_WKA_Leistung(nenn_ms, ein_ms, leistung_s, moment_ms):
     a = 5
 
@@ -266,7 +339,6 @@ def FORMEL_WKA_Leistung(nenn_ms, ein_ms, leistung_s, moment_ms):
 
 def annualOutput_WKA(year, Ein_ms, Nenn_ms, Abs_ms, leistung_Gesamt, weatherData, nabenhohe, weatherID_hight,
                      windklasse_wka):
-
     temp_DatelistPerHoure = DateList('01.01.' + str(year) + ' 00:00', '31.12.' + str(year) + ' 23:00', '60min')
 
     temp_wetter = wind_hochrechnung(weatherData, nabenhohe, weatherID_hight)
@@ -274,7 +346,6 @@ def annualOutput_WKA(year, Ein_ms, Nenn_ms, Abs_ms, leistung_Gesamt, weatherData
     temp_IEC_windklasse = IEC_windklasse(sum(temp_wetter), len(temp_wetter))
     if temp_IEC_windklasse < windklasse_wka:
         return temp_leistung
-
 
     for index, k in enumerate(temp_wetter):
 
@@ -338,9 +409,9 @@ def erzeugungsdatenEEAnlagen(year, source, state):
         except ValueError:
             print("falsches Format")
         '------------------------------------------------------------------------------------------------------'
-        temp_wea = WEAmodellDictionary_Class()
+        temp_wea = wea_modell_dictionary_class()
         dictModell = temp_wea.getdict()
-        temp_WeatherID = WeatherStationDictionary_Class()
+        temp_WeatherID = weather_station_dictionary_class()
         dictWeatherID = temp_WeatherID.getdict()
 
         for i in range(lengthLocation):
@@ -459,9 +530,9 @@ def erzeugungsdatenEEAnlagen(year, source, state):
 
 def erzeugungEEAnlage_singleFrame(wetterdaten, lokationsdaten, year, export=False):
     exportFrame = DateList('01.01.' + str(year) + ' 00:00', '31.12.' + str(year) + ' 23:00', '60min')
-    temp_wea = WEAmodellDictionary_Class()
+    temp_wea = wea_modell_dictionary_class()
     dictModell = temp_wea.getdict()
-    temp_WeatherID = WeatherStationDictionary_Class()
+    temp_WeatherID = weather_station_dictionary_class()
     dictWeatherID = temp_WeatherID.getdict()
 
     for i in range(len(lokationsdaten)):
@@ -653,13 +724,13 @@ def verbrauchGesamt(year):
 
 
 def analyseEE(year, exportfolder, EE_Erz, PV_Gesamt, erz_Bio, plannedErzeung, verbrauch, ausbauWind=0,
-              ausbauPV=0, ausbauBio=0, ausbau= False,
+              ausbauPV=0, ausbauBio=0, ausbau=False,
               export=False, geplanterAusbau=True, biomes=True, wind=True, PV=True,
-              expansionPV = 0, expansionBio = 0):
+              expansionPV=0, expansionBio=0):
     # print(FrameVerbrauch)
     # print(FrameErzeung)
     # print(EE_Erz)
-    temp_EE_Erz = [0] * len(verbrauch['Verbrauch_Gesamt']) # Wird für Darstellungszwecke genutzt
+    temp_EE_Erz = [0] * len(verbrauch['Verbrauch_Gesamt'])  # Wird für Darstellungszwecke genutzt
     '- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
     # Wind
     if wind == True:
@@ -686,8 +757,8 @@ def analyseEE(year, exportfolder, EE_Erz, PV_Gesamt, erz_Bio, plannedErzeung, ve
         del EE_Erz['Erzeugung_PV']
     # PV Ausbau Software
     if ausbau == True and sum(ausbauPV) > 0:
-        EE_Erz['REE_PV_'+ str(expansionPV)] = ausbauPV
-        temp_EE_Erz += EE_Erz['REE_PV_'+ str(expansionPV)]
+        EE_Erz['REE_PV_' + str(expansionPV)] = ausbauPV
+        temp_EE_Erz += EE_Erz['REE_PV_' + str(expansionPV)]
     '- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
     # Biomasse
     if biomes == True:
@@ -697,8 +768,8 @@ def analyseEE(year, exportfolder, EE_Erz, PV_Gesamt, erz_Bio, plannedErzeung, ve
         del EE_Erz['Erz_Biomasse_Gesamt']
     # Biomasse Ausbau Software
     if ausbau == True and sum(ausbauBio) > 0:
-        EE_Erz['REE_Biomasse_'+ str(expansionBio)] = ausbauBio
-        temp_EE_Erz += EE_Erz['REE_Biomasse_'+ str(expansionBio)]
+        EE_Erz['REE_Biomasse_' + str(expansionBio)] = ausbauBio
+        temp_EE_Erz += EE_Erz['REE_Biomasse_' + str(expansionBio)]
 
     EE_Erz['Erzeugung_Gesamt'] = temp_EE_Erz
     EE_Erz['Diff_EE_zu_Verb'] = EE_Erz['Erzeugung_Gesamt'] - verbrauch['Verbrauch_Gesamt']
@@ -774,10 +845,10 @@ def analyseEE(year, exportfolder, EE_Erz, PV_Gesamt, erz_Bio, plannedErzeung, ve
     EE_Erz['EE<45%'] = liste_k45
     uhrzeit = datetime.now().strftime('%H-%M')
 
-    EE_Anteil = sum(liste_100)/sum(liste_k45)
-    temp_EEAnteil = EE_Anteil* 100
+    EE_Anteil = sum(liste_100) / sum(liste_k45)
+    temp_EEAnteil = EE_Anteil * 100
     if export == True:
-        exportname = exportfolder + 'REE_'+ str(int(temp_EEAnteil)) + '_'+ str(year) + '_' + str(uhrzeit) + '.csv'
+        exportname = exportfolder + 'REE_' + str(int(temp_EEAnteil)) + '_' + str(year) + '_' + str(uhrzeit) + '.csv'
         print(exportname)
         EE_Erz.to_csv(exportname, sep=';', encoding='utf-8', index=False, decimal=',')
 
@@ -821,7 +892,7 @@ def analyseAusbauFl():
     print('Anzahl Vorrang: ', vorAnz_ohneWKA)
 
 
-def windlastprofil(year,exportfolder, export = True):
+def windlastprofil(year, exportfolder, export=True):
     print("Start WindLastProfil")
 
     try:
@@ -980,8 +1051,7 @@ def stand_distance_analyse_alt(year, standorte):
     exportFrame.to_csv(finished_filename, sep=';', decimal=',', index=False, encoding='UTF-8')
 
 
-def connect_oldWKA_to_expansionArea(year, Vor_Pot, standorte, faktorAusbaufl, export=True, geplanterAusbau = True):
-
+def connect_oldWKA_to_expansionArea(year, Vor_Pot, standorte, faktorAusbaufl, export=True, geplanterAusbau=True):
     filelist = findoutFiles('Datenbank\ConnectwithID\Erzeugung')
     matches1 = [match for match in filelist if str(year) in match]
     matches1 = [match for match in matches1 if 'SH' in match]
@@ -1041,9 +1111,8 @@ def connect_oldWKA_to_expansionArea(year, Vor_Pot, standorte, faktorAusbaufl, ex
                         WKA['Anlageauf_Vor_Verbaut'][kindex] = True
                         # print(listFl[standortindex], standorte['ha'+Vor_Pot][index])
 
-                        if listFl[standortindex] >= standorte['ha'+Vor_Pot][index]:
+                        if listFl[standortindex] >= standorte['ha' + Vor_Pot][index]:
                             break
-
 
                 listFl[standortindex] = round(listFl[standortindex], 3)
                 standortindex += 1
@@ -1060,7 +1129,7 @@ def connect_oldWKA_to_expansionArea(year, Vor_Pot, standorte, faktorAusbaufl, ex
     return exportFrame
 
 
-def freie_ha_vor(year,exportFolder,  standorte, belgegteha_Vor, export = True):
+def freie_ha_vor(year, exportFolder, standorte, belgegteha_Vor, export=True):
     print('Start freie_ha_Vor')
 
     # print(standorte)
@@ -1107,10 +1176,8 @@ def freie_ha_vor(year,exportFolder,  standorte, belgegteha_Vor, export = True):
     return standorte
 
 
-
-
 def standort_and_WKA_choice(negativGraph, DB_WKA, deepestPointsIndex, ausbauFlWeatherIDList, temp_ausgebauteAnlagen,
-                            dict_WKA, spiecherMethodik = True):
+                            dict_WKA, spiecherMethodik=True):
     temp_newValue = False
     print('Start Analyse Ausbau')
     # print(EE_Analyse)
@@ -1138,8 +1205,6 @@ def standort_and_WKA_choice(negativGraph, DB_WKA, deepestPointsIndex, ausbauFlWe
     max_boje_value = 0
     WKAnameforexpansion = 'unbekannt'
 
-
-
     print('DB_WKA Len: ', len(DB_WKA.columns.values.tolist()))
 
     for i in DB_WKA:
@@ -1149,7 +1214,6 @@ def standort_and_WKA_choice(negativGraph, DB_WKA, deepestPointsIndex, ausbauFlWe
         temp_Modell = temp_name[1]
         temp_Modell_hight = temp_name[2]
         temp_FlproPower = 0
-
 
         '''matchVerbauteAnlage = [match for match in temp_ausgebauteAnlagen if i in match]
 
@@ -1169,10 +1233,7 @@ def standort_and_WKA_choice(negativGraph, DB_WKA, deepestPointsIndex, ausbauFlWe
             relevant_PowerWKA = abs(sum(copy_negativGraph)) - abs(sum(relevant_PowerWKA))
             # print('TW', relevant_PowerWKA/1000000)
 
-
-        temp_FlproPower = relevant_PowerWKA / dict_WKA[temp_Modell + '_'+ temp_Modell_hight]['Flaeche']
-
-
+        temp_FlproPower = relevant_PowerWKA / dict_WKA[temp_Modell + '_' + temp_Modell_hight]['Flaeche']
 
         # print('Max_GW/FL', temp_FlproPower / 1000)
         # print('Neu_GW/FL', max_boje_value / 1000)
@@ -1180,15 +1241,15 @@ def standort_and_WKA_choice(negativGraph, DB_WKA, deepestPointsIndex, ausbauFlWe
             max_boje_value = temp_FlproPower
             WKAnameforexpansion = i
             temp_newValue = True
-            #print(WKAnameforexpansion)
-        #print(i)
+            # print(WKAnameforexpansion)
+        # print(i)
     if temp_newValue == False:
         print(WKAnameforexpansion)
 
     return WKAnameforexpansion
 
-def maxAnzahl_WKA(deepestPointValues,deepestPointsIndex, DB_WKA,modellName, ausbaubegrenzungsfaktor):
 
+def maxAnzahl_WKA(deepestPointValues, deepestPointsIndex, DB_WKA, modellName, ausbaubegrenzungsfaktor):
     start_deepestPointValues = sum(deepestPointValues)
 
     # Funktioniert noch nicht.
@@ -1211,7 +1272,7 @@ def maxAnzahl_WKA(deepestPointValues,deepestPointsIndex, DB_WKA,modellName, ausb
     # Muss später noch gemacht werden
 
 
-def Ausbau_WKA(WKAKey,weatherID,WKADict, standort , windWetterdaten, Vor_Pot):
+def Ausbau_WKA(WKAKey, weatherID, WKADict, standort, windWetterdaten, Vor_Pot):
     "Kenn ick"
 
     'Technische daten WKA'
@@ -1229,28 +1290,27 @@ def Ausbau_WKA(WKAKey,weatherID,WKADict, standort , windWetterdaten, Vor_Pot):
     columnFrame = windWetterdaten.columns.values.tolist()
     columnName = ''
 
-    for mndex, m in enumerate(standort['Wetter-ID_'+Vor_Pot]):
+    for mndex, m in enumerate(standort['Wetter-ID_' + Vor_Pot]):
 
         if m != int(weatherID):
             # print(m, weatherID)
             continue
 
-        if standort['nettoFreieFlaeche_'+Vor_Pot][mndex] < 0:
+        if standort['nettoFreieFlaeche_' + Vor_Pot][mndex] < 0:
             continue
 
         WeaModell_fl = ((15 * np.square(float(WKADict[WKAKey]['Rotor']))) / 10000)
-        standort['Anzahl_'+Vor_Pot][mndex] = int(standort['nettoFreieFlaeche_'+Vor_Pot][mndex]/WeaModell_fl)
+        standort['Anzahl_' + Vor_Pot][mndex] = int(standort['nettoFreieFlaeche_' + Vor_Pot][mndex] / WeaModell_fl)
 
-        leistung_Gesamt = leistung_einzel * standort['Anzahl_'+Vor_Pot][mndex]
+        leistung_Gesamt = leistung_einzel * standort['Anzahl_' + Vor_Pot][mndex]
 
         if leistung_Gesamt == 0 or leistung_Gesamt == 123:
             continue
-        standort['nettoFreieFlaeche_' + Vor_Pot][mndex] -= WeaModell_fl * standort['Anzahl_'+Vor_Pot][mndex]
-        standort['Modell_'+Vor_Pot][mndex] = WKADict[WKAKey]['Modell']
-        standort['Leistung_'+Vor_Pot][mndex] = leistung_Gesamt
+        standort['nettoFreieFlaeche_' + Vor_Pot][mndex] -= WeaModell_fl * standort['Anzahl_' + Vor_Pot][mndex]
+        standort['Modell_' + Vor_Pot][mndex] = WKADict[WKAKey]['Modell']
+        standort['Leistung_' + Vor_Pot][mndex] = leistung_Gesamt
 
         columnName = str(m) + '_Ezg_' + str(WKADict[WKAKey]['Modell'])
-
 
         matchfilelist = [match for match in columnFrame if weatherID in match]
         lengthlist = len(matchfilelist)
@@ -1287,7 +1347,6 @@ def Ausbau_WKA(WKAKey,weatherID,WKADict, standort , windWetterdaten, Vor_Pot):
             else:
                 print("Fehler")
                 temp_leistung[index] += 0
-
 
     return temp_leistung, columnName, anzahl_2, leistung_Gesamt, name_2
 
@@ -1440,8 +1499,8 @@ def DB_WKA(year, dictModell, dictWeatherID, wetterdaten, export=True):
             WKA_True += 1
             date_perHoure[name] = leistung
 
-        print('Wetterstation:', str(dictWeatherID[index]['ID']) , 'WKA Erfolgreich: ', WKA_True, '/', WKA_True_Gesamt)
-        print('WKA nicht gleaden: ', WKA_False_wind+WKA_False_ausbauRele, '/', WKA_False_Gesamt,
+        print('Wetterstation:', str(dictWeatherID[index]['ID']), 'WKA Erfolgreich: ', WKA_True, '/', WKA_True_Gesamt)
+        print('WKA nicht gleaden: ', WKA_False_wind + WKA_False_ausbauRele, '/', WKA_False_Gesamt,
               'Davon zu kleine Windklasse: ', WKA_False_wind, 'nicht Relevant: ', WKA_False_ausbauRele)
     if export == True:
         exportname = 'Datenbank\WEAModell/DB_WKA.csv'
@@ -1449,7 +1508,8 @@ def DB_WKA(year, dictModell, dictWeatherID, wetterdaten, export=True):
 
     return date_perHoure
 
-def negativ_Verlauf(SimuEE_Diff, speicherVerlauf = True):
+
+def negativ_Verlauf(SimuEE_Diff, speicherVerlauf=True):
     # print('Start negativ_Verlauf')
     "Es werden alle Positiven Werte des Verlaufs abgschnitten, sodass nurnoch die ein negativer graph uebrig bleibt"
     # temp_SimuEE_Diff = [0] * len(SimuEE_Diff)
@@ -1473,12 +1533,14 @@ def negativ_Verlauf(SimuEE_Diff, speicherVerlauf = True):
 
     return SimuEE_Diff
 
+
 def percentage_expansion(Source_list, percentage):
     temp_sourcelist = Source_list * percentage
 
     return temp_sourcelist
 
-def deepest_point_negativGraph(negativGraph, anzahl = 100):
+
+def deepest_point_negativGraph(negativGraph, anzahl=100):
     temp_value = anzahl * [0]
     temp_index = anzahl * [0]
 
@@ -1492,17 +1554,15 @@ def deepest_point_negativGraph(negativGraph, anzahl = 100):
         temp_negativGraph[temp_index[jndex]] = 0
 
         if temp_index[jndex] > 31:
-            x = temp_index[jndex]-30
+            x = temp_index[jndex] - 30
         else:
             x = 1
-        if temp_index[jndex] < temp_timesteps -31:
-            y = temp_index[jndex]+30
+        if temp_index[jndex] < temp_timesteps - 31:
+            y = temp_index[jndex] + 30
         else:
-            y = temp_timesteps-1
-        temp_zero = [0] * (y-x)
+            y = temp_timesteps - 1
+        temp_zero = [0] * (y - x)
         temp_negativGraph[x:y] = temp_zero
-
-
 
     # print(temp_value)
     # print(temp_index)

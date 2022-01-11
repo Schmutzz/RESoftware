@@ -17,23 +17,24 @@ META_geplanterAusbau = True
 META_Biomasse = True
 META_expansionBio = 0.02  # in Prozent
 META_Wind = True
-META_PV= True
-META_expansionPV = 0.02  # in Prozent
-META_faktorAusbauFlDist = 1.0  # in Kilometer
-META_VorFl = True       # True -> Ausbauflaeche wird genutzt
-META_PotFl = True       # True -> Ausbauflaeche wird genutzt
-META_Repowering = False # True -> Anlagen >10 Jahre oder <1500KW Leistung werden abgerissen und neu gebaut (2:1)
+META_PV = True
+META_expansionPV = 0.02             # in Prozent
+META_faktorAusbauFlDist = 1.0       # in Kilometer
+META_VorFl = True                   # True -> Ausbauflaeche wird genutzt
+META_PotFl = True                   # True -> Ausbauflaeche wird genutzt
+META_Repowering = False             # True -> Anlagen >10 Jahre oder <1500KW Leistung werden abgerissen und neu gebaut (2:1)
 temp_ausbau = False
 META_ausbaubegrenzungsfaktor = 0.5
-META_Speicherverlauf = True
-META_Windanalyse = True
+META_Speicherverlauf = False
+META_Windanalyse = False
+META_Startcapacity = 0.0            # Angabe in Prozent wie voll die Speicher im Startpunkt sind
 '-----------------------------------------------------------'
 META_DATA_Inputcsv = 'utf-8'                # wird für das einlesen der Daten verwendet
 META_DATA_OUTPUTcsv = 'utf-8-sig'           # wird für das auslesen der Daten verwendet
 META_DATA_DBWKAreload = False               # True wenn die DB der WKA Lastgänge erstellt werden soll
 META_DATA_plannedAreas_getCoords = False    # True wenn die Ausbauflächen keine Standorte besitzen
 #                                           -> Wetterstationen werden ebenfalls hinzugefügt
-META_DATA_plannedAreas_getWeather = True    # True wenn die Ausbauflächen keine zugeordnete Wetterstation besitzen
+META_DATA_plannedAreas_getWeather = False    # True wenn die Ausbauflächen keine zugeordnete Wetterstation besitzen
 META_DATA_plannedWKAPower = False           # True wenn die Erzeugung ausgerechnet werden muss
 
 '---------------------------------------------------------------------------------------------------------'
@@ -155,14 +156,17 @@ if META_DATA_DBWKAreload == False:
 '----------------------------------------------------------------------------------------------------------------------'
 "Öffnen der verschiedenen WEA Modelle."
 "KEY = MODELL -> Modell Name"
-temp_WKA = lgk.WEAmodellDictionary_Class(WEAModell, useImport=False)
+temp_WKA = lgk.wea_modell_dictionary_class(WEAModell, useImport=False)
 dictWKAModell = temp_WKA.getdict()
 
 "Öffnen der verschiedenen Wetterstationen."
 "KEY = ID -> NUMMER der Wettersation"
-temp_WeatherID = lgk.WeatherStationDictionary_Class(windWeatherStation, useImport=False)
+temp_WeatherID = lgk.weather_station_dictionary_class(windWeatherStation, useImport=False)
 dictWeatherID = temp_WeatherID.getdict()
 #print(dictWeatherID)
+"Öffnen der verschiedenen Speicher"
+speicherListe = lgk.speicher_List_Class(META_Startcapacity)
+
 '----------------------------------------------------------------------------------------------------------------------'
 '''Funktionen welche nur einmal Aufgerufen werden. Diese dienen nur zur Datenvorbereitung. 
     Sie haben nichts mit der Datenanlyse zu tun. Die Analyse finden gesondert statt.'''
@@ -200,7 +204,7 @@ if META_DATA_plannedAreas_getWeather == True:
 "KEY FACTORS zum Ausbau -> muss noch angepasst werden"
 "Analyse wird mit allen Dateien in einem eigenen Ordner gespeichert"
 uhrzeit = datetime.now().strftime('%d-%m-%Y_%H-%M')
-exportFolder = 'REE_AnalyseCompletet/REE_AnalyseJahr_' + str(META_year) + '_' + str(uhrzeit) + '/'
+exportFolder = 'REE_AnalyseCompleted/REE_AnalyseJahr_' + str(META_year) + '_' + str(uhrzeit) + '/'
 path = Path(exportFolder)
 path.mkdir(parents=True, exist_ok=True)
 
@@ -241,9 +245,9 @@ del DB_WKA['Datum']
 # EE_Erz_Wind_Gesamt = pd.concat([Wind_Gesamt, PV_Gesamt, erz_Bio, plannedErzeung], axis=1, sort=False)
 verbrauch_HH_SH = lgk.verbrauchGesamt(META_year)
 temp_wind = Wind_Gesamt.copy()  # ->wird für die Darstellung der Daten benötigt
-EE_Analyse = lgk.analyseEE(META_year, exportFolder, temp_wind, PV_Gesamt, erz_Bio, plannedErzeung, verbrauch_HH_SH, export=True,
+'''EE_Analyse = lgk.analyseEE(META_year, exportFolder, temp_wind, PV_Gesamt, erz_Bio, plannedErzeung, verbrauch_HH_SH, export=True,
                            geplanterAusbau=META_geplanterAusbau, biomes=META_Biomasse,
-                           wind=META_Wind, PV=META_PV)
+                           wind=META_Wind, PV=META_PV)'''
 EE_Analyse = lgk.analyseEE(META_year, exportFolder, temp_wind, PV_Gesamt, erz_Bio, plannedErzeung, verbrauch_HH_SH,
                                     ausbau=False, export=True,
                                     geplanterAusbau=META_geplanterAusbau, biomes=META_Biomasse,
