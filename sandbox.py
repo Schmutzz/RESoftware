@@ -6,6 +6,7 @@ from email.mime.text import MIMEText
 from email.header import Header
 import smtplib
 import pandas as pd
+import numpy as np
 
 def testMail():
 
@@ -97,6 +98,34 @@ def testListemiteinzelnenWerten(list):
 
     return listeNeu
 
+def freie_leistung_Vor(year, standort):
+    print('Start freie_leistung_Vor')
+    WeaModell_fl_name = 'Enercon E-82/3000'
+    WeaModell_fl_leistung = 3000
+    WeaModell_fl = ((15 * np.square(float(82))) / 10000)
+    temp_anzahl = []
+    temp_leistung = []
+    temp_fl = []
+
+    for index, i in enumerate(standort['freieVor in Vor']):
+
+        if i > 0:
+            anzahl = i / WeaModell_fl
+            leistung = int(anzahl) * WeaModell_fl_leistung
+            temp_anzahl.append(int(anzahl))
+            temp_leistung.append(leistung)
+            temp_fl.append(WeaModell_fl)
+        else:
+            temp_anzahl.append(0)
+            temp_leistung.append(0)
+            temp_fl.append(0)
+
+    standort[WeaModell_fl_name] = temp_fl
+    standort['temp_anzahl'] = temp_anzahl
+    standort['temp_leistung'] = temp_leistung
+
+    print('freie_leistung_pot')
+    return standort
 
 #rint(lgk.WKAmodell.getAnzahlWKAmodell())
 class TestAlex:

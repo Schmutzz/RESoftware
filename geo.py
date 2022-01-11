@@ -369,7 +369,10 @@ def addCoords(df, locationPot, specifierHeader, newCol):
             locationList[index] = listFromStr(locationList[index], ',')
 
     for index, location in enumerate(locationList):
+        print(location, specifierList[index])
+
         coords.append(getCoords(location, specifierList[index]))
+        print(coords[-1])
         print(index)
 
     df[newCol] = coords

@@ -465,7 +465,7 @@ def utm_to_gk(name, df, export=False):
 
     if export == True:
         exportname = 'Datenbank\ConnectwithID\Erzeugung/' + name + '.csv'
-        df.to_csv(exportname, sep=';', encoding='utf-8', index=False, decimal=',')
+        df.to_csv(exportname, sep=';', encoding='utf-8-sig', index=False, decimal=',')
 
     print('Fertig')
 
@@ -523,57 +523,7 @@ class regulatedImport():
         return dataFrame
 
 
-class importValues():
 
-    def __init__(self, x):
-        self.x = x
-
-    def openCSV(self):
-        df = pd.read_csv('ImportDatei\Import_CDR_Report_08_2021.csv', sep=';')
-        print(self.x)
-        return df
-
-    def writeCSV(self):
-
-        PrintData = {'col1': [1, 2], 'col2': [2, 3]}
-        export_csv = pd.DataFrame(data=PrintData)
-        egal = export_csv.to_csv('ExportDatei\ichsuchedich.csv', sep=';', index=False, header=True)
-
-    def openCSVfile(self):
-        print('start')
-        with open('ImportDatei\Import_CDR_Report_08_2021.csv', mode='r', newline='\n') as dataHH:
-            spamreader = csv.reader(dataHH, delimiter=';')
-
-            ##importcolumn = sum(1 for row in dataHH)
-            ImportDaten = []
-            MeterStart = []
-            MeterStop = []
-            TimeStart = []
-            TimeStop = []
-
-            for column in spamreader:
-                ImportDaten.append(column[4])
-                print(column[4])
-                MeterStart.append(column[19])
-                MeterStop.append(column[20])
-                TimeStart.append(column[22])
-                TimeStop.append(column[23])
-
-            print('lilalu')
-
-        dataHH.close()
-
-    def openCSVfileTEST(self):
-        print('start')
-        with open('ImportDatei\ImportROHDaten.csv', mode='r', newline='\n') as dataHH:
-            spamreader = csv.reader(dataHH, delimiter=';')
-
-            for column in spamreader:
-                print(column)
-
-            print('lilalu')
-
-        dataHH.close()
 
 
 class openLocationdata():

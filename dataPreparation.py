@@ -1,13 +1,19 @@
 import database as db
+import geo
 import internetDownload as itd
 import geo as gpd
 import pandas as pd
 import logik as lgk
 
-
+'-------------------------------------------------------------------------------------'
+'Ausbauflaechen'
+'Ausbauflaechen aus verscheidenen Sheets zu einer Datei'
 def openAusbauflaechen(export=True):
 
-    """Import Erzeugungsflächen"""
+    """
+    Import der Erzeugungsflächen je Vorrang und Potential Fläche
+    Funktion führt die einzelnen Ausbaugebiete zusammen in einer CSV
+    """
     ortschaften = ['DIT', 'LAU', 'NFL', 'OHS', 'PIN', 'PLO', 'RDE', 'SEG', 'SLF', 'STE', 'STO']
     sheetanzahl = [101, 88, 129, 83, 16, 24, 169, 94, 123, 112, 25]
 
@@ -60,13 +66,50 @@ def openAusbauflaechen(export=True):
     merge_df = merge_df.append(ste, ignore_index=True)
     merge_df = merge_df.append(sto, ignore_index=True)
 
-    merge_df['haPot'] = merge_df['haPot'].replace(['-'], '0')
     merge_df['haVor'] = merge_df['haVor'].replace(['-'], '0')
+    merge_df['haPot'] = merge_df['haPot'].replace(['-'], '0')
+
 
     if export == True:
         print('Export')
-        exportname = "Datenbank\Ausbauflaechen\AusbauStandorte_gesamt_SH/" + "AlleStandorte" + ".csv"
-        merge_df.to_csv(exportname, sep=';', encoding='utf-8-sig', index=False)
+        exportname = "Datenbank\Ausbauflaechen\AusbauStandorte_gesamt_SH/AlleStandorte.csv"
+        merge_df.to_csv(exportname, sep=';',decimal=',' , encoding='utf-8-sig', index=False)
+
+    return merge_df
+
+def plannendAreas_getCoords(plannedAreas, export=True):
+    "Die Funktion fügt dem DataFrame auf Basis der Standorte GEOPunkte hinzu"
+
+    plannedAreas = geo.addCoords(plannedAreas, 'StadtVor', 'KreisVor', 'Coords Vor')
+    plannedAreas = geo.addCoords(plannedAreas, 'StadtPot', 'KreisPot', 'Coords Pot')
+
+    print(plannedAreas)
+
+    if export == True:
+        print('Export')
+        exportname = "Datenbank\ConnectwithID/AusbauStandorte_Coords.csv"
+        plannedAreas.to_csv(exportname, sep=';', decimal=',', encoding='utf-8-sig', index=False)
+
+    return plannedAreas
+
+
+'AusbauFlaechen mit einer Wetterstation verbinden'
+def plannedAreas_getWeather(alleStandorte_Coords, windWeatherStation, export= True):
+
+    print('start plannedAreas_getWeather')
+    #alleStandorte_Coords = gpd.addCoords(alleStandorte_Coords, 'StadtPot', 'KreisPot', 'Coords Pot')
+    #alleStandorte_Coords = gpd.addCoords(alleStandorte_Coords, 'StadtVor', 'KreisVor', 'Coords Vor')
+
+    alleStandorte_Coords = gpd.addWeather(alleStandorte_Coords, windWeatherStation, 'Coords Pot', 'Coords',
+                                          'Stations_id', '_Pot')
+    alleStandorte_Coords = gpd.addWeather(alleStandorte_Coords, windWeatherStation, 'Coords Vor', 'Coords',
+                                          'Stations_id', '_Vor')
+
+    if export == True:
+        finished_filename = 'Datenbank\ConnectwithID/AusbauStandorte_Coords_weatherID.csv'
+        alleStandorte_Coords.to_csv(finished_filename, sep=';', index=False, decimal=',', encoding='utf-8-sig')
+    print('start plannedAreas_getWeather')
+    return alleStandorte_Coords
 
 def wetterdaten_from_CDC(year):
 
@@ -119,7 +162,7 @@ def weatherStation_getCoords():
     finished_filename = 'Datenbank\Wetter/StundeSolarStationen_Coords.csv'
     df.to_csv(finished_filename, sep=';', decimal=',', index=False, encoding='utf-8-sig')
 
-def plannedAreas_toUTM_and_connectWeahterID(source, state, weather):
+def plannedWKA_toUTM_and_connectWeahterID(source, state, weather):
 
     filelist = db.findoutFiles('Datenbank\ConnectwithID\Erzeugung')
 
@@ -144,6 +187,13 @@ def plannedAreas_toUTM_and_connectWeahterID(source, state, weather):
     finished_filename = 'Datenbank\ConnectwithID\Erzeugung/WindparksSH_geplanterAusbau_UTM_WeatherID.csv'
     df.to_csv(finished_filename, sep=';', decimal=',', index=False, encoding='utf-8-sig')
 
+
+
+
+
+
+'-------------------------------------------------------------------------------------'
+'ERZEUGUNG'
 def erzeugung_Wind_PV(year):
     print('year')
     lgk.erzeugungsdatenEEAnlagen(year, 'Wind', 'HH')
@@ -151,20 +201,6 @@ def erzeugung_Wind_PV(year):
     lgk.erzeugungsdatenEEAnlagen(year, 'Wind', 'SH')
     lgk.erzeugungsdatenEEAnlagen(year, 'PV', 'SH')
 
-def plannedAreas_getCoords_and_getWeather(alleStandorte_Coords, windWeatherStation):
-
-    print('start')
-    #alleStandorte_Coords = gpd.addCoords(alleStandorte_Coords, 'StadtPot', 'KreisPot', 'Coords Pot')
-    #alleStandorte_Coords = gpd.addCoords(alleStandorte_Coords, 'StadtVor', 'KreisVor', 'Coords Vor')
-
-    alleStandorte_Coords = gpd.addWeather(alleStandorte_Coords, windWeatherStation, 'Coords Pot', 'Coords',
-                                          'Stations_id', '_Pot')
-    alleStandorte_Coords = gpd.addWeather(alleStandorte_Coords, windWeatherStation, 'Coords Vor', 'Coords',
-                                          'Stations_id', '_Vor')
-
-
-    finished_filename = 'Datenbank\ConnectwithID/AlleStandorte_Coords_final.csv'
-    alleStandorte_Coords.to_csv(finished_filename, sep=';', index=False, encoding='utf-8-sig')
 
 def erzeugung_plannendAreas(year, geplanterAusbau):
     try:
@@ -179,7 +215,7 @@ def erzeugung_plannendAreas(year, geplanterAusbau):
     try:
         openfilename2 = 'Datenbank\Erzeugung\Erz_geplanterAusbau/Erz_geplanterAusbau_2019.csv'
         print(openfilename2)
-        df = pd.read_csv(openfilename2, delimiter=';', decimal=',', header=0)
+        df = pd.read_csv(openfilename2, delimiter=';', decimal=',', header=0, encoding='utf-8-sig')
 
     except ValueError:
         print("falsches Format")

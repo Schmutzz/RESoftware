@@ -3,15 +3,12 @@ import time
 import numpy
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
-
 
 from database import findoutFiles
 
 """Erzeugt ein DataFrame oder eine Liste mit fortlaufenden Datum+Uhrzeit"""
 from database import dateList_dataFrame as DateList
 from datetime import datetime
-from geopy import distance
 import geo
 
 
@@ -77,7 +74,7 @@ class WKAmodell:
 
 class WetterStation:
 
-    def __init__(self, ID, NameORT, state, Messhight, geoBreite, geoLaenge):
+    def __init__(self, ID, NameORT, state, Messhight, geoBreite, geoLaenge, coords):
 
         self.NameORT = NameORT
         self.ID = ID
@@ -86,6 +83,7 @@ class WetterStation:
         self.geoBreite = geoBreite
         self.geoLaenge = geoLaenge
         self.windklasse = 4
+        self.coords = coords
         self.__dict = self.filldict()
 
     def filldict(self):
@@ -94,7 +92,7 @@ class WetterStation:
             temp_dict[i] = {'NameORT': self.NameORT[index], 'ID': self.ID[index],
                             'Messhight': self.Messhight[index], 'state': self.state[index],
                             'geoBreite': self.geoBreite[index], 'geoLaenge': self.geoLaenge[index],
-                            'windklasse': self.windklasse}
+                            'windklasse': self.windklasse, 'Coords': self.coords[index]}
 
         return temp_dict
 
@@ -143,57 +141,59 @@ def IEC_windklasse(sum_temp_wetter, len_temp_wetter ):
 
 
 
-def WEAmodellDictionary_Class():
-    try:
-        headerlistModell = ['Modell', 'LEISTUNG', 'NABENHOEHE', 'Einschaltgeschwindigkeit m/s',
-                            'Nenngeschwindigkeit m/s', 'Abschaltgeschwindigkeit m/s', 'Rotordurchmesser',
-                            'Ausbaurelevant',
-                            'IEC-WindKlasse', 'Investitionskosten', 'Betriebskosten in Euro/a']
+def WEAmodellDictionary_Class(WKA_csvFrame, useImport = True):
 
-        openfilename3 = 'Datenbank\WEAModell/WEAModell.csv'
-        print(openfilename3)
-        df = pd.read_csv(openfilename3, usecols=headerlistModell, delimiter=';', decimal=',', header=0,
-                         encoding='latin1')
-        # print(df)
-    except ValueError:
-        print("falsches Format")
+    if useImport == True:
+        try:
+            headerlistModell = ['Modell', 'LEISTUNG', 'NABENHOEHE', 'Einschaltgeschwindigkeit m/s',
+                                'Nenngeschwindigkeit m/s', 'Abschaltgeschwindigkeit m/s', 'Rotordurchmesser',
+                                'Ausbaurelevant',
+                                'IEC-WindKlasse', 'Investitionskosten', 'Betriebskosten in Euro/a']
+
+            openfilename3 = 'Datenbank\WEAModell/WEAModell.csv'
+            print(openfilename3)
+            WKA_csvFrame = pd.read_csv(openfilename3, usecols=headerlistModell, delimiter=';', decimal=',', header=0,
+                                       encoding='latin1')
+            # print(df)
+        except ValueError:
+            print("falsches Format")
 
     # Erstellen des Dictionary
 
-    for i in range(len(df['Modell'])):
-        if isinstance(df['Modell'][i], str) == False:
-            df['Modell'][i] = "unbekannt"
-        if isinstance(df['Einschaltgeschwindigkeit m/s'][i], float) == False and isinstance(
-                df['Einschaltgeschwindigkeit m/s'][i], int) == False:
+    for i in range(len(WKA_csvFrame['Modell'])):
+        if isinstance(WKA_csvFrame['Modell'][i], str) == False:
+            WKA_csvFrame['Modell'][i] = "unbekannt"
+        if isinstance(WKA_csvFrame['Einschaltgeschwindigkeit m/s'][i], float) == False and isinstance(
+                WKA_csvFrame['Einschaltgeschwindigkeit m/s'][i], int) == False:
             # print(isinstance(df['Einschaltgeschwindigkeit m/s'][i], float))
             # print(df['Einschaltgeschwindigkeit m/s'][i])
             # print(type(df['Einschaltgeschwindigkeit m/s'][i]))
-            df['Einschaltgeschwindigkeit m/s'][i] = 3
-        if isinstance(df['Nenngeschwindigkeit m/s'][i], float) == False and isinstance(df['Nenngeschwindigkeit m/s'][i],
-                                                                                       int) == False:
-            df['Nenngeschwindigkeit m/s'][i] = 13
-        if isinstance(df['Abschaltgeschwindigkeit m/s'][i], float) == False and isinstance(
-                df['Abschaltgeschwindigkeit m/s'][i], int) == False:
-            df['Abschaltgeschwindigkeit m/s'][i] = 25
-        if isinstance(df['LEISTUNG'][i], float) == False and isinstance(df['LEISTUNG'][i], int) == False and \
-                isinstance(df['LEISTUNG'][i], np.int64) == False:
-            df['LEISTUNG'][i] = 1500
+            WKA_csvFrame['Einschaltgeschwindigkeit m/s'][i] = 3
+        if isinstance(WKA_csvFrame['Nenngeschwindigkeit m/s'][i], float) == False and isinstance(WKA_csvFrame['Nenngeschwindigkeit m/s'][i],
+                                                                                                 int) == False:
+            WKA_csvFrame['Nenngeschwindigkeit m/s'][i] = 13
+        if isinstance(WKA_csvFrame['Abschaltgeschwindigkeit m/s'][i], float) == False and isinstance(
+                WKA_csvFrame['Abschaltgeschwindigkeit m/s'][i], int) == False:
+            WKA_csvFrame['Abschaltgeschwindigkeit m/s'][i] = 25
+        if isinstance(WKA_csvFrame['LEISTUNG'][i], float) == False and isinstance(WKA_csvFrame['LEISTUNG'][i], int) == False and \
+                isinstance(WKA_csvFrame['LEISTUNG'][i], np.int64) == False:
+            WKA_csvFrame['LEISTUNG'][i] = 1500
 
     '------------------------------------------------------------'
     "TECHNISCHE DATEN UM EIN WKA"
-    modell = df['Modell'].tolist()
-    ein_ms = df['Einschaltgeschwindigkeit m/s'].tolist()
-    nenn_ms = df['Nenngeschwindigkeit m/s'].tolist()
-    abs_ms = df['Abschaltgeschwindigkeit m/s'].tolist()
-    leistung = df['LEISTUNG'].tolist()
-    nabenhoehe = df['NABENHOEHE'].tolist()
-    rotor = df['Rotordurchmesser'].tolist()
-    ausbauRelev = df['Ausbaurelevant'].tolist()
-    windKlasse = df['IEC-WindKlasse'].tolist()
+    modell = WKA_csvFrame['Modell'].tolist()
+    ein_ms = WKA_csvFrame['Einschaltgeschwindigkeit m/s'].tolist()
+    nenn_ms = WKA_csvFrame['Nenngeschwindigkeit m/s'].tolist()
+    abs_ms = WKA_csvFrame['Abschaltgeschwindigkeit m/s'].tolist()
+    leistung = WKA_csvFrame['LEISTUNG'].tolist()
+    nabenhoehe = WKA_csvFrame['NABENHOEHE'].tolist()
+    rotor = WKA_csvFrame['Rotordurchmesser'].tolist()
+    ausbauRelev = WKA_csvFrame['Ausbaurelevant'].tolist()
+    windKlasse = WKA_csvFrame['IEC-WindKlasse'].tolist()
     '------------------------------------------------------------'
     "KOSTEN RUND UM EIN WKA"
-    invest = df['Investitionskosten'].tolist()
-    betrieb = df['Betriebskosten in Euro/a'].tolist()
+    invest = WKA_csvFrame['Investitionskosten'].tolist()
+    betrieb = WKA_csvFrame['Betriebskosten in Euro/a'].tolist()
     '------------------------------------------------------------'
 
     peter = WKAmodell(modell, ein_ms, nenn_ms, abs_ms, leistung, nabenhoehe, rotor, ausbauRelev, windKlasse, invest,
@@ -203,42 +203,51 @@ def WEAmodellDictionary_Class():
     return peter
 
 
-def WeatherStationDictionary_Class():
-    try:
-        headerlistModell = ['Stations_id', 'Messhoehe', 'Stationsname', 'Bundesland', 'geoBreite', 'geoLaenge']
-        openfilename3 = 'Import\Wetterstationen/StundeWindStationen.csv'
-        print(openfilename3)
-        df = pd.read_csv(openfilename3, usecols=headerlistModell, delimiter=';', decimal=',', header=0,
-                         encoding='latin1')
-        # print(df)
-    except ValueError:
-        print("falsches Format")
+def WeatherStationDictionary_Class(weatherID_csvFrame, useImport = True):
+
+    if useImport == True:
+        try:
+            headerlistModell = ['Stations_id', 'Messhoehe', 'Stationsname', 'Bundesland', 'geoBreite', 'geoLaenge',
+                                'Coords']
+            openfilename3 = 'Import\Wetterstationen/StundeWindStationen.csv'
+            print(openfilename3)
+            weatherID_csvFrame = pd.read_csv(openfilename3, usecols=headerlistModell, delimiter=';', decimal=',', header=0,
+                                             encoding='latin1')
+            # print(df)
+        except ValueError:
+            print("falsches Format")
 
     # Erstellen des Dictionary
 
-    for i in range(len(df['Stations_id'])):
-        if isinstance(df['Messhoehe'][i], float) == False and isinstance(df['Messhoehe'][i], int) == False:
-            df['Messhoehe'][i] = 9999
-        if isinstance(df['Stations_id'][i], float) == False and isinstance(df['Stations_id'][i], numpy.int64) == False:
+    for i in range(len(weatherID_csvFrame['Stations_id'])):
+        if isinstance(weatherID_csvFrame['Messhoehe'][i], float) == False and \
+                isinstance(weatherID_csvFrame['Messhoehe'][i], int) == False:
+            try:
+                weatherID_csvFrame['Messhoehe'][i] = int(weatherID_csvFrame['Messhoehe'][i])
+            except:
+                weatherID_csvFrame['Messhoehe'][i] = 9.8
+        if isinstance(weatherID_csvFrame['Stations_id'][i], float) == False and \
+                isinstance(weatherID_csvFrame['Stations_id'][i], numpy.int64) == False:
             # print(type(df['Stations_id'][i]))
             # print(isinstance(df['Stations_id'][i], float))
             # print(isinstance(df['Stations_id'][i], int))
-            df['Stations_id'][i] = '0'
-        if isinstance(df['Stationsname'][i], str) == False:
-            df['Stationsname'][i] = "unbekannt"
-        if isinstance(df['Bundesland'][i], str) == False:
-            df['Bundesland'][i] = "unbekannt"
+            weatherID_csvFrame['Stations_id'][i] = '0'
+        if isinstance(weatherID_csvFrame['Stationsname'][i], str) == False:
+            weatherID_csvFrame['Stationsname'][i] = "unbekannt"
+        if isinstance(weatherID_csvFrame['Bundesland'][i], str) == False:
+            weatherID_csvFrame['Bundesland'][i] = "unbekannt"
 
-    stations_id = df['Stations_id'].tolist()
-    messhoehe = df['Messhoehe'].tolist()
-    stationsname = df['Stationsname'].tolist()
-    bundesland = df['Bundesland'].tolist()
-    geoBreite = df['geoBreite'].tolist()
-    geoLaenge = df['geoLaenge'].tolist()
+    stations_id = weatherID_csvFrame['Stations_id'].tolist()
+    messhoehe = weatherID_csvFrame['Messhoehe'].tolist()
+    stationsname = weatherID_csvFrame['Stationsname'].tolist()
+    bundesland = weatherID_csvFrame['Bundesland'].tolist()
+    geoBreite = weatherID_csvFrame['geoBreite'].tolist()
+    geoLaenge = weatherID_csvFrame['geoLaenge'].tolist()
+    coords = weatherID_csvFrame['Coords'].tolist()
 
     # print(Stations_id, Stationsname, Bundesland, Messhoehe)
 
-    peter = WetterStation(stations_id, stationsname, bundesland, messhoehe, geoBreite, geoLaenge)
+    peter = WetterStation(stations_id, stationsname, bundesland, messhoehe, geoBreite, geoLaenge, coords)
     # WKAmodell(k, Ein_ms[index], Nenn_ms[index], Abs_ms[index], P_kw[index])
 
     return peter
@@ -643,19 +652,19 @@ def verbrauchGesamt(year):
     return AusgabeFrame
 
 
-def analyseEE(year, EE_Erz, PV_Gesamt, erz_Bio, plannedErzeung, verbrauch, ausbauWind=0,
+def analyseEE(year, exportfolder, EE_Erz, PV_Gesamt, erz_Bio, plannedErzeung, verbrauch, ausbauWind=0,
               ausbauPV=0, ausbauBio=0, ausbau= False,
-              export=False, geplanterAusbau=True, Biomasse=True, Wind=True, PV=True,
-              expansionPV = 0,expansionBio = 0 ):
+              export=False, geplanterAusbau=True, biomes=True, wind=True, PV=True,
+              expansionPV = 0, expansionBio = 0):
     # print(FrameVerbrauch)
     # print(FrameErzeung)
     # print(EE_Erz)
     temp_EE_Erz = [0] * len(verbrauch['Verbrauch_Gesamt']) # Wird für Darstellungszwecke genutzt
     '- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
     # Wind
-    if Wind == True:
+    if wind == True:
         temp_EE_Erz += EE_Erz['Erzeugung_Wind']
-    if Wind == False:
+    if wind == False:
         del EE_Erz['Erzeugung_Wind']
     # Wind Ausbau geplant
     if geplanterAusbau == True:
@@ -681,10 +690,10 @@ def analyseEE(year, EE_Erz, PV_Gesamt, erz_Bio, plannedErzeung, verbrauch, ausba
         temp_EE_Erz += EE_Erz['REE_PV_'+ str(expansionPV)]
     '- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
     # Biomasse
-    if Biomasse == True:
+    if biomes == True:
         EE_Erz['Erz_Biomasse_Gesamt'] = erz_Bio
         temp_EE_Erz += EE_Erz['Erz_Biomasse_Gesamt']
-    if Biomasse == False:
+    if biomes == False:
         del EE_Erz['Erz_Biomasse_Gesamt']
     # Biomasse Ausbau Software
     if ausbau == True and sum(ausbauBio) > 0:
@@ -763,12 +772,12 @@ def analyseEE(year, EE_Erz, PV_Gesamt, erz_Bio, plannedErzeung, verbrauch, ausba
     EE_Erz['EE>50%'] = liste_50
     EE_Erz['EE>45%'] = liste_45
     EE_Erz['EE<45%'] = liste_k45
-    uhrzeit = datetime.now().strftime('%d-%m-%Y_%H-%M')
+    uhrzeit = datetime.now().strftime('%H-%M')
 
     EE_Anteil = sum(liste_100)/sum(liste_k45)
     temp_EEAnteil = EE_Anteil* 100
     if export == True:
-        exportname = 'REE_'+ str(int(temp_EEAnteil)) + '_'+ str(year) + '_' + str(uhrzeit) + '.csv'
+        exportname = exportfolder + 'REE_'+ str(int(temp_EEAnteil)) + '_'+ str(year) + '_' + str(uhrzeit) + '.csv'
         print(exportname)
         EE_Erz.to_csv(exportname, sep=';', encoding='utf-8', index=False, decimal=',')
 
@@ -812,7 +821,7 @@ def analyseAusbauFl():
     print('Anzahl Vorrang: ', vorAnz_ohneWKA)
 
 
-def windlastprofil(year):
+def windlastprofil(year,exportfolder, export = True):
     print("Start WindLastProfil")
 
     try:
@@ -872,11 +881,10 @@ def windlastprofil(year):
     # exportFrame2 = exportFrame.T
     # print(exportFrame2)
     # exportFrame2.loc['AnalyseProfil',:] = AnalyseProfilbz
+    if export == True:
+        exportname2 = exportfolder + str(year) + '.csv'
+        exportFrame.to_csv(exportname2, sep=';', encoding='utf-8-sig', index=True, decimal=',')
 
-    exportname2 = 'Datenbank\Wetter\WindAnalyse/Windanlyse_' + str(year) + '.csv'
-    exportFrame.to_csv(exportname2, sep=';', encoding='utf-8', index=True, decimal=',')
-
-    print('Ende')
     return exportFrame
 
 
@@ -972,7 +980,8 @@ def stand_distance_analyse_alt(year, standorte):
     exportFrame.to_csv(finished_filename, sep=';', decimal=',', index=False, encoding='UTF-8')
 
 
-def stand_distance_analyse(year, Vor_Pot, standorte, faktorAusbaufl, export=True, geplanterAusbau = True):
+def connect_oldWKA_to_expansionArea(year, Vor_Pot, standorte, faktorAusbaufl, export=True, geplanterAusbau = True):
+
     filelist = findoutFiles('Datenbank\ConnectwithID\Erzeugung')
     matches1 = [match for match in filelist if str(year) in match]
     matches1 = [match for match in matches1 if 'SH' in match]
@@ -992,10 +1001,13 @@ def stand_distance_analyse(year, Vor_Pot, standorte, faktorAusbaufl, export=True
 
         except:
             print('falsches Format')
+        WKA['Anlageauf_Vor_Verbaut'] = [False] * len(WKA['Coords UTM'])
+
         if temp_first == False:
             testTuple = ('0', '0')
             listnames = []
             p = 1
+            "For Schleifen macht aus [] ein ()"
             for qindex, i in enumerate(standorte['ID']):
                 temp_ausbau = geo.editCoords(standorte['Coords ' + Vor_Pot][qindex])
 
@@ -1017,18 +1029,26 @@ def stand_distance_analyse(year, Vor_Pot, standorte, faktorAusbaufl, export=True
 
                 for kindex, j in enumerate(WKA['Coords UTM']):
 
+                    if WKA['Anlageauf_Vor_Verbaut'][kindex] == True:
+                        continue
+
                     temp_wka = geo.editCoords(j)
                     distance = geo.distance(temp_wka, temp_ausbau)
 
                     if distance <= faktorAusbaufl:
                         listFl[standortindex] += int((15 * np.square(float(WKA['ROTORDURCHMESSER'][kindex]))) / 10000)
                         anzahl[standortindex] += 1
+                        WKA['Anlageauf_Vor_Verbaut'][kindex] = True
+                        # print(listFl[standortindex], standorte['ha'+Vor_Pot][index])
 
-                listFl[standortindex] += round(listFl[standortindex], 3)
-                listFl[standortindex] += float(listFl[standortindex])
+                        if listFl[standortindex] >= standorte['ha'+Vor_Pot][index]:
+                            break
+
+
+                listFl[standortindex] = round(listFl[standortindex], 3)
                 standortindex += 1
 
-        print(listFl)
+        # print(listFl)
 
     exportFrame = pd.DataFrame(np.c_[listnames, listFl, anzahl], columns=['ID', 'Flaeche_' + Vor_Pot, 'Anzahl WEAs'])
 
@@ -1040,7 +1060,7 @@ def stand_distance_analyse(year, Vor_Pot, standorte, faktorAusbaufl, export=True
     return exportFrame
 
 
-def freie_ha_vor(year, standorte, belgegteha_Vor, belgegteha_Pot):
+def freie_ha_vor(year,exportFolder,  standorte, belgegteha_Vor, export = True):
     print('Start freie_ha_Vor')
 
     # print(standorte)
@@ -1075,101 +1095,62 @@ def freie_ha_vor(year, standorte, belgegteha_Vor, belgegteha_Pot):
     standorte['Anzahl WEAs_Vor'] = temp_anzahl
     standorte['besetze Flaeche_Vor'] = temp_belegtVor
     standorte['nettoFreieFlaeche_Vor'] = temp_freiVor
+    standorte['Anzahl WEAs_Pot'] = [0] * len(temp_anzahl)
+    standorte['besetze Flaeche_Pot'] = standorte['haPot']
+    standorte['nettoFreieFlaeche_Pot'] = standorte['haPot'] - standorte['besetze Flaeche_Vor']
+    temp_anzahl = [0] * standorte['Anzahl WEAs_Vor']
 
-    temp_freiVor = []
-    temp_belegtVor = []
-    temp_anzahl = []
-    for index, i in enumerate(standorte['haPot']):
-        x = 0
-        y = 0
-        z = 0
-        for kindex, j in enumerate(belgegteha_Pot['Flaeche_Pot']):
-
-            if belgegteha_Pot['ID'][kindex] == standorte['ID'][index]:
-                # print(belgegteha['ID'][kindex], standorte['ID'][index])
-                # print(i, j)
-                x = (float(i) - float(j))
-                if x < 0:
-                    x = 0
-                y = float(j)
-                z = belgegteha_Pot['Anzahl WEAs'][kindex]
-        # print(standorte['haVor'][index], standorte['WKAVor'][index] )
-        if int(standorte['haPot'][index]) > 0 and standorte['WKAPot'][index] == '-':
-            x = standorte['haPot'][index]
-
-        temp_freiVor.append(x)
-        temp_belegtVor.append(y)
-        temp_anzahl.append(z)
-    # print(temp_freiVor)
-    standorte['Anzahl WEAs_Pot'] = temp_anzahl
-    standorte['besetze Flaeche_Pot'] = temp_belegtVor
-    standorte['nettoFreieFlaeche_Pot'] = temp_freiVor
-
-    # exportFrame.insert(loc=0, column='Typ', value=WKA['TYP'])
-    finished_filename = 'KurzAnschauen_' + str(year) + '.csv'
-
-    standorte.to_csv(finished_filename, sep=';', decimal=',', index=False, encoding='utf-8-sig')
-    # print(standorte)
+    if export == True:
+        finished_filename = exportFolder + 'FreieFlaechen_vorAusbau' + str(year) + '.csv'
+        standorte.to_csv(finished_filename, sep=';', decimal=',', index=False, encoding='utf-8-sig')
+    print('Ende freie_ha_pot')
     return standorte
 
-    print('Ende freie_ha_pot')
 
-
-def freie_leistung_Vor(year, standort):
-    print('Start freie_leistung_Vor')
-    WeaModell_fl_name = 'Enercon E-82/3000'
-    WeaModell_fl_leistung = 3000
-    WeaModell_fl = ((15 * np.square(float(82))) / 10000)
-    temp_anzahl = []
-    temp_leistung = []
-    temp_fl = []
-
-    for index, i in enumerate(standort['freieVor in Vor']):
-
-        if i > 0:
-            anzahl = i / WeaModell_fl
-            leistung = int(anzahl) * WeaModell_fl_leistung
-            temp_anzahl.append(int(anzahl))
-            temp_leistung.append(leistung)
-            temp_fl.append(WeaModell_fl)
-        else:
-            temp_anzahl.append(0)
-            temp_leistung.append(0)
-            temp_fl.append(0)
-
-    standort[WeaModell_fl_name] = temp_fl
-    standort['temp_anzahl'] = temp_anzahl
-    standort['temp_leistung'] = temp_leistung
-
-    print('freie_leistung_pot')
-    return standort
 
 
 def standort_and_WKA_choice(negativGraph, DB_WKA, deepestPointsIndex, ausbauFlWeatherIDList, temp_ausgebauteAnlagen,
                             dict_WKA, spiecherMethodik = True):
+    temp_newValue = False
     print('Start Analyse Ausbau')
     # print(EE_Analyse)
     copy_negativGraph = negativGraph.copy()
     max_boje_value = 0
     # Addition der Tiefsten Punkte
-    for k in deepestPointsIndex:
-        max_boje_value += copy_negativGraph[k]
-
-    max_boje_value = 0
-    WKAnameforexpansion = 'unbekannt'
-
     for i in DB_WKA:
         temp_name = i.split('_')
         temp_ID = temp_name[0]
-        temp_Modell = temp_name[1]
-        temp_Modell_hight = temp_name[2]
-        temp_FlproPower = 0
         if temp_ID not in str(ausbauFlWeatherIDList):
             del DB_WKA[i]
             continue
         if temp_ID in str(temp_ausgebauteAnlagen):
             del DB_WKA[i]
             continue
+
+    temp_len = len(DB_WKA.columns.values.tolist())
+
+    if temp_len < 20:
+        print('Stop')
+
+    for k in deepestPointsIndex:
+        max_boje_value += copy_negativGraph[k]
+
+    max_boje_value = 0
+    WKAnameforexpansion = 'unbekannt'
+
+
+
+    print('DB_WKA Len: ', len(DB_WKA.columns.values.tolist()))
+
+    for i in DB_WKA:
+
+        temp_name = i.split('_')
+        temp_ID = temp_name[0]
+        temp_Modell = temp_name[1]
+        temp_Modell_hight = temp_name[2]
+        temp_FlproPower = 0
+
+
         '''matchVerbauteAnlage = [match for match in temp_ausgebauteAnlagen if i in match]
 
         if len(matchVerbauteAnlage) != 0:
@@ -1190,13 +1171,19 @@ def standort_and_WKA_choice(negativGraph, DB_WKA, deepestPointsIndex, ausbauFlWe
 
 
         temp_FlproPower = relevant_PowerWKA / dict_WKA[temp_Modell + '_'+ temp_Modell_hight]['Flaeche']
+
+
+
         # print('Max_GW/FL', temp_FlproPower / 1000)
         # print('Neu_GW/FL', max_boje_value / 1000)
         if temp_FlproPower > max_boje_value:
             max_boje_value = temp_FlproPower
             WKAnameforexpansion = i
+            temp_newValue = True
             #print(WKAnameforexpansion)
         #print(i)
+    if temp_newValue == False:
+        print(WKAnameforexpansion)
 
     return WKAnameforexpansion
 
@@ -1412,15 +1399,18 @@ def standortquality(year, wetterdaten, WKAanlagen):
     return exportFrame
 
 
-def DB_WKA(year, dictModell, dictWeatherID, wetterdaten):
+def DB_WKA(year, dictModell, dictWeatherID, wetterdaten, export=True):
     print('DB_WKA')
 
     date_perHoure = DateList('01.01.' + str(year) + ' 00:00',
                              '31.12.' + str(year) + ' 23:00', '60min', list=False)
     wetterstationen = 0
-    WKA_True = 0
-    WKA_False = 0
+    WKA_True_Gesamt = 0
+    WKA_False_Gesamt = 0
     for index in dictWeatherID:
+        WKA_True = 0
+        WKA_False_wind = 0
+        WKA_False_ausbauRele = 0
         "Für alle Wetterstationen"
         matcheswetterdaten = [match for match in wetterdaten.columns.values.tolist() if
                               str(dictWeatherID[index]['ID']) in match]
@@ -1433,7 +1423,8 @@ def DB_WKA(year, dictModell, dictWeatherID, wetterdaten):
             "Für alle Modelle"
             name = str(dictWeatherID[index]['ID']) + '_' + jndex
             if dictModell[jndex]['AusbauRelv'] == 0:
-                WKA_False += 1
+                WKA_False_Gesamt += 1
+                WKA_False_ausbauRele += 1
                 continue
 
             # print(index, jndex)
@@ -1442,15 +1433,21 @@ def DB_WKA(year, dictModell, dictWeatherID, wetterdaten):
                                         wetterdaten[matcheswetterdaten[0]], dictModell[jndex]['Nabenhoehe'],
                                         float(dictWeatherID[index]['Messhight']), dictModell[jndex]['Windklasse'])
             if sum(leistung) == 0:
-                WKA_False += 1
+                WKA_False_wind += 1
+                WKA_False_Gesamt += 1
                 continue
+            WKA_True_Gesamt += 1
             WKA_True += 1
             date_perHoure[name] = leistung
 
-        print('Wetterstation:', wetterstationen,'WKA Erfolgreich: ', WKA_True,'WKA nicht gleaden: ', WKA_False)
+        print('Wetterstation:', str(dictWeatherID[index]['ID']) , 'WKA Erfolgreich: ', WKA_True, '/', WKA_True_Gesamt)
+        print('WKA nicht gleaden: ', WKA_False_wind+WKA_False_ausbauRele, '/', WKA_False_Gesamt,
+              'Davon zu kleine Windklasse: ', WKA_False_wind, 'nicht Relevant: ', WKA_False_ausbauRele)
+    if export == True:
+        exportname = 'Datenbank\WEAModell/DB_WKA.csv'
+        date_perHoure.to_csv(exportname, sep=';', encoding='utf-8-sig', index=False, decimal=',')
 
-    exportname = 'DB_WKA.csv'
-    date_perHoure.to_csv(exportname, sep=';', encoding='utf-8', index=False, decimal=',')
+    return date_perHoure
 
 def negativ_Verlauf(SimuEE_Diff, speicherVerlauf = True):
     # print('Start negativ_Verlauf')
@@ -1473,26 +1470,6 @@ def negativ_Verlauf(SimuEE_Diff, speicherVerlauf = True):
         for index, i in enumerate(SimuEE_Diff):
             if i > 0:
                 SimuEE_Diff[index] = 0
-
-
-
-    '''y = SimuEE_Diff
-    x = temp_DateList
-    # plotting the points
-    plt.plot(x, y)
-
-    # naming the x axis
-    plt.xlabel('x - axis')
-    # naming the y axis
-    plt.ylabel('y - axis')
-
-    # giving a title to my graph
-    plt.title('My first graph!')
-
-    # function to show the plot
-    plt.show()'''
-
-
 
     return SimuEE_Diff
 
