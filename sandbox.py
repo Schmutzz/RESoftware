@@ -153,6 +153,7 @@ print(p3.x)
 b = p3.x
 print(b)
 
+
 '''
 def annualOutput_WKA(year, Ein_ms, Nenn_ms, Abs_ms, leistung_Gesamt, weatherData, nabenhohe):
 

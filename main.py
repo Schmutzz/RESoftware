@@ -10,32 +10,40 @@ import sandbox
 import dataPreparation as dataprep
 import logik as lgk
 import time
+
 print('Start')
 META_EE_Anteil = 0.75  # Muss Decimal angegeben werden
 META_year = 2019
 META_geplanterAusbau = True
-META_Biomasse = True
+META_biomasse = True
 META_expansionBio = 0.02  # in Prozent
-META_Wind = True
+META_wind = True
 META_PV = True
-META_expansionPV = 0.02             # in Prozent
-META_faktorAusbauFlDist = 1.0       # in Kilometer
-META_VorFl = True                   # True -> Ausbauflaeche wird genutzt
-META_PotFl = True                   # True -> Ausbauflaeche wird genutzt
-META_Repowering = False             # True -> Anlagen >10 Jahre oder <1500KW Leistung werden abgerissen und neu gebaut (2:1)
+META_expansionPV = 0.02  # in Prozent
+META_faktorAusbauFlDist = 1.0  # in Kilometer
+META_VorFl = True  # True -> Ausbauflaeche wird genutzt
+META_PotFl = True  # True -> Ausbauflaeche wird genutzt
+META_repowering = False  # True -> Anlagen >10 Jahre oder <1500KW Leistung werden abgerissen und neu gebaut (2:1)
 temp_ausbau = False
 META_ausbaubegrenzungsfaktor = 0.5
-META_Speicherverlauf = False
-META_Windanalyse = False
-META_Startcapacity = 0.0            # Angabe in Prozent wie voll die Speicher im Startpunkt sind
+META_speicherverlauf = False
+META_windanalyse = False
 '-----------------------------------------------------------'
-META_DATA_Inputcsv = 'utf-8'                # wird für das einlesen der Daten verwendet
-META_DATA_OUTPUTcsv = 'utf-8-sig'           # wird für das auslesen der Daten verwendet
-META_DATA_DBWKAreload = False               # True wenn die DB der WKA Lastgänge erstellt werden soll
-META_DATA_plannedAreas_getCoords = False    # True wenn die Ausbauflächen keine Standorte besitzen
+'Speicher'
+META_startcapacity = 0.0  # Angabe in Prozent wie voll die Speicher im Startpunkt sind
+META_speichervorAusbau = True  # True -> vor Ausbau Analyse beachtet Speicher
+META_speicherausbau = False  # True -> Speicher werden ausgebaut
+META_Laegerdorf = True
+META_compressed_air = True
+'-----------------------------------------------------------'
+'Datenbank'
+META_DATA_Inputcsv = 'utf-8'  # wird für das einlesen der Daten verwendet
+META_DATA_OUTPUTcsv = 'utf-8-sig'  # wird für das auslesen der Daten verwendet
+META_DATA_DBWKAreload = False  # True wenn die DB der WKA Lastgänge erstellt werden soll
+META_DATA_plannedAreas_getCoords = False  # True wenn die Ausbauflächen keine Standorte besitzen
 #                                           -> Wetterstationen werden ebenfalls hinzugefügt
-META_DATA_plannedAreas_getWeather = False    # True wenn die Ausbauflächen keine zugeordnete Wetterstation besitzen
-META_DATA_plannedWKAPower = False           # True wenn die Erzeugung ausgerechnet werden muss
+META_DATA_plannedAreas_getWeather = False  # True wenn die Ausbauflächen keine zugeordnete Wetterstation besitzen
+META_DATA_plannedWKAPower = False  # True wenn die Erzeugung ausgerechnet werden muss
 
 '---------------------------------------------------------------------------------------------------------'
 '!!!WICHTIGE DATEN!!!' \
@@ -151,21 +159,26 @@ if META_DATA_DBWKAreload == False:
         print('falsches Format: ', openfilename)
         print('Datenbank konnte nicht geöffnet werden')
         print('Datenbank wird automatisch erzeugt')
-        META_DATA_DBWKAreload == True
+        META_DATA_DBWKAreload = True
 
 '----------------------------------------------------------------------------------------------------------------------'
 "Öffnen der verschiedenen WEA Modelle."
 "KEY = MODELL -> Modell Name"
 temp_WKA = lgk.wea_modell_dictionary_class(WEAModell, useImport=False)
 dictWKAModell = temp_WKA.getdict()
-
+# temp_WKA.printWKAModelle()
 "Öffnen der verschiedenen Wetterstationen."
 "KEY = ID -> NUMMER der Wettersation"
 temp_WeatherID = lgk.weather_station_dictionary_class(windWeatherStation, useImport=False)
 dictWeatherID = temp_WeatherID.getdict()
-#print(dictWeatherID)
+# temp_WeatherID.printWetterStation()
+# print(dictWeatherID)
 "Öffnen der verschiedenen Speicher"
-speicherListe = lgk.speicher_List_Class(META_Startcapacity)
+listStorage = []
+storage = lgk.StorageModell('PumpspeicherKraftwerk', 'Geesthacht', 600000, META_startcapacity * 600000, 0.8, 120000,
+                            0.0, 0.08)
+listStorage.append(storage)
+print(listStorage[-1].modell)
 
 '----------------------------------------------------------------------------------------------------------------------'
 '''Funktionen welche nur einmal Aufgerufen werden. Diese dienen nur zur Datenvorbereitung. 
@@ -175,9 +188,9 @@ speicherListe = lgk.speicher_List_Class(META_Startcapacity)
 if META_DATA_DBWKAreload == True:
     print('DBWKAreload will be regenerated and reloaded')
     WEAModell = lgk.DB_WKA(META_year, dictWKAModell, dictWeatherID, windWeatherData, export=True)
-
+# 'PumpspeicherKraftwerk', 'Geesthacht', 600000, startcapacity*600000, 0.8, 120000, 0.0, 0.08
 # dataprep.plannedAreas_toUTM_and_connectWeahterID('Wind', 'SH', windWeatherStation)
-#dataprep.erzeugung_plannendAreas(META_year, plannedWKA)
+# dataprep.erzeugung_plannendAreas(META_year, plannedWKA)
 if META_DATA_plannedAreas_getCoords == True:
     print('plannedAreasgetCoords will be regenerated and reloaded')
     ausbauFlaechen = dataprep.plannendAreas_getCoords(ausbauFlaechen, export=True)
@@ -187,14 +200,11 @@ if META_DATA_plannedAreas_getWeather == True:
     print('plannedAreas_getWeather will be regenerated and reloaded')
     ausbauFlaechen = dataprep.plannedAreas_getWeather(ausbauFlaechen, windWeatherStation, export=True)
 
-
-
 # lgk.erzeugungPerStunde(META_year, 'Wind')
 # temp_windlastprofil = lgk.windlastprofil(META_year)
 # lgk.standortquality(META_year, windWeatherData, WEAModell)
 
 '______________________________________________________________________________________________________________________'
-
 
 # db.utm_to_gk(2019, 'Wind', 'SH')
 # db.utm_to_gk(2019, 'Wind', 'HH')
@@ -208,9 +218,6 @@ exportFolder = 'REE_AnalyseCompleted/REE_AnalyseJahr_' + str(META_year) + '_' + 
 path = Path(exportFolder)
 path.mkdir(parents=True, exist_ok=True)
 
-
-
-
 standortliste_123 = []
 list_value = []
 standort_main = 0
@@ -223,7 +230,7 @@ name_2 = []
 
 "Erste Simulation ohne einen Ausbau durch die Software"
 "In Bearbeitung"
-if META_Windanalyse == True:
+if META_windanalyse == True:
     try:
         openfilename = 'Datenbank\Wetter\WindAnalyse/Windanlyse_' + str(META_year) + '.csv'
         print(openfilename)
@@ -233,7 +240,7 @@ if META_Windanalyse == True:
         windanlyse = lgk.windlastprofil(META_year, exportFolder, export=True, )
 
     # Export in Simulationsordner
-    exportname2 = exportFolder +'Windanlyse_'+ str(META_year) + '.csv'
+    exportname2 = exportFolder + 'Windanlyse_' + str(META_year) + '.csv'
     windanlyse.to_csv(exportname2, sep=';', encoding='utf-8-sig', index=True, decimal=',')
 
 # PV_Gesamt = lgk.erzeugungPerStunde(year, 'PV')
@@ -245,23 +252,20 @@ del DB_WKA['Datum']
 # EE_Erz_Wind_Gesamt = pd.concat([Wind_Gesamt, PV_Gesamt, erz_Bio, plannedErzeung], axis=1, sort=False)
 verbrauch_HH_SH = lgk.verbrauchGesamt(META_year)
 temp_wind = Wind_Gesamt.copy()  # ->wird für die Darstellung der Daten benötigt
-'''EE_Analyse = lgk.analyseEE(META_year, exportFolder, temp_wind, PV_Gesamt, erz_Bio, plannedErzeung, verbrauch_HH_SH, export=True,
-                           geplanterAusbau=META_geplanterAusbau, biomes=META_Biomasse,
-                           wind=META_Wind, PV=META_PV)'''
-EE_Analyse = lgk.analyseEE(META_year, exportFolder, temp_wind, PV_Gesamt, erz_Bio, plannedErzeung, verbrauch_HH_SH,
-                                    ausbau=False, export=True,
-                                    geplanterAusbau=META_geplanterAusbau, biomes=META_Biomasse,
-                                    wind=META_Wind, PV=META_PV, expansionPV=META_expansionPV,
-                                    expansionBio=META_expansionBio)
+
+EE_Analyse = lgk.analyseEE(META_year, exportFolder, listStorage, temp_wind, PV_Gesamt, erz_Bio, plannedErzeung,
+                           verbrauch_HH_SH, ausbau=False, export=True,
+                           geplanterAusbau=META_geplanterAusbau, biomes=META_biomasse,
+                           wind=META_wind, PV=META_PV, expansionPV=META_expansionPV,
+                           expansionBio=META_expansionBio, speicher=META_speichervorAusbau)
 
 SimulationEE_vorAusbau = EE_Analyse[0].copy()
 EE_Anteil = EE_Analyse[1]
-print('EE Anteil in Prozent: ', round(EE_Analyse[1]*100, 2), '%')
-
+print('EE Anteil in Prozent: ', round(EE_Analyse[1] * 100, 2), '%')
 
 '----------------------------------------------------------------------------------------------------------------------'
 "Überprüfung weleche Vor/Pot Flächen zur Verfügung stehen. "
-#Daten müssen nicht in den Export ORDNER!!!
+# Daten müssen nicht in den Export ORDNER!!!
 verbauteVor = lgk.connect_oldWKA_to_expansionArea(META_year, 'Vor', ausbauFlaechen, META_faktorAusbauFlDist,
                                                   export=False, geplanterAusbau=META_geplanterAusbau)
 
@@ -285,11 +289,11 @@ freieFlaeche['BetriebsKosten_Pot'] = [0] * len(freieFlaeche['ID'])
 "ProzentualerAusbau BIOMASSE/PV"
 expansionBio = 0
 expansionPV = 0
-if META_Biomasse == True:
+if META_biomasse == True:
     expansionBio = lgk.percentage_expansion(SimulationEE_vorAusbau['Erz_Biomasse_Gesamt'], META_expansionBio)
 if META_PV == True:
     expansionPV = lgk.percentage_expansion(SimulationEE_vorAusbau['Erzeugung_PV'], META_expansionPV)
-if META_Wind == True:
+if META_wind == True:
     expansionWind = [1] * len(expansionPV)
 '______________________________________________________________________________________________________________________'
 "!!!Ausbau WIND STARTET!!!"
@@ -298,7 +302,7 @@ temp_ausgebauteAnlagen = ['test'] * len(expansionPV)
 expansionWind = [1] * len(expansionPV)
 tempausbauTrue = True
 
-if META_Wind == True and META_VorFl == True and EE_Anteil < META_EE_Anteil:
+if META_wind == True and META_VorFl == True and EE_Anteil < META_EE_Anteil:
     temp_ausgebauteAnlagen = ['test'] * len(expansionPV)
     temp_DB_WKA = DB_WKA.copy()
     for i in range(len(dictWeatherID)):
@@ -307,11 +311,11 @@ if META_Wind == True and META_VorFl == True and EE_Anteil < META_EE_Anteil:
 
         if i == 0:
             temp_wind = Wind_Gesamt.copy()
-            EE_Analyse = lgk.analyseEE(META_year, exportFolder, Wind_Gesamt, PV_Gesamt, erz_Bio, plannedErzeung,
-                                       verbrauch_HH_SH,
+            EE_Analyse = lgk.analyseEE(META_year, exportFolder, listStorage, temp_wind, PV_Gesamt, erz_Bio,
+                                       plannedErzeung, verbrauch_HH_SH,
                                        expansionWind, expansionPV, expansionBio, ausbau=temp_ausbau, export=False,
-                                       geplanterAusbau=META_geplanterAusbau, biomes=META_Biomasse,
-                                       wind=META_Wind, PV=META_PV, expansionPV=META_expansionPV,
+                                       geplanterAusbau=META_geplanterAusbau, biomes=META_biomasse,
+                                       wind=META_wind, PV=META_PV, expansionPV=META_expansionPV,
                                        expansionBio=META_expansionBio)
 
             EE_Anteil = EE_Analyse[1]
@@ -320,11 +324,11 @@ if META_Wind == True and META_VorFl == True and EE_Anteil < META_EE_Anteil:
 
         elif i > 0 and tempausbauTrue == True:
             temp_wind = Wind_Gesamt.copy()
-            EE_Analyse = lgk.analyseEE(META_year, exportFolder, Wind_Gesamt, PV_Gesamt, erz_Bio, plannedErzeung,
-                                       verbrauch_HH_SH,
+            EE_Analyse = lgk.analyseEE(META_year, exportFolder, listStorage, temp_wind, PV_Gesamt, erz_Bio,
+                                       plannedErzeung, verbrauch_HH_SH,
                                        expansionWind, expansionPV, expansionBio, ausbau=temp_ausbau, export=False,
-                                       geplanterAusbau=META_geplanterAusbau, biomes=META_Biomasse,
-                                       wind=META_Wind, PV=META_PV, expansionPV=META_expansionPV,
+                                       geplanterAusbau=META_geplanterAusbau, biomes=META_biomasse,
+                                       wind=META_wind, PV=META_PV, expansionPV=META_expansionPV,
                                        expansionBio=META_expansionBio)
 
             EE_Anteil = EE_Analyse[1]
@@ -337,13 +341,13 @@ if META_Wind == True and META_VorFl == True and EE_Anteil < META_EE_Anteil:
 
         if tempausbauTrue == True:
             temp_Diff_EE = SimulationEE_vorAusbau['Diff_EE_zu_Verb'].copy()
-            EE_Simulation_negativGraph = lgk.negativ_Verlauf(temp_Diff_EE, speicherVerlauf=META_Speicherverlauf)
-            deepestPoints = lgk.deepest_point_negativGraph(EE_Simulation_negativGraph, 75)
+            EE_Simulation_negativGraph = lgk.negativ_Verlauf(temp_Diff_EE, speicherVerlauf=META_speicherverlauf)
+            deepestPoints = lgk.deepest_point_negativGraph(EE_Simulation_negativGraph, 20)
 
         WKAnameforexpansion = lgk.standort_and_WKA_choice(EE_Simulation_negativGraph, temp_DB_WKA, deepestPoints[1],
                                                           freieFlaeche['Wetter-ID_Vor'].tolist(),
                                                           temp_ausgebauteAnlagen,
-                                                          dictWKAModell, spiecherMethodik=META_Speicherverlauf)
+                                                          dictWKAModell, spiecherMethodik=META_speicherverlauf)
         '- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
         'Muss noch überprüft werden'
         # max_Anzahl = lgk.maxAnzahl_WKA(deepestPoints[0], deepestPoints[1], DB_WKA, WKAnameforexpansion,
@@ -390,7 +394,7 @@ if META_Wind == True and META_VorFl == True and EE_Anteil < META_EE_Anteil:
         print('Leistung insgesamt zugebaut in MW: ', sum(leistung_Gesamt) / 1000, 'Leistung Neu:  ', standort[3],
               'Freie Fläche: ', sum(freieFlaeche['nettoFreieFlaeche_Vor']))
 
-if META_Wind == True and META_PotFl == True and EE_Anteil < META_EE_Anteil:
+if META_wind == True and META_PotFl == True and EE_Anteil < META_EE_Anteil:
     temp_ausgebauteAnlagen = ['test'] * len(expansionPV)
     temp_DB_WKA = DB_WKA.copy()
     for i in range(len(dictWeatherID)):
@@ -399,11 +403,11 @@ if META_Wind == True and META_PotFl == True and EE_Anteil < META_EE_Anteil:
 
         if i == 0:
             temp_wind = Wind_Gesamt.copy()
-            EE_Analyse = lgk.analyseEE(META_year, exportFolder, Wind_Gesamt, PV_Gesamt, erz_Bio, plannedErzeung,
+            EE_Analyse = lgk.analyseEE(META_year, exportFolder, listStorage, temp_wind, PV_Gesamt, erz_Bio, plannedErzeung,
                                        verbrauch_HH_SH,
                                        expansionWind, expansionPV, expansionBio, ausbau=temp_ausbau, export=False,
-                                       geplanterAusbau=META_geplanterAusbau, biomes=META_Biomasse,
-                                       wind=META_Wind, PV=META_PV, expansionPV=META_expansionPV,
+                                       geplanterAusbau=META_geplanterAusbau, biomes=META_biomasse,
+                                       wind=META_wind, PV=META_PV, expansionPV=META_expansionPV,
                                        expansionBio=META_expansionBio)
 
             EE_Anteil = EE_Analyse[1]
@@ -412,11 +416,11 @@ if META_Wind == True and META_PotFl == True and EE_Anteil < META_EE_Anteil:
 
         elif i > 0 and tempausbauTrue == True:
             temp_wind = Wind_Gesamt.copy()
-            EE_Analyse = lgk.analyseEE(META_year, exportFolder, Wind_Gesamt, PV_Gesamt, erz_Bio, plannedErzeung,
+            EE_Analyse = lgk.analyseEE(META_year, exportFolder, listStorage, Wind_Gesamt, PV_Gesamt, erz_Bio, plannedErzeung,
                                        verbrauch_HH_SH,
                                        expansionWind, expansionPV, expansionBio, ausbau=temp_ausbau, export=False,
-                                       geplanterAusbau=META_geplanterAusbau, biomes=META_Biomasse,
-                                       wind=META_Wind, PV=META_PV, expansionPV=META_expansionPV,
+                                       geplanterAusbau=META_geplanterAusbau, biomes=META_biomasse,
+                                       wind=META_wind, PV=META_PV, expansionPV=META_expansionPV,
                                        expansionBio=META_expansionBio)
 
             EE_Anteil = EE_Analyse[1]
@@ -429,13 +433,13 @@ if META_Wind == True and META_PotFl == True and EE_Anteil < META_EE_Anteil:
 
         if tempausbauTrue == True:
             temp_Diff_EE = SimulationEE_vorAusbau['Diff_EE_zu_Verb'].copy()
-            EE_Simulation_negativGraph = lgk.negativ_Verlauf(temp_Diff_EE, speicherVerlauf=META_Speicherverlauf)
-            deepestPoints = lgk.deepest_point_negativGraph(EE_Simulation_negativGraph, 75)
+            EE_Simulation_negativGraph = lgk.negativ_Verlauf(temp_Diff_EE, speicherVerlauf=META_speicherverlauf)
+            deepestPoints = lgk.deepest_point_negativGraph(EE_Simulation_negativGraph, 20)
 
         WKAnameforexpansion = lgk.standort_and_WKA_choice(EE_Simulation_negativGraph, temp_DB_WKA, deepestPoints[1],
                                                           freieFlaeche['Wetter-ID_Pot'].tolist(),
                                                           temp_ausgebauteAnlagen,
-                                                          dictWKAModell, spiecherMethodik=META_Speicherverlauf)
+                                                          dictWKAModell, spiecherMethodik=META_speicherverlauf)
         '- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
         'Muss noch überprüft werden'
         # max_Anzahl = lgk.maxAnzahl_WKA(deepestPoints[0], deepestPoints[1], DB_WKA, WKAnameforexpansion,
@@ -482,13 +486,24 @@ if META_Wind == True and META_PotFl == True and EE_Anteil < META_EE_Anteil:
         print('Leistung insgesamt zugebaut in MW: ', sum(leistung_Gesamt) / 1000, 'Leistung Neu:  ', standort[3],
               'Freie Fläche: ', sum(freieFlaeche['nettoFreieFlaeche_Pot']))
 
+temp_wind = Wind_Gesamt.copy()
+EE_Analyse = lgk.analyseEE(META_year, exportFolder, listStorage, Wind_Gesamt, PV_Gesamt, erz_Bio, plannedErzeung,
+                           verbrauch_HH_SH,
+                           expansionWind, expansionPV, expansionBio, ausbau=temp_ausbau, export=True,
+                           geplanterAusbau=META_geplanterAusbau, biomes=META_biomasse,
+                           wind=META_wind, PV=META_PV, expansionPV=META_expansionPV,
+                           expansionBio=META_expansionBio)
 
-EE_Analyse = lgk.analyseEE(META_year, exportFolder, Wind_Gesamt, PV_Gesamt, erz_Bio, plannedErzeung,
-                                       verbrauch_HH_SH,
-                                       expansionWind, expansionPV, expansionBio, ausbau=temp_ausbau, export=True,
-                                       geplanterAusbau=META_geplanterAusbau, biomes=META_Biomasse,
-                                       wind=META_Wind, PV=META_PV, expansionPV=META_expansionPV,
-                                       expansionBio=META_expansionBio)
+listStorage = lgk.expansion_storage(temp_Diff_EE, META_speicherverlauf, listStorage, META_startcapacity,
+                      META_Laegerdorf, META_compressed_air)
+
+
+EE_Analyse = lgk.analyseEE(META_year, exportFolder, listStorage, Wind_Gesamt, PV_Gesamt, erz_Bio,
+                           plannedErzeung, verbrauch_HH_SH,
+                           expansionWind, expansionPV, expansionBio, ausbau=temp_ausbau, export=True,
+                           geplanterAusbau=META_geplanterAusbau, biomes=META_biomasse,
+                           wind=META_wind, PV=META_PV, expansionPV=META_expansionPV,
+                           expansionBio=META_expansionBio)
 
 EE_Anteil = EE_Analyse[1]
 print(EE_Analyse[1])
