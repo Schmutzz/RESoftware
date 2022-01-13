@@ -505,7 +505,7 @@ if META_speicherausbau == True:
                                geplanterAusbau=META_geplanterAusbau, biomes=META_biomasse,
                                wind=META_wind, PV=META_PV, expansionPV=META_expansionPV,
                                expansionBio=META_expansionBio)
-
+    # Speicher fehlt in analyseEE!
 
 
 
