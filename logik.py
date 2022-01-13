@@ -31,6 +31,7 @@ class StorageModell:
         self.power = power
         self.invest = invest * max_capacity
         self.operatingk = operatingk * max_capacity
+        self.__startcapacity = current_capacity
 
     def input_power(self, new_value):
 
@@ -45,7 +46,7 @@ class StorageModell:
         temp_freie_capa = (self.max_capacity - self.current_capacity)
 
         if temp_freie_capa < (new_value * self.efficiency_input):
-            new_value = (temp_freie_capa / self.efficiency_output)
+            new_value = (temp_freie_capa / self.efficiency_input)
             self.current_capacity += new_value * self.efficiency_input
                 # Ladeleistung auf max Leistung begrenzt
         else:
@@ -62,7 +63,7 @@ class StorageModell:
         if self.current_capacity == 0:
             return 0, 0
 
-        newValue = (newValue / self.efficiency_output)
+        newValue = (newValue / self.efficiency_output)+1
         if newValue >= self.power:
             newValue = self.power
 
@@ -84,6 +85,8 @@ class StorageModell:
         x = self.current_capacity
         return x
 
+    def reset_current_capacity(self):
+        self.current_capacity = self.__startcapacity
 
 
 class WKAmodell:
@@ -728,14 +731,14 @@ def verbrauchGesamt(year):
     return AusgabeFrame
 
 
-def analyseEE(year, exportfolder,listSpeicher, EE_Erz, PV_Gesamt, erz_Bio, plannedErzeung, verbrauch, ausbauWind=0,
+def analyseEE(year, exportfolder, listSpeicher, EE_Erz, PV_Gesamt, erz_Bio, plannedErzeung, verbrauch, ausbauWind=0,
               ausbauPV=0, ausbauBio=0,  ausbau=False,
               export=False, geplanterAusbau=True, biomes=True, wind=True, PV=True,
               expansionPV=0, expansionBio=0, speicher = False):
     # print(FrameVerbrauch)
     # print(FrameErzeung)
     # print(EE_Erz)
-    temp_EE_Erz = [0] * 8760  # Wird für Darstellungszwecke genutzt
+    temp_EE_Erz = [0] * len(verbrauch['Verbrauch_Gesamt'])  # Wird für Darstellungszwecke genutzt
     '- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
     # Wind
     if wind == True:
@@ -778,41 +781,51 @@ def analyseEE(year, exportfolder,listSpeicher, EE_Erz, PV_Gesamt, erz_Bio, plann
 
     EE_Erz['Erzeugung_Gesamt'] = temp_EE_Erz
     EE_Erz['Diff_EE_zu_Verb'] = EE_Erz['Erzeugung_Gesamt'] - verbrauch['Verbrauch_Gesamt']
-    temp_Diff_EE_zu_Verb = EE_Erz['Diff_EE_zu_Verb'].copy()
+    temp_Diff_EE_zu_Verb = EE_Erz['Diff_EE_zu_Verb'].tolist().copy()
     if speicher == True:
+
         temp_len_speicherList = len(listSpeicher)
-        EE_Erz['Speicherkapazität'] = [0] * len(temp_EE_Erz)
-        EE_Erz['Speicherstatus'] = [0] * len(temp_EE_Erz)
-        EE_Erz['Speicherverluste'] = [0] * len(temp_EE_Erz)
+        EE_Erz['Speicherkapazität'] = [0.0] * len(temp_EE_Erz)
+        EE_Erz['Speicherstatus'] = [0.0] * len(temp_EE_Erz)
         EE_Erz['Speicher_voll_Prozent'] = [0.0] * len(temp_EE_Erz)
-        EE_Erz['SpeicherKompensierung'] = [0.0] * len(temp_EE_Erz)
+        EE_Erz['Ein(+)-/ Ausspeisung(-)'] = [0.0] * len(temp_EE_Erz)
+        EE_Erz['Speicherverluste'] = [0.0] * len(temp_EE_Erz)
+
         for i in range(temp_len_speicherList):
             EE_Erz['Speicherkapazität'] += listSpeicher[i].max_capacity
+            listSpeicher[i].reset_current_capacity()
 
         for jndex,j in enumerate(temp_Diff_EE_zu_Verb):
+            # Für jeden Bilanz Wert
+            if j <= 0.0:
+                # Wenn zu wenig Energie im Netz ist
+                for k in range(temp_len_speicherList):
+                    # Für jeden Speicher Output
+                    temp_power = listSpeicher[k].output_power(temp_Diff_EE_zu_Verb[jndex])
+                    temp_Diff_EE_zu_Verb[jndex] += temp_power[0]
+                    EE_Erz['Speicherstatus'][jndex] += listSpeicher[k].get_current_capacity()
+                    EE_Erz['Ein(+)-/ Ausspeisung(-)'][jndex] -= temp_power[0]
+                    EE_Erz['Speicherverluste'][jndex] += temp_power[1]
+                    EE_Erz['Speicher_voll_Prozent'][jndex] = EE_Erz['Speicherstatus'][jndex] / EE_Erz['Speicherkapazität'][jndex]
+            elif j > 0.0:
+                # Wenn zu viel Energie im Netz ist
+                for k in range(temp_len_speicherList):
+                    # Für jeden Speicher Input
+                    temp_power = listSpeicher[k].input_power(temp_Diff_EE_zu_Verb[jndex])
+                    temp_Diff_EE_zu_Verb[jndex] -= temp_power[0] + temp_power[1]
+                    EE_Erz['Speicherstatus'][jndex] += listSpeicher[k].get_current_capacity()
+                    EE_Erz['Ein(+)-/ Ausspeisung(-)'][jndex] += temp_power[0]
+                    EE_Erz['Speicherverluste'][jndex] += temp_power[1]
+                    EE_Erz['Speicher_voll_Prozent'][jndex] = EE_Erz['Speicherstatus'][jndex] / EE_Erz['Speicherkapazität'][jndex]
 
-            if j > 0:
-                for k in range(temp_len_speicherList):
-                    temp_power = listSpeicher[k].input_power(j)
-                    j -= temp_power[0]
-                    EE_Erz['Speicherstatus'][jndex] = listSpeicher[k].get_current_capacity()
-                    EE_Erz['Speicherverluste'][jndex] = temp_power[1]
-                    # print('Status: ',EE_Erz['Speicherstatus'][jndex], 'Kapa: ',EE_Erz['Speicherkapazität'][jndex] )
-                    EE_Erz['Speicher_voll_Prozent'][jndex] = EE_Erz['Speicherstatus'][jndex] / EE_Erz['Speicherkapazität'][jndex]
-            else:
-                for k in range(temp_len_speicherList):
-                    temp_power = listSpeicher[k].output_power(j)
-                    j += temp_power[0]
-                    EE_Erz['Speicherstatus'][jndex] = listSpeicher[k].get_current_capacity()
-                    EE_Erz['SpeicherKompensation'] = temp_power[0]
-                    EE_Erz['Speicherverluste'][jndex] = temp_power[1]
-                    EE_Erz['Speicher_voll_Prozent'][jndex] = EE_Erz['Speicherstatus'][jndex] / EE_Erz['Speicherkapazität'][jndex]
 
         EE_Erz['Diff_EE_zu_Verb_nach_Speicher'] = temp_Diff_EE_zu_Verb
 
 
 
-
+    # Erzeugung Gesamt | Ein-/ Ausspeisung     | Verbrauch
+    # 1000             -    (+500)                    / 500        Input Speicher
+    # 250              +    (-250)                    / 500     Output Speicher
 
     EE_Erz['Verbrauch_Gesamt'] = verbrauch['Verbrauch_HH'] + verbrauch['Verbrauch_SH']
 
@@ -821,7 +834,7 @@ def analyseEE(year, exportfolder,listSpeicher, EE_Erz, PV_Gesamt, erz_Bio, plann
     if speicher == False:
         EE_Erz['EE_Anteil'] = EE_Erz['Erzeugung_Gesamt'] / verbrauch['Verbrauch_Gesamt']
     else:
-        EE_Erz['EE_Anteil'] = (EE_Erz['Erzeugung_Gesamt'] + EE_Erz['SpeicherKompensation']) / verbrauch['Verbrauch_Gesamt']
+        EE_Erz['EE_Anteil'] = (EE_Erz['Erzeugung_Gesamt'] - EE_Erz['Ein(+)-/ Ausspeisung(-)']) / verbrauch['Verbrauch_Gesamt']
     liste_100 = []
     liste_75 = []
     liste_60 = []
@@ -1546,7 +1559,7 @@ def DB_WKA(year, dictModell, dictWeatherID, wetterdaten, export=True):
         print('WKA nicht gleaden: ', WKA_False_wind + WKA_False_ausbauRele, '/', WKA_False_Gesamt,
               'Davon zu kleine Windklasse: ', WKA_False_wind, 'nicht Relevant: ', WKA_False_ausbauRele)
     if export == True:
-        exportname = 'Datenbank\WEAModell/DB_WKA.csv'
+        exportname = 'Datenbank\WEAModell/DB_WKA_' + str(year) + '.csv'
         date_perHoure.to_csv(exportname, sep=';', encoding='utf-8-sig', index=False, decimal=',')
 
     return date_perHoure
@@ -1586,8 +1599,11 @@ def percentage_expansion(Source_list, percentage):
 def deepest_point_negativGraph(negativGraph, anzahl=100):
     temp_value = anzahl * [0]
     temp_index = anzahl * [0]
+    if isinstance(negativGraph, list) == True:
+        temp_negativGraph = negativGraph.copy()
+    else:
+        temp_negativGraph = negativGraph.tolist().copy()
 
-    temp_negativGraph = negativGraph.tolist()
     temp_timesteps = len(temp_negativGraph)
 
     for jndex, j in enumerate(temp_value):
@@ -1612,25 +1628,60 @@ def deepest_point_negativGraph(negativGraph, anzahl=100):
 
     return temp_value, temp_index
 
-def expansion_storage(temp_Diff_EE, META_speicherverlauf, listStorage, META_startcapacity, META_Laegerdorf, META_compressed_air):
-
+def expansion_storage(temp_Diff_EE, META_speicherverlauf, listStorage, META_startcapacity, META_Laegerdorf,
+                      META_compressed_air, META_strorage_safty_compansion, META_max_compressed_air):
+    print("start Speicherausbau")
     EE_Simulation_negativGraph = negativ_Verlauf(temp_Diff_EE, speicherVerlauf=META_speicherverlauf)
-    deepestPoints = deepest_point_negativGraph(EE_Simulation_negativGraph, 75)
 
-    deepestPoint = min(deepestPoints[0])
+    deepestPoint = min(EE_Simulation_negativGraph)
     deepestPoint = abs(deepestPoint)
-    print(deepestPoint)
-    print(type(deepestPoint))
 
+    print('Storage Len: ', len(listStorage))
+    print('Benötigte Kapazität in GW: ', deepestPoint / 1000000)
     if META_Laegerdorf == True:
-        storage = StorageModell('PumpspeicherKraftwerk', 'Lägerdorf', 1700000, META_startcapacity * 600000, 0.8, 70000,
-                             0.0, 0.08)
-
+        storage = StorageModell('PumpspeicherKraftwerk', 'Lägerdorf', 1700000, META_startcapacity * 1700000, 0.8, 70000,
+                             60.0, 0.08)
+        print('PumpspeicherKraftwerk "Lägerdorf" wurde eingerichtet mit:')
+        print('Kapazität in GW: ', storage.max_capacity / 1000000, 'Leistung in GW: ', storage.power / 1000000)
         listStorage.append(storage)
+        deepestPoint -= 1700000
+
+        print('Storage Len: ', len(listStorage))
+        print('Benötigte Kapazität in GW: ', deepestPoint/1000000)
+
+
     if META_compressed_air == True:
-        storage = StorageModell('Druckluftspeicher', 'SH', deepestPoint, META_startcapacity * 600000, 0.8,
-                                deepestPoint/5, 0.0, 0.08)
+        if deepestPoint > META_max_compressed_air:
+            deepestPoint = META_max_compressed_air
+        else:
+            deepestPoint = deepestPoint * META_strorage_safty_compansion
 
+        storage = StorageModell('Druckluftspeicher', 'SH', deepestPoint, META_startcapacity * deepestPoint, 0.57,
+                                deepestPoint/5, 60, 0.1)
+        print('Druckluftspeicher wurde eingerichtet mit:')
+        print('Kapazität in GW: ', storage.max_capacity/1000000, 'Leistung in GW: ', storage.power/1000000)
         listStorage.append(storage)
+    else:
+        old_capacity = listStorage[-1].max_capacity
+        start_value = 100000000
+        for i in range(0, 200):
+            x = start_value * (1/(1.1**i))
+
+            if deepestPoint < x and deepestPoint >= (x/2):
+                deepestPoint = x
+
+        if (old_capacity + (deepestPoint)) > META_max_compressed_air:
+            deepestPoint = META_max_compressed_air
+        else:
+            deepestPoint = (old_capacity + deepestPoint)
+
+
+        listStorage[-1].max_capacity = deepestPoint
+        listStorage[-1].power = (deepestPoint / 5)
+
+        print('Druckspeicher wird erweitert um: ')
+        print('Kapazität in GW: ', listStorage[-1].max_capacity / 1000000, 'Leistung in GW: ',
+              listStorage[-1].power / 1000000)
+    # print('Storage Len: ', len(listStorage))
 
     return listStorage
