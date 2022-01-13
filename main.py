@@ -32,7 +32,7 @@ META_windanalyse = False
 'Speicher'
 META_startcapacity = 0.0  # Angabe in Prozent wie voll die Speicher im Startpunkt sind
 META_speichervorAusbau = True  # True -> vor Ausbau Analyse beachtet Speicher
-META_speicherausbau = False  # True -> Speicher werden ausgebaut
+META_speicherausbau = True  # True -> Speicher werden ausgebaut
 META_Laegerdorf = True
 META_compressed_air = True
 '-----------------------------------------------------------'
@@ -494,16 +494,20 @@ EE_Analyse = lgk.analyseEE(META_year, exportFolder, listStorage, Wind_Gesamt, PV
                            wind=META_wind, PV=META_PV, expansionPV=META_expansionPV,
                            expansionBio=META_expansionBio)
 
-listStorage = lgk.expansion_storage(temp_Diff_EE, META_speicherverlauf, listStorage, META_startcapacity,
-                      META_Laegerdorf, META_compressed_air)
+if META_speicherausbau == True:
+
+    listStorage.append(lgk.expansion_storage(temp_Diff_EE, META_speicherverlauf, listStorage, META_startcapacity,
+                      META_Laegerdorf, META_compressed_air))
+    print('Storage Len: ',len(listStorage))
+    EE_Analyse = lgk.analyseEE(META_year, exportFolder, listStorage, Wind_Gesamt, PV_Gesamt, erz_Bio,
+                               plannedErzeung, verbrauch_HH_SH,
+                               expansionWind, expansionPV, expansionBio, ausbau=temp_ausbau, export=True,
+                               geplanterAusbau=META_geplanterAusbau, biomes=META_biomasse,
+                               wind=META_wind, PV=META_PV, expansionPV=META_expansionPV,
+                               expansionBio=META_expansionBio)
 
 
-EE_Analyse = lgk.analyseEE(META_year, exportFolder, listStorage, Wind_Gesamt, PV_Gesamt, erz_Bio,
-                           plannedErzeung, verbrauch_HH_SH,
-                           expansionWind, expansionPV, expansionBio, ausbau=temp_ausbau, export=True,
-                           geplanterAusbau=META_geplanterAusbau, biomes=META_biomasse,
-                           wind=META_wind, PV=META_PV, expansionPV=META_expansionPV,
-                           expansionBio=META_expansionBio)
+
 
 EE_Anteil = EE_Analyse[1]
 print(EE_Analyse[1])

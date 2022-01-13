@@ -1618,8 +1618,10 @@ def expansion_storage(temp_Diff_EE, META_speicherverlauf, listStorage, META_star
     deepestPoints = deepest_point_negativGraph(EE_Simulation_negativGraph, 75)
 
     deepestPoint = min(deepestPoints[0])
+    deepestPoint = abs(deepestPoint)
     print(deepestPoint)
     print(type(deepestPoint))
+
     if META_Laegerdorf == True:
         storage = StorageModell('PumpspeicherKraftwerk', 'Lägerdorf', 1700000, META_startcapacity * 600000, 0.8, 70000,
                              0.0, 0.08)
