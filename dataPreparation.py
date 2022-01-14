@@ -162,30 +162,14 @@ def weatherStation_getCoords():
     finished_filename = 'Datenbank\Wetter/StundeSolarStationen_Coords.csv'
     df.to_csv(finished_filename, sep=';', decimal=',', index=False, encoding='utf-8-sig')
 
-def plannedWKA_toUTM_and_connectWeahterID(source, state, weather):
+def plannedWKA_toUTM_and_connectWeahterID(weather, df):
 
-    filelist = db.findoutFiles('Datenbank\ConnectwithID\Erzeugung')
-
-    matches = [match for match in filelist if source in match]
-    matches = [match for match in matches if state in match]
-    matches = [match for match in matches if str('geplanterAusbau') in match]
-    name = 'WindparksSH_geplanterAusbau_UTM'
-    # headerlistLokation = ['OSTWERT (EPSG:4647)', 'NORDWERT (EPSG:4647']
-    try:
-        openfilename1 = 'Datenbank\ConnectwithID\Erzeugung/' + matches[0]
-        print(openfilename1)
-
-        df = pd.read_csv(openfilename1, delimiter=';', decimal=',', encoding='latin1')
-
-    except:
-        print('falsches Format')
-
-
-    df = db.utm_to_gk(name, df, export=False)
     df = gpd.addWeather(df, weather, 'Coords UTM', 'Coords', 'Stations_id')
 
     finished_filename = 'Datenbank\ConnectwithID\Erzeugung/WindparksSH_geplanterAusbau_UTM_WeatherID.csv'
     df.to_csv(finished_filename, sep=';', decimal=',', index=False, encoding='utf-8-sig')
+
+    return
 
 
 
@@ -196,10 +180,10 @@ def plannedWKA_toUTM_and_connectWeahterID(source, state, weather):
 'ERZEUGUNG'
 def erzeugung_Wind_PV(year):
     print('year')
-    lgk.erzeugungsdatenEEAnlagen(year, 'Wind', 'HH')
-    lgk.erzeugungsdatenEEAnlagen(year, 'PV', 'HH')
-    lgk.erzeugungsdatenEEAnlagen(year, 'Wind', 'SH')
-    lgk.erzeugungsdatenEEAnlagen(year, 'PV', 'SH')
+    lgk.erzeugungsdaten_ee_anlagen(year, 'Wind', 'HH')
+    lgk.erzeugungsdaten_ee_anlagen(year, 'PV', 'HH')
+    lgk.erzeugungsdaten_ee_anlagen(year, 'Wind', 'SH')
+    lgk.erzeugungsdaten_ee_anlagen(year, 'PV', 'SH')
 
 
 def erzeugung_plannendAreas(year, geplanterAusbau):

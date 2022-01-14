@@ -524,8 +524,6 @@ class regulatedImport():
 
 
 
-
-
 class openLocationdata():
     """Diese Klasse dient zum öffnen Spezieller csv Dateien.
     Daher auch die 3 Speizifikationen"""
