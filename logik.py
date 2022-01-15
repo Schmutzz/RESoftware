@@ -320,6 +320,7 @@ def wind_hochrechnung(wind, naben_hight, mess_hight):
 
 
 def IEC_windklasse(sum_temp_wetter, len_temp_wetter):
+
     average_wind = sum_temp_wetter / len_temp_wetter
 
     if average_wind >= 10:
@@ -346,13 +347,13 @@ def FORMEL_WKA_Leistung(nenn_ms, ein_ms, leistung_s, moment_ms):
 
 
 def annualOutput_WKA(year, Ein_ms, Nenn_ms, Abs_ms, leistung_Gesamt, weatherData, nabenhohe, weatherID_hight,
-                     windklasse_wka):
+                     windklasse_wka, ignoreWindIEC = False):
     temp_DatelistPerHoure = DateList('01.01.' + str(year) + ' 00:00', '31.12.' + str(year) + ' 23:00', '60min')
 
     temp_wetter = wind_hochrechnung(weatherData, nabenhohe, weatherID_hight)
     temp_leistung = [0] * len(temp_DatelistPerHoure)
     temp_IEC_windklasse = IEC_windklasse(sum(temp_wetter), len(temp_wetter))
-    if temp_IEC_windklasse < windklasse_wka:
+    if temp_IEC_windklasse < windklasse_wka and ignoreWindIEC == False:
         return temp_leistung
 
     for index, k in enumerate(temp_wetter):
@@ -553,53 +554,61 @@ def erzeugung_WKA_areawith_weatherID(year, wetterdaten, lokationsdaten, dictMode
         # print(matcheswetterdaten)
         if len(matcheswetterdaten) != 2:
             print('Fehler Wetterdaten nicht schlimm')
-            print(lokationsdaten['Wetter-ID'][i])
+            print('Station: ', lokationsdaten['Wetter-ID'][i])
             lokationsdaten['Wetter-ID'][i] = 3086
             matcheswetterdaten = [match for match in wetterdaten.columns.values.tolist() if
                                   str(lokationsdaten['Wetter-ID'][i]) in match]
 
             # wetterIDunbekannt += 1
 
-        columnName = str(i) + '_Ezg_' + str(lokationsdaten['TYP'][i]) + '_' + str(
+        columnName = str(i) + '_Ezg_' + str(
             lokationsdaten['Modell'][i]) + '_' + str(lokationsdaten['Wetter-ID'][i])
-
+        temp_wka_name = lokationsdaten['Modell'][i] + '_' + str(lokationsdaten['NABENHOEHE'][i])
         try:
-            Ein_ms = dictModell[lokationsdaten['Modell'][i]]['Ein_ms']
+            # print(temp_wka_name)
+            Ein_ms = dictModell[temp_wka_name]['Ein_ms']
+
         except:
             Ein_ms = 3
             # print("Modell unbekannt")
             WKAunbekannt = True
         try:
-            Nenn_ms = dictModell[lokationsdaten['Modell'][i]]['Nenn_ms']
+            Nenn_ms = dictModell[temp_wka_name]['Nenn_ms']
         except:
             Nenn_ms = 13
             # print("Modell unbekannt")
             WKAunbekannt = True
         try:
-            Abs_ms = dictModell[lokationsdaten['Modell'][i]]['Abs_ms']
+            Abs_ms = dictModell[temp_wka_name]['Abs_ms']
         except:
             Abs_ms = 25
             WKAunbekannt = True
 
         if WKAunbekannt == True:
-            print("Modell unbekannt")
+            print("Modell unbekannt: ", lokationsdaten['Modell'][i], temp_wka_name)
             # modellunbekannt += 1
 
         if isinstance(lokationsdaten['LEISTUNG'][i], float) == False and isinstance(
                 lokationsdaten['LEISTUNG'][i], numpy.int64) == False:
-            lokationsdaten['LEISTUNG'][i] = 1000
+            lokationsdaten['LEISTUNG'][i] = 3500
             print('Fehler Leistungsdaten nicht schlimm')
             print(columnName)
 
         '-----------------------------------------------------------------------------------------'
         "mit annualOutput_WKA wird die Jahresleistung für eine WKA mit den Kenndaten berechnet"
-
+        temp_name = matcheswetterdaten[0].split('_')
+        temp_weather_ID = int(temp_name[2])
+        # print(temp_Modell)
+        # print(dictWeatherID[temp_Modell]['Messhight'])
         temp_leistung = annualOutput_WKA(year, Ein_ms, Nenn_ms, Abs_ms, lokationsdaten['LEISTUNG'][i],
                                          wetterdaten[matcheswetterdaten[0]], lokationsdaten['NABENHOEHE'][i],
-                                         dictWeatherID[matcheswetterdaten[0]]['Messhight'])
-
+                                         dictWeatherID[temp_weather_ID]['Messhight'],
+                                         dictWeatherID[temp_weather_ID]['windklasse'], ignoreWindIEC = True)
+        if sum(temp_leistung) == 0:
+            print('Falsche Windklasse')
         exportFrame[columnName] = temp_leistung
         print(columnName)
+
     if export == True:
         exportname = 'Datenbank\Erzeugung\Erz_geplanterAusbau/Erz_geplanterAusbau_' + str(year) + '.csv'
         exportFrame.to_csv(exportname, sep=';', encoding='utf-8', index=False, decimal=',')
@@ -661,7 +670,7 @@ def erzeugungPerStunde(year, source1):
     return AusgabeFrame
 
 
-def erzeugungPerStunde_singleFrame(year, ErzeugungFrame, export=False):
+def erzeugungPerStunde_singleFrame(year, ErzeugungFrame, temp_exportname, export=False):
     print("Start Erzeugung per Stunde")
 
     Datumabgleich = DateList('01.01.' + str(year) + ' 00:00',
@@ -684,7 +693,7 @@ def erzeugungPerStunde_singleFrame(year, ErzeugungFrame, export=False):
         }
     )
     if export == True:
-        exportname = 'Datenbank\Erzeugung/Erz_komuliert_geplanterAusbau_' + str(year) + '_Wind.csv'
+        exportname = temp_exportname
         AusgabeFrame.to_csv(exportname, sep=';', encoding='utf-8', index=False, decimal=',')
 
     return AusgabeFrame
@@ -1113,8 +1122,9 @@ def connect_oldWKA_to_expansionArea(year, Vor_Pot, standorte, faktorAusbaufl, ex
     matches1 = [match for match in filelist if str(year) in match]
     matches1 = [match for match in matches1 if 'SH' in match]
     matches1 = [match for match in matches1 if 'UTM' in match]
-    if geplanterAusbau == False:
+    if geplanterAusbau == True:
         matches1 = [match for match in matches1 if 'WindparksSH_geplanterAusbau_UTM_WeatherID_2019_2020' not in match]
+
     temp_first = False
 
     for i in matches1:
@@ -1342,7 +1352,7 @@ def Ausbau_WKA(WKAKey, weatherID, WKADict, standort, windWetterdaten, Vor_Pot):
     anzahl_2 = 0
     name_2 = ''
     leistung_Gesamt = 123
-    temp_leistung = [0] * 8760
+    temp_leistung = [0] * len(windWetterdaten['Wind_m/s_788'])
 
     columnFrame = windWetterdaten.columns.values.tolist()
     columnName = ''
@@ -1358,7 +1368,7 @@ def Ausbau_WKA(WKAKey, weatherID, WKADict, standort, windWetterdaten, Vor_Pot):
 
         WeaModell_fl = ((15 * np.square(float(WKADict[WKAKey]['Rotor']))) / 10000)
         standort['Anzahl_' + Vor_Pot][mndex] = int(standort['nettoFreieFlaeche_' + Vor_Pot][mndex] / WeaModell_fl)
-
+        anzahl_2 += standort['Anzahl_' + Vor_Pot][mndex]
         leistung_Gesamt = leistung_einzel * standort['Anzahl_' + Vor_Pot][mndex]
 
         if leistung_Gesamt == 0 or leistung_Gesamt == 123:
@@ -1515,7 +1525,7 @@ def standortquality(year, wetterdaten, WKAanlagen):
     return exportFrame
 
 
-def DB_WKA(year, dictModell, dictWeatherID, wetterdaten, export=True):
+def DB_WKA(year, dictModell, dictWeatherID, wetterdaten, min_hight, export=True):
     print('DB_WKA', str(year))
 
     date_perHoure = DateList('01.01.' + str(year) + ' 00:00',
@@ -1542,7 +1552,10 @@ def DB_WKA(year, dictModell, dictWeatherID, wetterdaten, export=True):
                 WKA_False_Gesamt += 1
                 WKA_False_ausbauRele += 1
                 continue
-
+            if min_hight >= dictModell[jndex]['Nabenhoehe']:
+                WKA_False_Gesamt += 1
+                WKA_False_ausbauRele += 1
+                continue
             # print(index, jndex)
             leistung = annualOutput_WKA(year, dictModell[jndex]['Ein_ms'], dictModell[jndex]['Nenn_ms'],
                                         dictModell[jndex]['Abs_ms'], dictModell[jndex]['Nenn_kW'],
@@ -1560,7 +1573,7 @@ def DB_WKA(year, dictModell, dictWeatherID, wetterdaten, export=True):
         print('WKA nicht gleaden Gesamt: ', WKA_False_wind + WKA_False_ausbauRele, '/', WKA_False_Gesamt,
               'Davon zu kleine Windklasse: ', WKA_False_wind, 'nicht AusbauRelevant: ', WKA_False_ausbauRele)
     if export == True:
-        exportname = 'Datenbank\WEAModell/DB_WKA_' + str(year) + '.csv'
+        exportname = 'Datenbank\WEAModell/DB_WKA_' + str(year) + '_' + str(min_hight) + '.csv'
         date_perHoure.to_csv(exportname, sep=';', encoding='utf-8-sig', index=False, decimal=',')
 
     return date_perHoure
@@ -1591,8 +1604,8 @@ def negativ_Verlauf(SimuEE_Diff, speicherVerlauf=True):
     return SimuEE_Diff
 
 
-def percentage_expansion(Source_list, percentage):
-    temp_sourcelist = Source_list * percentage
+def percentage_expansion(source_list, percentage):
+    temp_sourcelist = source_list * percentage
 
     return temp_sourcelist
 
@@ -1639,7 +1652,7 @@ def expansion_storage(temp_Diff_EE, META_speicherverlauf, listStorage, META_star
     deepestPoint = abs(deepestPoint)
 
     print('Storage Len: ', len(listStorage))
-    print('Benötigte Kapazität in GW: ', deepestPoint / 1000000)
+    print('Benötigte Kapazität in GWh: ', deepestPoint / 1000000)
     if META_Laegerdorf == True:
         storage = StorageModell('PumpspeicherKraftwerk', 'Lägerdorf', 1700000, META_startcapacity * 1700000, 0.8, 70000,
                                 60.0, 0.08)
@@ -1649,7 +1662,7 @@ def expansion_storage(temp_Diff_EE, META_speicherverlauf, listStorage, META_star
         deepestPoint -= 1700000
 
         print('Storage Len: ', len(listStorage))
-        print('Benötigte Kapazität in GW: ', deepestPoint / 1000000)
+        print('Benötigte Kapazität in GWh: ', deepestPoint / 1000000)
 
     if META_compressed_air == True:
         if deepestPoint > META_max_compressed_air:
@@ -1660,13 +1673,13 @@ def expansion_storage(temp_Diff_EE, META_speicherverlauf, listStorage, META_star
         storage = StorageModell('Druckluftspeicher', 'SH', deepestPoint, META_startcapacity * deepestPoint, 0.57,
                                 deepestPoint / 5, 60, 0.1)
         print('Druckluftspeicher wurde eingerichtet mit:')
-        print('Kapazität in GW: ', storage.max_capacity / 1000000, 'Leistung in GW: ', storage.power / 1000000)
+        print('Kapazität in GWh: ', storage.max_capacity / 1000000, 'Leistung in GW: ', storage.power / 1000000)
         listStorage.append(storage)
     else:
         old_capacity = listStorage[-1].max_capacity
         start_value = 100000000
         for i in range(0, 200):
-            x = start_value * (1 / (1.1 ** i))
+            x = start_value * (1 / (1.35 ** i))
 
             if deepestPoint < x and deepestPoint >= (x / 2):
                 deepestPoint = x
@@ -1680,7 +1693,7 @@ def expansion_storage(temp_Diff_EE, META_speicherverlauf, listStorage, META_star
         listStorage[-1].power = (deepestPoint / 5)
 
         print('Druckspeicher wird erweitert um: ')
-        print('Kapazität in GW: ', listStorage[-1].max_capacity / 1000000, 'Leistung in GW: ',
+        print('Kapazität in GWh: ', listStorage[-1].max_capacity / 1000000, 'Leistung in GW: ',
               listStorage[-1].power / 1000000)
     # print('Storage Len: ', len(listStorage))
 
