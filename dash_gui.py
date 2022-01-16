@@ -876,11 +876,64 @@ def start_sim(n, scenario, exmpl_sw, year, hours, power, storage, budget, profit
 
         areas_str = ', '.join(area)
     '------------------------------------------------------------------------'
-    main.META_EE_Anteil = 123
-    main.META_EE_Speicher = 0.2
-    main.META_year = 2020
+    'HEADER'
+    def test_asd():
+        main.META_EE_Anteil = 0.75  # Muss Decimal angegeben werden
+        main.META_EE_Speicher = 1.0  # Grenzwert bis Speicher nicht mehr ausgebaut werden 100%
+        main.META_year = 2020
+        '- - - - - - - - - - - - - - - - - - - -'
+        'BIO'
+        main.META_biomasse = True
+        main.META_expansionBio = 0.00  # in Prozent
+        '- - - - - - - - - - - - - - - - - - - -'
+        'PV'
+        main.META_PV = True
+        main.META_expansionPV = 0.00  # in Prozent
+        '- - - - - - - - - - - - - - - - - - - -'
+        'WKA'
+        main.META_wind = True
+        main.META_expansionWind = True
+        main.META_be_planned_expansion = False
 
-    main.testabcboje()
+        main.META_faktorAusbauFlDist = 1.0  # in Kilometer
+        main.META_VorFl = True  # True -> Ausbauflaeche wird genutzt
+        main.META_PotFl = True  # True -> Ausbauflaeche wird genutzt
+        main.META_repowering = False  # True -> Anlagen >10 Jahre oder <1500KW Leistung werden abgerissen und neu gebaut (2:1)
+
+        main.META_ausbaubegrenzungsfaktor = 0.5  # WIRD NOCH BENÖTIGT. MOMENTAN OHNE FUNKTION
+        main.META_negativ_Graph_methode = True  # True = Kompch False = Gildenstern
+        main.META_windanalyse = False
+        '- - - - - - - - - - - - - - - - - - - -'
+        'Speicher'
+        main.META_startcapacity = 0.8  # Angabe in Prozent wie voll die Speicher im Startpunkt sind
+        main.META_strorage_safty_compansion = 1.20  # Wieviel safty Speicher ausgebaut werden soll zusätzlich
+
+        main.META_speichervorAusbau = True  # True -> vor Ausbau Analyse beachtet Speicher
+        main.META_storage_expansion = True  # True -> Speicher werden ausgebaut
+        main.META_Laegerdorf = True
+        main.META_max_compressed_air = 13500000000
+        main.META_compressed_air = True
+        '- - - - - - - - - - - - - - - - - - - -'
+        'Database'
+        main.META_DATA_generate_windenergy_plannendareas = False # True wenn die Liste erstellt werden soll
+        main.META_DATA_verbrauch_komuliert = False  # True wenn die Liste erstellt werden soll
+        print(main.META_DATA_verbrauch_komuliert, 'main.META_DATA_verbrauch_komuliert')
+        main.META_DATA_DBWKAreload = False  # True wenn die DB der WKA Lastgänge erstellt werden soll
+        main.META_DATA_DB_min_hight = 100  # Wert gibt die min höhe der WKA für die DB Lastgänge erstellt werden soll
+        main.META_DATA_plannedAreas_potVor_getCoords = False  # True wenn die Ausbauflächen keine Standorte besitzen
+        #                                           -> Wetterstationen werden ebenfalls hinzugefügt
+        main.META_DATA_plannedAreas_potVor_getWeather = False  # True wenn die Ausbauflächen keine zugeordnete Wetterstation besitzen
+        print(main.META_DATA_plannedAreas_potVor_getWeather, 'main.META_DATA_plannedAreas_potVor_getWeather')
+        main.META_DATA_be_plannedWKA_getCoords = False  # True wenn die Coords zugeordnet werden müssen
+
+        main.META_DATA_be_plannedWKA_getWeatherID = False  # True wenn die Weather ID zugeordnet werden muss
+        main.META_DATA_be_plannedWKA_power = False  # True wenn die Leistung ausgerechnet werden muss
+        main.META_DATA_pv_power = False  # True wenn die Leistung von PV erneut gerechnet werden muss
+        main.META_DATA_wind_power = False  # True wenn die Leistung von Wind erneut gerechnet werden muss
+
+    test_asd()
+    main.re_simulation()
+
     if results['display'] == 'none' and settings['display'] == 'inline':
 
         return html.Div([

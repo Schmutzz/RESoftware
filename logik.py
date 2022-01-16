@@ -1243,8 +1243,8 @@ def freie_ha_vor(year, exportFolder, standorte, belgegteha_Vor, export=True):
     return standorte
 
 
-def standort_and_WKA_choice(negativGraph, DB_WKA, deepestPointsIndex, ausbauFlWeatherIDList, temp_ausgebauteAnlagen,
-                            dict_WKA, spiecherMethodik=True):
+def area_and_WKA_choice(negativGraph, DB_WKA, deepestPointsIndex, ausbauFlWeatherIDList, temp_ausgebauteAnlagen,
+                        dict_WKA, spiecherMethodik=True):
     temp_newValue = False
     print('Start Analyse Ausbau')
     # print(EE_Analyse)
@@ -1339,7 +1339,7 @@ def maxAnzahl_WKA(deepestPointValues, deepestPointsIndex, DB_WKA, modellName, au
     # Muss später noch gemacht werden
 
 
-def Ausbau_WKA(WKAKey, weatherID, WKADict, standort, windWetterdaten, Vor_Pot):
+def expansion_WKA(WKAKey, weatherID, WKADict, standort, windWetterdaten, Vor_Pot):
     "Kenn ick"
 
     'Technische daten WKA'
@@ -1350,7 +1350,6 @@ def Ausbau_WKA(WKAKey, weatherID, WKADict, standort, windWetterdaten, Vor_Pot):
     nabenhohe = WKADict[WKAKey]['Nabenhoehe']
 
     anzahl_2 = 0
-    name_2 = ''
     leistung_Gesamt = 123
     temp_leistung = [0] * len(windWetterdaten['Wind_m/s_788'])
 
@@ -1415,7 +1414,7 @@ def Ausbau_WKA(WKAKey, weatherID, WKADict, standort, windWetterdaten, Vor_Pot):
                 print("Fehler")
                 temp_leistung[index] += 0
 
-    return temp_leistung, columnName, anzahl_2, leistung_Gesamt, name_2
+    return temp_leistung, columnName, anzahl_2, leistung_Gesamt
 
 
 def standortquality(year, wetterdaten, WKAanlagen):
@@ -1692,9 +1691,108 @@ def expansion_storage(temp_Diff_EE, META_speicherverlauf, listStorage, META_star
         listStorage[-1].max_capacity = deepestPoint
         listStorage[-1].power = (deepestPoint / 5)
 
-        print('Druckspeicher wird erweitert um: ')
+        print('Druckspeicher wird erweitert um: ', )
         print('Kapazität in GWh: ', listStorage[-1].max_capacity / 1000000, 'Leistung in GW: ',
               listStorage[-1].power / 1000000)
+
     # print('Storage Len: ', len(listStorage))
 
-    return listStorage
+    return
+
+def cost_analysis(year,exportfolder,dictWKA, list_key_expansion_wka, list_count_expansion_wka,
+                  list_count_expansion_power, listStorage, cost_wind = True, cost_storage = False, export = True):
+
+    cost_model = []
+    cost_id = []
+    cost_counter_wka = []
+    cost_counter_storage = []
+    cost_hight = []
+    cost_power = []
+    cost_capacity = []
+    cost_invest = []
+    cost_betrieb = []
+
+    if cost_wind == True:
+        for index, i in enumerate(list_key_expansion_wka):
+            temp_name = i.split('_')
+            temp_ID = temp_name[0]
+            temp_Modell = temp_name[1]
+            temp_Modell_hight = temp_name[2]
+
+            cost_model.append(temp_Modell)
+            cost_id.append(temp_ID)
+            cost_counter_wka.append(list_count_expansion_wka[index])
+            cost_counter_storage.append(0)
+            cost_hight.append(float(temp_Modell_hight))
+
+            cost_power.append(list_count_expansion_power[index]/1000)
+            cost_capacity.append(0)
+            temp_invest = (dictWKA[temp_Modell+'_'+temp_Modell_hight]['Invest'] * list_count_expansion_wka[index])
+            cost_invest.append(temp_invest/1000000)
+            temp_betrieb = (dictWKA[temp_Modell + '_' + temp_Modell_hight]['Betriebk'] * list_count_expansion_wka[index])
+            cost_betrieb.append(temp_betrieb/1000000)
+    cost_avarage_hight = sum(cost_hight) / len(cost_hight)
+    if cost_storage == True:
+        for i in range(len(listStorage)):
+            cost_model.append(listStorage[i].modell)
+            cost_id.append(0)
+            cost_counter_wka.append(0)
+            cost_counter_storage.append(1)
+            cost_hight.append(0)
+            cost_power.append(listStorage[i].power/1000)
+            cost_capacity.append(listStorage[i].max_capacity/ 1000000)
+            temp_invest = (listStorage[i].max_capacity * listStorage[i].invest)/1000000
+            cost_invest.append(temp_invest)
+            temp_betrieb = (listStorage[i].max_capacity * listStorage[i].operatingk)/1000000
+            cost_betrieb.append(temp_betrieb)
+
+    # summe
+    cost_model.append('Summe in Mrd')
+    cost_id.append(0)
+    temp_sum = sum(cost_counter_wka)
+    cost_counter_wka.append(temp_sum)
+
+    temp_sum = sum(cost_counter_storage)
+    cost_counter_storage.append(temp_sum)
+
+    cost_hight.append(round(cost_avarage_hight,2))
+
+    temp_sum = sum(cost_power)
+    cost_power.append(temp_sum)
+
+    temp_sum = sum(cost_capacity)
+    cost_capacity.append(temp_sum)
+
+    temp_sum = sum(cost_invest)/ 1000
+    cost_invest.append(temp_sum)
+
+    temp_sum = sum(cost_betrieb) / 1000
+    cost_betrieb.append(temp_sum)
+
+    export_frame = pd.DataFrame(
+        {'Modell': cost_model,
+         'Wetterstations ID': cost_id,
+         'Counter WKA': cost_counter_wka,
+         'Counter Storage': cost_counter_storage,
+         'WKA Hub Hight': cost_hight,
+         'Installed Power in MW': cost_power,
+         'Installed Capacity': cost_capacity,
+         'Investment Costs per Year in Mio': cost_invest,
+         'Operatig Costs per Year in Mio': cost_betrieb
+         }
+    )
+    if export == True:
+        if export == True:
+            exportname2 = exportfolder + 'CostReport_' + str(year) + '.csv'
+            export_frame.to_csv(exportname2, sep=';', encoding='utf-8-sig', index=True, decimal=',')
+
+        return export_frame
+
+
+
+    #investkosten
+
+    #betriebskosten per year
+
+
+
