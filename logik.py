@@ -1709,6 +1709,8 @@ def cost_analysis(year,exportfolder,dictWKA, list_key_expansion_wka, list_count_
     cost_hight = []
     cost_power = []
     cost_capacity = []
+    cost_single_invest = []
+    cost_single_betrieb = []
     cost_invest = []
     cost_betrieb = []
 
@@ -1722,16 +1724,21 @@ def cost_analysis(year,exportfolder,dictWKA, list_key_expansion_wka, list_count_
             cost_model.append(temp_Modell)
             cost_id.append(temp_ID)
             cost_counter_wka.append(list_count_expansion_wka[index])
-            cost_counter_storage.append(0)
             cost_hight.append(float(temp_Modell_hight))
+            cost_counter_storage.append(0)
+
+            cost_single_invest.append(dictWKA[temp_Modell+'_'+temp_Modell_hight]['Invest'])
+            cost_single_betrieb.append(dictWKA[temp_Modell + '_' + temp_Modell_hight]['Betriebk'])
 
             cost_power.append(list_count_expansion_power[index]/1000)
             cost_capacity.append(0)
             temp_invest = (dictWKA[temp_Modell+'_'+temp_Modell_hight]['Invest'] * list_count_expansion_wka[index])
-            cost_invest.append(temp_invest/1000000)
+            cost_invest.append(temp_invest/10000000)
             temp_betrieb = (dictWKA[temp_Modell + '_' + temp_Modell_hight]['Betriebk'] * list_count_expansion_wka[index])
-            cost_betrieb.append(temp_betrieb/1000000)
+            cost_betrieb.append(temp_betrieb/10000000)
+
     cost_avarage_hight = sum(cost_hight) / len(cost_hight)
+
     if cost_storage == True:
         for i in range(len(listStorage)):
             cost_model.append(listStorage[i].modell)
@@ -1739,11 +1746,14 @@ def cost_analysis(year,exportfolder,dictWKA, list_key_expansion_wka, list_count_
             cost_counter_wka.append(0)
             cost_counter_storage.append(1)
             cost_hight.append(0)
-            cost_power.append(listStorage[i].power/1000)
-            cost_capacity.append(listStorage[i].max_capacity/ 1000000)
-            temp_invest = (listStorage[i].max_capacity * listStorage[i].invest)/1000000
+            cost_power.append(listStorage[i].power/10000000)
+            cost_capacity.append(listStorage[i].max_capacity/10000000)
+
+            cost_single_invest.append(listStorage[i].max_capacity)
+            cost_single_betrieb.append(listStorage[i].max_capacity)
+            temp_invest = ((listStorage[i].max_capacity * listStorage[i].invest)/10000000)
             cost_invest.append(temp_invest)
-            temp_betrieb = (listStorage[i].max_capacity * listStorage[i].operatingk)/1000000
+            temp_betrieb = ((listStorage[i].max_capacity * listStorage[i].operatingk)/10000000)
             cost_betrieb.append(temp_betrieb)
 
     # summe
@@ -1760,24 +1770,32 @@ def cost_analysis(year,exportfolder,dictWKA, list_key_expansion_wka, list_count_
     temp_sum = sum(cost_power)
     cost_power.append(temp_sum)
 
+    temp_sum = (sum(cost_single_invest) / len(cost_single_invest))
+    cost_single_invest.append(temp_sum)
+
+    temp_sum = (sum(cost_single_betrieb) / len(cost_single_betrieb))
+    cost_single_betrieb.append(temp_sum)
+
     temp_sum = sum(cost_capacity)
     cost_capacity.append(temp_sum)
 
-    temp_sum = sum(cost_invest)/ 1000
+    temp_sum = (sum(cost_invest)/1000)
     cost_invest.append(temp_sum)
 
-    temp_sum = sum(cost_betrieb) / 1000
+    temp_sum = (sum(cost_betrieb)/1000)
     cost_betrieb.append(temp_sum)
 
     export_frame = pd.DataFrame(
         {'Modell': cost_model,
          'Wetterstations ID': cost_id,
          'Counter WKA': cost_counter_wka,
-         'Counter Storage': cost_counter_storage,
          'WKA Hub Hight': cost_hight,
+         'Counter Storage': cost_counter_storage,
          'Installed Power in MW': cost_power,
          'Installed Capacity': cost_capacity,
-         'Investment Costs per Year in Mio': cost_invest,
+         'Single Invest in Mio': cost_single_invest,
+         'Single Operating per Year in Mio': cost_single_betrieb,
+         'Investment Costs in Mio': cost_invest,
          'Operatig Costs per Year in Mio': cost_betrieb
          }
     )

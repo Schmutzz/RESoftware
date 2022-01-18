@@ -136,6 +136,7 @@ def re_simulation():
     temp_ausbau = False  #
 
     '- - - - - - - - - - - - - - - - - - - -'
+
     'General'
     META_DATA_Inputcsv = 'utf-8'  # wird für das einlesen der Daten verwendet
     META_DATA_OUTPUTcsv = 'utf-8-sig'  # wird für das auslesen der Daten verwendet
@@ -199,19 +200,19 @@ def re_simulation():
     'ERZEUGUNG'
 
     'GESAMT PV'
-    if META_PV == True:
+    if main.META_PV == True:
         try:
-            openfilename = 'Datenbank\Erzeugung/Erz_komuliert_' + str(META_year) + '_PV.csv'
+            openfilename = 'Datenbank\Erzeugung/Erz_komuliert_' + str(main.META_year) + '_PV.csv'
             print(openfilename)
             PV_Gesamt = pd.read_csv(openfilename, delimiter=';', decimal=',', encoding='utf-8')
         except:
             print('falsches Format: ', openfilename)
-            META_DATA_pv_power = True
+            main.META_DATA_pv_power = True
 
     'GESAMT BIOMASSE'
-    if META_biomasse == True:
+    if main.META_biomasse == True:
         try:
-            openfilename = 'Datenbank\Erzeugung/Erz_komuliert_Biomasse_' + str(META_year) + '.csv'
+            openfilename = 'Datenbank\Erzeugung/Erz_komuliert_Biomasse_' + str(main.META_year) + '.csv'
             print(openfilename)
             erz_Bio = pd.read_csv(openfilename, delimiter=';', decimal=',', encoding='utf-8')
         except:
@@ -219,7 +220,7 @@ def re_simulation():
             raise RuntimeError('Programmabbruch da Jahresverlauf der Biomasse nicht eingelesen werden konnten')
 
     'GESAMT WIND'
-    if META_wind == True:
+    if main.META_wind == True:
         try:
             openfilename = 'Datenbank\Erzeugung/Erz_komuliert_' + str(META_year) + '_Wind.csv'
             print(openfilename)
@@ -243,9 +244,9 @@ def re_simulation():
     'ALLGEMEIN AUSBAUFLÄCHEN'
 
     'AusbauFlächen -> freie Pot und Vor Flächen, je nach Entscheidung werden die Daten bearbeitet'
-    if META_wind == True:
+    if main.META_wind == True:
         'Area with coords and weather ID'
-        if META_DATA_plannedAreas_potVor_getWeather == False and main.META_DATA_plannedAreas_potVor_getCoords == False:
+        if main.META_DATA_plannedAreas_potVor_getWeather == False and main.META_DATA_plannedAreas_potVor_getCoords == False:
             try:
                 openfilename = 'Datenbank\ConnectwithID/AusbauStandorte_Coords_weatherID.csv'
                 print(openfilename)
@@ -254,7 +255,7 @@ def re_simulation():
                 print('falsches Format: ', openfilename)
                 META_DATA_plannedAreas_potVor_getWeather == True
         'Area with coords but without weather ID'
-        if META_DATA_plannedAreas_potVor_getWeather == True and main.META_DATA_plannedAreas_potVor_getCoords == False:
+        if main.META_DATA_plannedAreas_potVor_getWeather == True and main.META_DATA_plannedAreas_potVor_getCoords == False:
             try:
                 openfilename = 'Datenbank\ConnectwithID/AusbauStandorte_Coords.csv'
                 print(openfilename)
@@ -264,7 +265,7 @@ def re_simulation():
                 META_DATA_plannedAreas_potVor_getCoords = True
 
         'Area without coords and weather ID'
-        if META_DATA_plannedAreas_potVor_getWeather == True and META_DATA_plannedAreas_potVor_getCoords == True:
+        if main.META_DATA_plannedAreas_potVor_getWeather == True and META_DATA_plannedAreas_potVor_getCoords == True:
             try:
                 openfilename = 'Datenbank\Ausbauflaechen\AusbauStandorte_gesamt_SH/AlleStandorte.csv'
                 print(openfilename)
@@ -276,9 +277,9 @@ def re_simulation():
     #theoretisch geprüft 14.01 AW
 
     'Ausbau der bereits geplanten WKA Anlagen'
-    if META_be_planned_expansion == True:
+    if main.META_be_planned_expansion == True:
         'Area with coords and weather ID'
-        if META_DATA_be_plannedWKA_getCoords == False and main.META_DATA_be_plannedWKA_getWeatherID == False:
+        if main.META_DATA_be_plannedWKA_getCoords == False and main.META_DATA_be_plannedWKA_getWeatherID == False:
             try:
                 openfilename = 'Datenbank\ConnectwithID\Erzeugung/WindparksSH_geplanterAusbau_UTM_WeatherID_2019_2020.csv'
                 print(openfilename)
@@ -286,9 +287,9 @@ def re_simulation():
                 plannedWKA_areas = plannedWKA_areas.fillna(0)
             except:
                 print('falsches Format: ', openfilename)
-                META_DATA_be_plannedWKA_getCoords == True
+                main.META_DATA_be_plannedWKA_getCoords == True
         'Area with coords but without weather ID'
-        if META_DATA_be_plannedWKA_getCoords == False and main.META_DATA_be_plannedWKA_getWeatherID == True:
+        if main.META_DATA_be_plannedWKA_getCoords == False and main.META_DATA_be_plannedWKA_getWeatherID == True:
             try:
                 openfilename = 'Datenbank\ConnectwithID\Erzeugung/WindparksSH_WetterID_2019_UTM'
                 print(openfilename)
@@ -296,10 +297,10 @@ def re_simulation():
                 plannedWKA_areas = plannedWKA_areas.fillna(0)
             except:
                 print('falsches Format: ', openfilename)
-                META_DATA_be_plannedWKA_getCoords == True
-                META_DATA_be_plannedWKA_getWeatherID = True
+                main.META_DATA_be_plannedWKA_getCoords == True
+                main.META_DATA_be_plannedWKA_getWeatherID = True
         'Area without coords and weather ID'
-        if META_DATA_be_plannedWKA_getCoords == True and META_DATA_be_plannedWKA_getWeatherID == True:
+        if main.META_DATA_be_plannedWKA_getCoords == True and main.META_DATA_be_plannedWKA_getWeatherID == True:
             try:
                 openfilename = 'Datenbank\ConnectwithID\Erzeugung/WindparksSH_geplanterAusbau.csv'
                 print(openfilename)
@@ -322,9 +323,9 @@ def re_simulation():
     dictWeatherID = temp_WeatherID.getdict()
     print(temp_WeatherID.printWetterStation())
     "Öffnen der verschiedenen Speicher"
-    if META_speichervorAusbau == True:
+    if main.META_speichervorAusbau == True:
         listStorage = []
-        storage = lgk.StorageModell('PumpspeicherKraftwerk', 'Geesthacht', 600000, META_startcapacity * 600000, 0.8, 120000,
+        storage = lgk.StorageModell('PumpspeicherKraftwerk', 'Geesthacht', 600000, main.META_startcapacity * 600000, 0.8, 120000,
                                 0.0, 0.08)
         listStorage.append(storage)
         print('Storage is allocated', listStorage[-1].modell)
@@ -338,7 +339,7 @@ def re_simulation():
         verbrauch_HH_SH = lgk.verbrauchGesamt(META_year)
     '-  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -'
     'expansion area Vor and Pot'
-    if META_wind == True:
+    if main.META_wind == True:
         'Ausbauflaechen get Coords and get Weather ID'
         if main.META_DATA_plannedAreas_potVor_getCoords == True:
             print('plannedAreasgetCoords will be regenerated and reloaded')
@@ -352,7 +353,7 @@ def re_simulation():
                                                                           export=True)
 
     'be plannend area without Coords and without weather ID'
-    if META_be_planned_expansion ==True:
+    if main.META_be_planned_expansion ==True:
         if main.META_DATA_be_plannedWKA_getCoords == True and main.META_DATA_be_plannedWKA_getWeatherID == True:
             print('plannedAreasgetCoords will be regenerated and reloaded')
             temp_exportname = 'Datenbank\ConnectwithID\Erzeugung/WindparksSH_geplanterAusbau_UTM_WeatherID_2019_2020.csv'
