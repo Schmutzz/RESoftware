@@ -740,8 +740,8 @@ def verbrauchGesamt(year, export=False):
     return AusgabeFrame
 
 
-def analyseEE(year, exportfolder, listSpeicher, EE_Erz, PV_Gesamt, erz_Bio, plannedErzeung, verbrauch, ausbauWind=0,
-              ausbauPV=0, ausbauBio=0, ausbau=False,
+def analyseEE(year, exportfolder, listSpeicher=0, EE_Erz=0, PV_Gesamt=0, erz_Bio=0, plannedErzeung=0, verbrauch=0, ausbauWind=0,
+              ausbauPV=0, ausbauBio=0, key_name = 'leer', ausbau=False,
               export=False, geplanterAusbau=True, biomes=True, wind=True, PV=True,
               expansionPV=0, expansionBio=0, speicher=False):
     # print(FrameVerbrauch)
@@ -770,8 +770,7 @@ def analyseEE(year, exportfolder, listSpeicher, EE_Erz, PV_Gesamt, erz_Bio, plan
     if PV == True:
         EE_Erz['Erzeugung_PV'] = PV_Gesamt
         temp_EE_Erz += EE_Erz['Erzeugung_PV']
-    if PV == False:
-        del EE_Erz['Erzeugung_PV']
+
     # PV Ausbau Software
     if ausbau == True and sum(ausbauPV) > 0:
         EE_Erz['REE_PV_' + str(expansionPV)] = ausbauPV
@@ -781,8 +780,7 @@ def analyseEE(year, exportfolder, listSpeicher, EE_Erz, PV_Gesamt, erz_Bio, plan
     if biomes == True:
         EE_Erz['Erz_Biomasse_Gesamt'] = erz_Bio
         temp_EE_Erz += EE_Erz['Erz_Biomasse_Gesamt']
-    if biomes == False:
-        del EE_Erz['Erz_Biomasse_Gesamt']
+
     # Biomasse Ausbau Software
     if ausbau == True and sum(ausbauBio) > 0:
         EE_Erz['REE_Biomasse_' + str(expansionBio)] = ausbauBio
@@ -916,7 +914,7 @@ def analyseEE(year, exportfolder, listSpeicher, EE_Erz, PV_Gesamt, erz_Bio, plan
     EE_Anteil = sum(liste_100) / sum(liste_k45)
     temp_EEAnteil = EE_Anteil * 100
     if export == True:
-        exportname = exportfolder + 'REE_' + str(int(temp_EEAnteil)) + '_' + str(year) + '_' + str(uhrzeit) + '.csv'
+        exportname = exportfolder + 'REE_' + str(key_name) + '_' + str(int(temp_EEAnteil)) + '_' + str(year) + '_' + str(uhrzeit) + '.csv'
         print(exportname)
         EE_Erz.to_csv(exportname, sep=';', encoding='utf-8-sig', index=False, decimal=',')
 
@@ -1708,7 +1706,7 @@ def cost_analysis(year,exportfolder,dictWKA, list_key_expansion_wka, list_count_
     cost_id = []
     cost_counter_wka = []
     cost_counter_storage = []
-    cost_hight = []
+    cost_height = []
     cost_power = []
     cost_capacity = []
     cost_single_invest = []
@@ -1716,7 +1714,11 @@ def cost_analysis(year,exportfolder,dictWKA, list_key_expansion_wka, list_count_
     cost_invest = []
     cost_betrieb = []
     roundnumber = 2
-    if cost_wind == True:
+    temp_len_wind = len(list_key_expansion_wka)
+
+    cost_average_height = 0
+
+    if cost_wind == True and temp_len_wind > 0:
         for index, i in enumerate(list_key_expansion_wka):
             temp_name = i.split('_')
             temp_ID = temp_name[0]
@@ -1726,7 +1728,7 @@ def cost_analysis(year,exportfolder,dictWKA, list_key_expansion_wka, list_count_
             cost_model.append(temp_Modell)
             cost_id.append(temp_ID)
             cost_counter_wka.append(list_count_expansion_wka[index])
-            cost_hight.append(float(temp_Modell_hight))
+            cost_height.append(float(temp_Modell_hight))
             cost_counter_storage.append(0)
 
             cost_single_invest.append(round((dictWKA[temp_Modell+'_'+temp_Modell_hight]['Invest']/1000000),
@@ -1741,15 +1743,17 @@ def cost_analysis(year,exportfolder,dictWKA, list_key_expansion_wka, list_count_
             temp_betrieb = round((dictWKA[temp_Modell + '_' + temp_Modell_hight]['Betriebk'] * list_count_expansion_wka[index]), roundnumber)
             cost_betrieb.append(temp_betrieb/1000000)
 
-    cost_avarage_hight = sum(cost_hight) / len(cost_hight)
+        cost_average_height = sum(cost_height) / len(cost_height)
 
-    if cost_storage == True:
+
+    temp_len_storage = len(listStorage)
+    if cost_storage == True and temp_len_storage > 0:
         for i in range(len(listStorage)):
             cost_model.append(listStorage[i].modell)
             cost_id.append(0)
             cost_counter_wka.append(0)
             cost_counter_storage.append(1)
-            cost_hight.append(0)
+            cost_height.append(0)
             cost_power.append(round((listStorage[i].power/1000), roundnumber))
             cost_capacity.append(round((listStorage[i].max_capacity/1000000), roundnumber))
 
@@ -1769,16 +1773,19 @@ def cost_analysis(year,exportfolder,dictWKA, list_key_expansion_wka, list_count_
     temp_sum = sum(cost_counter_storage)
     cost_counter_storage.append(temp_sum)
 
-    cost_hight.append(round(cost_avarage_hight, 2))
+    cost_height.append(round(cost_average_height, 2))
 
     temp_sum = sum(cost_power)
     cost_power.append(temp_sum)
-
-    temp_sum = (sum(cost_single_invest) / len(cost_single_invest))
-    cost_single_invest.append(temp_sum)
-
-    temp_sum = (sum(cost_single_betrieb) / len(cost_single_betrieb))
-    cost_single_betrieb.append(temp_sum)
+    try:
+        temp_sum = (sum(cost_single_invest) / len(cost_single_invest))
+        cost_single_invest.append(temp_sum)
+    except:
+        cost_single_invest.append(0)
+    try:
+        temp_sum = (sum(cost_single_betrieb) / len(cost_single_betrieb))
+    except:
+        cost_single_betrieb.append(temp_sum)
 
     temp_sum = sum(cost_capacity)
     cost_capacity.append(temp_sum)
@@ -1793,7 +1800,7 @@ def cost_analysis(year,exportfolder,dictWKA, list_key_expansion_wka, list_count_
         {'Modell': cost_model,
          'Wetterstations ID': cost_id,
          'Counter WKA': cost_counter_wka,
-         'WKA Hub Hight': cost_hight,
+         'WKA Hub Hight': cost_height,
          'Counter Storage': cost_counter_storage,
          'Installed Power in MW': cost_power,
          'Installed Capacity in GWh': cost_capacity,
@@ -1804,17 +1811,13 @@ def cost_analysis(year,exportfolder,dictWKA, list_key_expansion_wka, list_count_
          }
     )
     if export == True:
-        if export == True:
-            exportname2 = exportfolder + 'CostReport_' + str(year) + '.csv'
-            export_frame.to_csv(exportname2, index = False, sep=';', encoding='utf-8-sig', decimal=',')
 
-        return export_frame
+        exportname2 = exportfolder + 'CostReport_' + str(year) + '.csv'
+        export_frame.to_csv(exportname2, index = False, sep=';', encoding='utf-8-sig', decimal=',')
+
+    return export_frame
 
 
-
-    #investkosten
-
-    #betriebskosten per year
 
 
 
