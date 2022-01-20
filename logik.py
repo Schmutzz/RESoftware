@@ -29,8 +29,8 @@ class StorageModell:
         self.efficiency_input = round(np.sqrt(efficiency), 3)
         self.efficiency_output = round(np.sqrt(efficiency), 3)
         self.power = power
-        self.invest = invest * max_capacity
-        self.operatingk = operatingk * max_capacity
+        self.invest = invest
+        self.operatingk = operatingk
         self.__startcapacity = current_capacity
 
     def input_power(self, new_value):
@@ -791,9 +791,11 @@ def analyseEE(year, exportfolder, listSpeicher, EE_Erz, PV_Gesamt, erz_Bio, plan
     EE_Erz['Erzeugung_Gesamt'] = temp_EE_Erz
     EE_Erz['Diff_EE_zu_Verb'] = EE_Erz['Erzeugung_Gesamt'] - verbrauch['Verbrauch_Gesamt']
     temp_Diff_EE_zu_Verb = EE_Erz['Diff_EE_zu_Verb'].tolist().copy()
-    if speicher == True:
+    temp_len_speicherList = len(listSpeicher)
 
-        temp_len_speicherList = len(listSpeicher)
+    if speicher == True and temp_len_speicherList > 0:
+
+
         EE_Erz['Speicherkapazität'] = [0.0] * len(temp_EE_Erz)
         EE_Erz['Speicherstatus'] = [0.0] * len(temp_EE_Erz)
         EE_Erz['Speicher_voll_Prozent'] = [0.0] * len(temp_EE_Erz)
@@ -1643,7 +1645,7 @@ def deepest_point_negativGraph(negativGraph, anzahl=100):
 
 
 def expansion_storage(temp_Diff_EE, META_speicherverlauf, listStorage, META_startcapacity, META_Laegerdorf,
-                      META_compressed_air, META_strorage_safty_compansion, META_max_compressed_air):
+                      META_compressed_air, META_max_compressed_air):
     print("start Speicherausbau")
     EE_Simulation_negativGraph = negativ_Verlauf(temp_Diff_EE, speicherVerlauf=META_speicherverlauf)
 
@@ -1653,7 +1655,7 @@ def expansion_storage(temp_Diff_EE, META_speicherverlauf, listStorage, META_star
     print('Storage Len: ', len(listStorage))
     print('Benötigte Kapazität in GWh: ', deepestPoint / 1000000)
     if META_Laegerdorf == True:
-        storage = StorageModell('PumpspeicherKraftwerk', 'Lägerdorf', 1700000, META_startcapacity * 1700000, 0.8, 70000,
+        storage = StorageModell('PumpspeicherKraftwerk-Lägerdorf', 'Lägerdorf', 1700000, META_startcapacity * 1700000, 0.8, 70000,
                                 60.0, 0.08)
         print('PumpspeicherKraftwerk "Lägerdorf" wurde eingerichtet mit:')
         print('Kapazität in GW: ', storage.max_capacity / 1000000, 'Leistung in GW: ', storage.power / 1000000)
@@ -1667,7 +1669,7 @@ def expansion_storage(temp_Diff_EE, META_speicherverlauf, listStorage, META_star
         if deepestPoint > META_max_compressed_air:
             deepestPoint = META_max_compressed_air
         else:
-            deepestPoint = deepestPoint * META_strorage_safty_compansion
+            deepestPoint = deepestPoint * 1.4
 
         storage = StorageModell('Druckluftspeicher', 'SH', deepestPoint, META_startcapacity * deepestPoint, 0.57,
                                 deepestPoint / 5, 60, 0.1)
@@ -1713,7 +1715,7 @@ def cost_analysis(year,exportfolder,dictWKA, list_key_expansion_wka, list_count_
     cost_single_betrieb = []
     cost_invest = []
     cost_betrieb = []
-
+    roundnumber = 2
     if cost_wind == True:
         for index, i in enumerate(list_key_expansion_wka):
             temp_name = i.split('_')
@@ -1727,15 +1729,17 @@ def cost_analysis(year,exportfolder,dictWKA, list_key_expansion_wka, list_count_
             cost_hight.append(float(temp_Modell_hight))
             cost_counter_storage.append(0)
 
-            cost_single_invest.append(dictWKA[temp_Modell+'_'+temp_Modell_hight]['Invest'])
-            cost_single_betrieb.append(dictWKA[temp_Modell + '_' + temp_Modell_hight]['Betriebk'])
+            cost_single_invest.append(round((dictWKA[temp_Modell+'_'+temp_Modell_hight]['Invest']/1000000),
+                                            roundnumber))
+            cost_single_betrieb.append(round((dictWKA[temp_Modell + '_' + temp_Modell_hight]['Betriebk']/1000000),
+                                             roundnumber))
 
             cost_power.append(list_count_expansion_power[index]/1000)
             cost_capacity.append(0)
-            temp_invest = (dictWKA[temp_Modell+'_'+temp_Modell_hight]['Invest'] * list_count_expansion_wka[index])
-            cost_invest.append(temp_invest/10000000)
-            temp_betrieb = (dictWKA[temp_Modell + '_' + temp_Modell_hight]['Betriebk'] * list_count_expansion_wka[index])
-            cost_betrieb.append(temp_betrieb/10000000)
+            temp_invest = round((dictWKA[temp_Modell+'_'+temp_Modell_hight]['Invest'] * list_count_expansion_wka[index]), roundnumber)
+            cost_invest.append(temp_invest/1000000)
+            temp_betrieb = round((dictWKA[temp_Modell + '_' + temp_Modell_hight]['Betriebk'] * list_count_expansion_wka[index]), roundnumber)
+            cost_betrieb.append(temp_betrieb/1000000)
 
     cost_avarage_hight = sum(cost_hight) / len(cost_hight)
 
@@ -1746,14 +1750,14 @@ def cost_analysis(year,exportfolder,dictWKA, list_key_expansion_wka, list_count_
             cost_counter_wka.append(0)
             cost_counter_storage.append(1)
             cost_hight.append(0)
-            cost_power.append(listStorage[i].power/10000000)
-            cost_capacity.append(listStorage[i].max_capacity/10000000)
+            cost_power.append(round((listStorage[i].power/1000), roundnumber))
+            cost_capacity.append(round((listStorage[i].max_capacity/1000000), roundnumber))
 
-            cost_single_invest.append(listStorage[i].max_capacity)
-            cost_single_betrieb.append(listStorage[i].max_capacity)
-            temp_invest = ((listStorage[i].max_capacity * listStorage[i].invest)/10000000)
+            cost_single_invest.append(round((listStorage[i].invest), roundnumber))
+            cost_single_betrieb.append(round((listStorage[i].operatingk), roundnumber))
+            temp_invest = round(((listStorage[i].max_capacity * listStorage[i].invest)/1000000), roundnumber)
             cost_invest.append(temp_invest)
-            temp_betrieb = ((listStorage[i].max_capacity * listStorage[i].operatingk)/10000000)
+            temp_betrieb = round(((listStorage[i].max_capacity * listStorage[i].operatingk)/1000000), roundnumber)
             cost_betrieb.append(temp_betrieb)
 
     # summe
@@ -1765,7 +1769,7 @@ def cost_analysis(year,exportfolder,dictWKA, list_key_expansion_wka, list_count_
     temp_sum = sum(cost_counter_storage)
     cost_counter_storage.append(temp_sum)
 
-    cost_hight.append(round(cost_avarage_hight,2))
+    cost_hight.append(round(cost_avarage_hight, 2))
 
     temp_sum = sum(cost_power)
     cost_power.append(temp_sum)
@@ -1779,10 +1783,10 @@ def cost_analysis(year,exportfolder,dictWKA, list_key_expansion_wka, list_count_
     temp_sum = sum(cost_capacity)
     cost_capacity.append(temp_sum)
 
-    temp_sum = (sum(cost_invest)/1000)
+    temp_sum = round((sum(cost_invest)/1000), roundnumber)
     cost_invest.append(temp_sum)
 
-    temp_sum = (sum(cost_betrieb)/1000)
+    temp_sum = round((sum(cost_betrieb)/1000), roundnumber)
     cost_betrieb.append(temp_sum)
 
     export_frame = pd.DataFrame(
@@ -1792,7 +1796,7 @@ def cost_analysis(year,exportfolder,dictWKA, list_key_expansion_wka, list_count_
          'WKA Hub Hight': cost_hight,
          'Counter Storage': cost_counter_storage,
          'Installed Power in MW': cost_power,
-         'Installed Capacity': cost_capacity,
+         'Installed Capacity in GWh': cost_capacity,
          'Single Invest in Mio': cost_single_invest,
          'Single Operating per Year in Mio': cost_single_betrieb,
          'Investment Costs in Mio': cost_invest,
@@ -1802,7 +1806,7 @@ def cost_analysis(year,exportfolder,dictWKA, list_key_expansion_wka, list_count_
     if export == True:
         if export == True:
             exportname2 = exportfolder + 'CostReport_' + str(year) + '.csv'
-            export_frame.to_csv(exportname2, sep=';', encoding='utf-8-sig', index=True, decimal=',')
+            export_frame.to_csv(exportname2, index = False, sep=';', encoding='utf-8-sig', decimal=',')
 
         return export_frame
 

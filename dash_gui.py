@@ -6,7 +6,6 @@ from dash import html
 from dash import dash_table as dt
 import dash_bootstrap_components as dbc
 from dash.exceptions import PreventUpdate
-from dash_dual_listbox import DualList
 import plotly.express as px
 import plotly.graph_objects as go
 import pandas as pd
@@ -14,8 +13,6 @@ from matplotlib import colors as mcolors
 import main
 
 print('Programmstart')
-
-
 
 colors = mcolors.CSS4_COLORS
 names = list(colors)
@@ -177,10 +174,10 @@ example_switch = html.Div([
         labelClassName="btn btn-outline-secondary",
         labelCheckedClassName="active",
         options=[
-            {'label': 'Yes', 'value': 'Yes'},
-            {'label': 'No', 'value': 'No'}
+            {'label': 'Yes', 'value': True},
+            {'label': 'No', 'value': False}
         ],
-        value='Yes'
+        value=True
     ),
 ], className="radio-group")
 
@@ -193,6 +190,7 @@ scenario_dropdown = html.Div([
             {'label': 'Scenario 3', 'value': 'Scenario 3'},
             {'label': 'Scenario 4', 'value': 'Scenario 4'},
         ],
+        value='Scenario 1',
         style={"textAlign": "left", 'color': 'black'}
     )
 ])
@@ -201,11 +199,25 @@ year_dropdown = html.Div([
     dcc.Dropdown(
         id='year_dropdown',
         options=[
-            {'label': '2019', 'value': '2019'},
-            {'label': '2020', 'value': '2020'}
+            {'label': '2019', 'value': 2019},
+            {'label': '2020', 'value': 2020}
         ],
-        value='2019',
+        value=2019,
         style={"textAlign": "left", 'color': 'black'}
+    )
+])
+
+hours_slider = html.Div([
+    dcc.Slider(
+        id='hours_slider',
+        min=0,
+        max=100,
+        value=75,
+        step=1,
+        marks={
+            x: {'label': str(x) + '%'} for x in range(0, 100, 10)
+        },
+        tooltip={"placement": "bottom", "always_visible": True},
     )
 ])
 
@@ -231,41 +243,161 @@ general_settings = dbc.Card([
                 html.P('Year:'),
                 year_dropdown
             ], width=3)
-        ], className='py-3', justify="center")
+        ], className='py-3', justify="center"),
+        dbc.Row([
+            dbc.Col([
+                html.P('Hours over 100% RE:'),
+                hours_slider
+            ], width=10)
+        ], className='py-3', justify="center"),
     ])
 ], className='text-center p-1')
 
 # ----------------------------------------------------------------------------------------------------------------------
-# parameters settings
+# biomass/solar_input settings
 
 
-hours_slider = html.Div([
-    dcc.Slider(
-        id='hours_slider',
-        min=0,
-        max=100,
-        step=1,
-        value=50,
-        marks={
-            x: {'label': str(x) + '%'} for x in range(0, 100, 10)
-        },
-        tooltip={"placement": "bottom", "always_visible": True},
+solar_switch = html.Div([
+    dbc.RadioItems(
+        id="solar_switch",
+        className="btn-group",
+        inputClassName="btn-check",
+        labelClassName="btn btn-outline-secondary",
+        labelCheckedClassName="active",
+        options=[
+            {'label': 'Yes', 'value': True},
+            {'label': 'No', 'value': False}
+        ],
+        value=True
+    ),
+], className="radio-group")
+
+solar_input = html.Div([
+    dbc.Input(id='solar_input', placeholder='Type in a factor...', type="number", min=0,
+              max=1000, step=1)
+])
+
+biomass_switch = html.Div([
+    dbc.RadioItems(
+        id="biomass_switch",
+        className="btn-group",
+        inputClassName="btn-check",
+        labelClassName="btn btn-outline-secondary",
+        labelCheckedClassName="active",
+        options=[
+            {'label': 'Yes', 'value': True},
+            {'label': 'No', 'value': False}
+        ],
+        value=True
+    ),
+], className="radio-group")
+
+biomass_input = html.Div([
+    dbc.Input(id='biomass_input', placeholder='Type in a factor...', type="number", min=0,
+              max=1000, step=1)
+])
+
+biomass_solar_settings = dbc.Card([
+    dbc.CardHeader([
+        html.H5('Biomass/Solar Settings', style={"text-decoration": 'underline'})
+    ]),
+    dbc.CardBody([
+        dbc.Row([
+            dbc.Col([
+                html.P('Use biomass?'),
+                biomass_switch
+            ], width=3),
+            dbc.Col([
+                html.P('Use solar_input?'),
+                solar_switch
+            ], width=3)
+        ], className='pb-3 px-5', justify="around"),
+        dbc.Row([
+            dbc.Col([
+                html.P('Biomass growth (in %):'),
+                biomass_input
+            ], width=3),
+            dbc.Col([
+                html.P('Solar growth (in %):'),
+                solar_input
+            ], width=3)
+        ], className='py-3 px-5', justify="around"),
+    ])
+], className='text-center p-1')
+
+# ----------------------------------------------------------------------------------------------------------------------
+# wind settings
+
+
+wind_expansion_switch = html.Div([
+    dbc.RadioItems(
+        id="wind_expansion_switch",
+        className="btn-group",
+        inputClassName="btn-check",
+        labelClassName="btn btn-outline-secondary",
+        labelCheckedClassName="active",
+        options=[
+            {'label': 'Yes', 'value': True},
+            {'label': 'No', 'value': False}
+        ],
+        value=True
+    ),
+], className="radio-group")
+
+methods_wind_check = html.Div([
+    dcc.Checklist(
+        id='methods_wind_check',
+        options=[
+            {'label': 'Vorranggebiete', 'value': 'vor'},
+            {'label': 'Potentialflächen', 'value': 'pot'},
+            {'label': 'Repowering', 'value': 'repowering'}
+        ],
+        value=['vor'],
+        inputStyle={"margin-left": "20px", 'margin-right': "5px"}
     )
 ])
 
-power_slider = html.Div([
-    dcc.Slider(
-        id='power_slider',
-        min=0,
-        max=100,
-        step=1,
-        value=50,
-        marks={
-            x: {'label': str(x) + '%'} for x in range(0, 100, 10)
-        },
-        tooltip={"placement": "bottom", "always_visible": True},
-    )
-])
+planned_wind_switch = html.Div([
+    dbc.RadioItems(
+        id="planned_wind_switch",
+        className="btn-group",
+        inputClassName="btn-check",
+        labelClassName="btn btn-outline-secondary",
+        labelCheckedClassName="active",
+        options=[
+            {'label': 'Yes', 'value': True},
+            {'label': 'No', 'value': False}
+        ],
+        value=True
+    ),
+], className="radio-group")
+
+wind_settings = dbc.Card([
+    dbc.CardHeader([
+        html.H5('Wind Settings', style={"text-decoration": 'underline'})
+    ]),
+    dbc.CardBody([
+        dbc.Row([
+            dbc.Col([
+                html.P('Expand wind energy?'),
+                wind_expansion_switch
+            ], width=6),
+            dbc.Col([
+                html.P('Use planned wind turbines?'),
+                planned_wind_switch
+            ], width=6)
+        ], className='pb-3 px-5', justify="around"),
+        dbc.Row([
+            dbc.Col([
+                html.P('Choose expansion methods_wind:'),
+                methods_wind_check
+            ], width=12)
+        ], className='py-3', justify="around"),
+    ])
+], className='text-center p-1')
+
+# ----------------------------------------------------------------------------------------------------------------------
+# storage settings
 
 storage_switch = html.Div([
     dbc.RadioItems(
@@ -275,198 +407,170 @@ storage_switch = html.Div([
         labelClassName="btn btn-outline-secondary",
         labelCheckedClassName="active",
         options=[
-            {'label': 'Yes', 'value': 'Yes'},
-            {'label': 'No', 'value': 'No'}
+            {'label': 'Yes', 'value': True},
+            {'label': 'No', 'value': False}
         ],
-        value='No'
+        value=True
     ),
 ], className="radio-group")
 
-parameters_settings = dbc.Card([
-    dbc.CardHeader([
-        html.H5('Project Parameters', style={"text-decoration": 'underline'})
-    ]),
-    dbc.CardBody([
-        dbc.Row([
-            dbc.Col([
-                html.P('Percentage of hours over threshold:'),
-                hours_slider
-            ], width=10)
-        ], className='pb-3', justify="center"),
-        dbc.Row([
-            dbc.Col([
-                html.P('Renewable power percentage threshold:'),
-                power_slider
-            ], width=10)
-        ], className='py-3', justify="center"),
-        dbc.Row([
-            dbc.Col([
-                html.P('Use storage?'),
-                storage_switch
-            ], width=4)
-        ], className='py-3', justify="center")
-    ])
-], className='text-center p-1')
-
-# ----------------------------------------------------------------------------------------------------------------------
-# cost settings
-
-
-budget_input = html.Div([
-    dbc.Input(id='budget_input', placeholder='Type in a budget...', type="number", min=0,
-              max=50, step=1)
-])
-
-profit_switch = html.Div([
+storage_expansion_switch = html.Div([
     dbc.RadioItems(
-        id="profit_switch",
+        id="storage_expansion_switch",
         className="btn-group",
         inputClassName="btn-check",
         labelClassName="btn btn-outline-secondary",
         labelCheckedClassName="active",
         options=[
-            {'label': 'Yes', 'value': 'Yes'},
-            {'label': 'No', 'value': 'No'}
+            {'label': 'Yes', 'value': True},
+            {'label': 'No', 'value': False}
         ],
-        value='Yes'
+        value=False
     ),
 ], className="radio-group")
 
-time_span_slider = html.Div([
+storage_expansion_slider = html.Div([
     dcc.Slider(
-        id='time_span_slider',
-        min=1,
-        max=20,
+        id='storage_expansion_slider',
+        min=0,
+        max=100,
         step=1,
-        value=20,
-        disabled=False,
+        value=50,
         marks={
-            x: {'label': str(x)} for x in range(0, 20, 5)
+            x: {'label': str(x) + '%'} for x in range(0, 100, 10)
         },
         tooltip={"placement": "bottom", "always_visible": True},
     )
 ])
 
-cost_settings = dbc.Card([
-    dbc.CardHeader([
-        html.H5('Cost Settings', style={"text-decoration": 'underline'})
-    ]),
-    dbc.CardBody([
-        dbc.Row([
-            dbc.Col([
-                html.P('Budget (in billion €):'),
-                budget_input
-            ], width=6)
-        ], className='pb-3', justify="center"),
-        dbc.Row([
-            dbc.Col([
-                html.P('Use expected profit during the simulation?'),
-                profit_switch
-            ], width=10)
-        ], className='py-3', justify="center"),
-        dbc.Row([
-            dbc.Col([
-                html.P('Time period for profit calculation (years):'),
-                time_span_slider
-            ], width=10)
-        ], className='py-3', justify="center")
-    ])
-], className='text-center p-1')
-
-# ----------------------------------------------------------------------------------------------------------------------
-# biomass/solar settings
-
-
-growth_switch = html.Div([
-    dbc.RadioItems(
-        id="growth_switch",
-        className="btn-group",
-        inputClassName="btn-check",
-        labelClassName="btn btn-outline-secondary",
-        labelCheckedClassName="active",
-        options=[
-            {'label': 'Yes', 'value': 'Yes'},
-            {'label': 'No', 'value': 'No'}
-        ],
-        value='Yes'
-    ),
-], className="radio-group")
-
-biomass_input = html.Div([
-    dbc.Input(id='biomass_input', placeholder='Type in a factor...', type="number", min=0,
-              max=100, step=1)
+start_capacity_slider = html.Div([
+    dcc.Slider(
+        id='start_capacity_slider',
+        min=0,
+        max=100,
+        step=1,
+        value=60,
+        marks={
+            x: {'label': str(x) + '%'} for x in range(0, 100, 10)
+        },
+        tooltip={"placement": "bottom", "always_visible": True},
+    )
 ])
 
-solar_input = html.Div([
-    dbc.Input(id='solar_input', placeholder='Type in a factor...', type="number", min=0,
-              max=100, step=1)
+safety_padding_slider = html.Div([
+    dcc.Slider(
+        id='safety_padding_slider',
+        min=0,
+        max=50,
+        step=0.5,
+        value=0.5,
+        marks={
+            x: {'label': str(x) + '%'} for x in range(0, 50, 5)
+        },
+        tooltip={"placement": "bottom", "always_visible": True},
+    )
 ])
 
-bio_solar_settings = dbc.Card([
-    dbc.CardHeader([
-        html.H5('Biomass/Solar Settings', style={"text-decoration": 'underline'})
-    ]),
-    dbc.CardBody([
-        dbc.Row([
-            dbc.Col([
-                html.P('Use a yearly growth factor?'),
-                growth_switch
-            ], width=6)
-        ], className='pb-3', justify="center"),
-        dbc.Row([
-            dbc.Col([
-                html.P('Biomass growth (in %):'),
-                biomass_input
-            ], width=6)
-        ], className='py-3', justify="center"),
-        dbc.Row([
-            dbc.Col([
-                html.P('Solar growth (in %):'),
-                solar_input
-            ], width=6)
-        ], className='py-3', justify="center")
-    ])
-], className='text-center p-1')
-
-# ----------------------------------------------------------------------------------------------------------------------
-# wind settings
-
-
-area_check = html.Div([
+storage_options_check = html.Div([
     dcc.Checklist(
-        id='area_check',
+        id='storage_options_check',
         options=[
-            {'label': 'Vorranggebiete', 'value': 'vor'},
-            {'label': 'Potentialflächen', 'value': 'pot'}
+            {'label': 'Existing storages', 'value': 'existing'},
+            {'label': 'Laegerdorf', 'value': 'laegerdorf'},
+            {'label': 'Compressed air', 'value': 'air'}
         ],
-        value=['vor'],
+        value=['existing', 'laegerdorf', 'air'],
         inputStyle={"margin-left": "20px", 'margin-right': "5px"}
     )
 ])
 
-# noinspection PyCallingNonCallable
-dual_list = html.Div([
-    DualList(id='dual_list', available=[{'label': x, 'value': x} for x in wea_modelle],
-             selected=['Enercon E-115'], leftLabel='Use these models', rightLabel='Do not use these models')
-])
-
-# noinspection PyCallingNonCallable
-wind_settings = dbc.Card([
+storage_settings = dbc.Card([
     dbc.CardHeader([
-        html.H5('Wind Settings', style={"text-decoration": 'underline'})
+        html.H5('Storage Settings', style={"text-decoration": 'underline'})
     ]),
     dbc.CardBody([
         dbc.Row([
             dbc.Col([
-                html.P('Which areas should be used?'),
-                area_check
-            ], width=8)
-        ], className='pb-3', justify="around"),
+                html.P('Use Storage?'),
+                storage_switch
+            ], width=6),
+            dbc.Col([
+                html.P('Expand storage?'),
+                storage_expansion_switch
+            ], width=6)
+        ], className='py-3 px-5', justify="around"),
         dbc.Row([
             dbc.Col([
-                dual_list
-            ])
-        ], className='py-3', justify="center")
+                html.P(
+                    'Threshold for storage expasion:', id='storage_expansion_tt',
+                    style={"textDecoration": "underline", "cursor": "pointer"}
+                ),
+                dbc.Tooltip(
+                    'After what percentage of hours over 100% RE should the programm start expanding storage instead of'
+                    ' further expanding renewable energy sources', target='storage_expansion_tt'
+                ),
+                storage_expansion_slider
+            ], width=10)
+        ], className='py-3', justify="center"),
+        dbc.Row([
+            dbc.Col([
+                dbc.Row([
+                    dbc.Col([
+                        html.P(
+                            '?', style={'color': 'white', "cursor": "pointer"}, className='dot', id='start_capacity_tt'
+                        )
+                    ], width='auto'),
+                    dbc.Col([
+                        html.P(
+                            'Start capacity:',
+                            style={"textDecoration": "underline", "cursor": "pointer"}
+                        )
+                    ], width='auto')
+                ], justify="center"),
+                dbc.Tooltip(
+                    'To what extend should the storages be filled up at the start of the year',
+                    target='start_capacity_tt'
+                ),
+                start_capacity_slider
+            ], width=10)
+        ], className='py-3', justify="around"),
+        dbc.Row([
+            dbc.Col([
+                html.P(
+                    'Safety padding (in %):', id='safety_padding_tt',
+                    style={"textDecoration": "underline", "cursor": "pointer"}
+                ),
+                dbc.Tooltip(
+                    'This option will create a safety padding for expanding storage. For example if the minimum '
+                    'amount of capacity needed to reach the earlier determined hour threshold is 100GWh, you can '
+                    'determine a safety padding of 20% and the programm will expand the storage to 120GWh '
+                    '(more budget needed, but more realistic)',
+                    target='safety_padding_tt'
+                ),
+                safety_padding_slider
+            ], width=10)
+        ], className='py-3', justify="around"),
+        dbc.Row([
+            dbc.Col([
+                html.P(
+                    'Choose storage options:', id='storage_options_tt',
+                    style={"textDecoration": "underline", "cursor": "pointer"}
+                ),
+                dbc.Tooltip(
+                    'Existing storages: Right now the only existing storage used in the simulation is the '
+                    'water pump storage in "Geesthacht". Only operational costs will be considered for this storage.\n'
+                    'Laegerdorf: A planned water pump storage located in Schleswig-Holstein. Building and operational '
+                    'costs will be considered for this storage.\n'
+                    'Compressed air: This storage technology will probably be indispensable for most scenarios. '
+                    'With an estimated capacity potential of 13.5TWh in Schleswig-Holstein it has the necessary '
+                    'capacity for long energy droughts.',
+                    target='storage_options_tt'
+                )
+            ], width='auto'),
+            dbc.Col([
+                storage_options_check
+            ], width=12)
+        ], className='py-3', justify="around")
     ])
 ], className='text-center p-1')
 
@@ -483,7 +587,7 @@ settings_children = html.Div([
         dbc.Col([
             dbc.Card([
                 dbc.CardBody([
-                    html.H2('REE-Simulation™')
+                    html.H2('RE-Simulation™')
                 ])
             ], className='text-center')
         ], width=11)
@@ -491,14 +595,13 @@ settings_children = html.Div([
     dbc.Row([
         dbc.Col([
             general_settings,
-            parameters_settings
         ], className='mt-1'),
         dbc.Col([
-            cost_settings,
-            bio_solar_settings
+            biomass_solar_settings,
+            wind_settings
         ], className='mt-1'),
         dbc.Col([
-            wind_settings,
+            storage_settings
         ], className='mt-1')
     ], className='px-3 py-1', justify='center')
 ])
@@ -702,31 +805,24 @@ app.layout = html.Div([
     html.Div(id='results', children=results, style={'display': 'none'})
 ], style={"width": "99%"}, className='px-3 py-2')
 
-scenario_1 = ['Yes', 75, 100, 'No', 10, 'No', dash.no_update, 'Yes', 40, 40,
-              ['vor'], [], [{'label': x, 'value': x} for x in wea_modelle]]
-scenario_2 = ['Yes', 100, 100, 'Yes', 10, 'No', dash.no_update, 'Yes', 40, 40,
-              ['vor'], [], [{'label': x, 'value': x} for x in wea_modelle]]
-scenario_3 = ['No', 100, 100, 'Yes', 10, 'No', dash.no_update, 'Yes', 40, 40,
-              ['vor'], [], [{'label': x, 'value': x} for x in wea_modelle]]
-scenario_4 = ['No', 100, 100, 'Yes', 10, 'Yes', 20, 'Yes', 40, 40,
-              ['vor'], [], [{'label': x, 'value': x} for x in wea_modelle]]
+scenario_1 = [True, 75, True, True, 0, 0, True, True, ['vor'], False]
+scenario_2 = [True, 100, True, True, 0, 0, True, True, ['vor'], True]
+scenario_3 = [False, 100, True, True, 0, 0, True, True, ['vor'], True]
+scenario_4 = [False, 100, True, True, 0, 0, True, True, ['vor'], True]
 
 
 @app.callback(
     [
         Output('example_switch', 'value'),
         Output('hours_slider', 'value'),
-        Output('power_slider', 'value'),
-        Output('storage_switch', 'value'),
-        Output('budget_input', 'value'),
-        Output('profit_switch', 'value'),
-        Output('time_span_slider', 'value'),
-        Output('growth_switch', 'value'),
+        Output('biomass_switch', 'value'),
+        Output('solar_switch', 'value'),
         Output('biomass_input', 'value'),
         Output('solar_input', 'value'),
-        Output('area_check', 'value'),
-        Output('dual_list', 'selected'),
-        Output('dual_list', 'available'),
+        Output('wind_expansion_switch', 'value'),
+        Output('planned_wind_switch', 'value'),
+        Output('methods_wind_check', 'value'),
+        Output('storage_switch', 'value'),
     ],
     Input('scenario_dropdown', 'value')
 )
@@ -745,16 +841,39 @@ def change_scenario(scenario):
 
 @app.callback(
     [
-        Output('year_dropdown', 'disabled'),
+        Output('year_dropdown', 'options'),
         Output('year_dropdown', 'value')
     ],
     Input('example_switch', 'value')
 )
 def year_lock(value):
-    if value == 'Yes':
-        return False, '2019'
-    elif value == 'No':
-        return True, None
+    if value:
+        return [{'label': '2019', 'value': 2019}, {'label': '2020', 'value': 2020}], 2019
+    elif not value:
+        return [{'label': str(x), 'value': x} for x in range(2000, 2100, 1)], 2019
+    else:
+        pass
+
+
+@app.callback(
+    [
+        Output('storage_expansion_slider', 'disabled'),
+        Output('start_capacity_slider', 'disabled'),
+        Output('safety_padding_slider', 'disabled'),
+    ],
+    [
+        Input('storage_switch', 'value'),
+        Input('storage_expansion_switch', 'value'),
+    ]
+)
+def disable_storage(storage, expansion):
+    if storage:
+        if not expansion:
+            return dash.no_update, False, False
+        elif expansion:
+            return False, False, False
+    elif not storage:
+        return True, True, True
     else:
         pass
 
@@ -788,30 +907,27 @@ def change_graph(data):
 
 
 @app.callback(
-    Output('time_span_slider', 'disabled'),
-    Input('profit_switch', 'value')
+    Output('biomass_input', 'disabled'),
+    Input('biomass_switch', 'value')
 )
-def slider_lock(value):
-    if value == 'Yes':
+def growth_input_lock(value):
+    if value:
         return False
-    elif value == 'No':
+    elif not value:
         return True
     else:
         pass
 
 
 @app.callback(
-    [
-        Output('biomass_input', 'disabled'),
-        Output('solar_input', 'disabled')
-    ],
-    Input('growth_switch', 'value')
+    Output('solar_input', 'disabled'),
+    Input('solar_switch', 'value')
 )
 def growth_input_lock(value):
-    if value == 'Yes':
-        return False, False
-    elif value == 'No':
-        return True, True
+    if value:
+        return False
+    elif not value:
+        return True
     else:
         pass
 
@@ -825,97 +941,95 @@ def growth_input_lock(value):
     ],
     Input('start_button', 'n_clicks'),
     [
-        State('scenario_dropdown', 'value'),
         State('example_switch', 'value'),
         State('year_dropdown', 'value'),
         State('hours_slider', 'value'),
-        State('power_slider', 'value'),
-        State('storage_switch', 'value'),
-        State('budget_input', 'value'),
-        State('profit_switch', 'value'),
-        State('time_span_slider', 'value'),
-        State('growth_switch', 'value'),
+        State('biomass_switch', 'value'),
         State('biomass_input', 'value'),
+        State('solar_switch', 'value'),
         State('solar_input', 'value'),
-        State('area_check', 'value'),
-        State('dual_list', 'leftLabel'),
-        State('dual_list', 'available'),
+        State('wind_expansion_switch', 'value'),
+        State('planned_wind_switch', 'value'),
+        State('methods_wind_check', 'value'),
+        State('storage_switch', 'value'),
+        State('storage_expansion_switch', 'value'),
+        State('storage_expansion_slider', 'value'),
+        State('start_capacity_slider', 'value'),
+        State('safety_padding_slider', 'value'),
+        State('storage_options_check', 'value'),
         State('results', 'style'),
         State('settings_page', 'style')
     ]
 )
-def start_sim(n, scenario, exmpl_sw, year, hours, power, storage, budget, profit, profit_years, growth, bio, solar,
-              area, dont_use, use, results, settings):
+def start_sim(n, exmpl_sw, year, hours, bio_sw, bio_inp, solar_sw, solar_inp, wind_expansion,
+              planned_wind, methods_wind, storage_sw, storage_expansion_sw, storage_expansion_value,
+              start_capacity_value, safety_padding_value, storage_options, results_value, settings_value):
+
     if n == 0:
         raise PreventUpdate
-    else:
+    '''else:
         if year is not None:
             year_val = year
         else:
             year_val = 'Not given'
 
-        if profit == 'No':
-            calc_time = 'No calculation'
-        else:
-            calc_time = str(profit_years) + ' years'
-
-        if budget is not None:
-            budget_str = str(budget) + ' bn. €'
-        else:
-            budget_str = 'Not given'
-
-        if bio is not None:
-            bio_str = str(bio) + '%'
+        if bio_input is not None:
+            bio_str = str(bio_input) + '%'
         else:
             bio_str = 'Not given'
 
-        if solar is not None:
-            solar_str = str(solar) + '%'
+        if solar_input is not None:
+            solar_str = str(solar_input) + '%'
         else:
             solar_str = 'Not given'
 
-        areas_str = ', '.join(area)
+        areas_str = ', '.join(methods_wind)'''
+
     '------------------------------------------------------------------------'
     'HEADER'
-    def test_asd():
-        main.META_EE_Anteil = 0.75  # Muss Decimal angegeben werden
-        main.META_EE_Speicher = 1.0  # Grenzwert bis Speicher nicht mehr ausgebaut werden 100%
-        main.META_year = 2020
+
+
+    if results_value['display'] == 'none' and settings_value['display'] == 'inline':
+
+        main.META_EE_Anteil = hours / 100  # Muss Decimal angegeben werden
+        main.META_EE_Speicher = storage_expansion_value / 100  # Grenzwert bis Speicher nicht mehr ausgebaut werden 100%
+        main.META_year = year
         '- - - - - - - - - - - - - - - - - - - -'
         'BIO'
-        main.META_biomasse = True
-        main.META_expansionBio = 0.00  # in Prozent
+        main.META_biomasse = bio_sw
+        main.META_expansionBio = bio_inp / 100  # in Prozent
         '- - - - - - - - - - - - - - - - - - - -'
         'PV'
-        main.META_PV = True
-        main.META_expansionPV = 0.00  # in Prozent
+        main.META_PV = solar_sw
+        main.META_expansionPV = solar_inp / 100  # in Prozent
         '- - - - - - - - - - - - - - - - - - - -'
         'WKA'
         main.META_wind = True
-        main.META_expansionWind = True
-        main.META_be_planned_expansion = False
+        main.META_expansionWind = wind_expansion
+        main.META_be_planned_expansion = planned_wind
 
         main.META_faktorAusbauFlDist = 1.0  # in Kilometer
-        main.META_VorFl = True  # True -> Ausbauflaeche wird genutzt
-        main.META_PotFl = True  # True -> Ausbauflaeche wird genutzt
-        main.META_repowering = False  # True -> Anlagen >10 Jahre oder <1500KW Leistung werden abgerissen und neu gebaut (2:1)
+        main.META_VorFl = 'vor' in methods_wind  # True -> Ausbauflaeche wird genutzt
+        main.META_PotFl = 'pot' in methods_wind  # True -> Ausbauflaeche wird genutzt
+        main.META_repowering = 'repowering' in methods_wind  # True -> Anlagen >10 Jahre oder <1500KW Leistung werden abgerissen und neu gebaut (2:1)
 
         main.META_ausbaubegrenzungsfaktor = 0.5  # WIRD NOCH BENÖTIGT. MOMENTAN OHNE FUNKTION
         main.META_negativ_Graph_methode = True  # True = Kompch False = Gildenstern
         main.META_windanalyse = False
         '- - - - - - - - - - - - - - - - - - - -'
         'Speicher'
-        main.META_startcapacity = 0.8  # Angabe in Prozent wie voll die Speicher im Startpunkt sind
-        main.META_strorage_safty_compansion = 1.20  # Wieviel safty Speicher ausgebaut werden soll zusätzlich
+        main.META_use_storage = storage_sw
+        main.META_startcapacity = start_capacity_value  # Angabe in Prozent wie voll die Speicher im Startpunkt sind
+        main.META_storage_safety_padding = safety_padding_value  # Wieviel safty Speicher ausgebaut werden soll zusätzlich
 
-        main.META_speichervorAusbau = True  # True -> vor Ausbau Analyse beachtet Speicher
-        main.META_storage_expansion = True  # True -> Speicher werden ausgebaut
-        main.META_Laegerdorf = True
+        main.META_storage_before_expansion = 'existing' in storage_options  # True -> vor Ausbau Analyse beachtet Speicher
+        main.META_storage_expansion = storage_expansion_sw  # True -> Speicher werden ausgebaut
+        main.META_Laegerdorf = 'laegerdorf' in storage_options
         main.META_max_compressed_air = 13500000000
-        main.META_compressed_air = True
+        main.META_compressed_air = 'air' in storage_options
         '- - - - - - - - - - - - - - - - - - - -'
         'Database'
-        main.META_DATA_generate_windenergy_plannendareas = False # True wenn die Liste erstellt werden soll
+        main.META_DATA_generate_windenergy_plannendareas = False  # True wenn die Liste erstellt werden soll
         main.META_DATA_verbrauch_komuliert = False  # True wenn die Liste erstellt werden soll
         print(main.META_DATA_verbrauch_komuliert, 'main.META_DATA_verbrauch_komuliert')
         main.META_DATA_DBWKAreload = False  # True wenn die DB der WKA Lastgänge erstellt werden soll
@@ -931,10 +1045,7 @@ def start_sim(n, scenario, exmpl_sw, year, hours, power, storage, budget, profit
         main.META_DATA_pv_power = False  # True wenn die Leistung von PV erneut gerechnet werden muss
         main.META_DATA_wind_power = False  # True wenn die Leistung von Wind erneut gerechnet werden muss
 
-    test_asd()
-    main.re_simulation()
-
-    if results['display'] == 'none' and settings['display'] == 'inline':
+        main.re_simulation()
 
         return html.Div([
 
@@ -957,10 +1068,10 @@ def start_sim(n, scenario, exmpl_sw, year, hours, power, storage, budget, profit
 
         ]), {'display': 'inline'}, {'display': 'none'}, 'Back'
 
-    elif results['display'] == 'inline' and settings['display'] == 'none':
+    elif results_value['display'] == 'inline' and settings_value['display'] == 'none':
         return html.Div(), {'display': 'none'}, {'display': 'inline'}, 'Start'
     else:
-        print('oops')
+        print('start button callback error')
         raise PreventUpdate
 
 
