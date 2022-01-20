@@ -1,3 +1,6 @@
+import os
+import shutil
+
 import dash
 import html as html
 from dash.dependencies import Input, Output, State
@@ -207,20 +210,6 @@ year_dropdown = html.Div([
     )
 ])
 
-hours_slider = html.Div([
-    dcc.Slider(
-        id='hours_slider',
-        min=0,
-        max=100,
-        value=75,
-        step=1,
-        marks={
-            x: {'label': str(x) + '%'} for x in range(0, 100, 10)
-        },
-        tooltip={"placement": "bottom", "always_visible": True},
-    )
-])
-
 general_settings = dbc.Card([
     dbc.CardHeader([
         html.H5('General Settings', style={"text-decoration": 'underline'})
@@ -243,12 +232,6 @@ general_settings = dbc.Card([
                 html.P('Year:'),
                 year_dropdown
             ], width=3)
-        ], className='py-3', justify="center"),
-        dbc.Row([
-            dbc.Col([
-                html.P('Hours over 100% RE:'),
-                hours_slider
-            ], width=10)
         ], className='py-3', justify="center"),
     ])
 ], className='text-center p-1')
@@ -308,7 +291,7 @@ biomass_solar_settings = dbc.Card([
                 biomass_switch
             ], width=3),
             dbc.Col([
-                html.P('Use solar_input?'),
+                html.P('Use solar power?'),
                 solar_switch
             ], width=3)
         ], className='pb-3 px-5', justify="around"),
@@ -344,19 +327,6 @@ wind_expansion_switch = html.Div([
     ),
 ], className="radio-group")
 
-methods_wind_check = html.Div([
-    dcc.Checklist(
-        id='methods_wind_check',
-        options=[
-            {'label': 'Vorranggebiete', 'value': 'vor'},
-            {'label': 'Potentialflächen', 'value': 'pot'},
-            {'label': 'Repowering', 'value': 'repowering'}
-        ],
-        value=['vor'],
-        inputStyle={"margin-left": "20px", 'margin-right': "5px"}
-    )
-])
-
 planned_wind_switch = html.Div([
     dbc.RadioItems(
         id="planned_wind_switch",
@@ -371,6 +341,33 @@ planned_wind_switch = html.Div([
         value=True
     ),
 ], className="radio-group")
+
+wind_hours_slider = html.Div([
+    dcc.Slider(
+        id='wind_hours_slider',
+        min=0,
+        max=100,
+        value=75,
+        step=1,
+        marks={
+            x: {'label': str(x) + '%'} for x in range(0, 100, 10)
+        },
+        tooltip={"placement": "bottom", "always_visible": True},
+    )
+])
+
+methods_wind_check = html.Div([
+    dcc.Checklist(
+        id='methods_wind_check',
+        options=[
+            {'label': 'Vorranggebiete', 'value': 'vor'},
+            {'label': 'Potentialflächen', 'value': 'pot'},
+            {'label': 'Repowering', 'value': 'repowering'}
+        ],
+        value=['vor'],
+        inputStyle={"margin-left": "20px", 'margin-right': "5px"}
+    )
+])
 
 wind_settings = dbc.Card([
     dbc.CardHeader([
@@ -389,7 +386,13 @@ wind_settings = dbc.Card([
         ], className='pb-3 px-5', justify="around"),
         dbc.Row([
             dbc.Col([
-                html.P('Choose expansion methods_wind:'),
+                html.P('Expand wind until (hours over 100% renewable):'),
+                wind_hours_slider
+            ], width=10)
+        ], className='py-3', justify="around"),
+        dbc.Row([
+            dbc.Col([
+                html.P('Choose expansion options:'),
                 methods_wind_check
             ], width=12)
         ], className='py-3', justify="around"),
@@ -502,31 +505,9 @@ storage_settings = dbc.Card([
         dbc.Row([
             dbc.Col([
                 html.P(
-                    'Threshold for storage expasion:', id='storage_expansion_tt',
+                    'Start capacity:', id='start_capacity_tt',
                     style={"textDecoration": "underline", "cursor": "pointer"}
                 ),
-                dbc.Tooltip(
-                    'After what percentage of hours over 100% RE should the programm start expanding storage instead of'
-                    ' further expanding renewable energy sources', target='storage_expansion_tt'
-                ),
-                storage_expansion_slider
-            ], width=10)
-        ], className='py-3', justify="center"),
-        dbc.Row([
-            dbc.Col([
-                dbc.Row([
-                    dbc.Col([
-                        html.P(
-                            '?', style={'color': 'white', "cursor": "pointer"}, className='dot', id='start_capacity_tt'
-                        )
-                    ], width='auto'),
-                    dbc.Col([
-                        html.P(
-                            'Start capacity:',
-                            style={"textDecoration": "underline", "cursor": "pointer"}
-                        )
-                    ], width='auto')
-                ], justify="center"),
                 dbc.Tooltip(
                     'To what extend should the storages be filled up at the start of the year',
                     target='start_capacity_tt'
@@ -534,6 +515,19 @@ storage_settings = dbc.Card([
                 start_capacity_slider
             ], width=10)
         ], className='py-3', justify="around"),
+        dbc.Row([
+            dbc.Col([
+                html.P(
+                    'Expand storage until (hours over 100% renewable):', id='storage_expansion_tt',
+                    style={"textDecoration": "underline", "cursor": "pointer"}
+                ),
+                dbc.Tooltip(
+                    'What should be the final percentage of hours over 100% renewable energy, storages will be expanded '
+                    'after the value for wind is reached (see wind settings).', target='storage_expansion_tt'
+                ),
+                storage_expansion_slider
+            ], width=10)
+        ], className='py-3', justify="center"),
         dbc.Row([
             dbc.Col([
                 html.P(
@@ -814,7 +808,7 @@ scenario_4 = [False, 100, True, True, 0, 0, True, True, ['vor'], True]
 @app.callback(
     [
         Output('example_switch', 'value'),
-        Output('hours_slider', 'value'),
+        Output('wind_hours_slider', 'value'),
         Output('biomass_switch', 'value'),
         Output('solar_switch', 'value'),
         Output('biomass_input', 'value'),
@@ -856,9 +850,22 @@ def year_lock(value):
 
 
 @app.callback(
+    Output('wind_hours_slider', 'disabled'),
+    Input('wind_expansion_switch', 'value')
+)
+def disable_wind_expansion(value):
+    if value:
+        return False
+    elif not value:
+        return True
+    else:
+        pass
+
+
+@app.callback(
     [
-        Output('storage_expansion_slider', 'disabled'),
         Output('start_capacity_slider', 'disabled'),
+        Output('storage_expansion_slider', 'disabled'),
         Output('safety_padding_slider', 'disabled'),
     ],
     [
@@ -867,11 +874,10 @@ def year_lock(value):
     ]
 )
 def disable_storage(storage, expansion):
-    if storage:
-        if not expansion:
-            return dash.no_update, False, False
-        elif expansion:
-            return False, False, False
+    if storage and expansion:
+        return False, False, False
+    elif storage and not expansion:
+        return False, True, True
     elif not storage:
         return True, True, True
     else:
@@ -943,7 +949,7 @@ def growth_input_lock(value):
     [
         State('example_switch', 'value'),
         State('year_dropdown', 'value'),
-        State('hours_slider', 'value'),
+        State('wind_hours_slider', 'value'),
         State('biomass_switch', 'value'),
         State('biomass_input', 'value'),
         State('solar_switch', 'value'),
@@ -988,8 +994,14 @@ def start_sim(n, exmpl_sw, year, hours, bio_sw, bio_inp, solar_sw, solar_inp, wi
     '------------------------------------------------------------------------'
     'HEADER'
 
-
     if results_value['display'] == 'none' and settings_value['display'] == 'inline':
+
+        list_of_files = os.listdir('REE_AnalyseCompleted')
+        full_path = ["REE_AnalyseCompleted/{0}".format(x) for x in list_of_files]
+
+        if len(list_of_files) == 5:
+            oldest_file = min(full_path, key=os.path.getctime)
+            shutil.rmtree(oldest_file)
 
         main.META_EE_Anteil = hours / 100  # Muss Decimal angegeben werden
         main.META_EE_Speicher = storage_expansion_value / 100  # Grenzwert bis Speicher nicht mehr ausgebaut werden 100%
@@ -1046,12 +1058,8 @@ def start_sim(n, exmpl_sw, year, hours, bio_sw, bio_inp, solar_sw, solar_inp, wi
         main.META_DATA_wind_power = False  # True wenn die Leistung von Wind erneut gerechnet werden muss
 
         # exportFolder, cost_report, dataframe_expansion_area, export_simulation_bevor_expansion, SimulationEE_after_expansion
-        re_simulation = main.re_simulation()
-        exportFolder = re_simulation[0]
-        cost_report = re_simulation[1]
-        dataframe_expansion_area = re_simulation[2]
-        export_simulation_bevor_expansion = re_simulation[3]
-        SimulationEE_after_expansion = re_simulation[4]
+        exportFolder = main.re_simulation()
+
 
         return html.Div([
 

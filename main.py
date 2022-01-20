@@ -13,10 +13,6 @@ import logik as lgk
 import time
 import matplotlib.pyplot as plt
 
-'''def start_mainDataBase(META_EE_Anteil,META_EE_Speicher ):
-
-    if __name__ == '__main__':'''
-
 global META_EE_Anteil  # Muss Decimal angegeben werden 0.75
 global META_EE_Speicher  # Grenzwert bis Speicher nicht mehr ausgebaut werden 100% 1.0
 global META_year  # 2020
@@ -43,7 +39,7 @@ global META_ausbaubegrenzungsfaktor  # = 0.5 #WIRD NOCH BENÖTIGT. MOMENTAN OHNE
 global META_negativ_Graph_methode  # = True  # True = Kompch False = Gildenstern
 global META_windanalyse  # = False
 'Speicher'
-global META_use_storage # True use False ignore
+global META_use_storage  # True use False ignore
 global META_startcapacity  # = 0.8  # Angabe in Prozent wie voll die Speicher im Startpunkt sind
 global META_storage_safety_padding  # = 1.20  # Wieviel safty Speicher ausgebaut werden soll zusätzlich
 
@@ -71,8 +67,8 @@ global META_DATA_be_plannedWKA_power  # False  # True wenn die Leistung ausgerec
 global META_DATA_pv_power  # = False  # True wenn die Leistung von PV erneut gerechnet werden muss
 global META_DATA_wind_power  # = False  # True wenn die Leistung von Wind erneut gerechnet werden muss
 
-def set_globals():
 
+def set_globals():
     main.META_EE_Anteil = 0.75  # Muss Decimal angegeben werden
     main.META_EE_Speicher = 1.0  # Grenzwert bis Speicher nicht mehr ausgebaut werden 100%
     main.META_year = 2019
@@ -126,7 +122,6 @@ def set_globals():
     main.META_DATA_be_plannedWKA_power = False  # True wenn die Leistung ausgerechnet werden muss
     main.META_DATA_pv_power = False  # True wenn die Leistung von PV erneut gerechnet werden muss
     main.META_DATA_wind_power = False  # True wenn die Leistung von Wind erneut gerechnet werden muss
-
 
 
 def re_simulation():
@@ -276,7 +271,7 @@ def re_simulation():
                 print('falsches Format: ', openfilename)
                 raise RuntimeError('Programmabbruch da die Vorrang- und Potentialflächen nicht eingelesen werden konnten')
 
-    #theoretisch geprüft 14.01 AW
+    # theoretisch geprüft 14.01 AW
 
     'Ausbau der bereits geplanten WKA Anlagen'
     if main.META_be_planned_expansion == True:
@@ -327,12 +322,10 @@ def re_simulation():
     "Öffnen der verschiedenen Speicher"
     listStorage = []
 
-
-
     if main.META_storage_before_expansion == True and main.META_use_storage == True:
-
-        storage = lgk.StorageModell('PumpspeicherKraftwerk-Geesthacht', 'Geesthacht', 600000, main.META_startcapacity * 600000, 0.8, 120000,
-                                0.0, 0.08)
+        storage = lgk.StorageModell('PumpspeicherKraftwerk-Geesthacht', 'Geesthacht', 600000, main.META_startcapacity * 600000,
+                                    0.8, 120000,
+                                    0.0, 0.08)
         listStorage.append(storage)
         print('Storage is allocated', listStorage[-1].modell)
 
@@ -359,7 +352,7 @@ def re_simulation():
                                                                           export=True)
 
     'be plannend area without Coords and without weather ID'
-    if main.META_be_planned_expansion ==True:
+    if main.META_be_planned_expansion == True:
         if main.META_DATA_be_plannedWKA_getCoords == True and main.META_DATA_be_plannedWKA_getWeatherID == True:
             print('plannedAreasgetCoords will be regenerated and reloaded')
             temp_exportname = 'Datenbank\ConnectwithID\Erzeugung/WindparksSH_geplanterAusbau_UTM_WeatherID_2019_2020.csv'
@@ -393,12 +386,10 @@ def re_simulation():
         lgk.erzeugungsdaten_ee_anlagen(META_year, 'Wind', 'SH')
         Wind_Gesamt = lgk.erzeugungPerStunde(META_year, 'Wind')
 
-
-
     '----------------------------------------------------------------------------------------------------------------------'
     if main.META_DATA_DBWKAreload == False:
         try:
-            openfilename = 'Datenbank\WEAModell/DB_WKA_' + str(main.META_year) + '_' +  str(main.META_DATA_DB_min_hight)+ '.csv'
+            openfilename = 'Datenbank\WEAModell/DB_WKA_' + str(main.META_year) + '_' + str(main.META_DATA_DB_min_hight) + '.csv'
             print(openfilename)
             DB_WKA = pd.read_csv(openfilename, delimiter=';', decimal=',', encoding='utf-8')
         except:
@@ -411,7 +402,7 @@ def re_simulation():
         print('DBWKA reload will be regenerated and reloaded')
         DB_WKA = lgk.DB_WKA(META_year, dictWKAModell, dictWeatherID, windWeatherData, main.META_DATA_DB_min_hight, export=True)
 
-    #theoretisch und praktisch geprüft 14.01 AW
+    # theoretisch und praktisch geprüft 14.01 AW
     '______________________________________________________________________________________________________________________'
     # dataprep.plannedAreas_toUTM_and_connectWeahterID('Wind', 'SH', windWeatherStation)
     # dataprep.erzeugung_plannendAreas(META_year, plannedWKA)
@@ -432,8 +423,6 @@ def re_simulation():
     path.mkdir(parents=True, exist_ok=True)
     '----------------------------------------------------------------------------------------------------------------------'
     'Muss noch überarbeitet werden'
-
-
 
     '----------------------------------------------------------------------------------------------------------------------'
     '--------------------------------------------!-!-!SIMULATIONSSTART!-!-!------------------------------------------------'
@@ -474,9 +463,9 @@ def re_simulation():
 
     EE_Analyse = lgk.analyseEE(META_year, exportFolder, listStorage, temp_wind, PV_Gesamt, erz_Bio, be_planned_wka_power,
                                verbrauch_HH_SH, ausbau=False, export=True,
-                               geplanterAusbau= main.META_be_planned_expansion, biomes= main.META_biomasse,
-                               wind= main.META_wind, PV= main.META_PV, expansionPV= main.META_expansionPV,
-                               expansionBio= main.META_expansionBio, speicher= main.META_use_storage)
+                               geplanterAusbau=main.META_be_planned_expansion, biomes=main.META_biomasse,
+                               wind=main.META_wind, PV=main.META_PV, expansionPV=main.META_expansionPV,
+                               expansionBio=main.META_expansionBio, speicher=main.META_use_storage)
 
     SimulationEE_vorAusbau = EE_Analyse[0].copy()
     export_simulation_bevor_expansion = SimulationEE_vorAusbau.copy()
@@ -516,7 +505,7 @@ def re_simulation():
     if META_PV == True:
         print('expansion PV')
         expansionPV = lgk.percentage_expansion(SimulationEE_vorAusbau['Erzeugung_PV'], main.META_expansionPV)
-        print('New Energysum GWh: ', sum(expansionPV)/1000000)
+        print('New Energysum GWh: ', sum(expansionPV) / 1000000)
     if META_wind == True:
         expansionWind = [1] * len(expansionPV)
     '______________________________________________________________________________________________________________________'
@@ -527,13 +516,14 @@ def re_simulation():
 
     if META_wind == True and META_VorFl == True and EE_Anteil < META_EE_Anteil:
         temp_DB_WKA = DB_WKA.copy()
+
         def expansion_wind(pot_Vor, EE_Anteil, tempausbau_true):
             for i in range(len(dictWeatherID)):
                 print('------------------------------------------------------')
                 print('Start run: ', i, '/ max runs: ', len(dictWeatherID))
                 print('EE Anteil in Prozent: ', round(EE_Anteil * 100, 2), '%')
                 print('expansion EE Anteil border in Prozent: ', round(main.META_EE_Anteil * 100, 2), '%')
-                
+
                 start = time.process_time()
                 temp_len = len(temp_DB_WKA)
                 if temp_len == 0:
@@ -584,7 +574,7 @@ def re_simulation():
 
                 name_for_WKA_expansion = lgk.area_and_WKA_choice(EE_Simulation_negativGraph, temp_DB_WKA,
                                                                  deepestPoints[1],
-                                                                 dataframe_expansion_area['Wetter-ID_'+pot_Vor].tolist(),
+                                                                 dataframe_expansion_area['Wetter-ID_' + pot_Vor].tolist(),
                                                                  temp_ausgebauteAnlagen,
                                                                  dictWKAModell,
                                                                  spiecherMethodik=META_negativ_Graph_methode)
@@ -636,7 +626,8 @@ def re_simulation():
                     temp_area = 'unknown'
                 print(temp_area, ':  End: ', i, 'Zeit: ', end - start, 'Name', name_for_WKA_expansion,
                       'Anzahl Neu: ', keyfactors_expansion_area[2], '/ Total: ', sum(list_count_expansion_wka))
-                print('Leistung insgesamt zugebaut in MW: ', sum(list_count_expansion_power)/1000, 'Leistung Neu:  ', keyfactors_expansion_area[3],
+                print('Leistung insgesamt zugebaut in MW: ', sum(list_count_expansion_power) / 1000, 'Leistung Neu:  ',
+                      keyfactors_expansion_area[3],
                       'Freie Fläche: ', sum(dataframe_expansion_area['nettoFreieFlaeche_Vor']))
 
             return EE_Anteil
@@ -704,8 +695,6 @@ def re_simulation():
         print('Speicherausbau fertig')
         SimulationEE_after_expansion.to_csv(EE_export, sep=';', encoding='utf-8-sig', index=False, decimal=',')
 
-
-
     cost_report = lgk.cost_analysis(META_year, exportFolder, dictWKAModell, list_key_expansion_wka,
                                     list_count_expansion_wka, list_count_expansion_power, listStorage,
                                     cost_wind=main.META_expansionWind, cost_storage=main.META_storage_expansion,
@@ -716,5 +705,3 @@ def re_simulation():
     print('- - - - - - - - - - - - - - - - - - - - - - - - - ')
 
     return export_Folder, cost_report, dataframe_expansion_area, export_simulation_bevor_expansion, SimulationEE_after_expansion
-
-

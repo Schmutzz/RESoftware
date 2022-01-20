@@ -144,15 +144,6 @@ class TestAlex:
         else:
             self.__x = x
 
-p1= TestAlex(999)
-print(p1.x)
-p2 = TestAlex(-999)
-print(p2.x)
-p3 = TestAlex(14)
-print(p3.x)
-b = p3.x
-print(b)
-
 
 '''
 def annualOutput_WKA(year, Ein_ms, Nenn_ms, Abs_ms, leistung_Gesamt, weatherData, nabenhohe):
