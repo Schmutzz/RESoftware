@@ -1045,13 +1045,9 @@ def start_sim(n, exmpl_sw, year, hours, bio_sw, bio_inp, solar_sw, solar_inp, wi
         main.META_DATA_pv_power = False  # True wenn die Leistung von PV erneut gerechnet werden muss
         main.META_DATA_wind_power = False  # True wenn die Leistung von Wind erneut gerechnet werden muss
 
-        # exportFolder, cost_report, dataframe_expansion_area, export_simulation_bevor_expansion, SimulationEE_after_expansion
-        re_simulation = main.re_simulation()
-        exportFolder = re_simulation[0]
-        cost_report = re_simulation[1]
-        dataframe_expansion_area = re_simulation[2]
-        export_simulation_bevor_expansion = re_simulation[3]
-        SimulationEE_after_expansion = re_simulation[4]
+        # exportFolder
+        export_folder = main.re_simulation()
+
 
         return html.Div([
 
