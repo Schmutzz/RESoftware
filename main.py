@@ -692,7 +692,7 @@ def re_simulation():
             temp_min = min(SimulationEE_nachAusbau['Diff_EE_zu_Verb_nach_Speicher'])
             print('lowest delta EE to consume: ', round(temp_min, 6))
             min_current_storage = min(SimulationEE_nachAusbau['Speicher_voll_Prozent'])
-            print('lowest Currentstorage in Prozent: ', round(min_current_storage * 100, 6), '%')
+            print('lowest Currentstorage in Prozent: ', round(min_current_storage * 100, 5), '%')
 
             main.META_Laegerdorf = False
             main.META_compressed_air = False
