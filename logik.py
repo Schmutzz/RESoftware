@@ -912,7 +912,7 @@ def analyseEE(year, exportfolder, listSpeicher, EE_Erz, PV_Gesamt, erz_Bio, plan
     EE_Erz['EE>45%'] = liste_45
     EE_Erz['EE<45%'] = liste_k45
     uhrzeit = datetime.now().strftime('%H-%M')
-
+    exportname = 0
     EE_Anteil = sum(liste_100) / sum(liste_k45)
     temp_EEAnteil = EE_Anteil * 100
     if export == True:
@@ -920,7 +920,7 @@ def analyseEE(year, exportfolder, listSpeicher, EE_Erz, PV_Gesamt, erz_Bio, plan
         print(exportname)
         EE_Erz.to_csv(exportname, sep=';', encoding='utf-8-sig', index=False, decimal=',')
 
-    return EE_Erz, EE_Anteil
+    return EE_Erz, EE_Anteil , exportname
 
 
 def analyseAusbauFl():
