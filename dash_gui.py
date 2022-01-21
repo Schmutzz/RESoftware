@@ -1,6 +1,6 @@
 import os
 import shutil
-
+import time
 import dash
 import html as html
 from dash.dependencies import Input, Output, State
@@ -17,14 +17,14 @@ import main
 
 print('Programmstart')
 
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.SOLAR])
+server = app.server
+
 colors = mcolors.CSS4_COLORS
 names = list(colors)
 for i in names:
     if 'light' in i or 'white' in i:
         names.remove(i)
-
-app = dash.Dash(__name__, external_stylesheets=[dbc.themes.SOLAR])
-server = app.server
 
 df = pd.read_csv('data/GruenEnergie_2019_ausbau.csv', sep=';', decimal=',', encoding='latin1')
 df['Datum'] = pd.to_datetime(df['Datum'])
@@ -572,8 +572,19 @@ storage_settings = dbc.Card([
 # app layout
 
 start_button = html.Div([
-    dbc.Button('Start', id='start_button', n_clicks=0),
-    html.Div(id='start_output')
+    dbc.Row([
+        dbc.Col([
+            html.Div(children=[html.P('The simulation might take up to 10 minutes'),
+                               html.B(),
+                               html.P('Do not press the button twice or all simulation progress will be lost!!!')],
+                     id='start_output'),
+            dbc.Button('Start', id='start_button', n_clicks=0, disabled=False),
+        ])
+    ], className='py-3', justify='center')
+], className='text-center')
+
+support_button = html.Div([
+    dbc.Button('Support', id='support_button', n_clicks=0, disabled=False, style={'display': 'none'}),
 ], className='text-center')
 
 settings_children = html.Div([
@@ -795,8 +806,8 @@ app.layout = html.Div([
     html.Div(id='settings_page', children=settings_children, style={'display': 'inline'}),
     dbc.Row([
         start_button
-    ], className='pt-3'),
-    html.Div(id='results', children=results, style={'display': 'none'})
+    ], className='py-3', justify='center'),
+    html.Div(id='results', children=results, style={'display': 'none'}),
 ], style={"width": "99%"}, className='px-3 py-2')
 
 scenario_1 = [True, 75, True, True, 0, 0, True, True, ['vor'], False]
@@ -831,6 +842,60 @@ def change_scenario(scenario):
         return scenario_4
     else:
         raise PreventUpdate
+
+
+'''
+
+@app.callback(
+    Output('start_output', 'children'),
+    [
+        Input('start_button', 'n_clicks')
+    ]
+)
+def sim(n):
+    if n == 0:
+        return dash.no_update
+    if not disabled:
+        return True
+    elif disabled:
+        time.sleep(5)
+        return dash.no_update
+
+
+
+@app.callback(
+    [
+        Output('support_button', 'disabled'),
+        Output('support_button', 'n_clicks')
+    ],
+    [
+        Input('start_button', 'n_clicks'),
+        Input('start_button', 'disabled')
+    ],
+    [
+        State('support_button', 'n_clicks')
+    ]
+)
+def sim(n, disabled, n_support):
+    if n == 0 or n == n_support:
+        return dash.no_update, dash.no_update
+    if not disabled:
+        return True, dash.no_update
+    elif disabled:
+        time.sleep(5)
+        return False, n
+
+
+@app.callback(
+    Output('start_button', 'disabled'),
+    Input('support_button', 'disabled')
+)
+def sim(disabled):
+    if not disabled:
+        return False
+    elif disabled:
+        return True
+'''
 
 
 @app.callback(
@@ -945,7 +1010,9 @@ def growth_input_lock(value):
         Output('settings_page', 'style'),
         Output('start_button', 'children')
     ],
-    Input('start_button', 'n_clicks'),
+    [
+        Input('start_button', 'n_clicks')
+    ],
     [
         State('example_switch', 'value'),
         State('year_dropdown', 'value'),
@@ -965,31 +1032,13 @@ def growth_input_lock(value):
         State('storage_options_check', 'value'),
         State('results', 'style'),
         State('settings_page', 'style')
-    ]
+    ],
 )
 def start_sim(n, exmpl_sw, year, hours, bio_sw, bio_inp, solar_sw, solar_inp, wind_expansion,
               planned_wind, methods_wind, storage_sw, storage_expansion_sw, storage_expansion_value,
               start_capacity_value, safety_padding_value, storage_options, results_value, settings_value):
-
     if n == 0:
-        raise PreventUpdate
-    '''else:
-        if year is not None:
-            year_val = year
-        else:
-            year_val = 'Not given'
-
-        if bio_input is not None:
-            bio_str = str(bio_input) + '%'
-        else:
-            bio_str = 'Not given'
-
-        if solar_input is not None:
-            solar_str = str(solar_input) + '%'
-        else:
-            solar_str = 'Not given'
-
-        areas_str = ', '.join(methods_wind)'''
+        return dash.no_update, dash.no_update, dash.no_update, dash.no_update
 
     '------------------------------------------------------------------------'
     'HEADER'
@@ -999,7 +1048,7 @@ def start_sim(n, exmpl_sw, year, hours, bio_sw, bio_inp, solar_sw, solar_inp, wi
         list_of_files = os.listdir('REE_AnalyseCompleted')
         full_path = ["REE_AnalyseCompleted/{0}".format(x) for x in list_of_files]
 
-        if len(list_of_files) == 5:
+        if len(list_of_files) >= 20:
             oldest_file = min(full_path, key=os.path.getctime)
             shutil.rmtree(oldest_file)
 
@@ -1060,27 +1109,10 @@ def start_sim(n, exmpl_sw, year, hours, bio_sw, bio_inp, solar_sw, solar_inp, wi
         # exportFolder, cost_report, dataframe_expansion_area, export_simulation_bevor_expansion, SimulationEE_after_expansion
         exportFolder = main.re_simulation()
 
+        cost_report = [x for x in os.listdir(exportFolder) if 'CostReport' in x]
 
-        return html.Div([
 
-            '''html.B(),
-            html.H4('Used settings:'),
-            html.P('Scenario: ' + str(scenario)),
-            html.P('Use example data: ' + str(exmpl_sw)),
-            html.P('Selected year: ' + str(year_val)),
-            html.P('Hours over threshold: ' + str(hours) + '%'),
-            html.P('Power threshold: ' + str(power) + '%'),
-            html.P('Use storage: ' + str(storage)),
-            html.P('Budget: ' + str(budget_str)),
-            html.P('Use profit: ' + str(profit)),
-            html.P('Calculation period: ' + str(calc_time)),
-            html.P('Use growth factor: ' + str(growth)),
-            html.P('Biomass growth: ' + str(bio_str)),
-            html.P('Solar growth: ' + str(solar_str)),
-            html.P('Areas to use: ' + str(areas_str)),
-            html.P('Models to use: ' + str(dont_use))'''
-
-        ]), {'display': 'inline'}, {'display': 'none'}, 'Back'
+        return html.Div(), {'display': 'inline'}, {'display': 'none'}, 'Back'
 
     elif results_value['display'] == 'inline' and settings_value['display'] == 'none':
         return html.Div(), {'display': 'none'}, {'display': 'inline'}, 'Start'
