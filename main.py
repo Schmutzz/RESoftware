@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 '''def start_mainDataBase(META_EE_Anteil,META_EE_Speicher ):
 
     if __name__ == '__main__':'''
-
+Meta_GUI_OFF = True
 global META_EE_Anteil  # Muss Decimal angegeben werden 0.75
 global META_EE_Speicher  # Grenzwert bis Speicher nicht mehr ausgebaut werden 100% 1.0
 global META_year  # 2020
@@ -74,7 +74,7 @@ global META_DATA_wind_power  # = False  # True wenn die Leistung von Wind erneut
 def set_globals():
 
     main.META_EE_Anteil = 0.75  # Muss Decimal angegeben werden
-    main.META_EE_Speicher = 1.0  # Grenzwert bis Speicher nicht mehr ausgebaut werden 100%
+    main.META_EE_Speicher = 0.90  # Grenzwert bis Speicher nicht mehr ausgebaut werden 100%
     main.META_year = 2019
     '- - - - - - - - - - - - - - - - - - - -'
     'BIO'
@@ -183,7 +183,7 @@ def re_simulation():
             verbrauch_HH_SH = pd.read_csv(openfilename, delimiter=';', decimal=',', encoding='utf-8')
         except:
             print('falsches Format: ', openfilename)
-            META_DATA_verbrauch_komuliert = True
+            main.META_DATA_verbrauch_komuliert = True
 
     '---------------------------------------------------------------------------------------------------------'
     'WETTER'
@@ -383,21 +383,21 @@ def re_simulation():
             be_planned_wka_power = lgk.erzeugungPerStunde_singleFrame(META_year, be_planned_wka_power, temp_exportname,
                                                                       export=True)
     'ERZEUGUNG NEU BERECHNEN'
-
+    weatherIDlist = windWeatherStation['Stations_id'].tolist().copy()
     if main.META_DATA_pv_power == True and main.META_PV == True:
         # STATIONEN VORHER NOCH GEPRÜFT WERDEN
         lgk.erzeugungsdaten_ee_anlagen(META_year, 'PV', 'HH')
         lgk.erzeugungsdaten_ee_anlagen(META_year, 'PV', 'SH')
-        PV_Gesamt = lgk.erzeugungPerStunde(META_year, 'PV')
+        PV_Gesamt = lgk.erzeugungPerStunde(META_year, 'PV', weatherIDlist)
 
     if main.META_DATA_wind_power == True and main.META_wind == True:
         # STATIONEN VORHER NOCH ÜBERPRÜFEN
         lgk.erzeugungsdaten_ee_anlagen(META_year, 'Wind', 'HH')
         lgk.erzeugungsdaten_ee_anlagen(META_year, 'Wind', 'SH')
-        Wind_Gesamt = lgk.erzeugungPerStunde(META_year, 'Wind')
+        Wind_Gesamt = lgk.erzeugungPerStunde(META_year, 'Wind', weatherIDlist)
 
-
-
+    # lgk.erzeugungPerStunde(2019, 'Wind', weatherIDlist, single_ID_export= True )
+    # lgk.erzeugungPerStunde(2020, 'Wind', weatherIDlist, single_ID_export=True)
     '----------------------------------------------------------------------------------------------------------------------'
     if main.META_DATA_DBWKAreload == False:
         try:
@@ -433,14 +433,14 @@ def re_simulation():
     export_folder_for_gui = 'REE_AnalyseCompleted/REE_Analysejahr_' + str(main.META_year) + '_' + str(uhrzeit)
     path = Path(exportFolder)
     path.mkdir(parents=True, exist_ok=True)
-    '----------------------------------------------------------------------------------------------------------------------'
+    '------------------------------------------------------------------------------------------------------------------'
     'Muss noch überarbeitet werden'
 
 
 
-    '----------------------------------------------------------------------------------------------------------------------'
-    '--------------------------------------------!-!-!SIMULATIONSSTART!-!-!------------------------------------------------'
-    '----------------------------------------------------------------------------------------------------------------------'
+    '------------------------------------------------------------------------------------------------------------------'
+    '--------------------------------------------!-!-!SIMULATIONSSTART!-!-!--------------------------------------------'
+    '------------------------------------------------------------------------------------------------------------------'
     list_count_expansion_wka = []
     list_count_expansion_power = []
     list_name_expansion_wka = []
@@ -476,7 +476,7 @@ def re_simulation():
     temp_wind = Wind_Gesamt.copy()  # ->wird für die Darstellung der Daten benötigt
     print('Erste Analyse startet')
     EE_Analyse = lgk.analyseEE(META_year, exportFolder, listStorage, temp_wind, PV_Gesamt, erz_Bio, be_planned_wka_power,
-                               verbrauch_HH_SH,'beforREexpansion', ausbau=False, export=True,
+                               verbrauch_HH_SH,key_name= 'beforREexpansion', ausbau=False, export=True,
                                geplanterAusbau= main.META_be_planned_expansion, biomes= main.META_biomasse,
                                wind=main.META_wind, PV= main.META_PV, expansionPV= main.META_expansionPV,
                                expansionBio=main.META_expansionBio, speicher= main.META_use_storage)
@@ -516,10 +516,12 @@ def re_simulation():
         print('expansion Bio')
         expansionBio = lgk.percentage_expansion(SimulationEE_vorAusbau['Erz_Biomasse_Gesamt'], main.META_expansionBio)
         print('New Energysum GWh: ', sum(expansionBio) / 1000000)
+        sum_expansionBio = sum(expansionBio)
     if META_PV == True:
         print('expansion PV')
         expansionPV = lgk.percentage_expansion(SimulationEE_vorAusbau['Erzeugung_PV'], main.META_expansionPV)
         print('New Energysum GWh: ', sum(expansionPV)/1000000)
+        sum_expansionPV = sum(expansionPV)
     if META_wind == True:
         expansionWind = [1] * len(SimulationEE_vorAusbau)
     '______________________________________________________________________________________________________________________'
@@ -660,11 +662,12 @@ def re_simulation():
     temp_wind = Wind_Gesamt.copy()
 
     if main.META_wind == True:
-        if main.META_VorFl == True or main.META_PotFl == True:
+        if main.META_VorFl == True or main.META_PotFl == True or sum_expansionPV > 0 or sum_expansionBio > 0:
 
-            EE_Analyse = lgk.analyseEE(META_year, exportFolder, listStorage, temp_wind, PV_Gesamt, erz_Bio, be_planned_wka_power,
-                                       verbrauch_HH_SH,
-                                       expansionWind, expansionPV, expansionBio,'afterStorageExpansion', ausbau=temp_ausbau, export=True,
+            EE_Analyse = lgk.analyseEE(META_year, exportFolder, listStorage, temp_wind, PV_Gesamt, erz_Bio,
+                                       be_planned_wka_power, verbrauch_HH_SH,
+                                       expansionWind, expansionPV, expansionBio, key_name='afterREexpansion',
+                                       ausbau=temp_ausbau, export=True,
                                        geplanterAusbau=META_be_planned_expansion, biomes=META_biomasse,
                                        wind=META_wind, PV=META_PV, expansionPV=META_expansionPV,
                                        expansionBio=META_expansionBio, speicher=main.META_use_storage)
@@ -678,7 +681,7 @@ def re_simulation():
         print('Speicherausbau')
         EE_anteil_bevor = EE_Anteil
         print('EE Anteil vor Ausbau', EE_anteil_bevor)
-        while (min_current_storage <= main.META_storage_safety_padding):
+        while (min_current_storage <= main.META_storage_safety_padding or EE_Anteil < main.META_EE_Speicher):
             print('EE Anteil in Prozent: ', round(EE_Anteil * 100, 3), '%')
             print('EE MUSS in Prozent: ', round(META_EE_Speicher * 100, 3), '%')
 
@@ -691,13 +694,14 @@ def re_simulation():
                 print('Speicher AUSBAU macht keinen Sinn mehr')
                 break
             lgk.expansion_storage(temp_Diff_EE, META_negativ_Graph_methode, listStorage, main.META_startcapacity,
-                                  main.META_Laegerdorf, main.META_compressed_air, main.META_max_compressed_air)
+                                  main.META_Laegerdorf, main.META_compressed_air, main.META_max_compressed_air,
+                                  main.META_EE_Speicher)
             print('Storage Len: ', len(listStorage))
 
             EE_Analyse = lgk.analyseEE(META_year, exportFolder, listStorage, temp_wind, PV_Gesamt, erz_Bio,
                                        be_planned_wka_power, verbrauch_HH_SH,
-                                       expansionWind, expansionPV, expansionBio,'afterStorageExpansion', ausbau=temp_ausbau,
-                                       export=False,
+                                       expansionWind, expansionPV, expansionBio, key_name = 'afterStorageExpansion',
+                                       ausbau=temp_ausbau, export=False,
                                        geplanterAusbau=main.META_be_planned_expansion, biomes=main.META_biomasse,
                                        wind=main.META_wind, PV=main.META_PV, expansionPV=main.META_expansionPV,
                                        expansionBio=main.META_expansionBio, speicher=main.META_storage_before_expansion)
@@ -726,4 +730,6 @@ def re_simulation():
 
     return export_folder_for_gui
 
-
+if Meta_GUI_OFF == True:
+    set_globals()
+    re_simulation()

@@ -616,7 +616,7 @@ def erzeugung_WKA_areawith_weatherID(year, wetterdaten, lokationsdaten, dictMode
     return exportFrame
 
 
-def erzeugungPerStunde(year, source1):
+def erzeugungPerStunde(year, source1, weatherIDlist, single_ID_export = False):
     print("Start Erzeugung per Stunde")
 
     files = findoutFiles('Datenbank\Erzeugung/Einzel')
@@ -647,7 +647,28 @@ def erzeugungPerStunde(year, source1):
             sum_1 = df.sum(axis=1, numeric_only=None)
             # print(sum_1)
 
+    if single_ID_export == True:
+        single_export_frame = DateList('01.01.' + str(year) + ' 00:00', '31.12.' + str(year) + ' 23:00', '60min')
+
+        for i in weatherIDlist:
+            matches = [match for match in df.columns.values.tolist() if str(i) in match]
+            columname = str(i) + '_' + str(len(matches))
+            temp_list = [0] * len(single_export_frame)
+            #print(len(single_export_frame))
+
+            for j in matches:
+                #print(len(df[j]))
+                temp_list += df[j]
+
+            single_export_frame[columname] = temp_list
+            #print(single_export_frame)
+        exportname = 'Erzeigung_weatherID_'+ str(year) +'.csv'
+        single_export_frame.to_csv(exportname, sep=';', encoding='utf-8', index=False, decimal=',')
+
+
+
     del df['Datum']
+
     sum_3 = df.sum(axis=1, numeric_only=None)
 
     # print(sum_3)
@@ -1643,7 +1664,7 @@ def deepest_point_negativGraph(negativGraph, anzahl=100):
 
 
 def expansion_storage(temp_Diff_EE, META_speicherverlauf, listStorage, META_startcapacity, META_Laegerdorf,
-                      META_compressed_air, META_max_compressed_air):
+                      META_compressed_air, META_max_compressed_air, EE_max_Speicher):
     print("start Speicherausbau")
     EE_Simulation_negativGraph = negativ_Verlauf(temp_Diff_EE, speicherVerlauf=META_speicherverlauf)
 
@@ -1667,7 +1688,7 @@ def expansion_storage(temp_Diff_EE, META_speicherverlauf, listStorage, META_star
         if deepestPoint > META_max_compressed_air:
             deepestPoint = META_max_compressed_air
         else:
-            deepestPoint = deepestPoint * 1.4
+            deepestPoint = deepestPoint * (EE_max_Speicher + 0.4)
 
         storage = StorageModell('Druckluftspeicher', 'SH', deepestPoint, META_startcapacity * deepestPoint, 0.57,
                                 deepestPoint / 5, 60, 0.1)
@@ -1785,7 +1806,7 @@ def cost_analysis(year,exportfolder,dictWKA, list_key_expansion_wka, list_count_
     try:
         temp_sum = (sum(cost_single_betrieb) / len(cost_single_betrieb))
     except:
-        cost_single_betrieb.append(temp_sum)
+        cost_single_betrieb.append(0)
 
     temp_sum = sum(cost_capacity)
     cost_capacity.append(temp_sum)
