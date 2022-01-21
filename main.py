@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 '''def start_mainDataBase(META_EE_Anteil,META_EE_Speicher ):
 
     if __name__ == '__main__':'''
-Meta_GUI_OFF = True
+Meta_GUI_OFF = False
 global META_EE_Anteil  # Muss Decimal angegeben werden 0.75
 global META_EE_Speicher  # Grenzwert bis Speicher nicht mehr ausgebaut werden 100% 1.0
 global META_year  # 2020

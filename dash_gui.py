@@ -1111,7 +1111,6 @@ def start_sim(n, exmpl_sw, year, hours, bio_sw, bio_inp, solar_sw, solar_inp, wi
 
         cost_report = [x for x in os.listdir(exportFolder) if 'CostReport' in x]
 
-
         return html.Div(), {'display': 'inline'}, {'display': 'none'}, 'Back'
 
     elif results_value['display'] == 'inline' and settings_value['display'] == 'none':
