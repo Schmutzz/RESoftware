@@ -96,7 +96,7 @@ def set_globals():
     main.META_repowering = False  # True -> Anlagen >10 Jahre oder <1500KW Leistung werden abgerissen und neu gebaut (2:1)
 
     main.META_ausbaubegrenzungsfaktor = 0.5  # WIRD NOCH BENÖTIGT. MOMENTAN OHNE FUNKTION
-    main.META_negativ_Graph_methode = False  # True = Kompch False = Gildenstern
+    main.META_negativ_Graph_methode = True  # True = Kompch False = Gildenstern
     main.META_windanalyse = False
     '- - - - - - - - - - - - - - - - - - - -'
     'Speicher'
@@ -345,7 +345,7 @@ def re_simulation():
     'Verbrauch HH und SH'
     if main.META_DATA_verbrauch_komuliert == True:
         print('verbrauchGesamt reload will be regenerated and reloaded')
-        verbrauch_HH_SH = lgk.verbrauchGesamt(META_year)
+        verbrauch_HH_SH = lgk.verbrauchGesamt(main.META_year)
     '-  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -'
     'expansion area Vor and Pot'
     if main.META_wind == True:
@@ -681,7 +681,8 @@ def re_simulation():
         print('Speicherausbau')
         EE_anteil_bevor = EE_Anteil
         print('EE Anteil vor Ausbau', EE_anteil_bevor)
-        while (min_current_storage <= main.META_storage_safety_padding or EE_Anteil < main.META_EE_Speicher):
+        while (min_current_storage <= main.META_storage_safety_padding and EE_Anteil < main.META_EE_Speicher):
+            print('------------------------------------------------------')
             print('EE Anteil in Prozent: ', round(EE_Anteil * 100, 3), '%')
             print('EE MUSS in Prozent: ', round(META_EE_Speicher * 100, 3), '%')
 
@@ -719,6 +720,8 @@ def re_simulation():
             main.META_compressed_air = False
 
         print('Speicherausbau fertig')
+        print(EE_export)
+        print(type(EE_export))
         SimulationEE_after_expansion.to_csv(EE_export, sep=';', encoding='utf-8-sig', index=False, decimal=',')
 
 
