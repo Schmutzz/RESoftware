@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 '''def start_mainDataBase(META_EE_Anteil,META_EE_Speicher ):
 
     if __name__ == '__main__':'''
-Meta_GUI_OFF = True
+# Meta_GUI_OFF = True
 global META_EE_Anteil  # Muss Decimal angegeben werden 0.75
 global META_EE_Speicher  # Grenzwert bis Speicher nicht mehr ausgebaut werden 100% 1.0
 global META_year  # 2020
@@ -28,6 +28,16 @@ global META_expansionBio  # in Prozent 0.00
 'PV'
 global META_PV  # True
 global META_expansionPV  # in Prozent 0.00
+'- - - - - - - - - - - - - - - - - - - -'
+'Eisman'
+global META_eisman # True on False off
+global META_first_wind_limit # 13ms
+global META_sec_wind_limit # 19ms
+global META_third_wind_limit # 25ms
+global META_first_power_limit # 0.6
+global META_sec_power_limit # 0.3
+global META_third_power_limit # 0.0
+
 '- - - - - - - - - - - - - - - - - - - -'
 'WKA'
 global META_wind  # = True
@@ -70,6 +80,8 @@ global META_DATA_be_plannedWKA_getWeatherID  # = False  # True wenn die Weather 
 global META_DATA_be_plannedWKA_power  # False  # True wenn die Leistung ausgerechnet werden muss
 global META_DATA_pv_power  # = False  # True wenn die Leistung von PV erneut gerechnet werden muss
 global META_DATA_wind_power  # = False  # True wenn die Leistung von Wind erneut gerechnet werden muss
+global META_DATA_eisman
+
 
 def set_globals():
 
@@ -84,6 +96,16 @@ def set_globals():
     'PV'
     main.META_PV = True
     main.META_expansionPV = 0.00  # in Prozent
+    '- - - - - - - - - - - - - - - - - - - -'
+
+    'Eisman'
+    main.META_eisman = True
+    main.META_first_wind_limit = 13
+    main.META_sec_wind_limit = 19
+    main.META_third_wind_limit = 25
+    main.META_first_power_limit = 0.6
+    main.META_sec_power_limit = 0.3
+    main.META_third_power_limit = 0.0
     '- - - - - - - - - - - - - - - - - - - -'
     'WKA'
     main.META_wind = True
@@ -126,7 +148,7 @@ def set_globals():
     main.META_DATA_be_plannedWKA_power = False  # True wenn die Leistung ausgerechnet werden muss
     main.META_DATA_pv_power = False  # True wenn die Leistung von PV erneut gerechnet werden muss
     main.META_DATA_wind_power = False  # True wenn die Leistung von Wind erneut gerechnet werden muss
-
+    main.META_DATA_eisman = False
 
 
 def re_simulation():
@@ -188,14 +210,14 @@ def re_simulation():
     '---------------------------------------------------------------------------------------------------------'
     'WETTER'
     try:
-        openfilename = 'Datenbank\Wetter/Wind_Wetterdaten_' + str(META_year) + '.csv'
+        openfilename = 'Datenbank\Wetter/Wind_Wetterdaten_' + str(main.META_year) + '.csv'
         print(openfilename)
         windWeatherData = pd.read_csv(openfilename, delimiter=';', decimal=',', header=0, encoding='utf-8')
     except:
         print('falsches Format: ', openfilename)
 
     try:
-        openfilename = 'Datenbank\Wetter/PV_Wetterdaten_' + str(META_year) + '.csv'
+        openfilename = 'Datenbank\Wetter/PV_Wetterdaten_' + str(main.META_year) + '.csv'
         print(openfilename)
         solarWeatherData = pd.read_csv(openfilename, delimiter=';', decimal=',', header=0, encoding='utf-8')
     except:
@@ -226,13 +248,29 @@ def re_simulation():
 
     'GESAMT WIND'
     if main.META_wind == True:
-        try:
-            openfilename = 'Datenbank\Erzeugung/Erz_komuliert_' + str(META_year) + '_Wind.csv'
-            print(openfilename)
-            Wind_Gesamt = pd.read_csv(openfilename, delimiter=';', encoding='utf-8')
-        except:
-            print('falsches Format: ', openfilename)
-            main.META_DATA_wind_power = True
+        if main.META_eisman == False and main.META_DATA_wind_power == False:
+            try:
+                openfilename = 'Datenbank\Erzeugung/Erz_komuliert_' + str(main.META_year) + '_Wind.csv'
+                print(openfilename)
+                Wind_Gesamt = pd.read_csv(openfilename, delimiter=';', encoding='utf-8')
+            except:
+                print('falsches Format: ', openfilename)
+                main.META_DATA_wind_power = True
+
+        if main.META_eisman == True and main.META_DATA_wind_power == False:
+            try:
+                eisman_name = 'eisman_' + str(main.META_first_wind_limit) + '_' + str(
+                    main.META_sec_wind_limit) + '_' + str(main.META_third_wind_limit) + '_' + str(
+                    main.META_first_power_limit) + '_' + str(main.META_sec_power_limit) + '_' + str(
+                    main.META_third_power_limit)
+
+                openfilename = 'Datenbank\Erzeugung/Erz_komuliert_' + str(main.META_year) + '_Wind_' + eisman_name + '.csv'
+                print(openfilename)
+                Wind_Gesamt = pd.read_csv(openfilename, delimiter=';', encoding='utf-8')
+            except:
+                print('falsches Format: ', openfilename)
+                main.META_DATA_eisman = True
+
 
     'GESAMT bereits geplanter Ausbau'
     if main.META_DATA_generate_windenergy_plannendareas == False:
@@ -330,16 +368,55 @@ def re_simulation():
     "Öffnen der verschiedenen Speicher"
     listStorage = []
 
-
-
     if main.META_storage_before_expansion == True and main.META_use_storage == True:
 
-        storage = lgk.StorageModell('PumpspeicherKraftwerk-Geesthacht', 'Geesthacht', 600000, main.META_startcapacity * 600000, 0.8, 120000,
-                                0.0, 0.08)
+        storage = lgk.StorageModell('PumpspeicherKraftwerk-Geesthacht', 'Geesthacht', 600000,
+                                    main.META_startcapacity * 600000, 0.8, 120000, 0.0, 0.08)
+
         listStorage.append(storage)
         print('Storage is allocated', listStorage[-1].modell)
 
-    '----------------------------------------------------------------------------------------------------------------------'
+    '-----------------------------------------------------------------------------------------------------------------'
+    'ERZEUGUNG NEU BERECHNEN'
+    weatherIDlist = windWeatherStation['Stations_id'].tolist().copy()
+
+    if main.META_DATA_pv_power == True and main.META_PV == True:
+        # STATIONEN VORHER NOCH GEPRÜFT WERDEN
+        lgk.generation_PV_energy(main.META_year, 'PV', 'HH')
+        lgk.generation_PV_energy(main.META_year, 'PV', 'SH')
+        PV_Gesamt = lgk.erzeugungPerStunde(main.META_year, 'PV', weatherIDlist)
+
+    if main.META_wind == True:
+        if main.META_DATA_wind_power == True or main.META_DATA_eisman == True:
+            print('new wind energy will be creat')
+            eisman_name = 'eisman_' + str(main.META_first_wind_limit) + '_' + str(
+                main.META_sec_wind_limit) + '_' + str(main.META_third_wind_limit) + '_' + str(
+                main.META_first_power_limit) + '_' + str(main.META_sec_power_limit) + '_' + str(
+                main.META_third_power_limit)
+
+            # STATIONEN VORHER NOCH ÜBERPRÜFEN
+            lgk.generation_wind_energy(main.META_year, dictWKAModell, dictWeatherID, 'Wind', 'HH', main.META_first_wind_limit,
+                                        main.META_sec_wind_limit, main.META_third_wind_limit,
+                                        main.META_first_power_limit, main.META_sec_power_limit,
+                                        main.META_third_power_limit, eisman=main.META_eisman)
+
+            lgk.generation_wind_energy(main.META_year, dictWKAModell,dictWeatherID, 'Wind', 'SH', main.META_first_wind_limit,
+                                        main.META_sec_wind_limit, main.META_third_wind_limit,
+                                        main.META_first_power_limit, main.META_sec_power_limit,
+                                        main.META_third_power_limit, eisman=main.META_eisman)
+
+            if main.META_DATA_eisman == True:
+
+
+                openfilename = 'Datenbank\Erzeugung/Erz_komuliert_' + str(main.META_year) + '_Wind_' + eisman_name + '.csv'
+
+                Wind_Gesamt = lgk.erzeugungPerStunde(main.META_year, openfilename, 'Wind', weatherIDlist,
+                                                    complete_export=True, eisman= True)
+            else:
+                openfilename = 'Datenbank\Erzeugung/Erz_komuliert_' + str(main.META_year) + '_Wind.csv'
+                Wind_Gesamt = lgk.erzeugungPerStunde(main.META_year, openfilename, 'Wind', weatherIDlist,
+                                                     complete_export=True, eisman= False)
+    '-----------------------------------------------------------------------------------------------------------------'
     '''Funktionen welche nur einmal Aufgerufen werden. Diese dienen nur zur Datenvorbereitung. 
         Sie haben nichts mit der Datenanlyse zu tun. Die Analyse finden gesondert statt.'''
     'Verbrauch HH und SH'
@@ -382,19 +459,7 @@ def re_simulation():
             temp_exportname = 'Datenbank\Erzeugung/Erz_komuliert_geplanterAusbau_' + str(META_year) + '_Wind.csv'
             be_planned_wka_power = lgk.erzeugungPerStunde_singleFrame(META_year, be_planned_wka_power, temp_exportname,
                                                                       export=True)
-    'ERZEUGUNG NEU BERECHNEN'
-    weatherIDlist = windWeatherStation['Stations_id'].tolist().copy()
-    if main.META_DATA_pv_power == True and main.META_PV == True:
-        # STATIONEN VORHER NOCH GEPRÜFT WERDEN
-        lgk.erzeugungsdaten_ee_anlagen(META_year, 'PV', 'HH')
-        lgk.erzeugungsdaten_ee_anlagen(META_year, 'PV', 'SH')
-        PV_Gesamt = lgk.erzeugungPerStunde(META_year, 'PV', weatherIDlist)
 
-    if main.META_DATA_wind_power == True and main.META_wind == True:
-        # STATIONEN VORHER NOCH ÜBERPRÜFEN
-        lgk.erzeugungsdaten_ee_anlagen(META_year, 'Wind', 'HH')
-        lgk.erzeugungsdaten_ee_anlagen(META_year, 'Wind', 'SH')
-        Wind_Gesamt = lgk.erzeugungPerStunde(META_year, 'Wind', weatherIDlist)
 
     # lgk.erzeugungPerStunde(2019, 'Wind', weatherIDlist, single_ID_export= True )
     # lgk.erzeugungPerStunde(2020, 'Wind', weatherIDlist, single_ID_export=True)
@@ -538,8 +603,8 @@ def re_simulation():
             print('expansion EE Anteil border in Prozent: ', round(main.META_EE_Anteil * 100, 2), '%')
 
             start = time.process_time()
-            temp_len = len(temp_DB_WKA)
-            if temp_len == 0:
+            temp_len_db_wka = len(temp_DB_WKA)
+            if temp_len_db_wka == 0:
                 print('------------------------------------------------------')
                 print('no more WKA in DB -> expansion stopt for ', pot_Vor, '-Areas')
                 print('------------------------------------------------------')
@@ -570,7 +635,7 @@ def re_simulation():
                 print('EE Anteil in Prozent: ', round(EE_Analyse[1] * 100, 2), '%')
                 SimulationEE_nachAusbau = EE_Analyse[0].copy()
 
-            if EE_Anteil >= META_EE_Anteil:
+            if EE_Anteil >= main.META_EE_Anteil:
                 print('FERTIG EE Anteil in Prozent: ', round(EE_Analyse[1] * 100, 2), '%')
                 break
 
@@ -640,28 +705,28 @@ def re_simulation():
                 temp_area = 'unknown'
             print(temp_area, ':  End: ', i, 'Zeit: ', end - start, 'Name', name_for_WKA_expansion,
                   'Anzahl Neu: ', keyfactors_expansion_area[2], '/ Total: ', sum(list_count_expansion_wka))
-            print('Leistung insgesamt zugebaut in MW: ', sum(list_count_expansion_power) / 1000, 'Leistung Neu:  ',
-                  keyfactors_expansion_area[3],
-                  'Freie Fläche: ', sum(dataframe_expansion_area['nettoFreieFlaeche_Vor']))
+            print('Leistung insgesamt zugebaut in MW: ', round(sum(list_count_expansion_power) / 1000,2),
+                  'Leistung Neu:  ', round(keyfactors_expansion_area[3],2),
+                  'Freie Fläche: ', round((sum(dataframe_expansion_area['nettoFreieFlaeche_Vor'])),3))
 
         return EE_Anteil
-
-    if META_wind == True and META_VorFl == True and EE_Anteil < META_EE_Anteil:
-        temp_DB_WKA = DB_WKA.copy()
-
-
-        EE_Anteil = expansion_wind('Vor', EE_Anteil, temp_ausbau)
-
+    print(list_count_expansion_wka)
+    if main.META_wind == True and main.META_VorFl == True and EE_Anteil < main.META_EE_Anteil:
+        if main.META_expansionWind == True:
+            temp_DB_WKA = DB_WKA.copy()
+            EE_Anteil = expansion_wind('Vor', EE_Anteil, temp_ausbau)
+    print(list_count_expansion_wka)
     if main.META_wind == True and main.META_PotFl == True and EE_Anteil < main.META_EE_Anteil:
-        print('Start Pot')
-        temp_ausgebauteAnlagen = ['test'] * len(expansionPV)
-        temp_DB_WKA = DB_WKA.copy()
+        if main.META_expansionWind == True:
+            print('Start Pot')
+            temp_ausgebauteAnlagen = ['test'] * len(expansionPV)
+            temp_DB_WKA = DB_WKA.copy()
 
-        EE_Anteil = expansion_wind('Pot', EE_Anteil, temp_ausbau)
+            EE_Anteil = expansion_wind('Pot', EE_Anteil, temp_ausbau)
 
     temp_wind = Wind_Gesamt.copy()
 
-    if main.META_wind == True:
+    if main.META_wind == True and main.META_expansionWind == True:
         if main.META_VorFl == True or main.META_PotFl == True or sum_expansionPV > 0 or sum_expansionBio > 0:
 
             EE_Analyse = lgk.analyseEE(META_year, exportFolder, listStorage, temp_wind, PV_Gesamt, erz_Bio,
@@ -731,8 +796,11 @@ def re_simulation():
                                     cost_wind=main.META_expansionWind, cost_storage=main.META_storage_expansion,
                                     export=True)
 
+    print('Simulation has ended')
     return export_folder_for_gui
 
+'''
 if Meta_GUI_OFF == True:
     set_globals()
     re_simulation()
+'''
