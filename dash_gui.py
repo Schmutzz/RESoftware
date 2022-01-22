@@ -151,15 +151,15 @@ def draw_pie():
 def draw_vor(sizing):
     df = df_ausbau_vor.copy()
     if sizing == 'Power':
-        sizing = 'Leistung_Vor'
-        df = df.loc[df['Leistung_Vor'] != 0]
+        sizing = 'Leistung_inMW_Vor'
+        df = df.loc[df['Leistung_inMW_Vor'] != 0]
     else:
         sizing = 'nettoFreieFlaeche_Vor'
 
     return px.scatter_mapbox(df, lat='Latitude', lon='Longitude', title='Simulated expansion',
                              hover_name='StadtVor',
                              hover_data=['StadtVor', 'Anzahl WEAs_Vor', 'nettoFreieFlaeche_Vor',
-                                         'Modell_Vor', 'Anzahl_Vor', 'Leistung_Vor', 'InvestKosten_Vor'],
+                                         'Modell_Vor', 'Anzahl_Vor', 'Leistung_inMW_Vor', 'InvestKosten_inMio_Vor'],
                              color='Wetter-ID_Vor', color_discrete_map={}, size=sizing, size_max=12,
                              zoom=6.3, center={'lat': 54.2, 'lon': 9.8}).update_layout(
         mapbox_style="open-street-map",
@@ -169,15 +169,15 @@ def draw_vor(sizing):
 def draw_pot(sizing):
     df = df_ausbau_pot.copy()
     if sizing == 'Power':
-        sizing = 'Leistung_Pot'
-        df = df.loc[df['Leistung_Pot'] != 0]
+        sizing = 'Leistung_inMW_Pot'
+        df = df.loc[df['Leistung_inMW_Pot'] != 0]
     else:
         sizing = 'nettoFreieFlaeche_Pot'
 
     return px.scatter_mapbox(df, lat='Latitude', lon='Longitude', title='Simulated expansion',
                              hover_name='StadtPot',
                              hover_data=['StadtPot', 'Anzahl WEAs_Pot', 'nettoFreieFlaeche_Pot',
-                                         'Modell_Pot', 'Anzahl_Pot', 'Leistung_Pot', 'InvestKosten_Pot'],
+                                         'Modell_Pot', 'Anzahl_Pot', 'Leistung_inMW_Pot', 'InvestKosten_inMio_Pot'],
                              color='Wetter-ID_Pot', color_discrete_map={}, size=sizing, size_max=12,
                              zoom=6.3, center={'lat': 54.2, 'lon': 9.8}).update_layout(
         mapbox_style="open-street-map",
@@ -1285,11 +1285,11 @@ def start_sim(n, exmpl_sw, year, wind_expansion_value, bio_sw, bio_inp, solar_sw
         df_ausbau_vor = pd.read_csv(list_files[1], sep=';', decimal=',', encoding='utf-8',
                                     usecols=['StadtVor', 'haVor', 'Coords Vor', 'Wetter-ID_Vor',
                                              'Anzahl WEAs_Vor', 'nettoFreieFlaeche_Vor', 'Modell_Vor', 'Anzahl_Vor',
-                                             'InvestKosten_Vor', 'Leistung_Vor'])
+                                             'InvestKosten_inMio_Vor', 'Leistung_inMW_Vor'])
         df_ausbau_pot = pd.read_csv(list_files[1], sep=';', decimal=',', encoding='utf-8',
                                     usecols=['StadtPot', 'haPot', 'Coords Pot', 'Wetter-ID_Pot',
                                              'Anzahl WEAs_Pot', 'nettoFreieFlaeche_Pot', 'Modell_Pot', 'Anzahl_Pot',
-                                             'InvestKosten_Pot', 'Leistung_Pot'])
+                                             'InvestKosten_inMio_Pot', 'Leistung_inMW_Pot'])
 
         # ----------------------------------------------------------------------------------------------------------------------
 
@@ -1302,7 +1302,7 @@ def start_sim(n, exmpl_sw, year, wind_expansion_value, bio_sw, bio_inp, solar_sw
         df_ausbau_vor['haVor'] = df_ausbau_vor['haVor'].map(float)
         df_ausbau_vor = df_ausbau_vor[
             ['StadtVor', 'Wetter-ID_Vor', 'haVor', 'Anzahl WEAs_Vor', 'nettoFreieFlaeche_Vor', 'Modell_Vor',
-             'Anzahl_Vor', 'InvestKosten_Vor', 'Latitude', 'Longitude', 'Leistung_Vor']]
+             'Anzahl_Vor', 'InvestKosten_inMio_Vor', 'Latitude', 'Longitude', 'Leistung_inMW_Vor']]
 
         df_ausbau_pot = df_ausbau_pot[df_ausbau_pot['Wetter-ID_Pot'] != 0]
         df_ausbau_pot = df_ausbau_pot.sort_values(by=['Wetter-ID_Pot'])
@@ -1310,7 +1310,7 @@ def start_sim(n, exmpl_sw, year, wind_expansion_value, bio_sw, bio_inp, solar_sw
         df_ausbau_pot['haPot'] = df_ausbau_pot['haPot'].map(float)
         df_ausbau_pot = df_ausbau_pot[
             ['StadtPot', 'Wetter-ID_Pot', 'haPot', 'Anzahl WEAs_Pot', 'nettoFreieFlaeche_Pot', 'Modell_Pot',
-             'Anzahl_Pot', 'InvestKosten_Pot', 'Latitude', 'Longitude', 'Leistung_Pot']]
+             'Anzahl_Pot', 'InvestKosten_inMio_Pot', 'Latitude', 'Longitude', 'Leistung_inMW_Pot']]
 
         # ----------------------------------------------------------------------------------------------------------------------
 
