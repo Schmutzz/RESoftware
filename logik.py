@@ -325,14 +325,20 @@ def IEC_windklasse(sum_temp_wetter, len_temp_wetter):
 
     if average_wind >= 10:
         return 1
-    if average_wind >= 8.5:
+    elif average_wind >= 8.5:
         return 2
-    if average_wind >= 7.5:
+    elif average_wind >= 7.5:
         return 3
-    if average_wind >= 6.5:
+    elif average_wind >= 6.5:
         return 4
-    if average_wind < 6.5:
+    elif average_wind < 6.5:
         return 5
+    else:
+        print('---------------------------')
+        print('Ganz komischer Fehler')
+        print('---------------------------')
+        return 7
+
 
 
 def FORMEL_WKA_Leistung(nenn_ms, ein_ms, leistung_s, moment_ms):
@@ -355,10 +361,12 @@ def annualOutput_WKA(year, Ein_ms, Nenn_ms, Abs_ms, leistung_Gesamt, weatherData
 
     temp_wetter = wind_hochrechnung(weatherData, nabenhohe, weatherID_hight)
     temp_leistung = [0] * len(temp_DatelistPerHoure)
-    temp_IEC_windklasse = IEC_windklasse(sum(temp_wetter), len(temp_wetter))
 
-    if temp_IEC_windklasse < windklasse_wka and use_wind_IEC == True:
-        return temp_leistung
+
+    if use_wind_IEC == True:
+        temp_IEC_windklasse = IEC_windklasse(sum(temp_wetter), len(temp_wetter))
+        if temp_IEC_windklasse < windklasse_wka:
+            return temp_leistung
 
     for index, k in enumerate(temp_wetter):
         temp_leistung_for = 0
@@ -487,6 +495,13 @@ def generation_wind_energy(year,dictModell,dictWeatherID, source, state, META_fi
             if isinstance(lokationsdaten['LEISTUNG'][i], float) == False and isinstance(
                     lokationsdaten['LEISTUNG'][i], numpy.int64) == False:
                 lokationsdaten['LEISTUNG'][i] = 1000
+                print('Fehler Leistungsdaten nicht schlimm')
+                print(columnName)
+
+            if isinstance(dictWeatherID[temp_weatherID]['windklasse'], float) == False and isinstance(
+                    dictWeatherID[temp_weatherID]['windklasse'], numpy.int64) == False and isinstance(
+                    dictWeatherID[temp_weatherID]['windklasse'], int):
+                dictWeatherID[temp_weatherID]['windklasse'] = 2
                 print('Fehler Leistungsdaten nicht schlimm')
                 print(columnName)
             '-----------------------------------------------------------------------------------------'
