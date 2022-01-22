@@ -180,10 +180,10 @@ def plannedWKA_toUTM_and_connectWeahterID(weather, df):
 'ERZEUGUNG'
 def erzeugung_Wind_PV(year):
     print('year')
-    lgk.erzeugungsdaten_ee_anlagen(year, 'Wind', 'HH')
-    lgk.erzeugungsdaten_ee_anlagen(year, 'PV', 'HH')
-    lgk.erzeugungsdaten_ee_anlagen(year, 'Wind', 'SH')
-    lgk.erzeugungsdaten_ee_anlagen(year, 'PV', 'SH')
+    lgk.generation_wind_energy(year, 'Wind', 'HH')
+    lgk.generation_wind_energy(year, 'PV', 'HH')
+    lgk.generation_wind_energy(year, 'Wind', 'SH')
+    lgk.generation_wind_energy(year, 'PV', 'SH')
 
 
 def erzeugung_plannendAreas(year, geplanterAusbau):

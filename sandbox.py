@@ -8,6 +8,104 @@ import smtplib
 import pandas as pd
 import numpy as np
 
+
+def generation_PV_energy(year, source, state):
+    exportFrame = DateList('01.01.' + str(year) + ' 00:00', '31.12.' + str(year) + ' 23:00', '60min')
+
+    filelist = findoutFiles('Datenbank\ConnectwithID\Erzeugung')
+    matchfilelist1 = [match for match in filelist if state in match]
+    matchfilelist2 = [match for match in matchfilelist1 if source in match]
+    matchfilelist3 = [match for match in matchfilelist2 if str(year) in match]
+    print(matchfilelist3)
+
+    try:
+        openfilename2 = 'Datenbank\Wetter/' + source + '_Wetterdaten_' + str(year) + '.csv'
+        print(openfilename2)
+        wetterdaten = pd.read_csv(openfilename2, delimiter=';', decimal=',', header=0)
+        # print(wetterdaten)
+    except ValueError:
+        print("erzeugungsdaten_ee_anlagen Falsches Format")
+
+    modellunbekannt = 0
+    wetterIDunbekannt = 0
+    lengthLocation2 = 0
+
+
+    if source == 'PV':
+        try:
+            headerlistLokation = ['Leistung', 'Bundesland', 'Wetter-ID']
+            openfilename1 = 'Datenbank\ConnectwithID\Erzeugung/' + matchfilelist3[0]
+            print(openfilename1)
+
+            lokationsdaten = pd.read_csv(openfilename1, delimiter=';', usecols=headerlistLokation, decimal=',',
+                                         header=0, encoding='latin1')
+
+            lengthLocation = lokationsdaten.__len__()
+            # print(lokationsdaten)
+        except ValueError:
+            print("falsches Format")
+
+        for i in range(lengthLocation):
+            leistung = []
+            # print(i)
+            # print(str(lokationsdaten['Wetter-ID'][i]))
+
+            matcheswetterdaten = [match for match in wetterdaten.columns.values.tolist() if
+                                  str(lokationsdaten['Wetter-ID'][i]) in match]
+            # print(matcheswetterdaten)
+            if len(matcheswetterdaten) != 2:
+                print('Fehler Wetterdaten')
+                break
+
+            columnName = str(i) + '_Ezg_PV' + '_' + str(lokationsdaten['Bundesland'][i]) + '_' + str(
+                lokationsdaten['Wetter-ID'][i])
+
+            fkt_Bestrahlung = 492.48
+            fkt_Solar = 0.9
+
+            for k in wetterdaten[matcheswetterdaten[0]]:
+
+                if k < 0:
+                    leistung.append(0)
+                else:
+                    # print(lokationsdaten['Bruttoleistung der Einheit'][i])
+                    # print(type(lokationsdaten['Bruttoleistung der Einheit'][i]))
+                    x = lokationsdaten['Leistung'][i] * (k / fkt_Bestrahlung) * fkt_Solar
+                    leistung.append(x)
+
+            # print('Eintrag bei ', i)
+            exportFrame[columnName] = leistung
+            # print('Eintrag Efolgreich ', i)
+
+    exportname = 'Datenbank\Erzeugung\Einzel/Erz_' + source + '_' + state + '_' + str(year) + '.csv'
+    exportFrame.to_csv(exportname, sep=';', encoding='utf-8', index=False, decimal=',')
+    print("Modell ungekannt Anzahl: ", modellunbekannt)
+    print("Wetter-ID ungekannt Anzahl: ", wetterIDunbekannt)
+    print("Eingelesene Zeilen", lengthLocation2)
+    print("Ausgegebene Zeilen", len(exportFrame.columns))
+
+    print('Fertig')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 def testMail():
 
     msg = 'Rate mal wo ich die Email geschrieben habe, morgen 9:20Uhr los ?'
