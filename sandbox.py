@@ -8,6 +8,237 @@ import smtplib
 import pandas as pd
 import numpy as np
 
+def max_verkopfte_tabelle():
+    '''read and convert data 2019'''
+    ee_data_19 = pd.read_csv('GruenEnergie_2019.csv', sep=';', encoding='latin1')
+    x_values_19 = np.arange(8760)
+    pct_75_19 = [percentage_power] * 8760
+    # pct_renewable_19 = ee_data_19['EE_Anteil'].tolist()
+    deficit_19 = ee_data_19['Diff_EE_zu_Verb'].tolist()
+    conv_power_19 = 0
+    wind_power_19 = ee_data_19['Erzeugung_Wind'].tolist()
+    pv_power_19 = ee_data_19['Erzeugung_PV'].tolist()
+    combined_power_19 = ee_data_19['Erzeugung_Gesamt'].tolist()
+    consumption_19 = ee_data_19['Verbrauch_Gesamt'].tolist()
+    relevant_wind_19 = []
+    pct_renewable_19 = []
+
+    for i in range(8760):
+        consumption_19[i] = float(consumption_19[i].replace(',', '.'))
+        combined_power_19[i] = float(combined_power_19[i].replace(',', '.'))
+        # wind_power_19_sim[i] = float(wind_power_19_sim[i].replace(',', '.'))
+        pv_power_19[i] = float(pv_power_19[i].replace(',', '.'))
+        deficit_19[i] = float(deficit_19[i].replace(',', '.'))
+        pct_renewable_19.append(((combined_power_19[i] + biomass_hourly_19[i]) / consumption_19[i]) * 100)
+        # pct_renewable_19[i] = pct_renewable_19[i].replace('%', '')
+        # pct_renewable_19[i] = float(pct_renewable_19[i].replace(',', '.'))
+
+        if deficit_19[i] < 0:
+            conv_power_19 -= deficit_19[i]
+    '''    if consumption_19[i] > combined_power_19[i]:
+            relevant_wind_19.append(wind_power_19[i])
+        else:
+            relevant_wind_19.append(wind_power_19[i] - (combined_power_19[i] - consumption_19[i]))'''
+
+    pv_sum_19 = np.sum(pv_power_19)
+    conv_sum_19 = np.sum(conv_power_19)
+    wind_sum_19 = np.sum(consumption_19) - conv_sum_19
+    energy_mix_values_19 = [wind_sum_19, pv_sum_19, biomass_sum, conv_sum_19]
+
+    x_ticks_19 = [744, 672, 744, 720, 744, 720, 744, 744, 720, 744, 720, 744]
+
+    table_19 = pd.DataFrame(columns=headers)
+
+    monthly_wind_19 = []
+    monthly_solar_19 = []
+    monthly_renewable_19 = []
+    monthly_consumption_19 = []
+    monthly_deficit_19 = []
+    monthly_hours_19 = []
+    monthly_reached_19 = []
+
+    for i in range(len(x_ticks_19)):
+        hours = 0
+        real_deficit_19 = 0
+        if i != 0:
+            x_ticks_19[i] += x_ticks_19[i - 1]
+            monthly_wind_19.append(round_sum_twh(wind_power_19[x_ticks_19[i - 1]:x_ticks_19[i]]))
+            monthly_solar_19.append(round_sum_twh(pv_power_19[x_ticks_19[i - 1]:x_ticks_19[i]]))
+            monthly_renewable_19.append(round_sum_twh(combined_power_19[x_ticks_19[i - 1]:x_ticks_19[i]]))
+            monthly_consumption_19.append(round_sum_twh(consumption_19[x_ticks_19[i - 1]:x_ticks_19[i]]))
+            # monthly_deficit_19.append(round_sum_twh(deficit_19[x_ticks_19[i - 1]:x_ticks_19[i]]))
+            for j in range(x_ticks_19[i - 1], x_ticks_19[i]):
+                if pct_renewable_19[j] >= percentage_power:
+                    hours += 1
+                if deficit_19[j] < 0:
+                    real_deficit_19 -= deficit_19[j]
+            monthly_deficit_19.append(round_twh(real_deficit_19))
+            monthly_hours_19.append(hours)
+            if (monthly_hours_19[i] / (x_ticks_19[i] - x_ticks_19[i - 1])) > percentage_hours / 100:
+                monthly_reached_19.append('Yes')
+            else:
+                monthly_reached_19.append('No')
+
+        else:
+            monthly_wind_19.append(round_sum_twh(wind_power_19[0:x_ticks_19[0]]))
+            monthly_solar_19.append(round_sum_twh(pv_power_19[0:x_ticks_19[0]]))
+            monthly_renewable_19.append(round_sum_twh(combined_power_19[0:x_ticks_19[0]]))
+            monthly_consumption_19.append(round_sum_twh(consumption_19[0:x_ticks_19[0]]))
+            # monthly_deficit_19.append(round_sum_twh(deficit_19[0:x_ticks_19[0]]))
+            for j in range(x_ticks_19[0]):
+                if pct_renewable_19[j] >= percentage_power:
+                    hours += 1
+                if deficit_19[j] < 0:
+                    real_deficit_19 -= deficit_19[j]
+            monthly_deficit_19.append(round_twh(real_deficit_19))
+            monthly_hours_19.append(hours)
+            if (monthly_hours_19[0] / x_ticks_19[0]) > percentage_hours / 100:
+                monthly_reached_19.append('Yes')
+            else:
+                monthly_reached_19.append('No')
+
+    '''pv_sum_19 = np.sum(monthly_solar_19)
+    cons_sum_19 = np.sum(monthly_consumption_19)
+    conv_sum_19 = 0
+    for i in range(len(monthly_deficit_19)):
+        if monthly_deficit_19[i] < 0:
+            conv_sum_19 -= monthly_deficit_19[i]
+
+    wind_sum_19 = cons_sum_19 - pv_sum_19 - conv_sum_19'''
+
+    data_19 = [months, monthly_wind_19, monthly_solar_19, monthly_renewable_19, monthly_consumption_19, monthly_deficit_19,
+               monthly_hours_19, monthly_reached_19]
+
+    last_row_19 = ['Yearly']
+    last_row_19.append(round_sum(monthly_wind_19))
+    last_row_19.append(round_sum(monthly_solar_19))
+    last_row_19.append(round_sum(monthly_renewable_19))
+    last_row_19.append(round_sum(monthly_consumption_19))
+    last_row_19.append(round_sum(monthly_deficit_19))
+    last_row_19.append(round_sum(monthly_hours_19))
+
+    if (last_row_19[-1] / 8760) > percentage_hours / 100:
+        last_row_19.append('Yes (' + str(round((last_row_19[-1] / 8760) * 100, 2)) + '%)')
+    else:
+        last_row_19.append('No (' + str(round((last_row_19[-1] / 8760) * 100, 2)) + '%)')
+
+    for i in range(len(headers)):
+        table_19[headers[i]] = data_19[i]
+
+    table_19.loc[len(table_19)] = last_row_19
+    print(table_19)
+
+    '''read and convert data 2020'''
+    ee_data_20 = pd.read_csv('GruenEnergie_2020.csv', sep=';', encoding='latin1')
+    x_values_20 = np.arange(8784)
+    pct_75_20 = [percentage_power] * 8784
+    # pct_renewable_20 = ee_data_20['EE_Anteil'].tolist()
+    deficit_20 = ee_data_20['Diff_EE_zu_Verb'].tolist()
+    conv_power_20 = 0
+    wind_power_20 = ee_data_20['Erzeugung_Wind'].tolist()
+    pv_power_20 = ee_data_20['Erzeugung_PV'].tolist()
+    combined_power_20 = ee_data_20['Erzeugung_Gesamt'].tolist()
+    consumption_20 = ee_data_20['Verbrauch_Gesamt'].tolist()
+    relevant_wind_20 = []
+    pct_renewable_20 = []
+
+    for i in range(8784):
+        consumption_20[i] = float(consumption_20[i].replace(',', '.'))
+        combined_power_20[i] = float(combined_power_20[i].replace(',', '.'))
+        # wind_power_20[i] = float(wind_power_20[i].replace(',', '.'))
+        pv_power_20[i] = float(pv_power_20[i].replace(',', '.'))
+        deficit_20[i] = float(deficit_20[i].replace(',', '.'))
+        pct_renewable_20.append(((combined_power_20[i] + biomass_hourly_20[i]) / consumption_20[i]) * 100)
+        '''pct_renewable_20[i] = pct_renewable_20[i].replace('%', '')
+        pct_renewable_20[i] = float(pct_renewable_20[i].replace(',', '.'))'''
+
+        if deficit_20[i] < 0:
+            conv_power_20 -= deficit_20[i]
+    '''    if consumption_20[i] > combined_power_20[i]:
+            relevant_wind_20.append(wind_power_20[i])
+        else:
+            relevant_wind_20.append(wind_power_20[i] - (combined_power_20[i] - consumption_20[i]))'''
+
+    pv_sum_20 = np.sum(pv_power_20)
+    conv_sum_20 = np.sum(conv_power_20)
+    wind_sum_20 = np.sum(consumption_20) - conv_sum_20
+    energy_mix_values_20 = [wind_sum_20, pv_sum_20, 2.8 * 1e9, conv_sum_20]
+
+    x_ticks_20 = [744, 696, 744, 720, 744, 720, 744, 744, 720, 744, 720, 744]
+
+    table_20 = pd.DataFrame(columns=headers)
+
+    monthly_wind_20 = []
+    monthly_solar_20 = []
+    monthly_renewable_20 = []
+    monthly_consumption_20 = []
+    monthly_deficit_20 = []
+    monthly_hours_20 = []
+    monthly_reached_20 = []
+
+    for i in range(len(x_ticks_20)):
+        hours = 0
+        real_deficit_20 = 0
+        if i != 0:
+            x_ticks_20[i] += x_ticks_20[i - 1]
+            monthly_wind_20.append(round_sum_twh(wind_power_20[x_ticks_20[i - 1]:x_ticks_20[i]]))
+            monthly_solar_20.append(round_sum_twh(pv_power_20[x_ticks_20[i - 1]:x_ticks_20[i]]))
+            monthly_renewable_20.append(round_sum_twh(combined_power_20[x_ticks_20[i - 1]:x_ticks_20[i]]))
+            monthly_consumption_20.append(round_sum_twh(consumption_20[x_ticks_20[i - 1]:x_ticks_20[i]]))
+            # monthly_deficit_20.append(round_sum_twh(deficit_20[x_ticks_20[i - 1]:x_ticks_20[i]]))
+            for j in range(x_ticks_20[i - 1], x_ticks_20[i]):
+                if pct_renewable_20[j] >= percentage_power:
+                    hours += 1
+                if deficit_20[j] < 0:
+                    real_deficit_20 -= deficit_20[j]
+            monthly_deficit_20.append(round_twh(real_deficit_20))
+            monthly_hours_20.append(hours)
+            if (monthly_hours_20[i] / (x_ticks_20[i] - x_ticks_20[i - 1])) > percentage_hours / 100:
+                monthly_reached_20.append('Yes')
+            else:
+                monthly_reached_20.append('No')
+
+        else:
+            monthly_wind_20.append(round_sum_twh(wind_power_20[0:x_ticks_20[0]]))
+            monthly_solar_20.append(round_sum_twh(pv_power_20[0:x_ticks_20[0]]))
+            monthly_renewable_20.append(round_sum_twh(combined_power_20[0:x_ticks_20[0]]))
+            monthly_consumption_20.append(round_sum_twh(consumption_20[0:x_ticks_20[0]]))
+            # monthly_deficit_20.append(round_sum_twh(deficit_20[0:x_ticks_20[0]]))
+            for j in range(x_ticks_20[0]):
+                if pct_renewable_20[j] >= percentage_power:
+                    hours += 1
+                if deficit_20[j] < 0:
+                    real_deficit_20 -= deficit_20[j]
+            monthly_deficit_20.append(round_twh(real_deficit_20))
+            monthly_hours_20.append(hours)
+            if (monthly_hours_20[0] / x_ticks_20[0]) > percentage_hours / 100:
+                monthly_reached_20.append('Yes')
+            else:
+                monthly_reached_20.append('No')
+
+
+    data_20 = [months, monthly_wind_20, monthly_solar_20, monthly_renewable_20, monthly_consumption_20, monthly_deficit_20,
+               monthly_hours_20, monthly_reached_20]
+
+    last_row_20 = ['Yearly']
+    last_row_20.append(round_sum(monthly_wind_20))
+    last_row_20.append(round_sum(monthly_solar_20))
+    last_row_20.append(round_sum(monthly_renewable_20))
+    last_row_20.append(round_sum(monthly_consumption_20))
+    last_row_20.append(round_sum(monthly_deficit_20))
+    last_row_20.append(round_sum(monthly_hours_20))
+
+    if (last_row_20[-1] / 8760) > percentage_hours / 100:
+        last_row_20.append('Yes (' + str(round((last_row_20[-1] / 8760) * 100, 2)) + '%)')
+    else:
+        last_row_20.append('No (' + str(round((last_row_20[-1] / 8760) * 100, 2)) + '%)')
+
+    for i in range(len(headers)):
+        table_20[headers[i]] = data_20[i]
+
+    table_20.loc[len(table_20)] = last_row_20
+    print(table_20.head())
+
 
 def generation_PV_energy(year, source, state):
     exportFrame = DateList('01.01.' + str(year) + ' 00:00', '31.12.' + str(year) + ' 23:00', '60min')

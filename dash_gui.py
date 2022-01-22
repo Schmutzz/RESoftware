@@ -95,10 +95,10 @@ def drawEE_percentage():
                              name="Verbrauch"))'''
     fig.add_trace(
         go.Scatter(x=df_analyse['Datum'], y=df_analyse['Erzeugung_Percentage_true_with_gaps'], marker=dict(color='green'),
-                   name="EE>100%"))
+                   name="RE >= 100%"))
     fig.add_trace(
         go.Scatter(x=df_analyse['Datum'], y=df_analyse['Erzeugung_Percentage_false_with_gaps'], marker=dict(color='red'),
-                   name="EE<100%"))
+                   name="RE < 100%"))
     fig.update_layout(template='plotly_dark', title='Hourly Data: Ratio Renewable Energy to Consumption', title_x=0.5)
     fig.add_hline(y=1)
 
@@ -110,12 +110,12 @@ def drawEE_absolute():
 
     fig.add_trace(
         go.Scatter(x=df_analyse['Datum'], y=df_analyse['Erzeugung_Gesamt_true_with_gaps'], marker=dict(color='green'),
-                   name="EE>100%"))
+                   name="RE >= 100%"))
     fig.add_trace(
         go.Scatter(x=df_analyse['Datum'], y=df_analyse['Erzeugung_Gesamt_false_with_gaps'], marker=dict(color='red'),
-                   name="EE<100%"))
+                   name="RE < 100%"))
     fig.add_trace(go.Scatter(x=df_analyse['Datum'], y=df_analyse['Verbrauch_Gesamt'], marker=dict(color='blue', opacity=0.2),
-                             name="Verbrauch"))
+                             name="Consumption"))
     fig.update_layout(template='plotly_dark', title='Hourly Data: Absolute Values', title_x=0.5)
 
     return fig
@@ -162,8 +162,8 @@ def draw_vor(sizing):
                                          'Modell_Vor', 'Anzahl_Vor', 'Leistung_inMW_Vor', 'InvestKosten_inMio_Vor'],
                              color='Wetter-ID_Vor', color_discrete_map={}, size=sizing, size_max=12,
                              zoom=6.3, center={'lat': 54.2, 'lon': 9.8}).update_layout(
-        mapbox_style="open-street-map",
-        template='plotly_dark', title_x=0.5)
+        mapbox_style="open-street-map", template='plotly_dark', title_x=0.5, legend_title='Wetter ID'
+    )
 
 
 def draw_pot(sizing):
@@ -180,8 +180,8 @@ def draw_pot(sizing):
                                          'Modell_Pot', 'Anzahl_Pot', 'Leistung_inMW_Pot', 'InvestKosten_inMio_Pot'],
                              color='Wetter-ID_Pot', color_discrete_map={}, size=sizing, size_max=12,
                              zoom=6.3, center={'lat': 54.2, 'lon': 9.8}).update_layout(
-        mapbox_style="open-street-map",
-        template='plotly_dark', title_x=0.5)
+        mapbox_style="open-street-map", template='plotly_dark', title_x=0.5, legend_title='Wetter ID'
+    )
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -685,6 +685,11 @@ support_button = html.Div([
     dbc.Button('Memory: Start', id='support_button', n_clicks=0, disabled=False, style={'display': 'none'}),
 ], className='text-center')
 
+download_button = html.Div([
+    dbc.Button('Download Results', id='download_button'),
+    dcc.Download(id='download_component')
+], className='text-center')
+
 settings_children = html.Div([
     dbc.Row([
         dbc.Col([
@@ -760,7 +765,7 @@ results = html.Div([
                 dbc.Row([
                     dbc.Col([
                         dcc.Graph(id='map')
-                    ], width=7),
+                    ], width=6),
                     dbc.Col([
                         # dcc.Graph(id='pie', figure=draw_pie())
                     ], width={'size': 5})
@@ -906,7 +911,10 @@ results = html.Div([
                                      'width': 'auto'
                                  }
                                  )
-                ], className='py-2')
+                ], className='py-2'),
+                dbc.Row([
+                    download_button
+                ], className='py-2', justify='center')
             ])
         ], inverse=True, className='text-center p-1')
     ], className='px-3 py-1')
@@ -1143,6 +1151,15 @@ def change_graph(data, children):
 
 
 @app.callback(
+    Output("download_component", "data"),
+    Input("download_button", "n_clicks"),
+    prevent_initial_call=True,
+)
+def func(n_clicks):
+    return dcc.send_file(list_files[1])
+
+
+@app.callback(
     Output('biomass_input', 'disabled'),
     Input('biomass_switch', 'value')
 )
@@ -1294,6 +1311,8 @@ def start_sim(n, exmpl_sw, year, wind_expansion_value, bio_sw, bio_inp, solar_sw
         main.META_DATA_wind_power = False  # True wenn die Leistung von Wind erneut gerechnet werden muss
         main.META_DATA_eisman = False
 
+        global exportFolder
+        global list_files
         # exportFolder, cost_report, dataframe_expansion_area, export_simulation_bevor_expansion, SimulationEE_after_expansion
         exportFolder = main.re_simulation()
 
@@ -1305,8 +1324,9 @@ def start_sim(n, exmpl_sw, year, wind_expansion_value, bio_sw, bio_inp, solar_sw
         after_storage = [x for x in os.listdir(exportFolder) if 'REE_afterStorageExpansion' in x]
 
         list_files = [cost_report, ausgebaute_flaeche, freie_flaeche, before_expansion, after_expansion, after_storage]
+        temp_list = list_files.copy()
 
-        for jindex, j in enumerate(list_files):
+        for jindex, j in enumerate(temp_list):
             if len(j) == 0:
                 list_files.remove(j)
             else:
@@ -1314,6 +1334,8 @@ def start_sim(n, exmpl_sw, year, wind_expansion_value, bio_sw, bio_inp, solar_sw
                 print(list_files[jindex])
 
         final_file = list_files[-1]
+
+        print(final_file)
 
         global df_cost_report
         global df_ausbau_vor
