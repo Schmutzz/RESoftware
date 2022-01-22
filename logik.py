@@ -896,6 +896,7 @@ def analyseEE(year, exportfolder, listSpeicher=0, EE_Erz=0, PV_Gesamt=0, erz_Bio
         EE_Erz['Speicherverluste'] = [0.0] * len(temp_EE_Erz)
 
         for i in range(temp_len_speicherList):
+
             EE_Erz['Speicherkapazität'] += listSpeicher[i].max_capacity
             listSpeicher[i].reset_current_capacity()
 

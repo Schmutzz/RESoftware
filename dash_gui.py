@@ -1227,8 +1227,8 @@ def start_sim(n, exmpl_sw, year, wind_expansion_value, bio_sw, bio_inp, solar_sw
         '- - - - - - - - - - - - - - - - - - - -'
         'Speicher'
         main.META_use_storage = storage_sw
-        main.META_startcapacity = start_capacity_value  # Angabe in Prozent wie voll die Speicher im Startpunkt sind
-        main.META_storage_safety_padding = safety_padding_value  # Wieviel safty Speicher ausgebaut werden soll zusätzlich
+        main.META_startcapacity = start_capacity_value/100  # Angabe in Prozent wie voll die Speicher im Startpunkt sind
+        main.META_storage_safety_padding = safety_padding_value/100  # Wieviel safty Speicher ausgebaut werden soll zusätzlich
 
         main.META_storage_before_expansion = 'existing' in storage_options  # True -> vor Ausbau Analyse beachtet Speicher
         main.META_storage_expansion = storage_expansion_sw  # True -> Speicher werden ausgebaut
