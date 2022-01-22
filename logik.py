@@ -206,7 +206,7 @@ def wea_modell_dictionary_class(WKA_csvFrame, useImport=True):
             openfilename3 = 'Datenbank/WEAModell/WEAModell.csv'
             print(openfilename3)
             WKA_csvFrame = pd.read_csv(openfilename3, usecols=headerlistModell, delimiter=';', decimal=',', header=0,
-                                       encoding='latin1')
+                                       encoding='utf-8')
             # print(df)
         except ValueError:
             print("falsches Format")
@@ -267,7 +267,7 @@ def weather_station_dictionary_class(weatherID_csvFrame, useImport=True):
             print(openfilename3)
             weatherID_csvFrame = pd.read_csv(openfilename3, usecols=headerlistModell, delimiter=';', decimal=',',
                                              header=0,
-                                             encoding='latin1')
+                                             encoding='utf-8')
             # print(df)
         except ValueError:
             print("falsches Format")
@@ -390,6 +390,7 @@ def annualOutput_WKA(year, Ein_ms, Nenn_ms, Abs_ms, leistung_Gesamt, weatherData
 
         else:
             print("Fehler Berechnung")
+            print('Value: ', k)
 
 
 
@@ -420,6 +421,7 @@ def generation_wind_energy(year,dictModell,dictWeatherID, source, state, META_fi
     matchfilelist1 = [match for match in filelist if state in match]
     matchfilelist2 = [match for match in matchfilelist1 if source in match]
     matchfilelist3 = [match for match in matchfilelist2 if str(year) in match]
+    matchfilelist4 = [match for match in matchfilelist3 if str('geplanterAusbau') not in match]
     print(matchfilelist3)
 
     try:
@@ -432,18 +434,28 @@ def generation_wind_energy(year,dictModell,dictWeatherID, source, state, META_fi
 
     modellunbekannt = 0
     wetterIDunbekannt = 0
-    lengthLocation2 = 0
+
     if source == 'Wind':
         try:
             headerlistLokation = ['TYP', 'Modell', 'Wetter-ID', 'LEISTUNG', 'NABENHOEHE']
-            openfilename1 = 'Datenbank/ConnectwithID/Erzeugung/' + matchfilelist3[0]
+            openfilename1 = 'Datenbank/ConnectwithID/Erzeugung/' + matchfilelist4[0]
             print(openfilename1)
 
-            lokationsdaten = pd.read_csv(openfilename1, delimiter=';', usecols=headerlistLokation, decimal='.',
-                                         header=0, encoding='latin1')
+            lokationsdaten = pd.read_csv(openfilename1, delimiter=';', usecols=headerlistLokation, decimal=',',
+                                         header=0, encoding='utf-8')
 
+            print('-------------------')
+            print(len(lokationsdaten))
+            print('-------------------')
             lengthLocation = lokationsdaten.__len__()
-            lengthLocation2 = lengthLocation
+            lokationsdaten['TYP'] = lokationsdaten['TYP'].replace(np.nan, 'Typ_unbekannt')
+            lokationsdaten['Modell'] = lokationsdaten['Modell'].replace(np.nan, 'Modell_unbekannt')
+            lokationsdaten['Wetter-ID'] = lokationsdaten['Wetter-ID'].replace(np.nan, 3086)
+            lokationsdaten['LEISTUNG'] = lokationsdaten['LEISTUNG'].replace(np.nan, 1000)
+            lokationsdaten['NABENHOEHE'] = lokationsdaten['NABENHOEHE'].replace(np.nan, 50)
+            print('-------------------')
+            print(len(lokationsdaten))
+            print('-------------------')
             # print(lokationsdaten)
         except ValueError:
             print("lokationsdaten falsches Format")
@@ -502,14 +514,15 @@ def generation_wind_energy(year,dictModell,dictWeatherID, source, state, META_fi
 
             if isinstance(dictWeatherID[temp_weatherID]['windklasse'], float) == False and isinstance(
                     dictWeatherID[temp_weatherID]['windklasse'], numpy.int64) == False and isinstance(
-                    dictWeatherID[temp_weatherID]['windklasse'], int):
+                    dictWeatherID[temp_weatherID]['windklasse'], int) == False:
                 print(type(dictWeatherID[temp_weatherID]['windklasse']))
                 dictWeatherID[temp_weatherID]['windklasse'] = 2
                 print('Fehler windklasse nicht schlimm')
 
             if isinstance(lokationsdaten['NABENHOEHE'][i], float) == False and isinstance(
                     lokationsdaten['NABENHOEHE'][i], numpy.int64) == False and isinstance(
-                    lokationsdaten['NABENHOEHE'][i], int):
+                    lokationsdaten['NABENHOEHE'][i], int) == False:
+                print(type(lokationsdaten['NABENHOEHE'][i]))
                 lokationsdaten['NABENHOEHE'][i] = 92.4
                 print('Fehler NABENHOEHE nicht schlimm')
 
@@ -543,10 +556,10 @@ def generation_wind_energy(year,dictModell,dictWeatherID, source, state, META_fi
         exportname = 'Datenbank/Erzeugung/Einzel/Erz_' + source + '_' + state + '_' + str(year) + '.csv'
     # print(exportFrame)
 
-    exportFrame.to_csv(exportname, sep=';', encoding='utf-8', index=False, decimal=',')
+    exportFrame.to_csv(exportname, sep=';', encoding='utf-8-sig', index=False, decimal=',')
     print("Modell ungekannt Anzahl: ", modellunbekannt)
     print("Wetter-ID ungekannt Anzahl: ", wetterIDunbekannt)
-    print("Eingelesene Zeilen", lengthLocation2)
+    print("Eingelesene Zeilen", lengthLocation)
     print("Ausgegebene Zeilen", len(exportFrame.columns))
 
     print('Fertig')
@@ -580,7 +593,7 @@ def generation_PV_energy(year, source, state):
             print(openfilename1)
 
             lokationsdaten = pd.read_csv(openfilename1, delimiter=';', usecols=headerlistLokation, decimal=',',
-                                         header=0, encoding='latin1')
+                                         header=0, encoding='utf-8')
 
             lengthLocation = lokationsdaten.__len__()
             # print(lokationsdaten)
@@ -1199,7 +1212,7 @@ def stand_distance_analyse_alt(year, standorte):
         openfilename1 = 'Datenbank/ConnectwithID/Erzeugung/' + matches1[0]
         print(openfilename1)
 
-        WKA = pd.read_csv(openfilename1, delimiter=';', decimal=',', encoding='latin1')
+        WKA = pd.read_csv(openfilename1, delimiter=';', decimal=',', encoding='utf-8')
 
     except:
         print('falsches Format')
@@ -1248,18 +1261,21 @@ def connect_oldWKA_to_expansionArea(year, Vor_Pot, standorte, faktorAusbaufl, ex
         matches1 = [match for match in matches1 if 'WindparksSH_geplanterAusbau_UTM_WeatherID_2019_2020' not in match]
 
     temp_first = False
-
+    listnames = 0
+    listFl = 0
+    anzahl = 0
     for i in matches1:
 
         try:
             openfilename1 = 'Datenbank/ConnectwithID/Erzeugung/' + i
             print(openfilename1)
 
-            WKA = pd.read_csv(openfilename1, delimiter=';', decimal=',', encoding='latin1')
+            WKA = pd.read_csv(openfilename1, delimiter=';', decimal=',', encoding='utf-8')
             WKA = WKA.fillna(0)
 
         except:
-            print('falsches Format')
+            raise RuntimeError('Berechnete Erzeugung kann nicht geladen werden')
+
         WKA['Anlageauf_Vor_Verbaut'] = [False] * len(WKA['Coords UTM'])
 
         if temp_first == False:

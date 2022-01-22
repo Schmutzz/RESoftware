@@ -172,14 +172,14 @@ def re_simulation():
     '!!!WICHTIGE DATEN!!!' \
     'ohne diese Daten kann keine Simulation gestartet werden'
 
-    #try:
-    openfilename = 'Datenbank/Wetter/StundeWindStationen_Coords.csv'
-    print(openfilename)
-    windWeatherStation = pd.read_csv(openfilename, delimiter=';', decimal=',', encoding='utf-8')
-    #except:
-    print('falsches Format: ', openfilename)
-    # raise RuntimeError('Programmabbruch da die Wetterstationen für Wind nicht eingelesen werden konnten\n'
-    #                    'falsches Format: ', openfilename)
+    try:
+        openfilename = 'Datenbank/Wetter/StundeWindStationen_Coords.csv'
+        print(openfilename)
+        windWeatherStation = pd.read_csv(openfilename, delimiter=';', decimal=',', encoding='utf-8')
+    except:
+        print('falsches Format: ', openfilename)
+        raise RuntimeError('Programmabbruch da die Wetterstationen für Wind nicht eingelesen werden konnten\n'
+                        'falsches Format: ', openfilename)
 
     try:
         openfilename = 'Datenbank/Wetter/StundeSolarStationen_Coords.csv'
@@ -385,7 +385,9 @@ def re_simulation():
         # STATIONEN VORHER NOCH GEPRÜFT WERDEN
         lgk.generation_PV_energy(main.META_year, 'PV', 'HH')
         lgk.generation_PV_energy(main.META_year, 'PV', 'SH')
-        PV_Gesamt = lgk.erzeugungPerStunde(main.META_year, 'PV', weatherIDlist)
+        openfilename = 'Datenbank/Erzeugung/Erz_komuliert_' + str(main.META_year) + '_PV.csv'
+
+        PV_Gesamt = lgk.erzeugungPerStunde(main.META_year, openfilename, 'PV', weatherIDlist)
 
     if main.META_wind == True:
         if main.META_DATA_wind_power == True or main.META_DATA_eisman == True:
@@ -396,15 +398,19 @@ def re_simulation():
                 main.META_third_power_limit)
 
             # STATIONEN VORHER NOCH ÜBERPRÜFEN
-            lgk.generation_wind_energy(main.META_year, dictWKAModell, dictWeatherID, 'Wind', 'HH', main.META_first_wind_limit,
+            lgk.generation_wind_energy(main.META_year, dictWKAModell, dictWeatherID, 'Wind', 'HH',
+                                        main.META_first_wind_limit,
+                                        main.META_sec_wind_limit, main.META_third_wind_limit,
+                                        main.META_first_power_limit, main.META_sec_power_limit,
+                                        main.META_third_power_limit, eisman=main.META_eisman)
+            print('Fertig mit Erzeugung HH')
+            lgk.generation_wind_energy(main.META_year, dictWKAModell, dictWeatherID, 'Wind', 'SH',
+                                        main.META_first_wind_limit,
                                         main.META_sec_wind_limit, main.META_third_wind_limit,
                                         main.META_first_power_limit, main.META_sec_power_limit,
                                         main.META_third_power_limit, eisman=main.META_eisman)
 
-            lgk.generation_wind_energy(main.META_year, dictWKAModell,dictWeatherID, 'Wind', 'SH', main.META_first_wind_limit,
-                                        main.META_sec_wind_limit, main.META_third_wind_limit,
-                                        main.META_first_power_limit, main.META_sec_power_limit,
-                                        main.META_third_power_limit, eisman=main.META_eisman)
+            print('Fertig mit Erzeugung SH')
 
             if main.META_DATA_eisman == True:
 
