@@ -1469,11 +1469,13 @@ def expansion_WKA(WKAKey, weatherID, WKADict, standort, windWetterdaten, Vor_Pot
         if leistung_Gesamt == 0 or leistung_Gesamt == 123:
             continue
 
-        standort['nettoFreieFlaeche_' + Vor_Pot][mndex] -= WeaModell_fl * standort['Anzahl_' + Vor_Pot][mndex]
+        standort['nettoFreieFlaeche_' + Vor_Pot][mndex] -= round(WeaModell_fl * standort['Anzahl_' + Vor_Pot][mndex], 2)
         standort['Modell_' + Vor_Pot][mndex] = WKADict[WKAKey]['Modell']
-        standort['Leistung_' + Vor_Pot][mndex] = leistung_Gesamt
-        standort['InvestKosten_' + Vor_Pot][mndex] = standort['Anzahl_'+Vor_Pot][mndex]*WKADict[WKAKey]['Invest']
-        standort['BetriebsKosten_' + Vor_Pot][mndex] = standort['Anzahl_'+Vor_Pot][mndex]*WKADict[WKAKey]['Betriebk']
+        standort['Leistung_inMW_' + Vor_Pot][mndex] = round(leistung_Gesamt/1000,2)
+        tempsum = (standort['Anzahl_'+Vor_Pot][mndex]*WKADict[WKAKey]['Invest'])/1000000
+        standort['InvestKosten_inMio_' + Vor_Pot][mndex] = round(tempsum, 2)
+        tempsum = (standort['Anzahl_'+Vor_Pot][mndex]*WKADict[WKAKey]['Betriebk'])/1000000
+        standort['BetriebsKosten_inMio_' + Vor_Pot][mndex] = round(tempsum, 2)
 
         columnName = str(m) + '_Ezg_' + str(WKADict[WKAKey]['Modell'])
 

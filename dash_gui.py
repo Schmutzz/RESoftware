@@ -152,7 +152,7 @@ def draw_vor(sizing):
     df = df_ausbau_vor.copy()
     if sizing == 'Power':
         sizing = 'Leistung_Vor'
-        df = df[df['Leistung_Vor'] != 0]
+        df = df.loc[df['Leistung_Vor'] != 0]
     else:
         sizing = 'nettoFreieFlaeche_Vor'
 
@@ -170,7 +170,7 @@ def draw_pot(sizing):
     df = df_ausbau_pot.copy()
     if sizing == 'Power':
         sizing = 'Leistung_Pot'
-        df = df[df['Leistung_Pot'] != 0]
+        df = df.loc[df['Leistung_Pot'] != 0]
     else:
         sizing = 'nettoFreieFlaeche_Pot'
 

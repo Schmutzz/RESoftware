@@ -541,7 +541,8 @@ def re_simulation():
 
     temp_wind = Wind_Gesamt.copy()  # ->wird für die Darstellung der Daten benötigt
     print('Erste Analyse startet')
-    EE_Analyse = lgk.analyseEE(META_year, exportFolder, listStorage, temp_wind, PV_Gesamt, erz_Bio, be_planned_wka_power,
+    EE_Analyse = lgk.analyseEE(META_year, exportFolder, listStorage, temp_wind, PV_Gesamt, erz_Bio,
+                               be_planned_wka_power,
                                verbrauch_HH_SH,key_name= 'beforREexpansion', ausbau=False, export=True,
                                geplanterAusbau= main.META_be_planned_expansion, biomes= main.META_biomasse,
                                wind=main.META_wind, PV= main.META_PV, expansionPV= main.META_expansionPV,
@@ -552,11 +553,13 @@ def re_simulation():
     EE_Anteil = EE_Analyse[1]
     print('EE Anteil in Prozent vor Ausbau: ', round(EE_Anteil * 100, 2), '%')
 
-    '----------------------------------------------------------------------------------------------------------------------'
+    '------------------------------------------------------------------------------------------------------------------'
     "Überprüfung weleche Vor/Pot Flächen zur Verfügung stehen. "
     # Daten müssen nicht in den Export ORDNER!!!
-    verbauteVor = lgk.connect_oldWKA_to_expansionArea(META_year, 'Vor', expansion_area_wind_vorpot, META_faktorAusbauFlDist,
-                                                      export=False, geplanterAusbau=META_be_planned_expansion)
+    verbauteVor = lgk.connect_oldWKA_to_expansionArea(META_year, 'Vor', expansion_area_wind_vorpot,
+                                                      META_faktorAusbauFlDist,export=False,
+                                                      geplanterAusbau=META_be_planned_expansion)
+
 
     '''verbautPot = lgk.stand_distance_analyse(META_year, 'Pot', ausbauStandorte_Coords, META_faktorAusbauFlDist,
                                             export=False, geplanterAusbau=META_geplanterAusbau)'''
@@ -564,14 +567,14 @@ def re_simulation():
 
     dataframe_expansion_area['Modell_Vor'] = ['-'] * len(dataframe_expansion_area['ID'])
     dataframe_expansion_area['Anzahl_Vor'] = [0] * len(dataframe_expansion_area['ID'])
-    dataframe_expansion_area['Leistung_Vor'] = [0] * len(dataframe_expansion_area['ID'])
-    dataframe_expansion_area['InvestKosten_Vor'] = [0] * len(dataframe_expansion_area['ID'])
-    dataframe_expansion_area['BetriebsKosten_Vor'] = [0] * len(dataframe_expansion_area['ID'])
+    dataframe_expansion_area['Leistung_inMW_Vor'] = [0] * len(dataframe_expansion_area['ID'])
+    dataframe_expansion_area['InvestKosten_inMio_Vor'] = [0] * len(dataframe_expansion_area['ID'])
+    dataframe_expansion_area['BetriebsKosten_inMio_Vor'] = [0] * len(dataframe_expansion_area['ID'])
     dataframe_expansion_area['Modell_Pot'] = ['-'] * len(dataframe_expansion_area['ID'])
     dataframe_expansion_area['Anzahl_Pot'] = [0] * len(dataframe_expansion_area['ID'])
-    dataframe_expansion_area['Leistung_Pot'] = [0] * len(dataframe_expansion_area['ID'])
-    dataframe_expansion_area['InvestKosten_Pot'] = [0] * len(dataframe_expansion_area['ID'])
-    dataframe_expansion_area['BetriebsKosten_Pot'] = [0] * len(dataframe_expansion_area['ID'])
+    dataframe_expansion_area['Leistung_inMW_Pot'] = [0] * len(dataframe_expansion_area['ID'])
+    dataframe_expansion_area['InvestKosten_inMio_Pot'] = [0] * len(dataframe_expansion_area['ID'])
+    dataframe_expansion_area['BetriebsKosten_inMio_Pot'] = [0] * len(dataframe_expansion_area['ID'])
 
     "Nun ist bekannt welche Potenzial Flächen und Welche Vorrangflächen frei Verfügbar sind."
     '______________________________________________________________________________________________________________________'
