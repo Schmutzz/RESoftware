@@ -329,7 +329,6 @@ eisman_settings = dbc.Card([
     ])
 ], className='text-center p-1')
 
-
 # ----------------------------------------------------------------------------------------------------------------------
 # biomass/solar_input settings
 
@@ -674,11 +673,16 @@ start_button = html.Div([
                      id='start_output'),
             dbc.Button('Start', id='start_button', n_clicks=0, disabled=False),
         ])
-    ], className='py-3', justify='center')
+    ], className='py-3', justify='center'),
+    dbc.Row([
+        dbc.Col([
+            html.Div(id='spinner_div')
+        ])
+    ], justify='center')
 ], className='text-center')
 
 support_button = html.Div([
-    dbc.Button('Support', id='support_button', n_clicks=0, disabled=False, style={'display': 'none'}),
+    dbc.Button('Memory: Start', id='support_button', n_clicks=0, disabled=False, style={'display': 'none'}),
 ], className='text-center')
 
 settings_children = html.Div([
@@ -914,6 +918,7 @@ app.layout = html.Div([
         start_button
     ], className='py-3', justify='center'),
     html.Div(id='results', children=results, style={'display': 'none'}),
+    support_button
 ], style={"width": "99%"}, className='px-3 py-2')
 
 scenario_1 = [True, 75, True, True, 0, 0, True, True, ['vor'], False]
@@ -1002,6 +1007,32 @@ def sim(disabled):
     elif disabled:
         return True
 '''
+
+
+@app.callback(
+    Output('spinner_div', 'children'),
+    [
+        Input('start_button', 'n_clicks'),
+        Input('start_button', 'children')
+    ],
+    State('support_button', 'n_clicks')
+)
+def spinner(n, value, n_support):
+    if n == 0:
+        return dash.no_update
+    elif n > n_support:
+        if value == 'Start':
+            return dbc.Button(
+                [dbc.Spinner(size="sm"), " Simulating..."],
+                color="secondary",
+                disabled=True,
+            )
+        elif value == 'Back':
+            return html.Div()
+    elif value == 'Back':
+        return html.Div()
+    else:
+        return dash.no_update
 
 
 @app.callback(
@@ -1138,14 +1169,23 @@ def growth_input_lock(value):
 
 
 @app.callback(
+    Output('support_button', 'n_clicks'),
+    Input('start_button', 'n_clicks')
+)
+def click_support_button(n):
+    time.sleep(1)
+    return n
+
+
+@app.callback(
     [
         Output('start_output', 'children'),
         Output('results', 'style'),
         Output('settings_page', 'style'),
-        Output('start_button', 'children')
+        Output('start_button', 'children'),
     ],
     [
-        Input('start_button', 'n_clicks')
+        Input('support_button', 'n_clicks')
     ],
     [
         State('example_switch', 'value'),
@@ -1207,9 +1247,9 @@ def start_sim(n, exmpl_sw, year, wind_expansion_value, bio_sw, bio_inp, solar_sw
         main.META_first_wind_limit = eisman_wind[0]
         main.META_sec_wind_limit = eisman_wind[1]
         main.META_third_wind_limit = eisman_wind[2]
-        main.META_first_power_limit = eisman_percentage[2]/100
-        main.META_sec_power_limit = eisman_percentage[1]/100
-        main.META_third_power_limit = eisman_percentage[0]/100
+        main.META_first_power_limit = eisman_percentage[2] / 100
+        main.META_sec_power_limit = eisman_percentage[1] / 100
+        main.META_third_power_limit = eisman_percentage[0] / 100
         '- - - - - - - - - - - - - - - - - - - -'
         'WKA'
         main.META_wind = True
@@ -1227,8 +1267,8 @@ def start_sim(n, exmpl_sw, year, wind_expansion_value, bio_sw, bio_inp, solar_sw
         '- - - - - - - - - - - - - - - - - - - -'
         'Speicher'
         main.META_use_storage = storage_sw
-        main.META_startcapacity = start_capacity_value/100  # Angabe in Prozent wie voll die Speicher im Startpunkt sind
-        main.META_storage_safety_padding = safety_padding_value/100  # Wieviel safty Speicher ausgebaut werden soll zusätzlich
+        main.META_startcapacity = start_capacity_value / 100  # Angabe in Prozent wie voll die Speicher im Startpunkt sind
+        main.META_storage_safety_padding = safety_padding_value / 100  # Wieviel safty Speicher ausgebaut werden soll zusätzlich
 
         main.META_storage_before_expansion = 'existing' in storage_options  # True -> vor Ausbau Analyse beachtet Speicher
         main.META_storage_expansion = storage_expansion_sw  # True -> Speicher werden ausgebaut
