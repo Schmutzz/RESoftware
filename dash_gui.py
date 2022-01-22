@@ -1075,9 +1075,10 @@ def disable_storage(storage, expansion):
     Output('map', 'figure'),
     [
         Input('dropdown_map', 'value'),
-        Input('dropdown_map_size', 'value')
-    ],
-    State('start_button', 'children')
+        Input('dropdown_map_size', 'value'),
+        Input('start_button', 'children')
+    ]
+
 )
 def change_map(area, size, children):
     if children == 'Start':
@@ -1251,6 +1252,7 @@ def start_sim(n, exmpl_sw, year, wind_expansion_value, bio_sw, bio_inp, solar_sw
         main.META_DATA_be_plannedWKA_power = False  # True wenn die Leistung ausgerechnet werden muss
         main.META_DATA_pv_power = False  # True wenn die Leistung von PV erneut gerechnet werden muss
         main.META_DATA_wind_power = False  # True wenn die Leistung von Wind erneut gerechnet werden muss
+        main.META_DATA_eisman = False
 
         # exportFolder, cost_report, dataframe_expansion_area, export_simulation_bevor_expansion, SimulationEE_after_expansion
         exportFolder = main.re_simulation()

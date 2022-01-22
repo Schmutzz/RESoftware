@@ -18,34 +18,34 @@ def openAusbauflaechen(export=True):
     sheetanzahl = [101, 88, 129, 83, 16, 24, 169, 94, 123, 112, 25]
 
     print('Main Start')
-    dit = db.openLocationdata('Import\Standort', ortschaften[0], sheetanzahl[0]).openSheet()
+    dit = db.openLocationdata('Import/Standort', ortschaften[0], sheetanzahl[0]).openSheet()
     summe = dit.shape[0]
 
-    dit53 = db.openLocationdata('Import\Standort', ortschaften[0], sheetanzahl[0]).opensingelSheetSpecial(53)
+    dit53 = db.openLocationdata('Import/Standort', ortschaften[0], sheetanzahl[0]).opensingelSheetSpecial(53)
     summe += dit53.shape[0]
-    dit57 = db.openLocationdata('Import\Standort', ortschaften[0], sheetanzahl[0]).opensingelSheetSpecial(57)
+    dit57 = db.openLocationdata('Import/Standort', ortschaften[0], sheetanzahl[0]).opensingelSheetSpecial(57)
     summe += dit57.shape[0]
-    dit59 = db.openLocationdata('Import\Standort', ortschaften[0], sheetanzahl[0]).opensingelSheetSpecial(59)
+    dit59 = db.openLocationdata('Import/Standort', ortschaften[0], sheetanzahl[0]).opensingelSheetSpecial(59)
     summe += dit59.shape[0]
-    lau = db.openLocationdata('Import\Standort', ortschaften[1], sheetanzahl[1]).openSheet()
+    lau = db.openLocationdata('Import/Standort', ortschaften[1], sheetanzahl[1]).openSheet()
     summe += lau.shape[0]
-    nfl = db.openLocationdata('Import\Standort', ortschaften[2], sheetanzahl[2]).openSheet()
+    nfl = db.openLocationdata('Import/Standort', ortschaften[2], sheetanzahl[2]).openSheet()
     summe += nfl.shape[0]
-    ohs = db.openLocationdata('Import\Standort', ortschaften[3], sheetanzahl[3]).openSheet()
+    ohs = db.openLocationdata('Import/Standort', ortschaften[3], sheetanzahl[3]).openSheet()
     summe += ohs.shape[0]
-    pin = db.openLocationdata('Import\Standort', ortschaften[4], sheetanzahl[4]).openSheet()
+    pin = db.openLocationdata('Import/Standort', ortschaften[4], sheetanzahl[4]).openSheet()
     summe += pin.shape[0]
-    plo = db.openLocationdata('Import\Standort', ortschaften[5], sheetanzahl[5]).openSheet()
+    plo = db.openLocationdata('Import/Standort', ortschaften[5], sheetanzahl[5]).openSheet()
     summe += plo.shape[0]
-    rde = db.openLocationdata('Import\Standort', ortschaften[6], sheetanzahl[6]).openSheet()
+    rde = db.openLocationdata('Import/Standort', ortschaften[6], sheetanzahl[6]).openSheet()
     summe += rde.shape[0]
-    seg = db.openLocationdata('Import\Standort', ortschaften[7], sheetanzahl[7]).openSheet()
+    seg = db.openLocationdata('Import/Standort', ortschaften[7], sheetanzahl[7]).openSheet()
     summe += seg.shape[0]
-    slf = db.openLocationdata('Import\Standort', ortschaften[8], sheetanzahl[8]).openSheet()
+    slf = db.openLocationdata('Import/Standort', ortschaften[8], sheetanzahl[8]).openSheet()
     summe += slf.shape[0]
-    ste = db.openLocationdata('Import\Standort', ortschaften[9], sheetanzahl[9]).openSheetSTE()
+    ste = db.openLocationdata('Import/Standort', ortschaften[9], sheetanzahl[9]).openSheetSTE()
     summe += ste.shape[0]
-    sto = db.openLocationdata('Import\Standort', ortschaften[10], sheetanzahl[10]).openSheet()
+    sto = db.openLocationdata('Import/Standort', ortschaften[10], sheetanzahl[10]).openSheet()
     summe += sto.shape[0]
     print('Hier ist die Summe der Reihen', summe)
 
@@ -72,7 +72,7 @@ def openAusbauflaechen(export=True):
 
     if export == True:
         print('Export')
-        exportname = "Datenbank\Ausbauflaechen\AusbauStandorte_gesamt_SH/AlleStandorte.csv"
+        exportname = "Datenbank/Ausbauflaechen/AusbauStandorte_gesamt_SH/AlleStandorte.csv"
         merge_df.to_csv(exportname, sep=';',decimal=',' , encoding='utf-8-sig', index=False)
 
     return merge_df
@@ -87,7 +87,7 @@ def plannendAreas_getCoords(plannedAreas, export=True):
 
     if export == True:
         print('Export')
-        exportname = "Datenbank\ConnectwithID/AusbauStandorte_Coords.csv"
+        exportname = "Datenbank/ConnectwithID/AusbauStandorte_Coords.csv"
         plannedAreas.to_csv(exportname, sep=';', decimal=',', encoding='utf-8-sig', index=False)
 
     return plannedAreas
@@ -106,7 +106,7 @@ def plannedAreas_getWeather(alleStandorte_Coords, windWeatherStation, export= Tr
                                           'Stations_id', '_Vor')
 
     if export == True:
-        finished_filename = 'Datenbank\ConnectwithID/AusbauStandorte_Coords_weatherID.csv'
+        finished_filename = 'Datenbank/ConnectwithID/AusbauStandorte_Coords_weatherID.csv'
         alleStandorte_Coords.to_csv(finished_filename, sep=';', index=False, decimal=',', encoding='utf-8-sig')
     print('start plannedAreas_getWeather')
     return alleStandorte_Coords
@@ -116,10 +116,10 @@ def wetterdaten_from_CDC(year):
     itd.cdcdataobservations_germanyHourly('wind', 'StundeWindStationen')
     itd.cdcdataobservations_germanyHourly('solar', 'StundeSolarStationen')
 
-    liste = db.findoutFiles('Datenbank\Wetter\WindZipDateien')
+    liste = db.findoutFiles('Datenbank/Wetter/WindZipDateien')
 
     for i in range(len(liste)):
-        zipfilename = 'Datenbank\Wetter\WindZipDateien/' + liste[i]
+        zipfilename = 'Datenbank/Wetter/WindZipDateien/' + liste[i]
         db.zipentpacken(zipfilename, 'Wind')
 
     db.TxtWetterdatenToCSV(year, 'PV')
@@ -133,7 +133,7 @@ def PV_zusammenfassung(year):
 def weatherStation_getCoords():
 
     try:
-        openfilename1 = 'Import\Wetterstationen/StundeWindStationen.csv'
+        openfilename1 = 'Import/Wetterstationen/StundeWindStationen.csv'
         print(openfilename1)
 
         weather = pd.read_csv(openfilename1, delimiter=';', encoding='latin1')
@@ -143,13 +143,13 @@ def weatherStation_getCoords():
 
     df = gpd.addCoords(weather, 'Stationsname', 'Bundesland', 'Coords')
 
-    finished_filename = 'Datenbank\Wetter/StundeWindStationen_Coords.csv'
+    finished_filename = 'Datenbank/Wetter/StundeWindStationen_Coords.csv'
     df.to_csv(finished_filename, sep=';', decimal=',', index=False, encoding='utf-8-sig')
 
     '---------------------------------------------------------------------------------'
 
     try:
-        openfilename1 = 'Import\Wetterstationen/StundeSolarStationen.csv'
+        openfilename1 = 'Import/Wetterstationen/StundeSolarStationen.csv'
         print(openfilename1)
 
         weather = pd.read_csv(openfilename1, delimiter=';', encoding='latin1')
@@ -159,14 +159,14 @@ def weatherStation_getCoords():
 
     df = gpd.addCoords(weather, 'Stationsname', 'Bundesland', 'Coords')
 
-    finished_filename = 'Datenbank\Wetter/StundeSolarStationen_Coords.csv'
+    finished_filename = 'Datenbank/Wetter/StundeSolarStationen_Coords.csv'
     df.to_csv(finished_filename, sep=';', decimal=',', index=False, encoding='utf-8-sig')
 
 def plannedWKA_toUTM_and_connectWeahterID(weather, df):
 
     df = gpd.addWeather(df, weather, 'Coords UTM', 'Coords', 'Stations_id')
 
-    finished_filename = 'Datenbank\ConnectwithID\Erzeugung/WindparksSH_geplanterAusbau_UTM_WeatherID.csv'
+    finished_filename = 'Datenbank/ConnectwithID/Erzeugung/WindparksSH_geplanterAusbau_UTM_WeatherID.csv'
     df.to_csv(finished_filename, sep=';', decimal=',', index=False, encoding='utf-8-sig')
 
     return
@@ -188,7 +188,7 @@ def erzeugung_Wind_PV(year):
 
 def erzeugung_plannendAreas(year, geplanterAusbau):
     try:
-        openfilename2 = 'Datenbank\Wetter/Wind_Wetterdaten_' + str(year) + '.csv'
+        openfilename2 = 'Datenbank/Wetter/Wind_Wetterdaten_' + str(year) + '.csv'
         print(openfilename2)
         wetterdaten = pd.read_csv(openfilename2, delimiter=';', decimal=',', header=0)
 
@@ -197,7 +197,7 @@ def erzeugung_plannendAreas(year, geplanterAusbau):
 
     #df = lgk.erzeugungEEAnlage_singleFrame(wetterdaten, geplanterAusbau, year, export=False)
     try:
-        openfilename2 = 'Datenbank\Erzeugung\Erz_geplanterAusbau/Erz_geplanterAusbau_2019.csv'
+        openfilename2 = 'Datenbank/Erzeugung/Erz_geplanterAusbau/Erz_geplanterAusbau_2019.csv'
         print(openfilename2)
         df = pd.read_csv(openfilename2, delimiter=';', decimal=',', header=0, encoding='utf-8-sig')
 

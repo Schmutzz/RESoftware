@@ -172,16 +172,17 @@ def re_simulation():
     '!!!WICHTIGE DATEN!!!' \
     'ohne diese Daten kann keine Simulation gestartet werden'
 
-    try:
-        openfilename = 'Datenbank\Wetter/StundeWindStationen_Coords.csv'
-        print(openfilename)
-        windWeatherStation = pd.read_csv(openfilename, delimiter=';', decimal=',', encoding='utf-8')
-    except:
-        print('falsches Format: ', openfilename)
-        raise RuntimeError('Programmabbruch da die Wetterstationen für Wind nicht eingelesen werden konnten')
+    #try:
+    openfilename = 'Datenbank/Wetter/StundeWindStationen_Coords.csv'
+    print(openfilename)
+    windWeatherStation = pd.read_csv(openfilename, delimiter=';', decimal=',', encoding='utf-8')
+    #except:
+    print('falsches Format: ', openfilename)
+    # raise RuntimeError('Programmabbruch da die Wetterstationen für Wind nicht eingelesen werden konnten\n'
+    #                    'falsches Format: ', openfilename)
 
     try:
-        openfilename = 'Datenbank\Wetter/StundeSolarStationen_Coords.csv'
+        openfilename = 'Datenbank/Wetter/StundeSolarStationen_Coords.csv'
         print(openfilename)
         solarWeatherStation = pd.read_csv(openfilename, delimiter=';', decimal=',', encoding='utf-8')
     except:
@@ -189,7 +190,7 @@ def re_simulation():
         raise RuntimeError('Programmabbruch da die Wetterstationen für Solar nicht eingelesen werden konnten')
 
     try:
-        openfilename = 'Datenbank\WEAModell/WEAModell.csv'
+        openfilename = 'Datenbank/WEAModell/WEAModell.csv'
         print(openfilename)
         WEAModell = pd.read_csv(openfilename, delimiter=';', decimal=',', encoding='latin1')
     except:
@@ -200,7 +201,7 @@ def re_simulation():
     'Verbrauch'
     if main.META_DATA_verbrauch_komuliert == False:
         try:
-            openfilename = "Datenbank\Verbrauch\Verbrauch_komuliert_" + str(META_year) + ".csv"
+            openfilename = "Datenbank/Verbrauch/Verbrauch_komuliert_" + str(META_year) + ".csv"
             print(openfilename)
             verbrauch_HH_SH = pd.read_csv(openfilename, delimiter=';', decimal=',', encoding='utf-8')
         except:
@@ -210,14 +211,14 @@ def re_simulation():
     '---------------------------------------------------------------------------------------------------------'
     'WETTER'
     try:
-        openfilename = 'Datenbank\Wetter/Wind_Wetterdaten_' + str(main.META_year) + '.csv'
+        openfilename = 'Datenbank/Wetter/Wind_Wetterdaten_' + str(main.META_year) + '.csv'
         print(openfilename)
         windWeatherData = pd.read_csv(openfilename, delimiter=';', decimal=',', header=0, encoding='utf-8')
     except:
         print('falsches Format: ', openfilename)
 
     try:
-        openfilename = 'Datenbank\Wetter/PV_Wetterdaten_' + str(main.META_year) + '.csv'
+        openfilename = 'Datenbank/Wetter/PV_Wetterdaten_' + str(main.META_year) + '.csv'
         print(openfilename)
         solarWeatherData = pd.read_csv(openfilename, delimiter=';', decimal=',', header=0, encoding='utf-8')
     except:
@@ -229,7 +230,7 @@ def re_simulation():
     'GESAMT PV'
     if main.META_PV == True:
         try:
-            openfilename = 'Datenbank\Erzeugung/Erz_komuliert_' + str(main.META_year) + '_PV.csv'
+            openfilename = 'Datenbank/Erzeugung/Erz_komuliert_' + str(main.META_year) + '_PV.csv'
             print(openfilename)
             PV_Gesamt = pd.read_csv(openfilename, delimiter=';', decimal=',', encoding='utf-8')
         except:
@@ -239,7 +240,7 @@ def re_simulation():
     'GESAMT BIOMASSE'
     if main.META_biomasse == True:
         try:
-            openfilename = 'Datenbank\Erzeugung/Erz_komuliert_Biomasse_' + str(main.META_year) + '.csv'
+            openfilename = 'Datenbank/Erzeugung/Erz_komuliert_Biomasse_' + str(main.META_year) + '.csv'
             print(openfilename)
             erz_Bio = pd.read_csv(openfilename, delimiter=';', decimal=',', encoding='utf-8')
         except:
@@ -250,7 +251,7 @@ def re_simulation():
     if main.META_wind == True:
         if main.META_eisman == False and main.META_DATA_wind_power == False:
             try:
-                openfilename = 'Datenbank\Erzeugung/Erz_komuliert_' + str(main.META_year) + '_Wind.csv'
+                openfilename = 'Datenbank/Erzeugung/Erz_komuliert_' + str(main.META_year) + '_Wind.csv'
                 print(openfilename)
                 Wind_Gesamt = pd.read_csv(openfilename, delimiter=';', encoding='utf-8')
             except:
@@ -264,7 +265,7 @@ def re_simulation():
                     main.META_first_power_limit) + '_' + str(main.META_sec_power_limit) + '_' + str(
                     main.META_third_power_limit)
 
-                openfilename = 'Datenbank\Erzeugung/Erz_komuliert_' + str(main.META_year) + '_Wind_' + eisman_name + '.csv'
+                openfilename = 'Datenbank/Erzeugung/Erz_komuliert_' + str(main.META_year) + '_Wind_' + eisman_name + '.csv'
                 print(openfilename)
                 Wind_Gesamt = pd.read_csv(openfilename, delimiter=';', encoding='utf-8')
             except:
@@ -275,7 +276,7 @@ def re_simulation():
     'GESAMT bereits geplanter Ausbau'
     if main.META_DATA_generate_windenergy_plannendareas == False:
         try:
-            openfilename = 'Datenbank\Erzeugung/Erz_komuliert_geplanterAusbau_' + str(main.META_year) + '_Wind.csv'
+            openfilename = 'Datenbank/Erzeugung/Erz_komuliert_geplanterAusbau_' + str(main.META_year) + '_Wind.csv'
             print(openfilename)
             be_planned_wka_power = pd.read_csv(openfilename, delimiter=';', decimal=',', encoding='utf-8')
         except:
@@ -291,7 +292,7 @@ def re_simulation():
         'Area with coords and weather ID'
         if main.META_DATA_plannedAreas_potVor_getWeather == False and main.META_DATA_plannedAreas_potVor_getCoords == False:
             try:
-                openfilename = 'Datenbank\ConnectwithID/AusbauStandorte_Coords_weatherID.csv'
+                openfilename = 'Datenbank/ConnectwithID/AusbauStandorte_Coords_weatherID.csv'
                 print(openfilename)
                 expansion_area_wind_vorpot = pd.read_csv(openfilename, delimiter=';', decimal=',', encoding='utf-8')
             except:
@@ -300,7 +301,7 @@ def re_simulation():
         'Area with coords but without weather ID'
         if main.META_DATA_plannedAreas_potVor_getWeather == True and main.META_DATA_plannedAreas_potVor_getCoords == False:
             try:
-                openfilename = 'Datenbank\ConnectwithID/AusbauStandorte_Coords.csv'
+                openfilename = 'Datenbank/ConnectwithID/AusbauStandorte_Coords.csv'
                 print(openfilename)
                 expansion_area_wind_vorpot = pd.read_csv(openfilename, delimiter=';', decimal=',', encoding='utf-8')
             except:
@@ -310,7 +311,7 @@ def re_simulation():
         'Area without coords and weather ID'
         if main.META_DATA_plannedAreas_potVor_getWeather == True and main.META_DATA_plannedAreas_potVor_getCoords == True:
             try:
-                openfilename = 'Datenbank\Ausbauflaechen\AusbauStandorte_gesamt_SH/AlleStandorte.csv'
+                openfilename = 'Datenbank/Ausbauflaechen/AusbauStandorte_gesamt_SH/AlleStandorte.csv'
                 print(openfilename)
                 expansion_area_wind_vorpot = pd.read_csv(openfilename, delimiter=';', decimal=',', encoding='utf-8')
             except:
@@ -324,7 +325,7 @@ def re_simulation():
         'Area with coords and weather ID'
         if main.META_DATA_be_plannedWKA_getCoords == False and main.META_DATA_be_plannedWKA_getWeatherID == False:
             try:
-                openfilename = 'Datenbank\ConnectwithID\Erzeugung/WindparksSH_geplanterAusbau_UTM_WeatherID_2019_2020.csv'
+                openfilename = 'Datenbank/ConnectwithID/Erzeugung/WindparksSH_geplanterAusbau_UTM_WeatherID_2019_2020.csv'
                 print(openfilename)
                 plannedWKA_areas = pd.read_csv(openfilename, delimiter=';', encoding='utf-8', decimal=',', na_values=0)
                 plannedWKA_areas = plannedWKA_areas.fillna(0)
@@ -334,7 +335,7 @@ def re_simulation():
         'Area with coords but without weather ID'
         if main.META_DATA_be_plannedWKA_getCoords == False and main.META_DATA_be_plannedWKA_getWeatherID == True:
             try:
-                openfilename = 'Datenbank\ConnectwithID\Erzeugung/WindparksSH_WetterID_2019_UTM'
+                openfilename = 'Datenbank/ConnectwithID/Erzeugung/WindparksSH_WetterID_2019_UTM'
                 print(openfilename)
                 plannedWKA_areas = pd.read_csv(openfilename, delimiter=';', encoding='utf-8', decimal=',', na_values=0)
                 plannedWKA_areas = plannedWKA_areas.fillna(0)
@@ -345,7 +346,7 @@ def re_simulation():
         'Area without coords and weather ID'
         if main.META_DATA_be_plannedWKA_getCoords == True and main.META_DATA_be_plannedWKA_getWeatherID == True:
             try:
-                openfilename = 'Datenbank\ConnectwithID\Erzeugung/WindparksSH_geplanterAusbau.csv'
+                openfilename = 'Datenbank/ConnectwithID/Erzeugung/WindparksSH_geplanterAusbau.csv'
                 print(openfilename)
                 plannedWKA_areas = pd.read_csv(openfilename, delimiter=';', encoding='utf-8', decimal=',', na_values=0)
                 plannedWKA_areas = plannedWKA_areas.fillna(0)
@@ -408,12 +409,12 @@ def re_simulation():
             if main.META_DATA_eisman == True:
 
 
-                openfilename = 'Datenbank\Erzeugung/Erz_komuliert_' + str(main.META_year) + '_Wind_' + eisman_name + '.csv'
+                openfilename = 'Datenbank/Erzeugung/Erz_komuliert_' + str(main.META_year) + '_Wind_' + eisman_name + '.csv'
 
                 Wind_Gesamt = lgk.erzeugungPerStunde(main.META_year, openfilename, 'Wind', weatherIDlist,
                                                     complete_export=True, eisman= True)
             else:
-                openfilename = 'Datenbank\Erzeugung/Erz_komuliert_' + str(main.META_year) + '_Wind.csv'
+                openfilename = 'Datenbank/Erzeugung/Erz_komuliert_' + str(main.META_year) + '_Wind.csv'
                 Wind_Gesamt = lgk.erzeugungPerStunde(main.META_year, openfilename, 'Wind', weatherIDlist,
                                                      complete_export=True, eisman= False)
     '-----------------------------------------------------------------------------------------------------------------'
@@ -442,7 +443,7 @@ def re_simulation():
     if main.META_be_planned_expansion ==True:
         if main.META_DATA_be_plannedWKA_getCoords == True and main.META_DATA_be_plannedWKA_getWeatherID == True:
             print('plannedAreasgetCoords will be regenerated and reloaded')
-            temp_exportname = 'Datenbank\ConnectwithID\Erzeugung/WindparksSH_geplanterAusbau_UTM_WeatherID_2019_2020.csv'
+            temp_exportname = 'Datenbank/ConnectwithID/Erzeugung/WindparksSH_geplanterAusbau_UTM_WeatherID_2019_2020.csv'
             plannedWKA_areas = db.utm_to_gk(META_year, temp_exportname, plannedWKA_areas)
             plannedWKA_areas = dataprep.plannedWKA_toUTM_and_connectWeahterID(windWeatherStation, plannedWKA_areas)
             main.META_DATA_generate_windenergy_plannendareas = True
@@ -456,7 +457,7 @@ def re_simulation():
                                                                         dictWKAModell,
                                                                         dictWeatherID, export=True)
             'Summe der einzelnen WKA Anlagen'
-            temp_exportname = 'Datenbank\Erzeugung/Erz_komuliert_geplanterAusbau_' + str(META_year) + '_Wind.csv'
+            temp_exportname = 'Datenbank/Erzeugung/Erz_komuliert_geplanterAusbau_' + str(META_year) + '_Wind.csv'
             be_planned_wka_power = lgk.erzeugungPerStunde_singleFrame(META_year, be_planned_wka_power, temp_exportname,
                                                                       export=True)
 
@@ -466,7 +467,7 @@ def re_simulation():
     '----------------------------------------------------------------------------------------------------------------------'
     if main.META_DATA_DBWKAreload == False:
         try:
-            openfilename = 'Datenbank\WEAModell/DB_WKA_' + str(main.META_year) + '_' +  str(main.META_DATA_DB_min_hight)+ '.csv'
+            openfilename = 'Datenbank/WEAModell/DB_WKA_' + str(main.META_year) + '_' +  str(main.META_DATA_DB_min_hight)+ '.csv'
             print(openfilename)
             DB_WKA = pd.read_csv(openfilename, delimiter=';', decimal=',', encoding='utf-8')
         except:
@@ -515,7 +516,7 @@ def re_simulation():
     "In Bearbeitung"
     if main.META_windanalyse == True:
         try:
-            openfilename = 'Datenbank\Wetter\WindAnalyse/Windanlyse_' + str(META_year) + '.csv'
+            openfilename = 'Datenbank/Wetter/WindAnalyse/Windanlyse_' + str(META_year) + '.csv'
             print(openfilename)
             windanlyse = pd.read_csv(openfilename, delimiter=';', decimal=',', encoding='utf-8')
         except:
@@ -693,9 +694,9 @@ def re_simulation():
             list_name_expansion_wka.append(temp_Modell)
             list_count_expansion_wka.append(keyfactors_expansion_area[2])
             list_count_expansion_power.append(keyfactors_expansion_area[3])
-
-            finished_filename = exportFolder + 'AusgebauteFlaechen_' + str(META_year) + '.csv'
-            dataframe_expansion_area.to_csv(finished_filename, sep=';', decimal=',', index=False, encoding='utf-8-sig')
+            '''
+            finished_filename = exportFolder + 'AusgebauteFlaechen_' + str(main.META_year) + '.csv'
+            dataframe_expansion_area.to_csv(finished_filename, sep=';', decimal=',', index=False, encoding='utf-8-sig')'''
             end = time.process_time()
             if pot_Vor == 'Vor':
                 temp_area = 'Vorranggebiet'
@@ -739,6 +740,10 @@ def re_simulation():
             EE_Anteil = EE_Analyse[1]
             SimulationEE_after_expansion = EE_Analyse[0].copy()
             print('EE Anteil in Prozent: ', round(EE_Analyse[1] * 100, 6), '%')
+
+    finished_filename = exportFolder + 'AusgebauteFlaechen_' + str(main.META_year) + '.csv'
+    dataframe_expansion_area.to_csv(finished_filename, sep=';', decimal=',', index=False, encoding='utf-8-sig')
+
 
     min_current_storage = 0.0
     storage_bevor = len(listStorage)

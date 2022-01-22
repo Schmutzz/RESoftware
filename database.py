@@ -69,8 +69,8 @@ def findoutFiles(filename):
 def zipentpacken(zipFileName, source):
     try:
         with ZipFile(zipFileName, 'r') as zip:
-            zip.extractall('Datenbank\Wetter/' + source + 'Text')
-            print('File is unzipped in temp Datenbank\Wetter\WindText')
+            zip.extractall('Datenbank/Wetter/' + source + 'Text')
+            print('File is unzipped in temp Datenbank/Wetter/WindText')
 
     except ValueError:
         print("Probleme mit der Zip-Datei")
@@ -119,7 +119,7 @@ def erzeugungsZsmPV(year, state, source='PV', weatherConnect=True):
                                        '01.01.' + str(year + 1), 'Y', list=True)
     # print(Datumabgleich)
     # 2021 muss ersetzt werden durch Zeitfunktion
-    filelist = findoutFiles('Datenbank\ConnectwithID\PV_einzelneAnlagen')
+    filelist = findoutFiles('Datenbank/ConnectwithID/PV_einzelneAnlagen')
     matchfilelist1 = [match for match in filelist if state in match]
     matchfilelist2 = [match for match in matchfilelist1 if source in match]
     matchfilelist3 = [match for match in matchfilelist2 if str(2021) in match]
@@ -127,7 +127,7 @@ def erzeugungsZsmPV(year, state, source='PV', weatherConnect=True):
 
     try:
         headerlistLokation = ['Nettonennleistung der Einheit', 'Inbetriebnahmedatum der Einheit', 'Wetter-ID_Head']
-        openfilename1 = 'Datenbank\ConnectwithID\PV_einzelneAnlagen/' + matchfilelist4[0]
+        openfilename1 = 'Datenbank/ConnectwithID/PV_einzelneAnlagen/' + matchfilelist4[0]
         # print(openfilename1)
 
         lokationsdaten = pd.read_csv(openfilename1, delimiter=';', usecols=headerlistLokation, decimal=',',
@@ -139,7 +139,7 @@ def erzeugungsZsmPV(year, state, source='PV', weatherConnect=True):
 
     try:
         headerlistLokation2 = ['Stations_id', 'Bundesland']
-        openfilename2 = 'Import\Wetterstationen/StundeWindStationen.csv'
+        openfilename2 = 'Import/Wetterstationen/StundeWindStationen.csv'
         # print(openfilename2)
 
         wetterID = pd.read_csv(openfilename2, delimiter=';', usecols=headerlistLokation2, decimal=',',
@@ -193,7 +193,7 @@ def erzeugungsZsmPV(year, state, source='PV', weatherConnect=True):
         }
     )
 
-    exportname = 'Datenbank\ConnectwithID\Erzeugung/PV_Anlagen_' + state + '_WetterID_' + str(year) + '_komuliert.csv'
+    exportname = 'Datenbank/ConnectwithID/Erzeugung/PV_Anlagen_' + state + '_WetterID_' + str(year) + '_komuliert.csv'
     AusgabeFrame.to_csv(exportname, sep=';', encoding='utf-8', index=False, decimal=',')
 
     print('ENDE erzeugungsZsmPV ')
@@ -201,7 +201,7 @@ def erzeugungsZsmPV(year, state, source='PV', weatherConnect=True):
 
 def TxtWetterdatenSolarToCSV():
     print('Start')
-    files = findoutFiles('Datenbank\Wetter\SolarText')
+    files = findoutFiles('Datenbank/Wetter/SolarText')
     dataFrame = {1: ['1', '2'], 2: ['3', '4']}
     header = ['STATIONS_ID', 'ZENIT', 'MESS_DATUM_WOZ', 'FG_LBERG']
     firstDataFrame = False
@@ -213,7 +213,7 @@ def TxtWetterdatenSolarToCSV():
 
     for i in range(length):
         # try:
-        openfilename = 'Datenbank\Wetter\SolarText/' + matches[i]
+        openfilename = 'Datenbank/Wetter/SolarText/' + matches[i]
         print(openfilename)
         df = pd.read_csv(openfilename, usecols=header, delimiter=';', decimal='.', header=0)
 
@@ -269,7 +269,7 @@ def TxtWetterdatenToCSV(Year, source):
         MessDateType = '%Y%m%d%H'
 
     try:
-        files = findoutFiles('Datenbank\Wetter/' + source + 'Text')
+        files = findoutFiles('Datenbank/Wetter/' + source + 'Text')
     except ValueError:
         print('WARNING')
 
@@ -283,7 +283,7 @@ def TxtWetterdatenToCSV(Year, source):
         windMperS = []
         windDegree = []
         try:
-            openfilename = 'Datenbank\Wetter/' + source + 'Text/' + matches[i]
+            openfilename = 'Datenbank/Wetter/' + source + 'Text/' + matches[i]
             print(openfilename)
             df = pd.read_csv(openfilename, delimiter=';', decimal='.', header=0)
             FilesTrueFalse.append(True)
@@ -442,9 +442,9 @@ def TxtWetterdatenToCSV(Year, source):
          }
     )
 
-    exportname1 = 'Datenbank\Wetter/' + source + '_Wetterdaten_' + str(Year) + '.csv'
+    exportname1 = 'Datenbank/Wetter/' + source + '_Wetterdaten_' + str(Year) + '.csv'
     exportFrame.to_csv(exportname1, sep=';', encoding='utf-8', index=False, decimal=',')
-    exportname2 = 'Datenbank\Wetter/' + source + '_Datenauswertung' + str(Year) + '.csv'
+    exportname2 = 'Datenbank/Wetter/' + source + '_Datenauswertung' + str(Year) + '.csv'
     KontrolFrame.to_csv(exportname2, sep=';', encoding='utf-8', index=False, decimal=',')
     print('Fertig testTxtdatenWindToCSV ', source)
 
@@ -464,7 +464,7 @@ def utm_to_gk(name, df, export=False):
     df['Coords UTM'] = coords
 
     if export == True:
-        exportname = 'Datenbank\ConnectwithID\Erzeugung/' + name + '.csv'
+        exportname = 'Datenbank/ConnectwithID/Erzeugung/' + name + '.csv'
         df.to_csv(exportname, sep=';', encoding='utf-8-sig', index=False, decimal=',')
 
     print('Fertig')
@@ -743,7 +743,7 @@ class openLocationdata():
              'WKAVor': self.WKAVor
              }
         )
-        exportname = "Datenbank\Ausbauflaechen\AusbauStandorte_einzeln/" + self.location + "_reineDaten" + ".csv"
+        exportname = "Datenbank/Ausbauflaechen/AusbauStandorte_einzeln/" + self.location + "_reineDaten" + ".csv"
         exportFrame.to_csv(exportname, sep=';', encoding='utf-8', index=False)
         return exportFrame
 
@@ -880,7 +880,7 @@ class openLocationdata():
              'WKAVor': self.WKAVor
              }
         )
-        exportname = "Datenbank\Ausbauflaechen\AusbauStandorte_einzeln/" + self.location + "_reineDatenSpecial" + ".csv"
+        exportname = "Datenbank/Ausbauflaechen/AusbauStandorte_einzeln/" + self.location + "_reineDatenSpecial" + ".csv"
         exportFrame.to_csv(exportname, sep=';', encoding='utf-8', index=False)
         return exportFrame
 
@@ -1075,7 +1075,7 @@ class openLocationdata():
              'WKAVor': self.WKAVor
              }
         )
-        exportname = "Datenbank\Ausbauflaechen\AusbauStandorte_einzeln/" + self.location + "_reineDatenSpecial" + str(
+        exportname = "Datenbank/Ausbauflaechen/AusbauStandorte_einzeln/" + self.location + "_reineDatenSpecial" + str(
             sheet) + ".csv"
         exportFrames.to_csv(exportname, sep=';', encoding='utf-8', index=False)
         return exportFrames

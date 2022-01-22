@@ -21,7 +21,7 @@ def cdcdataobservations_germanyHourly(source, idFile):
 
 
     try:
-        filename = 'Import\Wetterstationen/' + idFile + '.csv'
+        filename = 'Import/Wetterstationen/' + idFile + '.csv'
         print(filename)
         df = pd.read_csv(filename, delimiter=';', encoding="latin1")
         print(df)
@@ -39,7 +39,7 @@ def cdcdataobservations_germanyHourly(source, idFile):
 
             url = urlanfang + 'stundenwerte_'+ indizie +'_' + zusatznullen + str(df['Stations_id'][i]) + '_' + indizie2 + '.zip'
             r = requests.get(url, allow_redirects=True)
-            zipFileName = 'Datenbank\Wetter/' + source + 'ZipDateien/stundenwerte_'+ indizie +'_' + zusatznullen + str(df['Stations_id'][i]) + '_' + indizie2 + '.zip'
+            zipFileName = 'Datenbank/Wetter/' + source + 'ZipDateien/stundenwerte_'+ indizie +'_' + zusatznullen + str(df['Stations_id'][i]) + '_' + indizie2 + '.zip'
             open(zipFileName, 'wb').write(r.content)
 
 
@@ -47,20 +47,20 @@ def cdcdataobservations_germanyHourly(source, idFile):
             zusatznullen = "0"
             url = urlanfang + 'stundenwerte_'+ indizie +'_' + zusatznullen + str(df['Stations_id'][i]) + '_' + indizie2 + '.zip'
             r = requests.get(url, allow_redirects=True)
-            zipFileName = 'Datenbank\Wetter/' + source + 'ZipDateien/stundenwerte_'+ indizie +'_' + zusatznullen + str(df['Stations_id'][i]) + '_' + indizie2 + '.zip'
+            zipFileName = 'Datenbank/Wetter/' + source + 'ZipDateien/stundenwerte_'+ indizie +'_' + zusatznullen + str(df['Stations_id'][i]) + '_' + indizie2 + '.zip'
             open(zipFileName, 'wb').write(r.content)
 
 
         if df['Stations_id'][i] > 9999:
             url = urlanfang + 'stundenwerte_'+ indizie +'_' + str(df['Stations_id'][i]) + '_' + indizie2 + '.zip'
             r = requests.get(url, allow_redirects=True)
-            zipFileName = 'Datenbank\Wetter/' + source + 'ZipDateien/stundenwerte_'+ indizie +'_' + str(df['Stations_id'][i]) + '_' + indizie2 + '.zip'
+            zipFileName = 'Datenbank/Wetter/' + source + 'ZipDateien/stundenwerte_'+ indizie +'_' + str(df['Stations_id'][i]) + '_' + indizie2 + '.zip'
             open(zipFileName, 'wb').write(r.content)
 
         try:
             with ZipFile(zipFileName, 'r') as zip:
-                zip.extractall('Datenbank\Wetter/' + source + 'Text')
-                print('File is unzipped in temp Datenbank\Wetter\WindText')
+                zip.extractall('Datenbank/Wetter/' + source + 'Text')
+                print('File is unzipped in temp Datenbank/Wetter/WindText')
                 importTrueOrFalse.append(True)
         except ValueError:
             print("Probleme mit der Zip-Datei")

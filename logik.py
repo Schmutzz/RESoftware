@@ -152,11 +152,11 @@ class WKAmodell:
 
 class WetterStation:
 
-    def __init__(self, ID, NameORT, state, Messhight, geoBreite, geoLaenge, coords):
+    def __init__(self, ID, NameORT, state, Messheight, geoBreite, geoLaenge, coords):
 
         self.NameORT = NameORT
         self.ID = ID
-        self.Messhight = Messhight
+        self.Messheight = Messheight
         self.state = state
         self.geoBreite = geoBreite
         self.geoLaenge = geoLaenge
@@ -168,7 +168,7 @@ class WetterStation:
         temp_dict = {}
         for index, i in enumerate(self.ID):
             temp_dict[i] = {'NameORT': self.NameORT[index], 'ID': self.ID[index],
-                            'Messhight': self.Messhight[index], 'state': self.state[index],
+                            'Messhight': self.Messheight[index], 'state': self.state[index],
                             'geoBreite': self.geoBreite[index], 'geoLaenge': self.geoLaenge[index],
                             'windklasse': self.windklasse, 'Coords': self.coords[index]}
 
@@ -203,7 +203,7 @@ def wea_modell_dictionary_class(WKA_csvFrame, useImport=True):
                                 'Ausbaurelevant',
                                 'IEC-WindKlasse', 'Investitionskosten', 'Betriebskosten in Euro/a']
 
-            openfilename3 = 'Datenbank\WEAModell/WEAModell.csv'
+            openfilename3 = 'Datenbank/WEAModell/WEAModell.csv'
             print(openfilename3)
             WKA_csvFrame = pd.read_csv(openfilename3, usecols=headerlistModell, delimiter=';', decimal=',', header=0,
                                        encoding='latin1')
@@ -263,7 +263,7 @@ def weather_station_dictionary_class(weatherID_csvFrame, useImport=True):
         try:
             headerlistModell = ['Stations_id', 'Messhoehe', 'Stationsname', 'Bundesland', 'geoBreite', 'geoLaenge',
                                 'Coords']
-            openfilename3 = 'Import\Wetterstationen/StundeWindStationen.csv'
+            openfilename3 = 'Import/Wetterstationen/StundeWindStationen.csv'
             print(openfilename3)
             weatherID_csvFrame = pd.read_csv(openfilename3, usecols=headerlistModell, delimiter=';', decimal=',',
                                              header=0,
@@ -312,10 +312,10 @@ def weather_station_dictionary_class(weatherID_csvFrame, useImport=True):
 'Allgemeine Formeln'
 
 
-def wind_hochrechnung(wind, naben_hight, mess_hight):
+def wind_hochrechnung(wind, naben_height, mess_height):
     hellmann_konst = 0.25
-    delte_hight = naben_hight / mess_hight
-    wind = wind * (delte_hight ** hellmann_konst)
+    delte_height = float(naben_height) / float(mess_height)
+    wind = wind * (delte_height ** hellmann_konst)
     return wind
 
 
@@ -408,14 +408,14 @@ def generation_wind_energy(year,dictModell,dictWeatherID, source, state, META_fi
 
     exportFrame = DateList('01.01.' + str(year) + ' 00:00', '31.12.' + str(year) + ' 23:00', '60min')
 
-    filelist = findoutFiles('Datenbank\ConnectwithID\Erzeugung')
+    filelist = findoutFiles('Datenbank/ConnectwithID/Erzeugung')
     matchfilelist1 = [match for match in filelist if state in match]
     matchfilelist2 = [match for match in matchfilelist1 if source in match]
     matchfilelist3 = [match for match in matchfilelist2 if str(year) in match]
     print(matchfilelist3)
 
     try:
-        openfilename2 = 'Datenbank\Wetter/' + source + '_Wetterdaten_' + str(year) + '.csv'
+        openfilename2 = 'Datenbank/Wetter/' + source + '_Wetterdaten_' + str(year) + '.csv'
         print(openfilename2)
         wetterdaten = pd.read_csv(openfilename2, delimiter=';', decimal=',', header=0)
         # print(wetterdaten)
@@ -428,7 +428,7 @@ def generation_wind_energy(year,dictModell,dictWeatherID, source, state, META_fi
     if source == 'Wind':
         try:
             headerlistLokation = ['TYP', 'Modell', 'Wetter-ID', 'LEISTUNG', 'NABENHOEHE']
-            openfilename1 = 'Datenbank\ConnectwithID\Erzeugung/' + matchfilelist3[0]
+            openfilename1 = 'Datenbank/ConnectwithID/Erzeugung/' + matchfilelist3[0]
             print(openfilename1)
 
             lokationsdaten = pd.read_csv(openfilename1, delimiter=';', usecols=headerlistLokation, decimal='.',
@@ -513,9 +513,9 @@ def generation_wind_energy(year,dictModell,dictWeatherID, source, state, META_fi
             exportFrame[columnName] = leistung
             print(columnName)
     if eisman == True:
-        exportname = 'Datenbank\Erzeugung\Einzel/Erz_' + source + '_' + state + '_' + str(year) + '_eisman' +'.csv'
+        exportname = 'Datenbank/Erzeugung/Einzel/Erz_' + source + '_' + state + '_' + str(year) + '_eisman' +'.csv'
     else:
-        exportname = 'Datenbank\Erzeugung\Einzel/Erz_' + source + '_' + state + '_' + str(year) + '.csv'
+        exportname = 'Datenbank/Erzeugung/Einzel/Erz_' + source + '_' + state + '_' + str(year) + '.csv'
     # print(exportFrame)
 
     exportFrame.to_csv(exportname, sep=';', encoding='utf-8', index=False, decimal=',')
@@ -530,14 +530,14 @@ def generation_wind_energy(year,dictModell,dictWeatherID, source, state, META_fi
 def generation_PV_energy(year, source, state):
     exportFrame = DateList('01.01.' + str(year) + ' 00:00', '31.12.' + str(year) + ' 23:00', '60min')
 
-    filelist = findoutFiles('Datenbank\ConnectwithID\Erzeugung')
+    filelist = findoutFiles('Datenbank/ConnectwithID/Erzeugung')
     matchfilelist1 = [match for match in filelist if state in match]
     matchfilelist2 = [match for match in matchfilelist1 if source in match]
     matchfilelist3 = [match for match in matchfilelist2 if str(year) in match]
     print(matchfilelist3)
 
     try:
-        openfilename2 = 'Datenbank\Wetter/' + source + '_Wetterdaten_' + str(year) + '.csv'
+        openfilename2 = 'Datenbank/Wetter/' + source + '_Wetterdaten_' + str(year) + '.csv'
         print(openfilename2)
         wetterdaten = pd.read_csv(openfilename2, delimiter=';', decimal=',', header=0)
         # print(wetterdaten)
@@ -551,7 +551,7 @@ def generation_PV_energy(year, source, state):
     if source == 'PV':
         try:
             headerlistLokation = ['Leistung', 'Bundesland', 'Wetter-ID']
-            openfilename1 = 'Datenbank\ConnectwithID\Erzeugung/' + matchfilelist3[0]
+            openfilename1 = 'Datenbank/ConnectwithID/Erzeugung/' + matchfilelist3[0]
             print(openfilename1)
 
             lokationsdaten = pd.read_csv(openfilename1, delimiter=';', usecols=headerlistLokation, decimal=',',
@@ -594,7 +594,7 @@ def generation_PV_energy(year, source, state):
             exportFrame[columnName] = leistung
             # print('Eintrag Efolgreich ', i)
 
-    exportname = 'Datenbank\Erzeugung\Einzel/Erz_' + source + '_' + state + '_' + str(year) + '.csv'
+    exportname = 'Datenbank/Erzeugung/Einzel/Erz_' + source + '_' + state + '_' + str(year) + '.csv'
     exportFrame.to_csv(exportname, sep=';', encoding='utf-8', index=False, decimal=',')
     print("Modell ungekannt Anzahl: ", modellunbekannt)
     print("Wetter-ID ungekannt Anzahl: ", wetterIDunbekannt)
@@ -674,7 +674,7 @@ def erzeugung_WKA_areawith_weatherID(year, wetterdaten, lokationsdaten, dictMode
         print(columnName)
 
     if export == True:
-        exportname = 'Datenbank\Erzeugung\Erz_geplanterAusbau/Erz_geplanterAusbau_' + str(year) + '.csv'
+        exportname = 'Datenbank/Erzeugung/Erz_geplanterAusbau/Erz_geplanterAusbau_' + str(year) + '.csv'
         exportFrame.to_csv(exportname, sep=';', encoding='utf-8', index=False, decimal=',')
 
     return exportFrame
@@ -684,7 +684,7 @@ def erzeugungPerStunde(year, openfilename, source1, weatherIDlist, single_ID_exp
                        eisman = False):
     print("Start Erzeugung per Stunde")
 
-    files = findoutFiles('Datenbank\Erzeugung/Einzel')
+    files = findoutFiles('Datenbank/Erzeugung/Einzel')
 
     matches = [match for match in files if str(year) in match]
     matches = [match for match in matches if str(source1) in match]
@@ -701,7 +701,7 @@ def erzeugungPerStunde(year, openfilename, source1, weatherIDlist, single_ID_exp
 
     for i in range(lengthmachtes):
         try:
-            openfilename2 = 'Datenbank\Erzeugung/Einzel/' + matches[i]
+            openfilename2 = 'Datenbank/Erzeugung/Einzel/' + matches[i]
             print(openfilename2)
             df2 = pd.read_csv(openfilename2, delimiter=';', decimal=',', header=0)
 
@@ -794,7 +794,7 @@ def erzeugungPerStunde_singleFrame(year, ErzeugungFrame, temp_exportname, export
 
 
 def verbrauchGesamt(year, export=False):
-    files = findoutFiles('Datenbank\Verbrauch\Einzeln')
+    files = findoutFiles('Datenbank/Verbrauch/Einzeln')
 
     matches = [match for match in files if str(year) in match]
 
@@ -802,7 +802,7 @@ def verbrauchGesamt(year, export=False):
                              '31.12.' + str(year) + ' 23:00', '60min', list=True)
 
     try:
-        openfilename = 'Datenbank\Verbrauch\Einzeln/' + matches[0]
+        openfilename = 'Datenbank/Verbrauch/Einzeln/' + matches[0]
         print(openfilename)
         df = pd.read_csv(openfilename, encoding='utf-8', delimiter=';', decimal=',', header=0)
         # print(df.index)
@@ -827,7 +827,7 @@ def verbrauchGesamt(year, export=False):
     )
 
     if export == True:
-        exportname = "Datenbank\Verbrauch\Verbrauch_komuliert_" + str(year) + ".csv"
+        exportname = "Datenbank/Verbrauch/Verbrauch_komuliert_" + str(year) + ".csv"
         AusgabeFrame.to_csv(exportname, sep=';', encoding='utf-8-sig', index=False, decimal=',')
         print('Fertig')
 
@@ -1019,10 +1019,10 @@ def analyseEE(year, exportfolder, listSpeicher=0, EE_Erz=0, PV_Gesamt=0, erz_Bio
 
 def analyseAusbauFl():
     print('Start mit Analyse')
-    filelist = findoutFiles('Datenbank\Ausbauflaechen\AusbauStandorte_gesamt_SH')
+    filelist = findoutFiles('Datenbank/Ausbauflaechen/AusbauStandorte_gesamt_SH')
     matchfilelist = [match for match in filelist if 'AlleStandorte' in match]
     try:
-        openfilename1 = 'Datenbank\Ausbauflaechen\AusbauStandorte_gesamt_SH/' + matchfilelist[0]
+        openfilename1 = 'Datenbank/Ausbauflaechen/AusbauStandorte_gesamt_SH/' + matchfilelist[0]
         print(openfilename1)
 
         lokdaten = pd.read_csv(openfilename1, delimiter=';', decimal=',',
@@ -1058,7 +1058,7 @@ def windlastprofil(year, exportfolder, export=True):
     print("Start WindLastProfil")
 
     try:
-        openfilename2 = 'Datenbank\Wetter/Wind_Wetterdaten_' + str(year) + '.csv'
+        openfilename2 = 'Datenbank/Wetter/Wind_Wetterdaten_' + str(year) + '.csv'
         print(openfilename2)
         wetterdaten = pd.read_csv(openfilename2, delimiter=';', decimal=',', header=0)
         # print(wetterdaten)
@@ -1164,13 +1164,13 @@ def windlastprofil_einzel(windWeatherlist):
 
 
 def stand_distance_analyse_alt(year, standorte):
-    filelist = findoutFiles('Datenbank\ConnectwithID\Erzeugung')
+    filelist = findoutFiles('Datenbank/ConnectwithID/Erzeugung')
     matches1 = [match for match in filelist if str(year) in match]
     matches1 = [match for match in matches1 if 'SH' in match]
     matches1 = [match for match in matches1 if 'UTM' in match]
 
     try:
-        openfilename1 = 'Datenbank\ConnectwithID\Erzeugung/' + matches1[0]
+        openfilename1 = 'Datenbank/ConnectwithID/Erzeugung/' + matches1[0]
         print(openfilename1)
 
         WKA = pd.read_csv(openfilename1, delimiter=';', decimal=',', encoding='latin1')
@@ -1214,7 +1214,7 @@ def stand_distance_analyse_alt(year, standorte):
 
 
 def connect_oldWKA_to_expansionArea(year, Vor_Pot, standorte, faktorAusbaufl, export=True, geplanterAusbau=True):
-    filelist = findoutFiles('Datenbank\ConnectwithID\Erzeugung')
+    filelist = findoutFiles('Datenbank/ConnectwithID/Erzeugung')
     matches1 = [match for match in filelist if str(year) in match]
     matches1 = [match for match in matches1 if 'SH' in match]
     matches1 = [match for match in matches1 if 'UTM' in match]
@@ -1226,7 +1226,7 @@ def connect_oldWKA_to_expansionArea(year, Vor_Pot, standorte, faktorAusbaufl, ex
     for i in matches1:
 
         try:
-            openfilename1 = 'Datenbank\ConnectwithID\Erzeugung/' + i
+            openfilename1 = 'Datenbank/ConnectwithID/Erzeugung/' + i
             print(openfilename1)
 
             WKA = pd.read_csv(openfilename1, delimiter=';', decimal=',', encoding='latin1')
@@ -1285,7 +1285,7 @@ def connect_oldWKA_to_expansionArea(year, Vor_Pot, standorte, faktorAusbaufl, ex
     exportFrame = pd.DataFrame(np.c_[listnames, listFl, anzahl], columns=['ID', 'Flaeche_' + Vor_Pot, 'Anzahl WEAs'])
 
     if export == True:
-        finished_filename = 'Datenbank\Ausbauflaechen/VerbauteFlaechen_radius_' + str(faktorAusbaufl) + '_' + str(
+        finished_filename = 'Datenbank/Ausbauflaechen/VerbauteFlaechen_radius_' + str(faktorAusbaufl) + '_' + str(
             year) + '.csv'
         exportFrame.to_csv(finished_filename, sep=';', index=False, decimal=',')
 
@@ -1671,7 +1671,7 @@ def DB_WKA(year, dictModell, dictWeatherID, wetterdaten, min_hight, export=True)
         print('WKA nicht gleaden Gesamt: ', WKA_False_wind + WKA_False_ausbauRele, '/', WKA_False_Gesamt,
               'Davon zu kleine Windklasse: ', WKA_False_wind, 'nicht AusbauRelevant: ', WKA_False_ausbauRele)
     if export == True:
-        exportname = 'Datenbank\WEAModell/DB_WKA_' + str(year) + '_' + str(min_hight) + '.csv'
+        exportname = 'Datenbank/WEAModell/DB_WKA_' + str(year) + '_' + str(min_hight) + '.csv'
         date_perHoure.to_csv(exportname, sep=';', encoding='utf-8-sig', index=False, decimal=',')
 
     return date_perHoure
