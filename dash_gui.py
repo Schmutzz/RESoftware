@@ -26,24 +26,9 @@ for i in names:
     if 'light' in i or 'white' in i:
         names.remove(i)
 
+'''
 df = pd.read_csv('data/GruenEnergie_2019_ausbau.csv', sep=';', decimal=',', encoding='latin1')
 df['Datum'] = pd.to_datetime(df['Datum'])
-
-# ----------------------------------------------------------------------------------------------------------------------
-
-df['Erzeugung_Gesamt_true_with_gaps'] = df['Erzeugung_Gesamt'].values
-df['Erzeugung_Gesamt_false_with_gaps'] = df['Erzeugung_Gesamt'].values
-
-df.loc[df['EE>100%'] == False, 'Erzeugung_Gesamt_true_with_gaps'] = 'NaN'
-df.loc[df['EE>100%'] == True, 'Erzeugung_Gesamt_false_with_gaps'] = 'NaN'
-
-# ----------------------------------------------------------------------------------------------------------------------
-
-df['Erzeugung_Percentage_true_with_gaps'] = df['EE_Anteil'].values
-df['Erzeugung_Percentage_false_with_gaps'] = df['EE_Anteil'].values
-
-df.loc[df['EE>100%'] == False, 'Erzeugung_Percentage_true_with_gaps'] = 'NaN'
-df.loc[df['EE>100%'] == True, 'Erzeugung_Percentage_false_with_gaps'] = 'NaN'
 
 # ----------------------------------------------------------------------------------------------------------------------
 
@@ -52,7 +37,7 @@ conv *= -1
 df_sum = pd.DataFrame()
 df_sum['Energiemenge'] = [df['Verbrauch_Gesamt'].sum() - conv, df['Erzeugung_PV'].sum(), conv]
 df_sum['Art'] = ['Wind', 'Solar', 'Konventionell']
-
+'''
 # ----------------------------------------------------------------------------------------------------------------------
 
 wea_modelle = pd.read_excel('data/WEA-Typen.xlsx')['Modell'].tolist()
@@ -62,32 +47,45 @@ wea_modelle.remove('v')
 
 # ----------------------------------------------------------------------------------------------------------------------
 
-areas_vor_df = pd.read_csv('data/test_func.csv', sep=';', decimal=',', encoding='utf-8',
-                           usecols=['ID', 'Latitude', 'Longitude', 'Wetter-ID_Vor', 'haVor'])
-areas_vor_df = areas_vor_df[areas_vor_df['Wetter-ID_Vor'] != 0]
-areas_vor_df = areas_vor_df.sort_values(by=['Wetter-ID_Vor'])
-areas_vor_df['Wetter-ID_Vor'] = areas_vor_df['Wetter-ID_Vor'].map(str)
-areas_vor_df['haVor'] = areas_vor_df['haVor'].map(float)
-
-# ----------------------------------------------------------------------------------------------------------------------
-
-areas_pot_df = pd.read_csv('data/test_func.csv', sep=';', decimal=',', encoding='utf-8',
-                           usecols=['ID', 'Latitude', 'Longitude', 'Wetter-ID_Pot', 'haPot'])
-areas_pot_df = areas_pot_df[areas_pot_df['Wetter-ID_Pot'] != 0]
-areas_pot_df = areas_pot_df.sort_values(by=['Wetter-ID_Pot'])
-areas_pot_df['Wetter-ID_Pot'] = areas_pot_df['Wetter-ID_Pot'].map(str)
-areas_pot_df['haPot'] = areas_pot_df['haPot'].map(float)
-
+'''
 color_map = {}
 for index, i in enumerate(areas_pot_df['Wetter-ID_Pot'].unique()):
     color_map[i] = names[index]
+'''
 
 table_df = pd.read_csv('data/table.csv', sep=';', decimal=',', encoding='utf-8')
 
-'''def drawEE_percentage(coloring):
-    return px.line(df, x="Datum", y='EE_Anteil', color=coloring,
+'''def drawEE_percentage(sizing):
+    return px.line(df, x="Datum", y='EE_Anteil', color=sizing,
                    title='Ratio Renewable Energy to Consumption').update_layout(
         template='plotly_dark', title_x=0.5).add_hline(y=1).update_traces(showlegend=True)'''
+
+
+def coords_to_lat_lon(df, coords_header):
+    def listFromStr(text, seperator):
+        list_of_str = text.split(seperator)
+        return list_of_str
+
+    def editCoords_list(coords):
+        lat_ = []
+        lon_ = []
+        for i in coords:
+            i = str(i)
+            i = i.replace('[', '')
+            i = i.replace(']', '')
+            i = i.replace('(', '')
+            i = i.replace(')', '')
+            i = i.replace("'", '')
+            i = list(listFromStr(i, ', '))
+            lat_.append(float(i[0]))
+            lon_.append(float(i[1]))
+
+        return lat_, lon_
+
+    lat, lon = editCoords_list(df[coords_header].tolist())
+
+    df['Latitude'] = lat
+    df['Longitude'] = lon
 
 
 def drawEE_percentage():
@@ -96,10 +94,10 @@ def drawEE_percentage():
     '''fig.add_trace(go.Scatter(x=df['Datum'], y=df['Verbrauch_Gesamt'], marker=dict(color='blue', opacity=0.7),
                              name="Verbrauch"))'''
     fig.add_trace(
-        go.Scatter(x=df['Datum'], y=df['Erzeugung_Percentage_true_with_gaps'], marker=dict(color='green'),
+        go.Scatter(x=df_analyse['Datum'], y=df_analyse['Erzeugung_Percentage_true_with_gaps'], marker=dict(color='green'),
                    name="EE>100%"))
     fig.add_trace(
-        go.Scatter(x=df['Datum'], y=df['Erzeugung_Percentage_false_with_gaps'], marker=dict(color='red'),
+        go.Scatter(x=df_analyse['Datum'], y=df_analyse['Erzeugung_Percentage_false_with_gaps'], marker=dict(color='red'),
                    name="EE<100%"))
     fig.update_layout(template='plotly_dark', title='Hourly Data: Ratio Renewable Energy to Consumption', title_x=0.5)
     fig.add_hline(y=1)
@@ -111,18 +109,19 @@ def drawEE_absolute():
     fig = go.Figure()
 
     fig.add_trace(
-        go.Scatter(x=df['Datum'], y=df['Erzeugung_Gesamt_true_with_gaps'], marker=dict(color='green'),
+        go.Scatter(x=df_analyse['Datum'], y=df_analyse['Erzeugung_Gesamt_true_with_gaps'], marker=dict(color='green'),
                    name="EE>100%"))
     fig.add_trace(
-        go.Scatter(x=df['Datum'], y=df['Erzeugung_Gesamt_false_with_gaps'], marker=dict(color='red'),
+        go.Scatter(x=df_analyse['Datum'], y=df_analyse['Erzeugung_Gesamt_false_with_gaps'], marker=dict(color='red'),
                    name="EE<100%"))
-    fig.add_trace(go.Scatter(x=df['Datum'], y=df['Verbrauch_Gesamt'], marker=dict(color='blue', opacity=0.2),
+    fig.add_trace(go.Scatter(x=df_analyse['Datum'], y=df_analyse['Verbrauch_Gesamt'], marker=dict(color='blue', opacity=0.2),
                              name="Verbrauch"))
     fig.update_layout(template='plotly_dark', title='Hourly Data: Absolute Values', title_x=0.5)
 
     return fig
 
 
+'''
 def drawEE_absolute_line():
     fig = go.Figure()
 
@@ -136,8 +135,8 @@ def drawEE_absolute_line():
                              line={'dash': 'dash', 'color': 'red'}, name="EE<100%"))
     fig.update_layout(template='plotly_dark')
 
-    '''return px.scatter(df, x="Datum", y='Verbrauch_Gesamt').update_layout(
-        template='plotly_dark').update_traces(showlegend=True)'''
+    return px.scatter(df, x="Datum", y='Verbrauch_Gesamt').update_layout(
+        template='plotly_dark').update_traces(showlegend=True)
 
     return fig
 
@@ -146,20 +145,40 @@ def draw_pie():
     return px.pie(df_sum, 'Art', 'Energiemenge', title='Used Energy').update_layout(
         template='plotly_dark', title_x=0.5)
 
+'''
 
-def draw_vor():
-    return px.scatter_mapbox(areas_vor_df, lat='Latitude', lon='Longitude', title='Simulated expansion',
-                             color='Wetter-ID_Vor',
-                             color_discrete_map={}, size='haVor', size_max=12,
+
+def draw_vor(sizing):
+    df = df_ausbau_vor.copy()
+    if sizing == 'Power':
+        sizing = 'Leistung_Vor'
+        df = df[df['Leistung_Vor'] != 0]
+    else:
+        sizing = 'nettoFreieFlaeche_Vor'
+
+    return px.scatter_mapbox(df, lat='Latitude', lon='Longitude', title='Simulated expansion',
+                             hover_name='StadtVor',
+                             hover_data=['StadtVor', 'Anzahl WEAs_Vor', 'nettoFreieFlaeche_Vor',
+                                         'Modell_Vor', 'Anzahl_Vor', 'Leistung_Vor', 'InvestKosten_Vor'],
+                             color='Wetter-ID_Vor', color_discrete_map={}, size=sizing, size_max=12,
                              zoom=6.3, center={'lat': 54.2, 'lon': 9.8}).update_layout(
         mapbox_style="open-street-map",
         template='plotly_dark', title_x=0.5)
 
 
-def draw_pot():
-    return px.scatter_mapbox(areas_pot_df, lat='Latitude', lon='Longitude', title='Simulated expansion',
-                             color='Wetter-ID_Pot',
-                             color_discrete_map={}, size='haPot', size_max=12,
+def draw_pot(sizing):
+    df = df_ausbau_pot.copy()
+    if sizing == 'Power':
+        sizing = 'Leistung_Pot'
+        df = df[df['Leistung_Pot'] != 0]
+    else:
+        sizing = 'nettoFreieFlaeche_Pot'
+
+    return px.scatter_mapbox(df, lat='Latitude', lon='Longitude', title='Simulated expansion',
+                             hover_name='StadtPot',
+                             hover_data=['StadtPot', 'Anzahl WEAs_Pot', 'nettoFreieFlaeche_Pot',
+                                         'Modell_Pot', 'Anzahl_Pot', 'Leistung_Pot', 'InvestKosten_Pot'],
+                             color='Wetter-ID_Pot', color_discrete_map={}, size=sizing, size_max=12,
                              zoom=6.3, center={'lat': 54.2, 'lon': 9.8}).update_layout(
         mapbox_style="open-street-map",
         template='plotly_dark', title_x=0.5)
@@ -235,6 +254,81 @@ general_settings = dbc.Card([
         ], className='py-3', justify="center"),
     ])
 ], className='text-center p-1')
+
+# ----------------------------------------------------------------------------------------------------------------------
+# eisman settings
+
+eisman_switch = html.Div([
+    dbc.RadioItems(
+        id="eisman_switch",
+        className="btn-group",
+        inputClassName="btn-check",
+        labelClassName="btn btn-outline-secondary",
+        labelCheckedClassName="active",
+        options=[
+            {'label': 'Yes', 'value': True},
+            {'label': 'No', 'value': False}
+        ],
+        value=True
+    ),
+], className="radio-group")
+
+eisman_wind_slider = html.Div([
+    dcc.RangeSlider(
+        id='eisman_wind_slider',
+        min=0,
+        max=35,
+        step=0.5,
+        marks={
+            x: {'label': str(x) + 'm/s'} for x in range(0, 35, 5)
+        },
+        value=[13, 19, 25],
+        pushable=2,
+        tooltip={"placement": "bottom", "always_visible": True}
+    )
+])
+
+eisman_percentage_slider = html.Div([
+    dcc.RangeSlider(
+        id='eisman_percentage_slider',
+        min=0,
+        max=100,
+        step=1,
+        marks={
+            x: {'label': str(x) + '%'} for x in range(0, 100, 10)
+        },
+        value=[0, 30, 60],
+        pushable=5,
+        tooltip={"placement": "bottom", "always_visible": True}
+    )
+])
+
+eisman_settings = dbc.Card([
+    dbc.CardHeader([
+        html.H5('Eisman Settings', style={"text-decoration": 'underline'})
+    ]),
+    dbc.CardBody([
+        dbc.Row([
+            dbc.Col([
+                html.P('Use Eisman'),
+                eisman_switch
+            ], width=4)
+        ], className='pb-3', justify="center"),
+        dbc.Row([
+            dbc.Col([
+                html.P('Wind regulating points:'),
+                eisman_wind_slider
+            ], width=10)
+        ], className='pb-3', justify="center"),
+        dbc.Row([
+            dbc.Col([
+                html.P('Power regulation levels:'),
+                eisman_percentage_slider
+            ], width=10)
+        ], className='py-3', justify="center"),
+    ])
+], className='text-center p-1')
+
 
 # ----------------------------------------------------------------------------------------------------------------------
 # biomass/solar_input settings
@@ -600,6 +694,7 @@ settings_children = html.Div([
     dbc.Row([
         dbc.Col([
             general_settings,
+            eisman_settings
         ], className='mt-1'),
         dbc.Col([
             biomass_solar_settings,
@@ -645,14 +740,25 @@ results = html.Div([
                                      value='Vor',
                                      style={"textAlign": "left", 'color': 'black'}
                                      )
+                    ], width=1),
+                    dbc.Col([
+                        html.P('Sizing:'),
+                        dcc.Dropdown(id='dropdown_map_size',
+                                     options=[
+                                         {'label': 'Power', 'value': 'Power'},
+                                         {'label': 'Free area', 'value': 'Area'}
+                                     ],
+                                     value='Power',
+                                     style={"textAlign": "left", 'color': 'black'}
+                                     )
                     ], width=1)
                 ], className='pt-2'),
                 dbc.Row([
                     dbc.Col([
-                        dcc.Graph(id='map', figure=draw_vor())
+                        dcc.Graph(id='map')
                     ], width=7),
                     dbc.Col([
-                        dcc.Graph(id='pie', figure=draw_pie())
+                        # dcc.Graph(id='pie', figure=draw_pie())
                     ], width={'size': 5})
                 ], className='py-2', justify="between"),
                 dbc.Row([
@@ -929,6 +1035,22 @@ def disable_wind_expansion(value):
 
 @app.callback(
     [
+        Output('eisman_wind_slider', 'disabled'),
+        Output('eisman_percentage_slider', 'disabled')
+    ],
+    Input('eisman_switch', 'value')
+)
+def disable_eisman(value):
+    if value:
+        return False, False
+    elif not value:
+        return True, True
+    else:
+        pass
+
+
+@app.callback(
+    [
         Output('start_capacity_slider', 'disabled'),
         Output('storage_expansion_slider', 'disabled'),
         Output('safety_padding_slider', 'disabled'),
@@ -952,29 +1074,40 @@ def disable_storage(storage, expansion):
 @app.callback(
     Output('map', 'figure'),
     [
-        Input('dropdown_map', 'value')
-    ]
+        Input('dropdown_map', 'value'),
+        Input('dropdown_map_size', 'value')
+    ],
+    State('start_button', 'children')
 )
-def change_map(value):
-    if value == 'Vor':
-        return draw_vor()
-    elif value == 'Pot':
-        return draw_pot()
-    else:
-        pass
+def change_map(area, size, children):
+    if children == 'Start':
+        return dash.no_update
+    elif children == 'Back':
+        if area == 'Vor':
+            return draw_vor(size)
+        elif area == 'Pot':
+            return draw_pot(size)
+        else:
+            pass
 
 
 @app.callback(
     Output('graph_year', 'figure'),
     [
-        Input('dropdown_data', 'value')
+        Input('dropdown_data', 'value'),
+        Input('start_button', 'children')
     ]
 )
-def change_graph(data):
-    if data == 'ratio':
-        return drawEE_percentage()
-    elif data == 'absolute':
-        return drawEE_absolute()
+def change_graph(data, children):
+    if children == 'Start':
+        return dash.no_update
+    elif children == 'Back':
+        if data == 'ratio':
+            return drawEE_percentage()
+        elif data == 'absolute':
+            return drawEE_absolute()
+        else:
+            pass
 
 
 @app.callback(
@@ -1030,13 +1163,17 @@ def growth_input_lock(value):
         State('start_capacity_slider', 'value'),
         State('safety_padding_slider', 'value'),
         State('storage_options_check', 'value'),
+        State('eisman_switch', 'value'),
+        State('eisman_wind_slider', 'value'),
+        State('eisman_percentage_slider', 'value'),
         State('results', 'style'),
-        State('settings_page', 'style')
+        State('settings_page', 'style'),
     ],
 )
-def start_sim(n, exmpl_sw, year, hours, bio_sw, bio_inp, solar_sw, solar_inp, wind_expansion,
+def start_sim(n, exmpl_sw, year, wind_expansion_value, bio_sw, bio_inp, solar_sw, solar_inp, wind_expansion,
               planned_wind, methods_wind, storage_sw, storage_expansion_sw, storage_expansion_value,
-              start_capacity_value, safety_padding_value, storage_options, results_value, settings_value):
+              start_capacity_value, safety_padding_value, storage_options, eisman_sw, eisman_wind, eisman_percentage,
+              results_value, settings_value):
     if n == 0:
         return dash.no_update, dash.no_update, dash.no_update, dash.no_update
 
@@ -1048,11 +1185,11 @@ def start_sim(n, exmpl_sw, year, hours, bio_sw, bio_inp, solar_sw, solar_inp, wi
         list_of_files = os.listdir('REE_AnalyseCompleted')
         full_path = ["REE_AnalyseCompleted/{0}".format(x) for x in list_of_files]
 
-        if len(list_of_files) >= 20:
+        if len(list_of_files) >= 10:
             oldest_file = min(full_path, key=os.path.getctime)
             shutil.rmtree(oldest_file)
 
-        main.META_EE_Anteil = hours / 100  # Muss Decimal angegeben werden
+        main.META_EE_Anteil = wind_expansion_value / 100  # Muss Decimal angegeben werden
         main.META_EE_Speicher = storage_expansion_value / 100  # Grenzwert bis Speicher nicht mehr ausgebaut werden 100%
         main.META_year = year
         '- - - - - - - - - - - - - - - - - - - -'
@@ -1110,11 +1247,122 @@ def start_sim(n, exmpl_sw, year, hours, bio_sw, bio_inp, solar_sw, solar_inp, wi
         exportFolder = main.re_simulation()
 
         cost_report = [x for x in os.listdir(exportFolder) if 'CostReport' in x]
+        ausgebaute_flaeche = [x for x in os.listdir(exportFolder) if 'AusgebauteFlaechen' in x]
+        freie_flaeche = [x for x in os.listdir(exportFolder) if 'FreieFlaechen_vorAusbau' in x]
+        before_expansion = [x for x in os.listdir(exportFolder) if 'REE_befor' in x]
+        after_expansion = [x for x in os.listdir(exportFolder) if 'REE_afterREexpansion' in x]
+        after_storage = [x for x in os.listdir(exportFolder) if 'REE_afterStorageExpansion' in x]
 
-        return html.Div(), {'display': 'inline'}, {'display': 'none'}, 'Back'
+        list_files = [cost_report, ausgebaute_flaeche, freie_flaeche, before_expansion, after_expansion, after_storage]
 
+        for jindex, j in enumerate(list_files):
+            if len(j) == 0:
+                list_files.remove(j)
+            else:
+                list_files[jindex] = exportFolder + '/' + j[0]
+                print(list_files[jindex])
+
+        final_file = list_files[-1]
+
+        global df_cost_report
+        global df_ausbau_vor
+        global df_ausbau_pot
+        global df_freie_flaeche
+        global df_analyse
+
+        df_cost_report = pd.read_csv(list_files[0], sep=';', decimal=',', encoding='utf-8')
+        df_ausbau_vor = pd.read_csv(list_files[1], sep=';', decimal=',', encoding='utf-8',
+                                    usecols=['StadtVor', 'haVor', 'Coords Vor', 'Wetter-ID_Vor',
+                                             'Anzahl WEAs_Vor', 'nettoFreieFlaeche_Vor', 'Modell_Vor', 'Anzahl_Vor',
+                                             'InvestKosten_Vor', 'Leistung_Vor'])
+        df_ausbau_pot = pd.read_csv(list_files[1], sep=';', decimal=',', encoding='utf-8',
+                                    usecols=['StadtPot', 'haPot', 'Coords Pot', 'Wetter-ID_Pot',
+                                             'Anzahl WEAs_Pot', 'nettoFreieFlaeche_Pot', 'Modell_Pot', 'Anzahl_Pot',
+                                             'InvestKosten_Pot', 'Leistung_Pot'])
+
+        # ----------------------------------------------------------------------------------------------------------------------
+
+        coords_to_lat_lon(df_ausbau_vor, 'Coords Vor')
+        coords_to_lat_lon(df_ausbau_pot, 'Coords Pot')
+
+        df_ausbau_vor = df_ausbau_vor[df_ausbau_vor['Wetter-ID_Vor'] != 0]
+        df_ausbau_vor = df_ausbau_vor.sort_values(by=['Wetter-ID_Vor'])
+        df_ausbau_vor['Wetter-ID_Vor'] = df_ausbau_vor['Wetter-ID_Vor'].map(str)
+        df_ausbau_vor['haVor'] = df_ausbau_vor['haVor'].map(float)
+        df_ausbau_vor = df_ausbau_vor[
+            ['StadtVor', 'Wetter-ID_Vor', 'haVor', 'Anzahl WEAs_Vor', 'nettoFreieFlaeche_Vor', 'Modell_Vor',
+             'Anzahl_Vor', 'InvestKosten_Vor', 'Latitude', 'Longitude', 'Leistung_Vor']]
+
+        df_ausbau_pot = df_ausbau_pot[df_ausbau_pot['Wetter-ID_Pot'] != 0]
+        df_ausbau_pot = df_ausbau_pot.sort_values(by=['Wetter-ID_Pot'])
+        df_ausbau_pot['Wetter-ID_Pot'] = df_ausbau_pot['Wetter-ID_Pot'].map(str)
+        df_ausbau_pot['haPot'] = df_ausbau_pot['haPot'].map(float)
+        df_ausbau_pot = df_ausbau_pot[
+            ['StadtPot', 'Wetter-ID_Pot', 'haPot', 'Anzahl WEAs_Pot', 'nettoFreieFlaeche_Pot', 'Modell_Pot',
+             'Anzahl_Pot', 'InvestKosten_Pot', 'Latitude', 'Longitude', 'Leistung_Pot']]
+
+        # ----------------------------------------------------------------------------------------------------------------------
+
+        df_freie_flaeche = pd.read_csv(list_files[2], sep=';', decimal=',', encoding='utf-8')
+        df_analyse = pd.read_csv(final_file, sep=';', decimal=',', encoding='utf-8')
+
+        # ----------------------------------------------------------------------------------------------------------------------
+
+        df_analyse['Erzeugung_Gesamt_true_with_gaps'] = df_analyse['Erzeugung_Gesamt'].values
+        df_analyse['Erzeugung_Gesamt_false_with_gaps'] = df_analyse['Erzeugung_Gesamt'].values
+
+        df_analyse.loc[df_analyse['EE>100%'] == False, 'Erzeugung_Gesamt_true_with_gaps'] = 'NaN'
+        df_analyse.loc[df_analyse['EE>100%'] == True, 'Erzeugung_Gesamt_false_with_gaps'] = 'NaN'
+
+        # ----------------------------------------------------------------------------------------------------------------------
+
+        df_analyse['Erzeugung_Percentage_true_with_gaps'] = df_analyse['EE_Anteil'].values
+        df_analyse['Erzeugung_Percentage_false_with_gaps'] = df_analyse['EE_Anteil'].values
+
+        df_analyse.loc[df_analyse['EE>100%'] == False, 'Erzeugung_Percentage_true_with_gaps'] = 'NaN'
+        df_analyse.loc[df_analyse['EE>100%'] == True, 'Erzeugung_Percentage_false_with_gaps'] = 'NaN'
+
+        # ----------------------------------------------------------------------------------------------------------------------
+
+        year_hours = df_analyse['EE>100%'].count()
+        true_count = df_analyse['EE>100%'].tolist().count(True)
+        hours_goal = 0
+        if storage_expansion_sw:
+            hours_goal = storage_expansion_value / 100
+        elif wind_expansion:
+            hours_goal = wind_expansion_value / 100
+
+        reached_percentage = true_count / year_hours
+
+        if hours_goal == 0:
+            results_text = html.Div([
+                html.P('No goal was set.'),
+                html.B(),
+                html.P(f'Reached: {round(reached_percentage * 100, 1)} %')
+            ])
+        elif reached_percentage >= hours_goal:
+            results_text = html.Div([
+                html.P('The set goal was reached.'),
+                html.B(),
+                html.P(f'Goal: {hours_goal * 100} %'),
+                html.B(),
+                html.P(f'Reached: {round(reached_percentage * 100, 1)} %')
+            ])
+        else:
+            results_text = html.Div([
+                html.P('The set goal was not reached.'),
+                html.B(),
+                html.P(f'Goal: {hours_goal * 100} %'),
+                html.B(),
+                html.P(f'Reached: {round(reached_percentage * 100, 1)} %')
+            ])
+
+        return [results_text, {'display': 'inline'}, {'display': 'none'}, 'Back']
     elif results_value['display'] == 'inline' and settings_value['display'] == 'none':
-        return html.Div(), {'display': 'none'}, {'display': 'inline'}, 'Start'
+        return [[html.P('The simulation might take up to 10 minutes'),
+                 html.B(),
+                 html.P('Do not press the button twice or all simulation progress will be lost!!!')],
+                {'display': 'none'}, {'display': 'inline'}, 'Start']
     else:
         print('start button callback error')
         raise PreventUpdate
