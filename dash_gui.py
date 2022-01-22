@@ -1207,9 +1207,9 @@ def start_sim(n, exmpl_sw, year, wind_expansion_value, bio_sw, bio_inp, solar_sw
         main.META_first_wind_limit = eisman_wind[0]
         main.META_sec_wind_limit = eisman_wind[1]
         main.META_third_wind_limit = eisman_wind[2]
-        main.META_first_power_limit = eisman_percentage[2]
-        main.META_sec_power_limit = eisman_percentage[1]
-        main.META_third_power_limit = eisman_percentage[0]
+        main.META_first_power_limit = eisman_percentage[2]/100
+        main.META_sec_power_limit = eisman_percentage[1]/100
+        main.META_third_power_limit = eisman_percentage[0]/100
         '- - - - - - - - - - - - - - - - - - - -'
         'WKA'
         main.META_wind = True
