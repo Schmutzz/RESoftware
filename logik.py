@@ -389,7 +389,7 @@ def annualOutput_WKA(year, Ein_ms, Nenn_ms, Abs_ms, leistung_Gesamt, weatherData
             temp_leistung_for = 0
 
         else:
-            print("Fehler")
+            print("Fehler Berechnung")
 
 
 
@@ -498,19 +498,29 @@ def generation_wind_energy(year,dictModell,dictWeatherID, source, state, META_fi
                 print('Fehler Leistungsdaten nicht schlimm')
                 print(columnName)
 
+            temp_weatherID = lokationsdaten['Wetter-ID'][i]
+
             if isinstance(dictWeatherID[temp_weatherID]['windklasse'], float) == False and isinstance(
                     dictWeatherID[temp_weatherID]['windklasse'], numpy.int64) == False and isinstance(
                     dictWeatherID[temp_weatherID]['windklasse'], int):
+                print(type(dictWeatherID[temp_weatherID]['windklasse']))
                 dictWeatherID[temp_weatherID]['windklasse'] = 2
-                print('Fehler Leistungsdaten nicht schlimm')
-                print(columnName)
+                print('Fehler windklasse nicht schlimm')
+
+            if isinstance(lokationsdaten['NABENHOEHE'][i], float) == False and isinstance(
+                    lokationsdaten['NABENHOEHE'][i], numpy.int64) == False and isinstance(
+                    lokationsdaten['NABENHOEHE'][i], int):
+                lokationsdaten['NABENHOEHE'][i] = 92.4
+                print('Fehler NABENHOEHE nicht schlimm')
+
+
             '-----------------------------------------------------------------------------------------'
             "mit annualOutput_WKA wird die Jahresleistung für eine WKA mit den Kenndaten berechnet"
             '''(  weatherID_hight,
                      windklasse_wka, META_first_wind_limit, META_sec_wind_limit, META_third_wind_limit,
                      META_first_power_limit, META_sec_power_limit, META_third_power_limit, ignoreWindIEC = False,
                      eisman=False):'''
-            temp_weatherID = lokationsdaten['Wetter-ID'][i]
+
             leistung = annualOutput_WKA(year, Ein_ms, Nenn_ms, Abs_ms, lokationsdaten['LEISTUNG'][i],
                                         wetterdaten[matcheswetterdaten[0]], lokationsdaten['NABENHOEHE'][i],
                                         dictWeatherID[temp_weatherID]['Messhight'],
