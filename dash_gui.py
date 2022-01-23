@@ -408,6 +408,7 @@ scenario_dropdown = html.Div([
             {'label': 'Task 2', 'value': 'Scenario 2'},
             {'label': 'Task 3', 'value': 'Scenario 3'},
             {'label': 'No expasion', 'value': 'Scenario 4'},
+            {'label': 'Fast simulation', 'value': 'Scenario 5'},
         ],
         value='Scenario 1',
         style={"textAlign": "left", 'color': 'black'}
@@ -1020,7 +1021,7 @@ scenario_3 = [True, True, [13, 19, 25], [40, 70, 100], True, True, 0, 0, True, T
               ['existing', 'laegerdorf', 'air']]
 scenario_4 = [False, False, [13, 19, 25], [40, 70, 100], True, True, 0, 0, False, True, 0, [], True, False, 10, 0,
               ['existing']]
-
+scenario_5 = [False, False, [13, 19, 25], [40, 70, 100], True, True, 0, 0, False, False, 0, [], False, False, 0, 0, []]
 
 @app.callback(
     [
@@ -1054,6 +1055,8 @@ def change_scenario(value, options):
         return scenario_3
     elif value == options[3]['value']:
         return scenario_4
+    elif value == options[4]['value']:
+        return scenario_5
     else:
         raise PreventUpdate
 
@@ -1072,6 +1075,8 @@ tt_3 = 'Goal of task 3 is to achieve 100% RE production for 100% of the time, ju
 tt_4 = 'This scenario will simulate the current state of renewable energy production by neither expanding upon the energy ' \
        'production nor the power storages. It will use existing power storages and existing means of power production ' \
        '(will include planned wind turbines).'
+
+tt_5 = 'fürn wengert :*'
 
 @app.callback(
     Output('storage_expansion_modal', 'is_open'),
@@ -1110,6 +1115,8 @@ def scenario_tooltip(n1, n2, is_open, scenario, options):
         picked = tt_3
     elif scenario == options[3]['value']:
         picked = tt_4
+    elif scenario == options[4]['value']:
+        picked = tt_5
     else:
         print('modal no scenario was picked')
         picked = ''
@@ -1158,6 +1165,8 @@ def lock_storage_expansion(value, scenario, options):
         elif scenario == options[2]['value']:
             return value, slider_intervals(value), 100
         elif scenario == options[3]['value']:
+            return value, slider_intervals(value), 0
+        elif scenario == options[4]['value']:
             return value, slider_intervals(value), 0
         else:
             print('slider scenario error')
