@@ -1629,9 +1629,9 @@ def expansion_WKA(year,WKAKey, weatherID, WKADict, standort, windWetterdaten, Vo
         if leistung_wka == 0 or leistung_wka == 123:
             continue
 
-        standort['nettoFreieFlaeche_' + Vor_Pot][mndex] -= round(WeaModell_fl * standort['Anzahl_' + Vor_Pot][mndex], 2)
+        standort['nettoFreieFlaeche_' + Vor_Pot][mndex] -= round((WeaModell_fl * standort['Anzahl_' + Vor_Pot][mndex]), 2)
         standort['Modell_' + Vor_Pot][mndex] = WKADict[WKAKey]['Modell']
-        standort['Leistung_inMW_' + Vor_Pot][mndex] = round(leistung_wka/1000,2)
+        standort['Leistung_inMW_' + Vor_Pot][mndex] = round((leistung_wka/1000), 2)
         tempsum = (standort['Anzahl_'+Vor_Pot][mndex]*WKADict[WKAKey]['Invest'])/1000000
         standort['InvestKosten_inMio_' + Vor_Pot][mndex] = round(tempsum, 2)
         tempsum = (standort['Anzahl_'+Vor_Pot][mndex]*WKADict[WKAKey]['Betriebk'])/1000000
