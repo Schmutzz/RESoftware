@@ -2158,7 +2158,7 @@ def data_report(year,data_frame,exportfolder,name , export= True):
 
         exportname2 = exportfolder + 'DataReport_'+ name + '_' + str(year) + '.csv'
         exportFrame.to_csv(exportname2, index = False, sep=';', encoding='utf-8-sig', decimal=',')
-
+        print(exportname2)
     return exportFrame
 
 
