@@ -361,7 +361,7 @@ def annualOutput_WKA(year, Ein_ms, Nenn_ms, Abs_ms, leistung_Gesamt, weatherData
 
     temp_wetter = wind_hochrechnung(weatherData, nabenhohe, weatherID_hight)
     temp_leistung = [0] * len(temp_DatelistPerHoure)
-    temp_leistung_eisman = [0] * len(temp_DatelistPerHoure)
+    temp_leistung_eisman = [0.01] * len(temp_DatelistPerHoure)
 
     if use_wind_IEC == True:
         temp_IEC_windklasse = IEC_windklasse(sum(temp_wetter), len(temp_wetter))
@@ -395,19 +395,19 @@ def annualOutput_WKA(year, Ein_ms, Nenn_ms, Abs_ms, leistung_Gesamt, weatherData
         temp_leistung_eisman_value = 0
 
         if eisman == True:
-
+            ref_temp_leistung_for = temp_leistung_for
             if k > META_first_wind_limit and k <= META_sec_wind_limit:
                 temp_leistung_for = temp_leistung_for * META_first_power_limit
-                temp_leistung_eisman_value = abs(temp_leistung_for-temp_leistung_for)
+                temp_leistung_eisman_value = abs(ref_temp_leistung_for-temp_leistung_for)
             elif k > META_sec_wind_limit and k <= META_third_wind_limit:
                 temp_leistung_for = temp_leistung_for * META_sec_power_limit
-                temp_leistung_eisman_value = abs(temp_leistung_for - temp_leistung_for)
+                temp_leistung_eisman_value = abs(ref_temp_leistung_for - temp_leistung_for)
             elif k > META_third_wind_limit:
                 temp_leistung_for = temp_leistung_for * META_third_power_limit
-                temp_leistung_eisman_value = abs(temp_leistung_for - temp_leistung_for)
+                temp_leistung_eisman_value = abs(ref_temp_leistung_for - temp_leistung_for)
 
         temp_leistung[index] = temp_leistung_for
-        temp_leistung_eisman = temp_leistung_eisman_value
+        temp_leistung_eisman[index] = temp_leistung_eisman_value
 
     return temp_leistung, temp_leistung_eisman
 
@@ -437,7 +437,9 @@ def generation_wind_energy(year,dictModell,dictWeatherID, source, state, META_fi
 
     modellunbekannt = 0
     wetterIDunbekannt = 0
-
+    DB_WKA_name = []
+    DB_WKA_power = []
+    DB_WKA_eisman = []
     if source == 'Wind':
         try:
             headerlistLokation = ['TYP', 'Modell', 'Wetter-ID', 'LEISTUNG', 'NABENHOEHE']
@@ -467,7 +469,7 @@ def generation_wind_energy(year,dictModell,dictWeatherID, source, state, META_fi
         leistung_eisman = [0] * len(wetterdaten)
 
         for i in range(lengthLocation):
-
+            temp_insertlist = False
             WKAunbekannt = False
             # print(str(lokationsdaten['Wetter-ID'][i]))
 
@@ -481,10 +483,28 @@ def generation_wind_energy(year,dictModell,dictWeatherID, source, state, META_fi
                 matcheswetterdaten = [match for match in wetterdaten.columns.values.tolist() if
                                       str(lokationsdaten['Wetter-ID'][i]) in match]
                 wetterIDunbekannt += 1
+            temp_db_wka_name = 'Ezg_' + str(lokationsdaten['Modell'][i]) + '_' + str(
+                lokationsdaten['NABENHOEHE'][i]) + '_' + str(lokationsdaten['Wetter-ID'][i])
+
+
 
             columnName = str(i) + '_Ezg_' + str(lokationsdaten['Modell'][i]) + '_' + str(
                 lokationsdaten['NABENHOEHE'][i]) + '_' + str(lokationsdaten['Wetter-ID'][i])
+
             temp_modell = str(lokationsdaten['Modell'][i]) + '_' + str(lokationsdaten['NABENHOEHE'][i])
+
+            if temp_db_wka_name in DB_WKA_name:
+                # gibt index von WKA
+                jindex = DB_WKA_name.index(temp_db_wka_name)
+                # befüllt die Frames
+                exportFrame[columnName] = DB_WKA_power[jindex]
+                for i in range(len(leistung_eisman)):
+                    leistung_eisman[i] = leistung_eisman[i] + DB_WKA_eisman[jindex][i]
+
+                # print('Über DB gelöst: ',columnName, 'Index: ', jindex)
+                continue
+
+
             try:
                 Ein_ms = dictModell[temp_modell]['Ein_ms']
             except:
@@ -550,10 +570,23 @@ def generation_wind_energy(year,dictModell,dictWeatherID, source, state, META_fi
                                         use_wind_IEC=False,
                                         eisman=eisman)
 
-            leistung = list(map(int, leistung[0]))
-            leistung_eisman += list(map(int, leistung[1]))
-            exportFrame[columnName] = leistung
+            leistung_wirk = leistung[0]
+            leistung_eisman_int = leistung[1]
+            # print('---------------')
+            # print(sum(leistung_wirk))
+            # print(sum(leistung_eisman_int))
+            exportFrame[columnName] = leistung_wirk
+
+            for i in range(len(leistung_eisman)):
+                leistung_eisman[i] = int(leistung_eisman[i]) + int(leistung_eisman_int[i])
+
+            # print(sum(leistung_eisman))
+            DB_WKA_name.append(temp_db_wka_name)
+            DB_WKA_power.append(leistung_wirk)
+            DB_WKA_eisman.append(leistung_eisman_int)
+
             print(columnName)
+
     if eisman == True:
         exportname = 'Datenbank/Erzeugung/Einzel/Erz_' + source + '_' + state + '_' + str(year) + '_eisman' +'.csv'
     else:
@@ -653,6 +686,10 @@ def erzeugung_WKA_areawith_weatherID(year, wetterdaten, lokationsdaten, dictMode
     exportFrame = DateList('01.01.' + str(year) + ' 00:00', '31.12.' + str(year) + ' 23:00', '60min')
 
     temp_eisman = [0] * len(exportFrame)
+    DB_WKA_name = []
+    DB_WKA_power = []
+    DB_WKA_eisman = []
+
     for i in range(len(lokationsdaten)):
 
         WKAunbekannt = False
@@ -673,6 +710,22 @@ def erzeugung_WKA_areawith_weatherID(year, wetterdaten, lokationsdaten, dictMode
         columnName = str(i) + '_Ezg_' + str(
             lokationsdaten['Modell'][i]) + '_' + str(lokationsdaten['Wetter-ID'][i])
         temp_wka_name = lokationsdaten['Modell'][i] + '_' + str(lokationsdaten['NABENHOEHE'][i])
+
+        temp_db_wka_name = 'Ezg_' + str(lokationsdaten['Modell'][i]) + '_' + str(
+            lokationsdaten['NABENHOEHE'][i]) + '_' + str(lokationsdaten['Wetter-ID'][i])
+
+        if temp_db_wka_name in DB_WKA_name:
+            # gibt index von WKA
+            jindex = DB_WKA_name.index(temp_db_wka_name)
+            # befüllt die Frames
+            exportFrame[columnName] = DB_WKA_power[jindex]
+
+            for i in range(len(temp_eisman)):
+                temp_eisman[i] = int(DB_WKA_eisman[jindex][i]) + int(temp_eisman[i])
+
+            print('Über DB gelöst: ',columnName, 'Index: ', jindex)
+            continue
+
         try:
             # print(temp_wka_name)
             Ein_ms = dictModell[temp_wka_name]['Ein_ms']
@@ -719,12 +772,21 @@ def erzeugung_WKA_areawith_weatherID(year, wetterdaten, lokationsdaten, dictMode
                                          META_first_power_limit=META_first_power_limit,
                                          META_sec_power_limit=META_sec_power_limit,
                                          META_third_power_limit=META_third_power_limit,
-                                         use_wind_IEC= True, eisman=eisman)
+                                         use_wind_IEC= False, eisman=eisman)
 
-        if sum(temp_leistung[0]) == 0:
-            print('Falsche Windklasse')
-        exportFrame[columnName] = temp_leistung[0]
-        temp_eisman += temp_leistung[1]
+        leistung_wirk = temp_leistung[0]
+        leistung_eisman_int = temp_leistung[1]
+
+
+        exportFrame[columnName] = leistung_wirk
+
+        for i in range(len(temp_eisman)):
+            temp_eisman[i] = int(leistung_eisman_int[i]) + int(temp_eisman[i])
+
+        DB_WKA_name.append(temp_db_wka_name)
+        DB_WKA_power.append(leistung_wirk)
+        DB_WKA_eisman.append(leistung_eisman_int)
+
         print(columnName)
 
     if export == True:
@@ -746,7 +808,7 @@ def erzeugung_WKA_areawith_weatherID(year, wetterdaten, lokationsdaten, dictMode
     return exportFrame, temp_eisman
 
 
-def erzeugungPerStunde(year, openfilename, source1, weatherIDlist, single_ID_export = False, complete_export=True,
+def erzeugungPerStunde(year, openfilename, source1, weatherIDlist,verlust_eisman = 0, single_ID_export = False, complete_export=True,
                        eisman = False):
     print("Start Erzeugung per Stunde")
 
@@ -823,6 +885,10 @@ def erzeugungPerStunde(year, openfilename, source1, weatherIDlist, single_ID_exp
             Erz_Name: sum_3
         }
     )
+    if eisman == True:
+        print(type(verlust_eisman))
+        print(verlust_eisman)
+        AusgabeFrame['verluste_eisman_wind'] = verlust_eisman
     if complete_export == True:
 
         AusgabeFrame.to_csv(openfilename, sep=';', encoding='utf-8', index=False, decimal=',')
@@ -902,7 +968,8 @@ def verbrauchGesamt(year, export=False):
     return AusgabeFrame
 
 
-def analyseEE(year, exportfolder, listSpeicher=0, EE_Erz=0, PV_Gesamt=0, erz_Bio=0, plannedErzeung=0, verbrauch=0, ausbauWind=0,
+def analyseEE(year, exportfolder, listSpeicher=0, EE_Erz=0, PV_Gesamt=0, erz_Bio=0, plannedErzeung=0, verbrauch=0,
+              ausbauWind=0,
               ausbauWindeisman=0, ausbauPV=0, ausbauBio=0, key_name = 'leer', ausbau=False,
               export=False, geplanterAusbau=True, biomes=True, wind=True, PV=True,
               expansionPV=0, expansionBio=0, speicher=False, eisman = False):
@@ -913,22 +980,25 @@ def analyseEE(year, exportfolder, listSpeicher=0, EE_Erz=0, PV_Gesamt=0, erz_Bio
     if eisman == True:
         temp_eisman = [0] * len(verbrauch['Verbrauch_Gesamt'])
     if eisman == False:
-        del EE_Erz['verluste_eisman_wind']
-        del plannedErzeung['verluste_eisman_geplanterAusbau']
+        '''del EE_Erz['verluste_eisman_wind']
+        del plannedErzeung['verluste_eisman_geplanterAusbau']'''
     # Wird für Darstellungszwecke genutzt
     '- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
     # Wind
     if wind == True:
         temp_EE_Erz += EE_Erz['Erzeugung_Wind']
-
+        if eisman == True:
+            temp_eisman += EE_Erz['verluste_eisman_wind']
     if wind == False:
         del EE_Erz['Erzeugung_Wind']
     # Wind Ausbau geplant
     if geplanterAusbau == True:
         EE_Erz['Erz_geplAusbau_Wind'] = plannedErzeung['Erzeugung_geplanterAusbau_Wind'].copy()
-        EE_Erz['verluste_eisman_geplanterAusbau'] = plannedErzeung['verluste_eisman_geplanterAusbau'].copy()
+
         temp_EE_Erz += EE_Erz['Erz_geplAusbau_Wind']
-        temp_eisman += EE_Erz['verluste_eisman_geplanterAusbau']
+        if eisman == True:
+            EE_Erz['verluste_eisman_geplanterAusbau'] = plannedErzeung['verluste_eisman_geplanterAusbau'].copy()
+            temp_eisman += EE_Erz['verluste_eisman_geplanterAusbau']
     if geplanterAusbau == False:
         # print('del EE_Erz["Erz_geplAusbau_Wind"]')
         '''del EE_Erz['Erz_geplAusbau_Wind']'''
@@ -942,28 +1012,31 @@ def analyseEE(year, exportfolder, listSpeicher=0, EE_Erz=0, PV_Gesamt=0, erz_Bio
     '- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
     # PV
     if PV == True:
-        EE_Erz['Erzeugung_PV'] = PV_Gesamt
-        temp_EE_Erz += EE_Erz['Erzeugung_PV']
+        EE_Erz['Erz_PV'] = PV_Gesamt
+        temp_EE_Erz += EE_Erz['Erz_PV']
 
     # PV Ausbau Software
     if ausbau == True and sum(ausbauPV) > 0:
-        EE_Erz['REE_PV_' + str(expansionPV)] = ausbauPV
-        temp_EE_Erz += EE_Erz['REE_PV_' + str(expansionPV)]
+        EE_Erz['REE_PV'] = ausbauPV
+        temp_EE_Erz += EE_Erz['REE_PV']
     '- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
     # Biomasse
     if biomes == True:
-        EE_Erz['Erz_Biomasse_Gesamt'] = erz_Bio
-        temp_EE_Erz += EE_Erz['Erz_Biomasse_Gesamt']
+        EE_Erz['Erz_Biomasse'] = erz_Bio
+        temp_EE_Erz += EE_Erz['Erz_Biomasse']
 
     # Biomasse Ausbau Software
     if ausbau == True and sum(ausbauBio) > 0:
-        EE_Erz['REE_Biomasse_' + str(expansionBio)] = ausbauBio
-        temp_EE_Erz += EE_Erz['REE_Biomasse_' + str(expansionBio)].tolist()
+        EE_Erz['REE_Biomasse'] = ausbauBio
+        temp_EE_Erz += EE_Erz['REE_Biomasse'].tolist()
 
     EE_Erz['Erzeugung_Gesamt'] = temp_EE_Erz
-    EE_Erz['verluste_eisman'] = temp_eisman
-    EE_Erz['Diff_EE_zu_Verb'] = EE_Erz['Erzeugung_Gesamt'] - verbrauch['Verbrauch_Gesamt']
-    temp_Diff_EE_zu_Verb = EE_Erz['Diff_EE_zu_Verb'].tolist().copy()
+
+    if eisman == True:
+        EE_Erz['verluste_eisman_Gesamt'] = temp_eisman
+
+    EE_Erz['Diff_Erz_zu_Verbrauch'] = EE_Erz['Erzeugung_Gesamt'] - verbrauch['Verbrauch_Gesamt']
+    temp_Diff_EE_zu_Verb = EE_Erz['Diff_Erz_zu_Verbrauch'].tolist().copy()
     temp_len_speicherList = len(listSpeicher)
 
     if speicher == True and temp_len_speicherList > 0:
@@ -1005,7 +1078,7 @@ def analyseEE(year, exportfolder, listSpeicher=0, EE_Erz=0, PV_Gesamt=0, erz_Bio
                     EE_Erz['Speicher_voll_Prozent'][jndex] = EE_Erz['Speicherstatus'][jndex] / \
                                                              EE_Erz['Speicherkapazität'][jndex]
 
-        EE_Erz['Diff_EE_zu_Verb_nach_Speicher'] = temp_Diff_EE_zu_Verb
+        EE_Erz['Diff_Erz_zu_Verb_mit_Speicher'] = temp_Diff_EE_zu_Verb
 
     # Erzeugung Gesamt | Ein-/ Ausspeisung     | Verbrauch
     # 1000             -    (+500)                    / 500        Input Speicher
@@ -1532,8 +1605,9 @@ def expansion_WKA(year,WKAKey, weatherID, WKADict, standort, windWetterdaten, Vo
     nabenhohe = WKADict[WKAKey]['Nabenhoehe']
 
     anzahl_2 = 0
-    leistung_Gesamt = 123
+    leistung_gesamt = 0
     temp_leistung = [0] * len(windWetterdaten['Wind_m/s_788'])
+    temp_verlust = [0] * len(windWetterdaten['Wind_m/s_788'])
 
     columnFrame = windWetterdaten.columns.values.tolist()
     columnName = ''
@@ -1550,14 +1624,14 @@ def expansion_WKA(year,WKAKey, weatherID, WKADict, standort, windWetterdaten, Vo
         WeaModell_fl = ((15 * np.square(float(WKADict[WKAKey]['Rotor']))) / 10000)
         standort['Anzahl_' + Vor_Pot][mndex] = int(standort['nettoFreieFlaeche_' + Vor_Pot][mndex] / WeaModell_fl)
         anzahl_2 += standort['Anzahl_' + Vor_Pot][mndex]
-        leistung_Gesamt = leistung_einzel * standort['Anzahl_' + Vor_Pot][mndex]
+        leistung_wka = leistung_einzel * standort['Anzahl_' + Vor_Pot][mndex]
 
-        if leistung_Gesamt == 0 or leistung_Gesamt == 123:
+        if leistung_wka == 0 or leistung_wka == 123:
             continue
 
         standort['nettoFreieFlaeche_' + Vor_Pot][mndex] -= round(WeaModell_fl * standort['Anzahl_' + Vor_Pot][mndex], 2)
         standort['Modell_' + Vor_Pot][mndex] = WKADict[WKAKey]['Modell']
-        standort['Leistung_inMW_' + Vor_Pot][mndex] = round(leistung_Gesamt/1000,2)
+        standort['Leistung_inMW_' + Vor_Pot][mndex] = round(leistung_wka/1000,2)
         tempsum = (standort['Anzahl_'+Vor_Pot][mndex]*WKADict[WKAKey]['Invest'])/1000000
         standort['InvestKosten_inMio_' + Vor_Pot][mndex] = round(tempsum, 2)
         tempsum = (standort['Anzahl_'+Vor_Pot][mndex]*WKADict[WKAKey]['Betriebk'])/1000000
@@ -1577,7 +1651,7 @@ def expansion_WKA(year,WKAKey, weatherID, WKADict, standort, windWetterdaten, Vo
         if temp_IEC_windklasse < WKADict[WKAKey]['Windklasse']:
             continue
 
-        temp_leistung = annualOutput_WKA(year, Ein_ms, Nenn_ms, Abs_ms, leistung_Gesamt,
+        temp_leistung_single = annualOutput_WKA(year, Ein_ms, Nenn_ms, Abs_ms, leistung_wka,
                                          windWetterdaten[matchfilelist[0]], nabenhohe,
                                          10,
                                          WKADict[WKAKey]['Windklasse'],
@@ -1589,7 +1663,18 @@ def expansion_WKA(year,WKAKey, weatherID, WKADict, standort, windWetterdaten, Vo
                                          META_third_power_limit=META_third_power_limit,
                                          use_wind_IEC=True, eisman=eisman)
 
-    return temp_leistung[0], columnName, anzahl_2, leistung_Gesamt, temp_leistung[1]
+        temp_wirk = temp_leistung_single[0]
+        temp_verlust_single = temp_leistung_single[0]
+
+
+        for i in range(len(temp_leistung)):
+            temp_leistung[i] = temp_leistung[i] + temp_wirk[i]
+            temp_verlust[i] = temp_verlust[i] + temp_verlust_single[i]
+        leistung_gesamt += leistung_wka
+
+    print('Energy im Jahr in GW',sum(temp_leistung)/1000000, 'Anzahl :',anzahl_2, 'Leistung: ', leistung_gesamt)
+    print('Energy verluste: ',sum(temp_verlust))
+    return temp_leistung, columnName, anzahl_2, leistung_gesamt, temp_verlust
 
 
 def standortquality(year, wetterdaten, WKAanlagen):
@@ -1745,15 +1830,15 @@ def DB_WKA(year, dictModell, dictWeatherID, wetterdaten, min_hight, META_first_w
                                         META_third_power_limit=META_third_power_limit,
                                         use_wind_IEC=True, eisman=eisman)
 
+            leistung_wirk = leistung[0]
 
-
-            if sum(leistung[0]) == 0:
+            if leistung_wirk == 0:
                 WKA_False_wind += 1
                 WKA_False_Gesamt += 1
                 continue
             WKA_True_Gesamt += 1
             WKA_True += 1
-            date_perHoure[name] = leistung[0]
+            date_perHoure[name] = leistung_wirk
 
         print('Wetterstation:', str(dictWeatherID[index]['ID']), 'WKA Erfolgreich: ', WKA_True, '/', WKA_True_Gesamt)
         print('WKA nicht gleaden Gesamt: ', WKA_False_wind + WKA_False_ausbauRele, '/', WKA_False_Gesamt,
@@ -2023,6 +2108,59 @@ def cost_analysis(year,exportfolder,dictWKA, list_key_expansion_wka, list_count_
         export_frame.to_csv(exportname2, index = False, sep=';', encoding='utf-8-sig', decimal=',')
 
     return export_frame
+
+
+def data_report(year,data_frame,exportfolder,name , export= True):
+
+    titel = ['Sum in TW', 'min in KW', 'max in GW', 'Average in GW', ]
+    header = ['Erzeugung_Wind', 'verluste_eisman_wind', 'Erz_geplAusbau_Wind', 'verluste_eisman_geplanterAusbau',
+              'REE_Wind', 'REE_Wind_eisman_verluste', 'Erz_PV', 'REE_PV', 'Erz_Biomasse', 'REE_Biomasse',
+              'Erzeugung_Gesamt', 'verluste_eisman_Gesamt', 'Diff_Erz_zu_Verbrauch', 'Ein(+)-/ Ausspeisung(-)',
+              'Speicherverluste', 'Diff_Erz_zu_Verb_mit_Speicher', 'Verbrauch_Gesamt', 'Verbrauch_HH', 'Verbrauch_SH']
+
+
+    exportFrame = pd.DataFrame(
+        {'Titel': titel
+         }
+    )
+    columnname = []
+    summe_in_tw = []
+    min_in_kw = []
+    max_in_GW = []
+    average_in_GW = []
+    test = []
+    TW = 1000000000
+    GW = 1000000
+    MW = 1000
+    roundnumber = 3
+    'Wind bestehend'
+    for i in header:
+        try:
+            temp_columname = i
+            columnname.append(temp_columname)
+            summe_in_tw.append(float(round((sum(data_frame[temp_columname])/TW), roundnumber)))
+            min_in_kw.append(float(round((min(data_frame[temp_columname])), roundnumber)))
+            max_in_GW.append(float(round((max(data_frame[temp_columname])/GW), roundnumber)))
+            temp_average = (sum(data_frame[temp_columname])/len(data_frame[temp_columname]))
+            average_in_GW.append(float(round((temp_average/GW), roundnumber)))
+
+            test.append(float(round((sum(data_frame[temp_columname]) / TW), roundnumber)))
+            test.append(float(round((min(data_frame[temp_columname])), roundnumber)))
+            test.append(float(round((max(data_frame[temp_columname]) / GW), roundnumber)))
+            test = (sum(data_frame[temp_columname]) / len(data_frame[temp_columname]))
+            test.append(float(round((temp_average / GW), roundnumber)))
+
+            exportFrame[i] = test
+        except:
+            print(i,'is not a header in Datasheet:',name)
+
+    if export == True:
+
+        exportname2 = exportfolder + 'DataReport_'+ name + '_' + str(year) + '.csv'
+        exportFrame.to_csv(exportname2, index = False, sep=';', encoding='utf-8-sig', decimal=',')
+
+    return exportFrame
+
 
 
 

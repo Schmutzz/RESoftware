@@ -421,11 +421,15 @@ def re_simulation():
                                         main.META_first_power_limit, main.META_sec_power_limit,
                                         main.META_third_power_limit, eisman=main.META_eisman)
             print('Fertig mit Erzeugung HH')
-            leistung_eisman += lgk.generation_wind_energy(main.META_year, dictWKAModell, dictWeatherID, 'Wind', 'SH',
+            leistung_eisman2 = lgk.generation_wind_energy(main.META_year, dictWKAModell, dictWeatherID, 'Wind', 'SH',
                                         main.META_first_wind_limit,
                                         main.META_sec_wind_limit, main.META_third_wind_limit,
                                         main.META_first_power_limit, main.META_sec_power_limit,
                                         main.META_third_power_limit, eisman=main.META_eisman)
+            print('Fertig mit Erzeugung SH')
+
+            for i in range(len(leistung_eisman)):
+                leistung_eisman[i] = int(leistung_eisman[i]) + int(leistung_eisman2[i])
 
             print('Fertig mit Erzeugung SH')
 
@@ -435,8 +439,9 @@ def re_simulation():
                 openfilename = 'Datenbank/Erzeugung/Erz_komuliert_' + str(main.META_year) + '_Wind_' + eisman_name + '.csv'
 
                 Wind_Gesamt = lgk.erzeugungPerStunde(main.META_year, openfilename, 'Wind', weatherIDlist,
-                                                    complete_export=True, eisman= True)
-                Wind_Gesamt['verluste_eisman_wind'] = leistung_eisman
+                                                     verlust_eisman=leistung_eisman,complete_export=True, eisman= True)
+
+
             else:
                 openfilename = 'Datenbank/Erzeugung/Erz_komuliert_' + str(main.META_year) + '_Wind.csv'
                 Wind_Gesamt = lgk.erzeugungPerStunde(main.META_year, openfilename, 'Wind', weatherIDlist,
@@ -623,8 +628,10 @@ def re_simulation():
                                expansionBio=main.META_expansionBio, speicher= main.META_use_storage,
                                eisman=META_eisman)
 
-    SimulationEE_vorAusbau = EE_Analyse[0].copy()
-    export_simulation_bevor_expansion = SimulationEE_vorAusbau.copy()
+    simulation_EE = EE_Analyse[0].copy()
+    lgk.data_report(main.META_year, simulation_EE, exportFolder, 'beforREexpansion',
+                    export=True)
+    export_simulation_bevor_expansion = simulation_EE.copy()
     EE_Anteil = EE_Analyse[1]
     print('EE Anteil in Prozent vor Ausbau: ', round(EE_Anteil * 100, 2), '%')
 
@@ -658,23 +665,24 @@ def re_simulation():
     expansionPV = 0
     if META_biomasse == True:
         print('expansion Bio')
-        expansionBio = lgk.percentage_expansion(SimulationEE_vorAusbau['Erz_Biomasse_Gesamt'], main.META_expansionBio)
+        expansionBio = lgk.percentage_expansion(simulation_EE['Erz_Biomasse'], main.META_expansionBio)
         print('New Energysum GWh: ', sum(expansionBio) / 1000000)
         sum_expansionBio = sum(expansionBio)
     if META_PV == True:
         print('expansion PV')
-        expansionPV = lgk.percentage_expansion(SimulationEE_vorAusbau['Erzeugung_PV'], main.META_expansionPV)
+        expansionPV = lgk.percentage_expansion(simulation_EE['Erz_PV'], main.META_expansionPV)
         print('New Energysum GWh: ', sum(expansionPV)/1000000)
         sum_expansionPV = sum(expansionPV)
     if META_wind == True:
-        expansionWind = [1] * len(SimulationEE_vorAusbau)
+        expansionWind = [1] * len(simulation_EE)
     '______________________________________________________________________________________________________________________'
     "!!!Ausbau WIND STARTET!!!"
     if main.META_expansionWind == True:
         temp_ausbau = True
-        temp_ausgebauteAnlagen = ['test'] * len(SimulationEE_vorAusbau)
-        expansionWind = [1] * len(SimulationEE_vorAusbau)
-        expansionWind_eisman = [1] * len(SimulationEE_vorAusbau)
+        temp_ausgebauteAnlagen = ['test'] * len(simulation_EE)
+
+    expansionWind = [0] * len(simulation_EE)
+    expansionWind_eisman = [0] * len(simulation_EE)
 
     def expansion_wind(pot_Vor, EE_Anteil, tempausbau_true):
         for i in range(len(dictWeatherID)):
@@ -694,29 +702,29 @@ def re_simulation():
                 temp_wind = Wind_Gesamt.copy()
                 EE_Analyse = lgk.analyseEE(META_year, exportFolder, listStorage, temp_wind, PV_Gesamt, erz_Bio,
                                            be_planned_wka_power, verbrauch_HH_SH,
-                                           expansionWind, expansionPV, expansionBio, ausbau=temp_ausbau, export=False,
+                                           expansionWind, expansionWind_eisman, expansionPV, expansionBio, ausbau=temp_ausbau, export=False,
                                            geplanterAusbau=META_be_planned_expansion, biomes=META_biomasse,
                                            wind=META_wind, PV=META_PV, expansionPV=META_expansionPV,
                                            expansionBio=META_expansionBio, speicher=main.META_use_storage,
-                                           eisman=main.META_eisman, ausbauWindeisman=expansionWind_eisman)
+                                           eisman=main.META_eisman, )
 
                 EE_Anteil = EE_Analyse[1]
-                print('EE Anteil in Prozent: ', round(EE_Analyse[1] * 100, 2), '%')
-                SimulationEE_nachAusbau = EE_Analyse[0].copy()
+                # print('EE Anteil in Prozent: ', round(EE_Analyse[1] * 100, 2), '%')
+                simulation_EE = EE_Analyse[0].copy()
 
             elif i > 0 and temp_ausbau == True:
                 temp_wind = Wind_Gesamt.copy()
                 EE_Analyse = lgk.analyseEE(META_year, exportFolder, listStorage, temp_wind, PV_Gesamt, erz_Bio,
                                            be_planned_wka_power, verbrauch_HH_SH,
-                                           expansionWind, expansionPV, expansionBio,
-                                           ausbauWindeisman=expansionWind_eisman, ausbau=temp_ausbau, export=False,
+                                           expansionWind, expansionWind_eisman, expansionPV, expansionBio,
+                                           ausbau=temp_ausbau, export=False,
                                            geplanterAusbau=META_be_planned_expansion, biomes=META_biomasse,
                                            wind=META_wind, PV=META_PV, expansionPV=META_expansionPV, eisman=META_eisman,
                                            expansionBio=META_expansionBio, speicher=main.META_use_storage)
 
                 EE_Anteil = EE_Analyse[1]
-                print('EE Anteil in Prozent: ', round(EE_Analyse[1] * 100, 2), '%')
-                SimulationEE_nachAusbau = EE_Analyse[0].copy()
+                # print('EE Anteil in Prozent: ', round(EE_Analyse[1] * 100, 2), '%')
+                simulation_EE = EE_Analyse[0].copy()
 
             if EE_Anteil >= main.META_EE_Anteil:
                 print('FERTIG EE Anteil in Prozent: ', round(EE_Analyse[1] * 100, 2), '%')
@@ -724,9 +732,9 @@ def re_simulation():
 
             if tempausbau_true == True:
                 if main.META_storage_before_expansion == False or main.META_use_storage == False:
-                    temp_Diff_EE = SimulationEE_nachAusbau['Diff_EE_zu_Verb'].copy()
+                    temp_Diff_EE = simulation_EE['Diff_Erz_zu_Verbrauch'].copy()
                 else:
-                    temp_Diff_E = SimulationEE_nachAusbau['Diff_EE_zu_Verb_nach_Speicher'].copy()
+                    temp_Diff_E = simulation_EE['Diff_Erz_zu_Verb_mit_Speicher'].copy()
                     # print(type(temp_Diff_E))
                     temp_Diff_EE = temp_Diff_E.tolist()
                     # print(temp_Diff_EE)
@@ -779,7 +787,8 @@ def re_simulation():
             for index, i in enumerate(expansionWind):
                 expansionWind[index] = i + keyfactors_expansion_area[0][index]
                 if main.META_eisman == True:
-                    expansionWind_eisman[index] = expansionWind_eisman[index] + keyfactors_expansion_area[1][index]
+                    expansionWind_eisman[index] = int(expansionWind_eisman[index]) + int(
+                        keyfactors_expansion_area[4][index])
 
             list_key_expansion_wka.append(name_for_WKA_expansion)
             list_name_expansion_wka.append(temp_Modell)
@@ -795,14 +804,14 @@ def re_simulation():
                 temp_area = 'Potenzialfläche'
             else:
                 temp_area = 'unknown'
-            print(temp_area, ':  End: ', i, 'Zeit: ', end - start, 'Name', name_for_WKA_expansion,
+            print(temp_area, ':  End: ', i, 'Zeit: ', round(end - start,2), 'Name', name_for_WKA_expansion,
                   'Anzahl Neu: ', keyfactors_expansion_area[2], '/ Total: ', sum(list_count_expansion_wka))
             print('Leistung insgesamt zugebaut in MW: ', round(sum(list_count_expansion_power) / 1000,2),
                   'Leistung Neu:  ', round(keyfactors_expansion_area[3],2),
                   'Freie Fläche: ', round((sum(dataframe_expansion_area['nettoFreieFlaeche_Vor'])),3))
 
         return EE_Anteil
-    print(list_count_expansion_wka)
+
     if main.META_wind == True and main.META_VorFl == True and EE_Anteil < main.META_EE_Anteil:
         if main.META_expansionWind == True:
             temp_DB_WKA = DB_WKA.copy()
@@ -817,20 +826,22 @@ def re_simulation():
             EE_Anteil = expansion_wind('Pot', EE_Anteil, temp_ausbau)
 
     temp_wind = Wind_Gesamt.copy()
-
+    print(list_count_expansion_wka)
     if main.META_wind == True and main.META_expansionWind == True:
         if main.META_VorFl == True or main.META_PotFl == True or sum_expansionPV > 0 or sum_expansionBio > 0:
 
             EE_Analyse = lgk.analyseEE(META_year, exportFolder, listStorage, temp_wind, PV_Gesamt, erz_Bio,
                                        be_planned_wka_power, verbrauch_HH_SH,
-                                       expansionWind, expansionPV, expansionBio, key_name='afterREexpansion',
+                                       expansionWind,expansionWind_eisman, expansionPV, expansionBio, key_name='afterREexpansion',
                                        ausbau=temp_ausbau, export=True, eisman=main.META_eisman,
-                                       ausbauWindeisman = expansionWind_eisman,
                                        geplanterAusbau=META_be_planned_expansion, biomes=META_biomasse,
                                        wind=META_wind, PV=META_PV, expansionPV=META_expansionPV,
                                        expansionBio=META_expansionBio, speicher=main.META_use_storage)
+
             EE_Anteil = EE_Analyse[1]
-            SimulationEE_after_expansion = EE_Analyse[0].copy()
+            simulation_EE = EE_Analyse[0].copy()
+            lgk.data_report(main.META_year, simulation_EE, exportFolder, 'afterREexpansion',
+                            export=True)
             print('EE Anteil in Prozent: ', round(EE_Analyse[1] * 100, 6), '%')
 
 
@@ -858,9 +869,9 @@ def re_simulation():
             print('EE MUSS in Prozent: ', round(META_EE_Speicher * 100, 3), '%')
 
             if main.META_storage_before_expansion == False:
-                temp_Diff_EE = SimulationEE_after_expansion['Diff_EE_zu_Verb'].tolist()
+                temp_Diff_EE = simulation_EE['Diff_Erz_zu_Verbrauch'].tolist()
             else:
-                temp_Diff_EE = SimulationEE_after_expansion['Diff_EE_zu_Verb_nach_Speicher'].tolist()
+                temp_Diff_EE = simulation_EE['Diff_Erz_zu_Verb_mit_Speicher'].tolist()
             print('Storage Len: ', len(listStorage))
             if EE_Anteil == EE_anteil_bevor and storage_bevor < len(listStorage):
                 print('Speicher AUSBAU macht keinen Sinn mehr')
@@ -872,20 +883,19 @@ def re_simulation():
 
             EE_Analyse = lgk.analyseEE(META_year, exportFolder, listStorage, temp_wind, PV_Gesamt, erz_Bio,
                                        be_planned_wka_power, verbrauch_HH_SH,
-                                       expansionWind, expansionPV, expansionBio, key_name = 'afterStorageExpansion',
+                                       expansionWind,expansionWind_eisman, expansionPV, expansionBio, key_name = 'afterStorageExpansion',
                                        ausbau=temp_ausbau, export=False,eisman=main.META_eisman,
-                                       ausbauWindeisman = expansionWind_eisman,
                                        geplanterAusbau=main.META_be_planned_expansion, biomes=main.META_biomasse,
                                        wind=main.META_wind, PV=main.META_PV, expansionPV=main.META_expansionPV,
                                        expansionBio=main.META_expansionBio, speicher=main.META_storage_before_expansion)
 
             EE_export = EE_Analyse[2]
             EE_Anteil = EE_Analyse[1]
-            SimulationEE_after_expansion = EE_Analyse[0].copy()
+            simulation_EE = EE_Analyse[0].copy()
             print('EE Anteil in Prozent: ', round(EE_Anteil * 100, 6), '%')
-            temp_min = min(SimulationEE_after_expansion['Diff_EE_zu_Verb_nach_Speicher'])
+            temp_min = min(simulation_EE['Diff_Erz_zu_Verb_mit_Speicher'])
             print('lowest delta EE to consume: ', round(temp_min, 6))
-            min_current_storage = min(SimulationEE_after_expansion['Speicher_voll_Prozent'])
+            min_current_storage = min(simulation_EE['Speicher_voll_Prozent'])
             print('lowest Currentstorage in Prozent: ', round(min_current_storage * 100, 5), '%')
 
             main.META_Laegerdorf = False
@@ -893,8 +903,9 @@ def re_simulation():
 
         print('Speicherausbau fertig')
 
-        SimulationEE_after_expansion.to_csv(EE_export, sep=';', encoding='utf-8-sig', index=False, decimal=',')
-
+        simulation_EE.to_csv(EE_export, sep=';', encoding='utf-8-sig', index=False, decimal=',')
+        lgk.data_report(main.META_year, simulation_EE, exportFolder, 'afterStorageExpansion',
+                        export=True)
 
 
     cost_report = lgk.cost_analysis(META_year, exportFolder, dictWKAModell, list_key_expansion_wka,
