@@ -99,7 +99,11 @@ def drawEE_percentage():
     fig.add_trace(
         go.Scatter(x=df_analyse['Datum'], y=df_analyse['Erzeugung_Percentage_false_with_gaps'], marker=dict(color='red'),
                    name="RE < 100%"))
-    fig.update_layout(template='plotly_dark', title='Hourly Data: Ratio Renewable Energy to Consumption', title_x=0.5)
+    fig.update_layout(template='plotly_dark', title='Ratio: Renewable Energy Production to Consumption', title_x=0.5,
+                      xaxis_title="Date",
+                      yaxis_title="RE Production / Consumption",
+                      legend_title="Legend")
+    fig.update_xaxes(dtick='M1')
     fig.add_hline(y=1)
 
     return fig
@@ -116,7 +120,11 @@ def drawEE_absolute():
                    name="RE < 100%"))
     fig.add_trace(go.Scatter(x=df_analyse['Datum'], y=df_analyse['Verbrauch_Gesamt'], marker=dict(color='blue', opacity=0.2),
                              name="Consumption"))
-    fig.update_layout(template='plotly_dark', title='Hourly Data: Absolute Values', title_x=0.5)
+    fig.update_layout(template='plotly_dark', title='Absolute Numbers', title_x=0.5,
+                      xaxis_title="Date",
+                      yaxis_title="Power (in kW)",
+                      legend_title="Legend")
+    fig.update_xaxes(dtick='M1')
 
     return fig
 
@@ -157,10 +165,22 @@ def draw_vor(sizing):
         sizing = 'nettoFreieFlaeche_Vor'
 
     return px.scatter_mapbox(df, lat='Latitude', lon='Longitude', title='Simulated expansion',
-                             hover_name='StadtVor',
-                             hover_data=['StadtVor', 'Anzahl WEAs_Vor', 'nettoFreieFlaeche_Vor',
-                                         'Modell_Vor', 'Anzahl_Vor', 'Leistung_inMW_Vor', 'InvestKosten_inMio_Vor'],
-                             color='Wetter-ID_Vor', color_discrete_map={}, size=sizing, size_max=12,
+                             # hover_name='ID_Weatherstation',
+                             hover_data=['ID_Weatherstation', 'StadtVor', 'haVor', 'Anzahl WEAs_Vor', 'Anzahl_Vor',
+                                         'Modell_Vor', 'nettoFreieFlaeche_Vor', 'Leistung_inMW_Vor', 'InvestKosten_inMio_Vor',
+                                         'Latitude', 'Longitude'],
+                             labels={
+                                 'ID_Weatherstation': 'Weatherstation ID',
+                                 "StadtVor": "Region",
+                                 "Anzahl WEAs_Vor": "Wind turbines before expansion",
+                                 "nettoFreieFlaeche_Vor": "Free area",
+                                 'Modell_Vor': 'Used model',
+                                 'Anzahl_Vor': 'Wind turbines after expansion',
+                                 'Leistung_inMW_Vor': 'Power',
+                                 'InvestKosten_inMio_Vor': 'Investment costs',
+                                 'haVor': 'Total area'
+                             },
+                             color='ID_Weatherstation', color_discrete_map={}, size=sizing, size_max=12,
                              zoom=6.3, center={'lat': 54.2, 'lon': 9.8}).update_layout(
         mapbox_style="open-street-map", template='plotly_dark', title_x=0.5, legend_title='Wetter ID'
     )
@@ -175,13 +195,190 @@ def draw_pot(sizing):
         sizing = 'nettoFreieFlaeche_Pot'
 
     return px.scatter_mapbox(df, lat='Latitude', lon='Longitude', title='Simulated expansion',
-                             hover_name='StadtPot',
-                             hover_data=['StadtPot', 'Anzahl WEAs_Pot', 'nettoFreieFlaeche_Pot',
-                                         'Modell_Pot', 'Anzahl_Pot', 'Leistung_inMW_Pot', 'InvestKosten_inMio_Pot'],
-                             color='Wetter-ID_Pot', color_discrete_map={}, size=sizing, size_max=12,
-                             zoom=6.3, center={'lat': 54.2, 'lon': 9.8}).update_layout(
+                             # hover_name='StadtPot',
+                             hover_data=['ID_Weatherstation', 'StadtPot', 'haPot', 'Anzahl WEAs_Pot', 'Anzahl_Pot',
+                                         'Modell_Pot', 'nettoFreieFlaeche_Pot', 'Leistung_inMW_Pot', 'InvestKosten_inMio_Pot',
+                                         'Latitude', 'Longitude'],
+                             labels={
+                                 'ID_Weatherstation': 'Weatherstation ID',
+                                 "StadtPot": "Region",
+                                 "Anzahl WEAs_Pot": "Wind turbines before expansion",
+                                 "nettoFreieFlaeche_Pot": "Free area",
+                                 'Modell_Pot': 'Used model',
+                                 'Anzahl_Pot': 'Wind turbines after expansion',
+                                 'Leistung_inMW_Pot': 'Power',
+                                 'InvestKosten_inMio_Pot': 'Investment costs',
+                                 'haPot': 'Total area'
+                             },
+                             color='ID_Weatherstation', color_discrete_map={}, size=sizing, size_max=12,
+                             zoom=6.3, center={'lat': 54.2, 'lon': 9.8},
+                             ).update_layout(
         mapbox_style="open-street-map", template='plotly_dark', title_x=0.5, legend_title='Wetter ID'
     )
+
+
+def make_monthly_table():
+    return dt.DataTable(columns=[{"name": i, "id": i} for i in table_df.columns],
+                        data=table_df.to_dict('records'), cell_selectable=False,
+                        style_header={
+                            'backgroundColor': 'rgb(10, 10, 10)',
+                            'color': 'white'},
+                        style_data={
+                            'backgroundColor': 'rgb(40, 40, 40)',
+                            'color': 'white'},
+                        style_data_conditional=(
+                            [
+                                {
+                                    'if': {
+                                        'column_id': 'Wind (TWh)',
+                                        'filter_query': '{{Wind (TWh)}} = {}'.format(
+                                            table_df['Wind (TWh)'].nlargest(2).tolist()[1])
+                                    },
+                                    'backgroundColor': '#c9ffba',
+                                    'color': 'black'
+                                },
+                                {
+                                    'if': {
+                                        'column_id': 'Wind (TWh)',
+                                        'filter_query': '{{Wind (TWh)}} = {}'.format(
+                                            table_df['Wind (TWh)'].min())
+                                    },
+                                    'backgroundColor': '#ffbaba',
+                                    'color': 'black'
+                                },
+
+                                # -----------------------------------------------------------------------------
+
+                                {
+                                    'if': {
+                                        'column_id': 'Solar (TWh)',
+                                        'filter_query': '{{Solar (TWh)}} = {}'.format(
+                                            table_df['Solar (TWh)'].nlargest(2).tolist()[1])
+                                    },
+                                    'backgroundColor': '#c9ffba',
+                                    'color': 'black'
+                                },
+                                {
+                                    'if': {
+                                        'column_id': 'Solar (TWh)',
+                                        'filter_query': '{{Solar (TWh)}} = {}'.format(
+                                            table_df['Solar (TWh)'].min())
+                                    },
+                                    'backgroundColor': '#ffbaba',
+                                    'color': 'black'
+                                },
+
+                                # -----------------------------------------------------------------------------
+
+                                {
+                                    'if': {
+                                        'column_id': 'RE (TWh)',
+                                        'filter_query': '{{RE (TWh)}} = {}'.format(
+                                            table_df['RE (TWh)'].nlargest(2).tolist()[1])
+                                    },
+                                    'backgroundColor': '#c9ffba',
+                                    'color': 'black'
+                                },
+                                {
+                                    'if': {
+                                        'column_id': 'RE (TWh)',
+                                        'filter_query': '{{RE (TWh)}} = {}'.format(
+                                            table_df['RE (TWh)'].min())
+                                    },
+                                    'backgroundColor': '#ffbaba',
+                                    'color': 'black'
+                                },
+
+                                # -----------------------------------------------------------------------------
+
+                                {
+                                    'if': {
+                                        'column_id': 'Consum. (TWh)',
+                                        'filter_query': '{{Consum. (TWh)}} = {}'.format(
+                                            table_df['Consum. (TWh)'].nlargest(2).tolist()[1])
+                                    },
+                                    'backgroundColor': '#ffbaba',
+                                    'color': 'black'
+                                },
+                                {
+                                    'if': {
+                                        'column_id': 'Consum. (TWh)',
+                                        'filter_query': '{{Consum. (TWh)}} = {}'.format(
+                                            table_df['Consum. (TWh)'].min())
+                                    },
+                                    'backgroundColor': '#c9ffba',
+                                    'color': 'black'
+                                },
+
+                                # -----------------------------------------------------------------------------
+
+                                {
+                                    'if': {
+                                        'column_id': 'Deficit (TWh)',
+                                        'filter_query': '{{Deficit (TWh)}} = {}'.format(
+                                            table_df['Deficit (TWh)'].nlargest(2).tolist()[1])
+                                    },
+                                    'backgroundColor': '#ffbaba',
+                                    'color': 'black'
+                                },
+                                {
+                                    'if': {
+                                        'column_id': 'Deficit (TWh)',
+                                        'filter_query': '{{Deficit (TWh)}} = {}'.format(
+                                            table_df['Deficit (TWh)'].min())
+                                    },
+                                    'backgroundColor': '#c9ffba',
+                                    'color': 'black'
+                                },
+
+                                # -----------------------------------------------------------------------------
+
+                                {
+                                    'if': {
+                                        'column_id': 'Hours 100%',
+                                        'filter_query': '{{Hours 100%}} = {}'.format(
+                                            table_df['Hours 100%'].nlargest(2).tolist()[1])
+                                    },
+                                    'backgroundColor': '#c9ffba',
+                                    'color': 'black'
+                                },
+                                {
+                                    'if': {
+                                        'column_id': 'Hours 100%',
+                                        'filter_query': '{{Hours 100%}} = {}'.format(
+                                            table_df['Hours 100%'].min())
+                                    },
+                                    'backgroundColor': '#ffbaba',
+                                    'color': 'black'
+                                },
+
+                            ]
+                        ), style_cell={'width': 'auto'}
+                        )
+
+
+def make_cost_table():
+    return dt.DataTable(columns=[{"name": i, "id": i} for i in df_cost_report.columns],
+                        style_cell={
+                            'overflow': 'hidden',
+                            'textOverflow': 'ellipsis',
+                            'maxWidth': 0,
+                            'height': 'auto'
+                        },
+                        data=df_cost_report.to_dict('records'), cell_selectable=False, style_table={'overflowY': 'auto'},
+                        tooltip_data=[
+                            {
+                                column: {'value': str(value), 'type': 'markdown'}
+                                for column, value in row.items()
+                            } for row in df_cost_report.to_dict('records')
+                        ],
+                        style_header={
+                            'backgroundColor': 'rgb(10, 10, 10)',
+                            'color': 'white'},
+                        style_data={
+                            'backgroundColor': 'rgb(40, 40, 40)',
+                            'color': 'white'}
+                        )
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -199,7 +396,7 @@ example_switch = html.Div([
             {'label': 'Yes', 'value': True},
             {'label': 'No', 'value': False}
         ],
-        value=True
+        value=False
     ),
 ], className="radio-group")
 
@@ -207,10 +404,10 @@ scenario_dropdown = html.Div([
     dcc.Dropdown(
         id='scenario_dropdown',
         options=[
-            {'label': 'Scenario 1', 'value': 'Scenario 1'},
-            {'label': 'Scenario 2', 'value': 'Scenario 2'},
-            {'label': 'Scenario 3', 'value': 'Scenario 3'},
-            {'label': 'Scenario 4', 'value': 'Scenario 4'},
+            {'label': 'Task 1', 'value': 'Scenario 1'},
+            {'label': 'Task 2', 'value': 'Scenario 2'},
+            {'label': 'Task 3', 'value': 'Scenario 3'},
+            {'label': 'No expasion', 'value': 'Scenario 4'},
         ],
         value='Scenario 1',
         style={"textAlign": "left", 'color': 'black'}
@@ -238,19 +435,41 @@ general_settings = dbc.Card([
             dbc.Col([
                 html.P('Scenario:'),
                 scenario_dropdown
+            ], width=4),
+            dbc.Col([], width=1),
+            dbc.Col([
+                dbc.Button('Explanation', id='scenario_modal_button'),
+                dbc.Modal(
+                    [
+                        dbc.ModalHeader(children=[], close_button=True, id='scenario_modal_header'),
+                        dbc.ModalBody(id='scenario_modal_body'),
+                        dbc.ModalFooter(
+                            dbc.Button(
+                                "Close",
+                                id="close-centered",
+                                className="ms-auto",
+                                n_clicks=0,
+                            )
+                        ),
+                    ],
+                    id="scenario_modal",
+                    centered=True,
+                    is_open=False,
+                )
             ], width=4)
-        ], className='pb-3', justify="center"),
+        ], className='pb-3', justify="center", align='center'),
         dbc.Row([
             dbc.Col([
-                html.P('Use example data?'),
+                html.P('Use own data?'),
                 example_switch
-            ], width=6)
-        ], className='py-3', justify="center"),
-        dbc.Row([
+            ], width=3),
             dbc.Col([
                 html.P('Year:'),
                 year_dropdown
             ], width=3)
+        ], className='py-3 px-3', justify="around"),
+        dbc.Row([
+
         ], className='py-3', justify="center"),
     ])
 ], className='text-center p-1')
@@ -269,7 +488,7 @@ eisman_switch = html.Div([
             {'label': 'Yes', 'value': True},
             {'label': 'No', 'value': False}
         ],
-        value=True
+        value=False
     ),
 ], className="radio-group")
 
@@ -297,7 +516,7 @@ eisman_percentage_slider = html.Div([
         marks={
             x: {'label': str(x) + '%'} for x in range(0, 100, 10)
         },
-        value=[0, 30, 60],
+        value=[40, 70, 100],
         pushable=5,
         tooltip={"placement": "bottom", "always_visible": True}
     )
@@ -310,19 +529,19 @@ eisman_settings = dbc.Card([
     dbc.CardBody([
         dbc.Row([
             dbc.Col([
-                html.P('Use Eisman'),
+                html.P('Use Eisman?'),
                 eisman_switch
             ], width=4)
         ], className='pb-3', justify="center"),
         dbc.Row([
             dbc.Col([
-                html.P('Wind regulating points:'),
+                html.P('Wind speeds to regulate at:'),
                 eisman_wind_slider
             ], width=10)
         ], className='pb-3', justify="center"),
         dbc.Row([
             dbc.Col([
-                html.P('Power regulation levels:'),
+                html.P('Power regulation loss:'),
                 eisman_percentage_slider
             ], width=10)
         ], className='py-3', justify="center"),
@@ -382,22 +601,22 @@ biomass_solar_settings = dbc.Card([
             dbc.Col([
                 html.P('Use biomass?'),
                 biomass_switch
-            ], width=3),
+            ], width=6),
             dbc.Col([
                 html.P('Use solar power?'),
                 solar_switch
-            ], width=3)
-        ], className='pb-3 px-5', justify="around"),
+            ], width=6)
+        ], className='pb-3 px-3', justify="around"),
         dbc.Row([
             dbc.Col([
-                html.P('Biomass growth (in %):'),
+                html.P(['Biomass growth:', html.Br(), '(in %)']),
                 biomass_input
-            ], width=3),
+            ], width=5),
             dbc.Col([
-                html.P('Solar growth (in %):'),
+                html.P(['Solar growth:', html.Br(), '(in %)']),
                 solar_input
-            ], width=3)
-        ], className='py-3 px-5', justify="around"),
+            ], width=5)
+        ], className='py-3 px-3', justify="around"),
     ])
 ], className='text-center p-1')
 
@@ -476,10 +695,10 @@ wind_settings = dbc.Card([
                 html.P('Use planned wind turbines?'),
                 planned_wind_switch
             ], width=6)
-        ], className='pb-3 px-5', justify="around"),
+        ], className='pb-3 px-3', justify="around"),
         dbc.Row([
             dbc.Col([
-                html.P('Expand wind until (hours over 100% renewable):'),
+                html.P(['Expand wind until:', html.Br(), '(percentage of hours over 100% RE per year)']),
                 wind_hours_slider
             ], width=10)
         ], className='py-3', justify="around"),
@@ -594,7 +813,7 @@ storage_settings = dbc.Card([
                 html.P('Expand storage?'),
                 storage_expansion_switch
             ], width=6)
-        ], className='py-3 px-5', justify="around"),
+        ], className='py-3 px-3', justify="around"),
         dbc.Row([
             dbc.Col([
                 html.P(
@@ -611,12 +830,16 @@ storage_settings = dbc.Card([
         dbc.Row([
             dbc.Col([
                 html.P(
-                    'Expand storage until (hours over 100% renewable):', id='storage_expansion_tt',
+                    ['Expand storage until:', html.Br(), '(percentage of hours over 100% RE per year)'],
+                    id='storage_expansion_text',
                     style={"textDecoration": "underline", "cursor": "pointer"}
                 ),
-                dbc.Tooltip(
-                    'What should be the final percentage of hours over 100% renewable energy, storages will be expanded '
-                    'after the value for wind is reached (see wind settings).', target='storage_expansion_tt'
+                dbc.Modal([
+                        dbc.ModalHeader('Storage expansion', close_button=True),
+                        dbc.ModalBody(
+                            'What should be the final percentage of hours over 100% renewable energy, storages will be expanded '
+                            'after the value for wind is reached (see wind settings).'),
+                    ], id="storage_expansion_modal", centered=True, is_open=False,
                 ),
                 storage_expansion_slider
             ], width=10)
@@ -767,150 +990,11 @@ results = html.Div([
                         dcc.Graph(id='map')
                     ], width=6),
                     dbc.Col([
-                        # dcc.Graph(id='pie', figure=draw_pie())
-                    ], width={'size': 5})
+                        html.Div(id='costs')
+                    ], width=6)
                 ], className='py-2', justify="between"),
                 dbc.Row([
-                    dt.DataTable(id='table', columns=[{"name": i, "id": i} for i in table_df.columns],
-                                 data=table_df.to_dict('records'), cell_selectable=False,
-                                 style_header={
-                                     'backgroundColor': 'rgb(10, 10, 10)',
-                                     'color': 'white'},
-                                 style_data={
-                                     'backgroundColor': 'rgb(40, 40, 40)',
-                                     'color': 'white'},
-                                 style_data_conditional=(
-                                     [
-                                         {
-                                             'if': {
-                                                 'column_id': 'Wind (TWh)',
-                                                 'filter_query': '{{Wind (TWh)}} = {}'.format(
-                                                     table_df['Wind (TWh)'].nlargest(2).tolist()[1])
-                                             },
-                                             'backgroundColor': '#c9ffba',
-                                             'color': 'black'
-                                         },
-                                         {
-                                             'if': {
-                                                 'column_id': 'Wind (TWh)',
-                                                 'filter_query': '{{Wind (TWh)}} = {}'.format(
-                                                     table_df['Wind (TWh)'].min())
-                                             },
-                                             'backgroundColor': '#ffbaba',
-                                             'color': 'black'
-                                         },
-
-                                         # -----------------------------------------------------------------------------
-
-                                         {
-                                             'if': {
-                                                 'column_id': 'Solar (TWh)',
-                                                 'filter_query': '{{Solar (TWh)}} = {}'.format(
-                                                     table_df['Solar (TWh)'].nlargest(2).tolist()[1])
-                                             },
-                                             'backgroundColor': '#c9ffba',
-                                             'color': 'black'
-                                         },
-                                         {
-                                             'if': {
-                                                 'column_id': 'Solar (TWh)',
-                                                 'filter_query': '{{Solar (TWh)}} = {}'.format(
-                                                     table_df['Solar (TWh)'].min())
-                                             },
-                                             'backgroundColor': '#ffbaba',
-                                             'color': 'black'
-                                         },
-
-                                         # -----------------------------------------------------------------------------
-
-                                         {
-                                             'if': {
-                                                 'column_id': 'RE (TWh)',
-                                                 'filter_query': '{{RE (TWh)}} = {}'.format(
-                                                     table_df['RE (TWh)'].nlargest(2).tolist()[1])
-                                             },
-                                             'backgroundColor': '#c9ffba',
-                                             'color': 'black'
-                                         },
-                                         {
-                                             'if': {
-                                                 'column_id': 'RE (TWh)',
-                                                 'filter_query': '{{RE (TWh)}} = {}'.format(
-                                                     table_df['RE (TWh)'].min())
-                                             },
-                                             'backgroundColor': '#ffbaba',
-                                             'color': 'black'
-                                         },
-
-                                         # -----------------------------------------------------------------------------
-
-                                         {
-                                             'if': {
-                                                 'column_id': 'Consum. (TWh)',
-                                                 'filter_query': '{{Consum. (TWh)}} = {}'.format(
-                                                     table_df['Consum. (TWh)'].nlargest(2).tolist()[1])
-                                             },
-                                             'backgroundColor': '#ffbaba',
-                                             'color': 'black'
-                                         },
-                                         {
-                                             'if': {
-                                                 'column_id': 'Consum. (TWh)',
-                                                 'filter_query': '{{Consum. (TWh)}} = {}'.format(
-                                                     table_df['Consum. (TWh)'].min())
-                                             },
-                                             'backgroundColor': '#c9ffba',
-                                             'color': 'black'
-                                         },
-
-                                         # -----------------------------------------------------------------------------
-
-                                         {
-                                             'if': {
-                                                 'column_id': 'Deficit (TWh)',
-                                                 'filter_query': '{{Deficit (TWh)}} = {}'.format(
-                                                     table_df['Deficit (TWh)'].nlargest(2).tolist()[1])
-                                             },
-                                             'backgroundColor': '#ffbaba',
-                                             'color': 'black'
-                                         },
-                                         {
-                                             'if': {
-                                                 'column_id': 'Deficit (TWh)',
-                                                 'filter_query': '{{Deficit (TWh)}} = {}'.format(
-                                                     table_df['Deficit (TWh)'].min())
-                                             },
-                                             'backgroundColor': '#c9ffba',
-                                             'color': 'black'
-                                         },
-
-                                         # -----------------------------------------------------------------------------
-
-                                         {
-                                             'if': {
-                                                 'column_id': 'Hours 100%',
-                                                 'filter_query': '{{Hours 100%}} = {}'.format(
-                                                     table_df['Hours 100%'].nlargest(2).tolist()[1])
-                                             },
-                                             'backgroundColor': '#c9ffba',
-                                             'color': 'black'
-                                         },
-                                         {
-                                             'if': {
-                                                 'column_id': 'Hours 100%',
-                                                 'filter_query': '{{Hours 100%}} = {}'.format(
-                                                     table_df['Hours 100%'].min())
-                                             },
-                                             'backgroundColor': '#ffbaba',
-                                             'color': 'black'
-                                         },
-
-                                     ]
-                                 ),
-                                 style_cell={
-                                     'width': 'auto'
-                                 }
-                                 )
+                    html.Div(id='monthly_table')
                 ], className='py-2'),
                 dbc.Row([
                     download_button
@@ -929,92 +1013,157 @@ app.layout = html.Div([
     support_button
 ], style={"width": "99%"}, className='px-3 py-2')
 
-scenario_1 = [True, 75, True, True, 0, 0, True, True, ['vor'], False]
-scenario_2 = [True, 100, True, True, 0, 0, True, True, ['vor'], True]
-scenario_3 = [False, 100, True, True, 0, 0, True, True, ['vor'], True]
-scenario_4 = [False, 100, True, True, 0, 0, True, True, ['vor'], True]
+scenario_1 = [False, True, [13, 19, 25], [40, 70, 100], True, True, 0, 0, True, True, 75, ['vor', 'pot'], False, False, 0, 0, []]
+scenario_2 = [False, True, [13, 19, 25], [40, 70, 100], True, True, 0, 0, True, True, 75, ['vor', 'pot'], True, True, 10, 0,
+              ['existing', 'laegerdorf', 'air']]
+scenario_3 = [True, True, [13, 19, 25], [40, 70, 100], True, True, 0, 0, True, True, 75, ['vor', 'pot'], True, True, 10, 0,
+              ['existing', 'laegerdorf', 'air']]
+scenario_4 = [False, False, [13, 19, 25], [40, 70, 100], True, True, 0, 0, False, True, 0, [], True, False, 10, 0,
+              ['existing']]
 
 
 @app.callback(
     [
         Output('example_switch', 'value'),
-        Output('wind_hours_slider', 'value'),
+        Output('eisman_switch', 'value'),
+        Output('eisman_wind_slider', 'value'),
+        Output('eisman_percentage_slider', 'value'),
         Output('biomass_switch', 'value'),
         Output('solar_switch', 'value'),
         Output('biomass_input', 'value'),
         Output('solar_input', 'value'),
         Output('wind_expansion_switch', 'value'),
         Output('planned_wind_switch', 'value'),
+        Output('wind_hours_slider', 'value'),
         Output('methods_wind_check', 'value'),
         Output('storage_switch', 'value'),
+        Output('storage_expansion_switch', 'value'),
+        Output('start_capacity_slider', 'value'),
+        Output('safety_padding_slider', 'value'),
+        Output('storage_options_check', 'value'),
     ],
-    Input('scenario_dropdown', 'value')
+    Input('scenario_dropdown', 'value'),
+    State('scenario_dropdown', 'options',)
 )
-def change_scenario(scenario):
-    if scenario == 'Scenario 1':
+def change_scenario(value, options):
+    if value == options[0]['value']:
         return scenario_1
-    elif scenario == 'Scenario 2':
+    elif value == options[1]['value']:
         return scenario_2
-    elif scenario == 'Scenario 3':
+    elif value == options[2]['value']:
         return scenario_3
-    elif scenario == 'Scenario 4':
+    elif value == options[3]['value']:
         return scenario_4
     else:
         raise PreventUpdate
 
 
-'''
+# scenario modal texts
+tt_1 = 'Goal of task 1 is to achieve 100% RE production for 75% of the time. The means to achieve this goal ' \
+       'are existing biomass plants, solar panels and wind turbines, which can all be expanded upon. Power storages should not ' \
+       'be used to complete this task. The goal should be reached within an allowed budget of 10 Bn. €.'
+
+tt_2 = 'Goal of task 2 is to achieve 100% RE production for 100% of the time. To accomplish this goal wind turbines and power ' \
+       'storages are allowed to be used and expanded upon. Like before the intended budget for a successful completion are 10 bn. €.'
+
+tt_3 = 'Goal of task 3 is to achieve 100% RE production for 100% of the time, just like task 2. For this simulation the user ' \
+       'should use their own data (see upload button). The means to achieve this goal are the same as in task 2.'
+
+tt_4 = 'This scenario will simulate the current state of renewable energy production by neither expanding upon the energy ' \
+       'production nor the power storages. It will use existing power storages and existing means of power production ' \
+       '(will include planned wind turbines).'
 
 @app.callback(
-    Output('start_output', 'children'),
-    [
-        Input('start_button', 'n_clicks')
-    ]
+    Output('storage_expansion_modal', 'is_open'),
+    Input('storage_expansion_text', 'n_clicks'),
+    State('storage_expansion_modal', 'is_open'),
+    prevent_initial_call=True
 )
-def sim(n):
-    if n == 0:
-        return dash.no_update
-    if not disabled:
-        return True
-    elif disabled:
-        time.sleep(5)
-        return dash.no_update
-
+def storage_expansion_modal(n, is_open):
+    if n:
+        return not is_open
+    return is_open
 
 
 @app.callback(
     [
-        Output('support_button', 'disabled'),
-        Output('support_button', 'n_clicks')
+        Output('scenario_modal', 'is_open'),
+        Output('scenario_modal_header', 'children'),
+        Output('scenario_modal_body', 'children')
     ],
     [
-        Input('start_button', 'n_clicks'),
-        Input('start_button', 'disabled')
+        Input("scenario_modal_button", "n_clicks"),
+        Input("close-centered", "n_clicks")
     ],
     [
-        State('support_button', 'n_clicks')
+        State("scenario_modal", "is_open"),
+        State('scenario_dropdown', 'value'),
+        State('scenario_dropdown', 'options')
     ]
 )
-def sim(n, disabled, n_support):
-    if n == 0 or n == n_support:
-        return dash.no_update, dash.no_update
-    if not disabled:
-        return True, dash.no_update
-    elif disabled:
-        time.sleep(5)
-        return False, n
+def scenario_tooltip(n1, n2, is_open, scenario, options):
+    if scenario == options[0]['value']:
+        picked = tt_1
+    elif scenario == options[1]['value']:
+        picked = tt_2
+    elif scenario == options[2]['value']:
+        picked = tt_3
+    elif scenario == options[3]['value']:
+        picked = tt_4
+    else:
+        print('modal no scenario was picked')
+        picked = ''
+    if n1 or n2:
+        return not is_open, scenario, picked
+    return is_open, scenario, picked
 
+
+def slider_intervals(value):
+    if value >= 90:
+        return {x: {'label': str(x) + '%'} for x in range(value, 100, 2)}
+    elif value >= 50:
+        return {x: {'label': str(x) + '%'} for x in range(value, 100, 5)}
+    elif value < 50:
+        return {x: {'label': str(x) + '%'} for x in range(value, 100, 10)}
+    else:
+        pass
 
 @app.callback(
-    Output('start_button', 'disabled'),
-    Input('support_button', 'disabled')
+    [
+        Output('storage_expansion_slider', 'min'),
+        Output('storage_expansion_slider', 'marks'),
+        Output('storage_expansion_slider', 'value'),
+    ],
+    [
+        Input('wind_hours_slider', 'value'),
+        Input('scenario_dropdown', 'value')
+    ],
+    [
+        State('scenario_dropdown', 'options')
+    ]
 )
-def sim(disabled):
-    if not disabled:
-        return False
-    elif disabled:
-        return True
-'''
+def lock_storage_expansion(value, scenario, options):
+    ctx = dash.callback_context
+
+    if not ctx.triggered:
+        button_id = 'No clicks yet'
+    else:
+        button_id = ctx.triggered[0]['prop_id'].split('.')[0]
+
+    if button_id == 'scenario_dropdown':
+        if scenario == options[0]['value']:
+            return value, slider_intervals(value), 0
+        elif scenario == options[1]['value']:
+            return value, slider_intervals(value), 100
+        elif scenario == options[2]['value']:
+            return value, slider_intervals(value), 100
+        elif scenario == options[3]['value']:
+            return value, slider_intervals(value), 0
+        else:
+            print('slider scenario error')
+            raise PreventUpdate
+    else:
+        return value, slider_intervals(value), value
 
 
 @app.callback(
@@ -1051,10 +1200,10 @@ def spinner(n, value, n_support):
     Input('example_switch', 'value')
 )
 def year_lock(value):
-    if value:
+    if not value:
         return [{'label': '2019', 'value': 2019}, {'label': '2020', 'value': 2020}], 2019
-    elif not value:
-        return [{'label': str(x), 'value': x} for x in range(2000, 2100, 1)], 2019
+    elif value:
+        return [{'label': str(x), 'value': x} for x in range(2000, 2100, 1)], None
     else:
         pass
 
@@ -1111,6 +1260,38 @@ def disable_storage(storage, expansion):
 
 
 @app.callback(
+    Output('monthly_table', 'children'),
+    [
+        Input('start_button', 'children')
+    ]
+)
+def montly_table(value):
+    if value == 'Start':
+        return dash.no_update
+    elif value == 'Back':
+        return make_monthly_table()
+    else:
+        print('TABLE ERROR!!!')
+        return dash.no_update
+
+
+@app.callback(
+    Output('costs', 'children'),
+    [
+        Input('start_button', 'children')
+    ]
+)
+def montly_table(value):
+    if value == 'Start':
+        return dash.no_update
+    elif value == 'Back':
+        return make_cost_table()
+    else:
+        print('TABLE ERROR!!!')
+        return dash.no_update
+
+
+@app.callback(
     Output('map', 'figure'),
     [
         Input('dropdown_map', 'value'),
@@ -1155,8 +1336,8 @@ def change_graph(data, children):
     Input("download_button", "n_clicks"),
     prevent_initial_call=True,
 )
-def func(n_clicks):
-    return dcc.send_file(list_files[1])
+def download(n_clicks):
+    return dcc.send_file(exportFolder + '/' + 'export.zip')
 
 
 @app.callback(
@@ -1247,6 +1428,7 @@ def start_sim(n, exmpl_sw, year, wind_expansion_value, bio_sw, bio_inp, solar_sw
             oldest_file = min(full_path, key=os.path.getctime)
             shutil.rmtree(oldest_file)
 
+        '- - - - - - - - - - - - - - - - - - - -'
         main.META_EE_Anteil = wind_expansion_value / 100  # Muss Decimal angegeben werden
         main.META_EE_Speicher = storage_expansion_value / 100  # Grenzwert bis Speicher nicht mehr ausgebaut werden 100%
         main.META_year = year
@@ -1264,9 +1446,9 @@ def start_sim(n, exmpl_sw, year, wind_expansion_value, bio_sw, bio_inp, solar_sw
         main.META_first_wind_limit = eisman_wind[0]
         main.META_sec_wind_limit = eisman_wind[1]
         main.META_third_wind_limit = eisman_wind[2]
-        main.META_first_power_limit = eisman_percentage[2] / 100
-        main.META_sec_power_limit = eisman_percentage[1] / 100
-        main.META_third_power_limit = eisman_percentage[0] / 100
+        main.META_first_power_limit = (100 - eisman_percentage[0]) / 100
+        main.META_sec_power_limit = (100 - eisman_percentage[1]) / 100
+        main.META_third_power_limit = (100 - eisman_percentage[2]) / 100
         '- - - - - - - - - - - - - - - - - - - -'
         'WKA'
         main.META_wind = True
@@ -1345,11 +1527,11 @@ def start_sim(n, exmpl_sw, year, wind_expansion_value, bio_sw, bio_inp, solar_sw
 
         df_cost_report = pd.read_csv(list_files[0], sep=';', decimal=',', encoding='utf-8')
         df_ausbau_vor = pd.read_csv(list_files[1], sep=';', decimal=',', encoding='utf-8',
-                                    usecols=['StadtVor', 'haVor', 'Coords Vor', 'Wetter-ID_Vor',
+                                    usecols=['StadtVor', 'haVor', 'Coords Vor', 'ID_Weatherstation', 'Wetter-ID_Vor',
                                              'Anzahl WEAs_Vor', 'nettoFreieFlaeche_Vor', 'Modell_Vor', 'Anzahl_Vor',
                                              'InvestKosten_inMio_Vor', 'Leistung_inMW_Vor'])
         df_ausbau_pot = pd.read_csv(list_files[1], sep=';', decimal=',', encoding='utf-8',
-                                    usecols=['StadtPot', 'haPot', 'Coords Pot', 'Wetter-ID_Pot',
+                                    usecols=['StadtPot', 'haPot', 'Coords Pot', 'ID_Weatherstation', 'Wetter-ID_Pot',
                                              'Anzahl WEAs_Pot', 'nettoFreieFlaeche_Pot', 'Modell_Pot', 'Anzahl_Pot',
                                              'InvestKosten_inMio_Pot', 'Leistung_inMW_Pot'])
 
@@ -1359,19 +1541,19 @@ def start_sim(n, exmpl_sw, year, wind_expansion_value, bio_sw, bio_inp, solar_sw
         coords_to_lat_lon(df_ausbau_pot, 'Coords Pot')
 
         df_ausbau_vor = df_ausbau_vor[df_ausbau_vor['Wetter-ID_Vor'] != 0]
-        df_ausbau_vor = df_ausbau_vor.sort_values(by=['Wetter-ID_Vor'])
-        df_ausbau_vor['Wetter-ID_Vor'] = df_ausbau_vor['Wetter-ID_Vor'].map(str)
+        df_ausbau_vor = df_ausbau_vor.sort_values(by=['ID_Weatherstation'])
+        # df_ausbau_vor['ID_Weatherstation'] = df_ausbau_vor['ID_Weatherstation'].map(str)
         df_ausbau_vor['haVor'] = df_ausbau_vor['haVor'].map(float)
         df_ausbau_vor = df_ausbau_vor[
-            ['StadtVor', 'Wetter-ID_Vor', 'haVor', 'Anzahl WEAs_Vor', 'nettoFreieFlaeche_Vor', 'Modell_Vor',
+            ['StadtVor', 'ID_Weatherstation', 'haVor', 'Anzahl WEAs_Vor', 'nettoFreieFlaeche_Vor', 'Modell_Vor',
              'Anzahl_Vor', 'InvestKosten_inMio_Vor', 'Latitude', 'Longitude', 'Leistung_inMW_Vor']]
 
         df_ausbau_pot = df_ausbau_pot[df_ausbau_pot['Wetter-ID_Pot'] != 0]
-        df_ausbau_pot = df_ausbau_pot.sort_values(by=['Wetter-ID_Pot'])
-        df_ausbau_pot['Wetter-ID_Pot'] = df_ausbau_pot['Wetter-ID_Pot'].map(str)
+        df_ausbau_pot = df_ausbau_pot.sort_values(by=['ID_Weatherstation'])
+        # df_ausbau_pot['ID_Weatherstation'] = df_ausbau_pot['ID_Weatherstation'].map(str)
         df_ausbau_pot['haPot'] = df_ausbau_pot['haPot'].map(float)
         df_ausbau_pot = df_ausbau_pot[
-            ['StadtPot', 'Wetter-ID_Pot', 'haPot', 'Anzahl WEAs_Pot', 'nettoFreieFlaeche_Pot', 'Modell_Pot',
+            ['StadtPot', 'ID_Weatherstation', 'haPot', 'Anzahl WEAs_Pot', 'nettoFreieFlaeche_Pot', 'Modell_Pot',
              'Anzahl_Pot', 'InvestKosten_inMio_Pot', 'Latitude', 'Longitude', 'Leistung_inMW_Pot']]
 
         # ----------------------------------------------------------------------------------------------------------------------
