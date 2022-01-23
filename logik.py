@@ -2112,7 +2112,7 @@ def cost_analysis(year,exportfolder,dictWKA, list_key_expansion_wka, list_count_
 
 def data_report(year,data_frame,exportfolder,name , export= True):
 
-    titel = ['Sum in TW', 'min in KW', 'max in GW', 'Average in GW', ]
+    titel = ['Sum in TW', 'min in MW', 'max in MW', 'Average in GW', ]
     header = ['Erzeugung_Wind', 'verluste_eisman_wind', 'Erz_geplAusbau_Wind', 'verluste_eisman_geplanterAusbau',
               'REE_Wind', 'REE_Wind_eisman_verluste', 'Erz_PV', 'REE_PV', 'Erz_Biomasse', 'REE_Biomasse',
               'Erzeugung_Gesamt', 'verluste_eisman_Gesamt', 'Diff_Erz_zu_Verbrauch', 'Ein(+)-/ Ausspeisung(-)',
@@ -2128,13 +2128,14 @@ def data_report(year,data_frame,exportfolder,name , export= True):
     min_in_kw = []
     max_in_GW = []
     average_in_GW = []
-    test = []
+
     TW = 1000000000
     GW = 1000000
     MW = 1000
     roundnumber = 3
     'Wind bestehend'
     for i in header:
+        test = []
         try:
             temp_columname = i
             columnname.append(temp_columname)
@@ -2145,14 +2146,49 @@ def data_report(year,data_frame,exportfolder,name , export= True):
             average_in_GW.append(float(round((temp_average/GW), roundnumber)))
 
             test.append(float(round((sum(data_frame[temp_columname]) / TW), roundnumber)))
-            test.append(float(round((min(data_frame[temp_columname])), roundnumber)))
-            test.append(float(round((max(data_frame[temp_columname]) / GW), roundnumber)))
-            test = (sum(data_frame[temp_columname]) / len(data_frame[temp_columname]))
+            test.append(float(round((min(data_frame[temp_columname] / MW)), roundnumber)))
+            test.append(float(round((max(data_frame[temp_columname]) / MW), roundnumber)))
+            temp_average = (sum(data_frame[temp_columname]) / len(data_frame[temp_columname]))
             test.append(float(round((temp_average / GW), roundnumber)))
 
             exportFrame[i] = test
         except:
             print(i,'is not a header in Datasheet:',name)
+
+    if export == True:
+
+        exportname2 = exportfolder + 'DataReport_'+ name + '_' + str(year) + '.csv'
+        exportFrame.to_csv(exportname2, index = False, sep=';', encoding='utf-8-sig', decimal=',')
+        print(exportname2)
+    return exportFrame
+
+def month_report(year,data_frame,exportfolder,name , export= True):
+
+    exportFrame = DateList('01.01.' + str(year) + ' 00:00',
+                             '31.12.' + str(year) + ' 23:00', 'month', list=False)
+
+    months = [
+        (1, 'Januar'),
+        (2, 'Februar'),
+        (3, 'März'),
+        (4, 'April'),
+        (5, 'Mai'),
+        (6, 'Juni'),
+        (7, 'Juli'),
+        (8, 'August'),
+        (9, 'September'),
+        (10, 'Oktober'),
+        (11, 'November'),
+        (12, 'Dezember'),
+    ]
+
+
+
+
+
+
+
+
 
     if export == True:
 
