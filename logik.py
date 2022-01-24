@@ -1026,7 +1026,7 @@ def analyseEE(year, exportfolder, listSpeicher=0, EE_Erz=0, PV_Gesamt=0, erz_Bio
     '- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
     # Biomasse
     if biomes == True:
-        EE_Erz['Erz_Biomasse_Gesamt'] = PV_Gesamt
+        EE_Erz['Erz_Biomasse_Gesamt'] = erz_Bio
         EE_Erz['Erz_Biomasse'] = erz_Bio
         temp_EE_Erz += EE_Erz['Erz_Biomasse']
 
