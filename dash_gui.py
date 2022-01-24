@@ -173,12 +173,12 @@ def draw_vor(sizing):
                                  'ID_Weatherstation': 'Weatherstation ID',
                                  "StadtVor": "Region",
                                  "Anzahl WEAs_Vor": "Wind turbines before expansion",
-                                 "nettoFreieFlaeche_Vor": "Free area",
+                                 "nettoFreieFlaeche_Vor": "Free area left (in ha)",
                                  'Modell_Vor': 'Used model',
                                  'Anzahl_Vor': 'Wind turbines after expansion',
                                  'Leistung_inMW_Vor': 'Power',
                                  'InvestKosten_inMio_Vor': 'Investment costs',
-                                 'haVor': 'Total area'
+                                 'haVor': 'Total area (in ha)'
                              },
                              color='ID_Weatherstation', color_discrete_map={}, size=sizing, size_max=12,
                              zoom=6.3, center={'lat': 54.2, 'lon': 9.8}).update_layout(
@@ -203,12 +203,12 @@ def draw_pot(sizing):
                                  'ID_Weatherstation': 'Weatherstation ID',
                                  "StadtPot": "Region",
                                  "Anzahl WEAs_Pot": "Wind turbines before expansion",
-                                 "nettoFreieFlaeche_Pot": "Free area",
+                                 "nettoFreieFlaeche_Pot": "Free area left (in ha)",
                                  'Modell_Pot': 'Used model',
                                  'Anzahl_Pot': 'Wind turbines after expansion',
                                  'Leistung_inMW_Pot': 'Power',
                                  'InvestKosten_inMio_Pot': 'Investment costs',
-                                 'haPot': 'Total area'
+                                 'haPot': 'Total area (in ha)'
                              },
                              color='ID_Weatherstation', color_discrete_map={}, size=sizing, size_max=12,
                              zoom=6.3, center={'lat': 54.2, 'lon': 9.8},
@@ -365,7 +365,8 @@ def make_cost_table():
                             'maxWidth': 0,
                             'height': 'auto'
                         },
-                        data=df_cost_report.to_dict('records'), cell_selectable=False, style_table={'overflowY': 'auto'},
+                        data=df_cost_report.to_dict('records'), cell_selectable=False,
+                        style_table={'overflowY': 'auto', 'overflowX': 'auto'},
                         tooltip_data=[
                             {
                                 column: {'value': str(value), 'type': 'markdown'}
@@ -836,11 +837,11 @@ storage_settings = dbc.Card([
                     style={"textDecoration": "underline", "cursor": "pointer"}
                 ),
                 dbc.Modal([
-                        dbc.ModalHeader('Storage expansion', close_button=True),
-                        dbc.ModalBody(
-                            'What should be the final percentage of hours over 100% renewable energy, storages will be expanded '
-                            'after the value for wind is reached (see wind settings).'),
-                    ], id="storage_expansion_modal", centered=True, is_open=False,
+                    dbc.ModalHeader('Storage expansion', close_button=True),
+                    dbc.ModalBody(
+                        'What should be the final percentage of hours over 100% renewable energy, storages will be expanded '
+                        'after the value for wind is reached (see wind settings).'),
+                ], id="storage_expansion_modal", centered=True, is_open=False,
                 ),
                 storage_expansion_slider
             ], width=10)
@@ -901,6 +902,14 @@ start_button = html.Div([
     dbc.Row([
         dbc.Col([
             html.Div(id='spinner_div')
+        ])
+    ], justify='center'),
+    dbc.Row([
+        dbc.Col([
+            html.Div([
+                dcc.Interval(id="progress-interval", n_intervals=0, interval=500),
+                dbc.Progress(id="progress")
+            ])
         ])
     ], justify='center')
 ], className='text-center')
@@ -991,11 +1000,14 @@ results = html.Div([
                         dcc.Graph(id='map')
                     ], width=6),
                     dbc.Col([
-                        html.Div(id='costs')
+
                     ], width=6)
                 ], className='py-2', justify="between"),
                 dbc.Row([
                     html.Div(id='monthly_table')
+                ], className='py-2'),
+                dbc.Row([
+                    html.Div(id='costs')
                 ], className='py-2'),
                 dbc.Row([
                     download_button
@@ -1023,6 +1035,7 @@ scenario_4 = [False, False, [13, 19, 25], [40, 70, 100], True, True, 0, 0, False
               ['existing']]
 scenario_5 = [False, False, [13, 19, 25], [40, 70, 100], True, True, 0, 0, False, False, 0, [], False, False, 0, 0, []]
 
+
 @app.callback(
     [
         Output('example_switch', 'value'),
@@ -1044,7 +1057,7 @@ scenario_5 = [False, False, [13, 19, 25], [40, 70, 100], True, True, 0, 0, False
         Output('storage_options_check', 'value'),
     ],
     Input('scenario_dropdown', 'value'),
-    State('scenario_dropdown', 'options',)
+    State('scenario_dropdown', 'options', )
 )
 def change_scenario(value, options):
     if value == options[0]['value']:
@@ -1077,6 +1090,7 @@ tt_4 = 'This scenario will simulate the current state of renewable energy produc
        '(will include planned wind turbines).'
 
 tt_5 = 'fürn wengert :*'
+
 
 @app.callback(
     Output('storage_expansion_modal', 'is_open'),
@@ -1134,6 +1148,7 @@ def slider_intervals(value):
         return {x: {'label': str(x) + '%'} for x in range(value, 100, 10)}
     else:
         pass
+
 
 @app.callback(
     [
@@ -1535,6 +1550,7 @@ def start_sim(n, exmpl_sw, year, wind_expansion_value, bio_sw, bio_inp, solar_sw
         global df_analyse
 
         df_cost_report = pd.read_csv(list_files[0], sep=';', decimal=',', encoding='utf-8')
+        df_cost_report = df_cost_report.round(2)
         df_ausbau_vor = pd.read_csv(list_files[1], sep=';', decimal=',', encoding='utf-8',
                                     usecols=['StadtVor', 'haVor', 'Coords Vor', 'ID_Weatherstation', 'Wetter-ID_Vor',
                                              'Anzahl WEAs_Vor', 'nettoFreieFlaeche_Vor', 'Modell_Vor', 'Anzahl_Vor',
