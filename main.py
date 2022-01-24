@@ -575,7 +575,8 @@ def re_simulation():
     exportFolder = 'REE_AnalyseCompleted/REE_Analysejahr_' + str(main.META_year) + '_' + str(uhrzeit) + '/'
     export_folder_for_gui = 'REE_AnalyseCompleted/REE_Analysejahr_' + str(main.META_year) + '_' + str(uhrzeit)
     export_zip_folder = 'REE_AnalyseCompleted/REE_Analysejahr_' + str(main.META_year) + '_' + str(uhrzeit)
-    export_ziel_folder = exportFolder + 'export'
+    export_single_folder = 'REE_EXPORT_' + str(main.META_year) + '_' + str(uhrzeit)
+    export_ziel_folder = exportFolder + export_single_folder
     path = Path(exportFolder)
     path.mkdir(parents=True, exist_ok=True)
     '------------------------------------------------------------------------------------------------------------------'
@@ -867,7 +868,7 @@ def re_simulation():
         else:
             dataframe_expansion_area['ID_Weatherstation_Vor'][jndex] = str(j) + '_' + str(dictWeatherID[j]['NameORT'])
 
-
+    dataframe_expansion_area.round(3)
     dataframe_expansion_area.to_csv(finished_filename, sep=';', decimal=',', index=False, encoding='utf-8-sig')
 
 
@@ -930,13 +931,13 @@ def re_simulation():
 
 
 
-    def createZIP(folder, filename, compress=zipfile.ZIP_DEFLATED):
+    def createZIP(export_single_folder,folder, filename, compress=zipfile.ZIP_DEFLATED):
         # ZIP Archive Öffnen
         with zipfile.ZipFile(filename + '.zip', 'w', compress) as target:
             for root, dirs, files in os.walk(folder):
 
                 for file in files:
-                    if 'export' in file:
+                    if export_single_folder in file:
                         continue
 
                     add = os.path.join(root, file)
@@ -948,12 +949,12 @@ def re_simulation():
 
 
         # ZIP Archive vom Verzeichnis "bilder" erstellen.
-    createZIP(export_zip_folder, export_ziel_folder)
+    createZIP(export_single_folder,export_zip_folder, export_ziel_folder)
 
 
 
     print('Simulation has ended')
-    return export_folder_for_gui
+    return export_folder_for_gui, export_ziel_folder
 
 '''
 if Meta_GUI_OFF == True:

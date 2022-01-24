@@ -1083,7 +1083,7 @@ def analyseEE(year, exportfolder, listSpeicher=0, EE_Erz=0, PV_Gesamt=0, erz_Bio
                     EE_Erz['Speicherverluste'][jndex] += temp_power[1]
                     EE_Erz['Speicher_voll_Prozent'][jndex] = EE_Erz['Speicherstatus'][jndex] / \
                                                              EE_Erz['Speicherkapazität'][jndex]
-        EE_Erz['Ereugung_mit_Speicher'] = EE_Erz['Erzeugung_Gesamt'] - EE_Erz['Ein(+)-/ Ausspeisung(-)']
+        EE_Erz['Erzeugung_mit_Speicher'] = EE_Erz['Erzeugung_Gesamt'] - EE_Erz['Ein(+)-/ Ausspeisung(-)']
         EE_Erz['Diff_Erz_zu_Verb_mit_Speicher'] = temp_Diff_EE_zu_Verb
 
     # Erzeugung Gesamt | Ein-/ Ausspeisung     | Verbrauch
@@ -2238,7 +2238,7 @@ def month_report(year,data_frame,exportfolder,keyname,EE_Erz,speicher_use = Fals
                 for kndex, k in enumerate(data_frame['Datum']):
 
                     if k.month == i:
-                        if data_frame[j][index] > 0:
+                        if data_frame[j][kndex] > 0:
                             temp_values_positiv[index] = temp_values_positiv[index] + (data_frame[j][kndex]/TW)
                         else:
                             temp_values_negativ[index] = temp_values_negativ[index] + (data_frame[j][kndex]/TW)
@@ -2314,7 +2314,7 @@ def month_report(year,data_frame,exportfolder,keyname,EE_Erz,speicher_use = Fals
     for index, i in enumerate(months):
 
         temp_percent = temp_values[index] / temp_conter_day_per_month[index]
-        if temp_percent > EE_Erz:
+        if temp_percent >= EE_Erz:
             temp_values_over_border[index] = 'yes'
         else:
             temp_values_over_border[index] = 'no'
@@ -2326,7 +2326,7 @@ def month_report(year,data_frame,exportfolder,keyname,EE_Erz,speicher_use = Fals
     export_frame['Hours 100%'] = temp_values
     temp_sum2 = temp_sum/sum(temp_conter_day_per_month)
 
-    if temp_sum2 > EE_Erz:
+    if temp_sum2 >= EE_Erz:
         temp_sum2 = temp_sum2 * 100
         temp_sum2 = round(temp_sum2, 2)
         name = str('yes (' + str(temp_sum2) + '%)')
