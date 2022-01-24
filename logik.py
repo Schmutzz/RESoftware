@@ -2119,23 +2119,27 @@ def cost_analysis(year,exportfolder,dictWKA, list_key_expansion_wka, list_count_
 
 def data_report(year,data_frame,exportfolder,name , export= True):
 
-    titel = ['Sum in TW', 'min in MW', 'max in MW', 'Average in MW', ]
-    header = ['Erzeugung_Wind_Gesamt', 'Erzeugung_Wind', 'verluste_eisman_wind', 'Erz_geplAusbau_Wind',
+    titel = ['Sum in TWh', 'min in MW', 'max in MW', 'Average in MW', ]
+    header = ['Erzeugung_Wind', 'verluste_eisman_wind', 'Erz_geplAusbau_Wind',
               'verluste_eisman_geplanterAusbau',
-              'REE_Wind', 'REE_Wind_eisman_verluste', 'Erz_PV', 'REE_PV', 'Erz_Biomasse', 'REE_Biomasse',
-              'Erzeugung_Gesamt', 'verluste_eisman_Gesamt', 'Diff_Erz_zu_Verbrauch',
+              'REE_Wind', 'REE_Wind_eisman_verluste','Erzeugung_Wind_Gesamt','verluste_eisman_Gesamt',
+              'Erz_PV', 'REE_PV', 'Erz_Biomasse', 'REE_Biomasse',
+              'Erzeugung_Gesamt', 'Diff_Erz_zu_Verbrauch',
               'Speicherverluste', 'Diff_Erz_zu_Verb_mit_Speicher', 'Verbrauch_Gesamt', 'Verbrauch_HH', 'Verbrauch_SH']
 
+    header_Final = ['Existing Wind', 'Eisman Existing Wind', 'Planned Wind', 'Eisman Planned Wind','Expanded Wind',
+                    'Eisman expanded Wind', 'Wind combined', 'Eisman Wind combined', 'PV', 'Expand PV', 'Biomass',
+                    'Expand Biomass',
+                    'RE combined', 'Difference RE to Consumption', 'Storage loss',
+                    'Difference RE+Storage to Consumption',
+                    'Consumption combined', 'Consumption HH', 'Consumption SH']
+
+    value_header_Final = 0
 
     exportFrame = pd.DataFrame(
         {'Titel': titel
          }
     )
-    columnname = []
-    summe_in_tw = []
-    min_in_kw = []
-    max_in_GW = []
-    average_in_GW = []
 
     TW = 1000000000
     GW = 1000000
@@ -2146,12 +2150,6 @@ def data_report(year,data_frame,exportfolder,name , export= True):
         test = []
         try:
             temp_columname = i
-            columnname.append(temp_columname)
-            summe_in_tw.append(float(round((sum(data_frame[temp_columname])/TW), roundnumber)))
-            min_in_kw.append(float(round((min(data_frame[temp_columname])), roundnumber)))
-            max_in_GW.append(float(round((max(data_frame[temp_columname])/GW), roundnumber)))
-            temp_average = (sum(data_frame[temp_columname])/len(data_frame[temp_columname]))
-            average_in_GW.append(float(round((temp_average/GW), roundnumber)))
 
             test.append(float(round((sum(data_frame[temp_columname]) / TW), roundnumber)))
             test.append(float(round((min(data_frame[temp_columname] / MW)), roundnumber)))
@@ -2159,9 +2157,11 @@ def data_report(year,data_frame,exportfolder,name , export= True):
             temp_average = (sum(data_frame[temp_columname]) / len(data_frame[temp_columname]))
             test.append(float(round((temp_average / MW), roundnumber)))
 
-            exportFrame[i] = test
+            exportFrame[header_Final[value_header_Final]] = test
+            value_header_Final += 1
         except:
-            print(i,'is not a header in Datasheet:',name)
+            value_header_Final += 1
+            print(i, 'is not a header in Datasheet:', name)
 
     if export == True:
 
@@ -2190,7 +2190,7 @@ def month_report(year,data_frame,exportfolder,keyname,EE_Erz,speicher_use = Fals
     ee_100 = 'EE>100%'
     months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
     month_name = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
-                  'November', 'December', 'Sum in TW']
+                  'November', 'December', 'Year']
     TW = 1000000000
     GW = 1000000
     MW = 1000
