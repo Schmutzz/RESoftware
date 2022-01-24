@@ -1498,7 +1498,7 @@ def start_sim(n, exmpl_sw, year, wind_expansion_value, bio_sw, bio_inp, solar_sw
         list_of_files = os.listdir('REE_AnalyseCompleted')
         full_path = ["REE_AnalyseCompleted/{0}".format(x) for x in list_of_files]
 
-        if len(list_of_files) >= 10:
+        if len(list_of_files) >= 5:
             oldest_file = min(full_path, key=os.path.getctime)
             shutil.rmtree(oldest_file)
 
