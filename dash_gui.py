@@ -353,7 +353,13 @@ def make_monthly_table():
                                 },
 
                             ]
-                        ), style_cell={'width': 'auto'}
+                        ),
+                        style_cell={
+                            'overflow': 'hidden',
+                            'textOverflow': 'ellipsis',
+                            'maxWidth': 0,
+                            'height': 'auto'
+                        },
                         )
 
 
