@@ -986,6 +986,7 @@ def analyseEE(year, exportfolder, listSpeicher=0, EE_Erz=0, PV_Gesamt=0, erz_Bio
     '- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
     # Wind
     if wind == True:
+        EE_Erz['Erzeugung_Wind_Gesamt'] = EE_Erz['Erzeugung_Wind'].copy()
         temp_EE_Erz += EE_Erz['Erzeugung_Wind']
         if eisman == True:
             temp_eisman += EE_Erz['verluste_eisman_wind']
@@ -994,7 +995,7 @@ def analyseEE(year, exportfolder, listSpeicher=0, EE_Erz=0, PV_Gesamt=0, erz_Bio
     # Wind Ausbau geplant
     if geplanterAusbau == True:
         EE_Erz['Erz_geplAusbau_Wind'] = plannedErzeung['Erzeugung_geplanterAusbau_Wind'].copy()
-
+        EE_Erz['Erzeugung_Wind_Gesamt'] += plannedErzeung['Erzeugung_geplanterAusbau_Wind']
         temp_EE_Erz += EE_Erz['Erz_geplAusbau_Wind']
         if eisman == True:
             EE_Erz['verluste_eisman_geplanterAusbau'] = plannedErzeung['verluste_eisman_geplanterAusbau'].copy()
@@ -1005,6 +1006,7 @@ def analyseEE(year, exportfolder, listSpeicher=0, EE_Erz=0, PV_Gesamt=0, erz_Bio
     # Wind Ausbau Software
     if ausbau == True and sum(ausbauWind) > 0:
         EE_Erz['REE_Wind'] = ausbauWind
+        EE_Erz['Erzeugung_Wind_Gesamt'] += ausbauWind
         temp_EE_Erz += EE_Erz['REE_Wind']
     if ausbau == True and sum(ausbauWindeisman) > 0 and eisman == True:
         EE_Erz['REE_Wind_eisman_verluste'] = ausbauWindeisman
@@ -1012,22 +1014,26 @@ def analyseEE(year, exportfolder, listSpeicher=0, EE_Erz=0, PV_Gesamt=0, erz_Bio
     '- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
     # PV
     if PV == True:
+        EE_Erz['Erz_PV_Gesamt'] = PV_Gesamt
         EE_Erz['Erz_PV'] = PV_Gesamt
         temp_EE_Erz += EE_Erz['Erz_PV']
 
     # PV Ausbau Software
     if ausbau == True and sum(ausbauPV) > 0:
+        EE_Erz['Erz_PV_Gesamt'] += ausbauPV
         EE_Erz['REE_PV'] = ausbauPV
         temp_EE_Erz += EE_Erz['REE_PV']
     '- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
     # Biomasse
     if biomes == True:
+        EE_Erz['Erz_Biomasse_Gesamt'] = PV_Gesamt
         EE_Erz['Erz_Biomasse'] = erz_Bio
         temp_EE_Erz += EE_Erz['Erz_Biomasse']
 
     # Biomasse Ausbau Software
     if ausbau == True and sum(ausbauBio) > 0:
         EE_Erz['REE_Biomasse'] = ausbauBio
+        EE_Erz['Erz_Biomasse_Gesamt'] += EE_Erz['REE_Biomasse']
         temp_EE_Erz += EE_Erz['REE_Biomasse'].tolist()
 
     EE_Erz['Erzeugung_Gesamt'] = temp_EE_Erz
@@ -1040,7 +1046,7 @@ def analyseEE(year, exportfolder, listSpeicher=0, EE_Erz=0, PV_Gesamt=0, erz_Bio
     temp_len_speicherList = len(listSpeicher)
 
     if speicher == True and temp_len_speicherList > 0:
-
+        EE_Erz['Diff_Erz_zu_Verb_mit_Speicher']
 
         EE_Erz['Speicherkapazität'] = [0.0] * len(temp_EE_Erz)
         EE_Erz['Speicherstatus'] = [0.0] * len(temp_EE_Erz)
@@ -1077,7 +1083,7 @@ def analyseEE(year, exportfolder, listSpeicher=0, EE_Erz=0, PV_Gesamt=0, erz_Bio
                     EE_Erz['Speicherverluste'][jndex] += temp_power[1]
                     EE_Erz['Speicher_voll_Prozent'][jndex] = EE_Erz['Speicherstatus'][jndex] / \
                                                              EE_Erz['Speicherkapazität'][jndex]
-
+        EE_Erz['Ereugung_mit_Speicher'] = EE_Erz['Erzeugung_Gesamt'] - EE_Erz['Ein(+)-/ Ausspeisung(-)']
         EE_Erz['Diff_Erz_zu_Verb_mit_Speicher'] = temp_Diff_EE_zu_Verb
 
     # Erzeugung Gesamt | Ein-/ Ausspeisung     | Verbrauch
@@ -1949,7 +1955,7 @@ def expansion_storage(temp_Diff_EE, META_speicherverlauf, listStorage, META_star
         if deepestPoint > META_max_compressed_air:
             deepestPoint = META_max_compressed_air
         else:
-            deepestPoint = deepestPoint * 0.1
+            deepestPoint = deepestPoint * 0.5
 
         storage = StorageModell('Druckluftspeicher', 'SH', deepestPoint, META_startcapacity * deepestPoint, 0.57,
                                 deepestPoint / 5, 60, 0.1)
@@ -1990,7 +1996,7 @@ def cost_analysis(year,exportfolder,dictWKA, list_key_expansion_wka, list_count_
     temp_len_storage = len(listStorage)
     temp_len_gesamt = temp_len_wind + temp_len_storage + 1
     cost_average_height = 0
-    cost_model = [0.0] * temp_len_gesamt
+    cost_model = ['model'] * temp_len_gesamt
     cost_id = [0.0] * temp_len_gesamt
     cost_counter_wka = [0.0] * temp_len_gesamt
     cost_counter_storage = [0.0] * temp_len_gesamt
@@ -2093,7 +2099,6 @@ def cost_analysis(year,exportfolder,dictWKA, list_key_expansion_wka, list_count_
          'Wetterstations ID': cost_id,
          'Counter WKA': cost_counter_wka,
          'WKA Hub Hight': cost_height,
-         'Counter Storage': cost_counter_storage,
          'Installed Power in MW': cost_power,
          'Installed Capacity in GWh': cost_capacity,
          'Single Invest in Mio': cost_single_invest,
@@ -2102,6 +2107,8 @@ def cost_analysis(year,exportfolder,dictWKA, list_key_expansion_wka, list_count_
          'Operatig Costs per Year in Mio': cost_betrieb
          }
     )
+    export_frame['Cots one year'] = export_frame['Investment Costs in Mio'] + export_frame['Operatig Costs per Year in Mio']
+
     if export == True:
 
         exportname2 = exportfolder + 'CostReport_' + str(year) + '.csv'
@@ -2112,10 +2119,11 @@ def cost_analysis(year,exportfolder,dictWKA, list_key_expansion_wka, list_count_
 
 def data_report(year,data_frame,exportfolder,name , export= True):
 
-    titel = ['Sum in TW', 'min in MW', 'max in MW', 'Average in GW', ]
-    header = ['Erzeugung_Wind', 'verluste_eisman_wind', 'Erz_geplAusbau_Wind', 'verluste_eisman_geplanterAusbau',
+    titel = ['Sum in TW', 'min in MW', 'max in MW', 'Average in MW', ]
+    header = ['Erzeugung_Wind_Gesamt', 'Erzeugung_Wind', 'verluste_eisman_wind', 'Erz_geplAusbau_Wind',
+              'verluste_eisman_geplanterAusbau',
               'REE_Wind', 'REE_Wind_eisman_verluste', 'Erz_PV', 'REE_PV', 'Erz_Biomasse', 'REE_Biomasse',
-              'Erzeugung_Gesamt', 'verluste_eisman_Gesamt', 'Diff_Erz_zu_Verbrauch', 'Ein(+)-/ Ausspeisung(-)',
+              'Erzeugung_Gesamt', 'verluste_eisman_Gesamt', 'Diff_Erz_zu_Verbrauch',
               'Speicherverluste', 'Diff_Erz_zu_Verb_mit_Speicher', 'Verbrauch_Gesamt', 'Verbrauch_HH', 'Verbrauch_SH']
 
 
@@ -2149,7 +2157,7 @@ def data_report(year,data_frame,exportfolder,name , export= True):
             test.append(float(round((min(data_frame[temp_columname] / MW)), roundnumber)))
             test.append(float(round((max(data_frame[temp_columname]) / MW), roundnumber)))
             temp_average = (sum(data_frame[temp_columname]) / len(data_frame[temp_columname]))
-            test.append(float(round((temp_average / GW), roundnumber)))
+            test.append(float(round((temp_average / MW), roundnumber)))
 
             exportFrame[i] = test
         except:
@@ -2162,40 +2170,164 @@ def data_report(year,data_frame,exportfolder,name , export= True):
         print(exportname2)
     return exportFrame
 
-def month_report(year,data_frame,exportfolder,name , export= True):
+def month_report(year,data_frame,exportfolder,keyname,EE_Erz,speicher_use = False, export= True):
 
-    exportFrame = DateList('01.01.' + str(year) + ' 00:00',
-                             '31.12.' + str(year) + ' 23:00', 'month', list=False)
+    header_erz = ['Erzeugung_Wind_Gesamt', 'Erz_PV_Gesamt', 'Erz_Biomasse_Gesamt',
+              'Erzeugung_Gesamt', 'verluste_eisman_Gesamt']
 
-    months = [
-        (1, 'Januar'),
-        (2, 'Februar'),
-        (3, 'März'),
-        (4, 'April'),
-        (5, 'Mai'),
-        (6, 'Juni'),
-        (7, 'Juli'),
-        (8, 'August'),
-        (9, 'September'),
-        (10, 'Oktober'),
-        (11, 'November'),
-        (12, 'Dezember'),
-    ]
+    speicher = ['Ein(+)-/ Ausspeisung(-)']
+
+    header_verbauch = ['Verbrauch_Gesamt']
+    if speicher_use == True:
+        header_verbauch.append('Diff_Erz_zu_Verb_mit_Speicher')
+    else:
+        header_verbauch.append('Diff_Erz_zu_Verbrauch')
+
+    ee_100 = 'EE>100%'
+    months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+    month_name = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
+                  'November', 'December', 'Sum in TW']
+    TW = 1000000000
+    GW = 1000000
+    MW = 1000
+
+    export_frame = pd.DataFrame(
+        {'Month': month_name
+         }
+    )
+    # workflow for header ERZ
+    MessDateType = '%d.%m.%Y %H:%M'
+    data_frame['Datum'] = pd.to_datetime(data_frame['Datum'])
+
+    for j in header_erz:
+
+        temp_values = [0] * 13
+        try:
+            for index, i in enumerate(months):
+
+
+                for kndex, k in enumerate(data_frame['Datum']):
+
+                    if k.month == i:
+                        temp_values[index] = temp_values[index] + (data_frame[j][kndex]/TW)
+
+            print(j, ' Found and in Dataframe')
+            temp_sum = sum(temp_values)
+            temp_values[12] = temp_sum
+            export_frame[j] = temp_values
+
+        except:
+            print(j, 'not found')
+            continue
+
+
+    #workflow for storage
+
+    for j in speicher:
+
+        temp_values_positiv = [0] * 13
+        temp_values_negativ = [0] * 13
+        try:
+            for index, i in enumerate(months):
+
+                for kndex, k in enumerate(data_frame['Datum']):
+
+                    if k.month == i:
+                        if data_frame[j][index] > 0:
+                            temp_values_positiv[index] = temp_values_positiv[index] + (data_frame[j][kndex]/TW)
+                        else:
+                            temp_values_negativ[index] = temp_values_negativ[index] + (data_frame[j][kndex]/TW)
+
+            temp_sum = sum(temp_values_positiv)
+            temp_values_positiv[12] = temp_sum
+            temp_sum = sum(temp_values_negativ)
+            temp_values_negativ[12] = temp_sum
+            print(j, ' Found and in Dataframe')
+            export_frame['storage (input)'] = temp_values_positiv
+            export_frame['storage (output)'] = temp_values_negativ
+        except:
+            print(j, 'not found')
+            continue
+
+    # workflow for header_verbauch
+
+    for j in header_verbauch:
+
+        temp_values = [0] * 13
+        try:
+            for index, i in enumerate(months):
+
+
+                for kndex, k in enumerate(data_frame['Datum']):
+
+                    if k.month == i:
+                        # print(data_frame['Datum'][kndex])
+                        temp_values[index] = temp_values[index] + (data_frame[j][kndex]/TW)
+
+
+            temp_sum = sum(temp_values)
+            temp_values[12] = temp_sum
+            print(j, ' Found and in Dataframe')
+            export_frame[j] = temp_values
+        except:
+            print(j, 'not found')
+            continue
+
+    #workflow for EE Enteil in Prozent
+
+    temp_values = [0] * 13
+    temp_conter_day_per_month = [0] * 13
+    for index, i in enumerate(months):
+
+        for kndex, k in enumerate(data_frame['Datum']):
+
+            if k.month == i:
+                temp_conter_day_per_month[index] = temp_conter_day_per_month[index] + 1
+                if data_frame[ee_100][kndex] == True:
+
+                    temp_values[index] = temp_values[index] + 1
 
 
 
 
+    # workflow for EE Enteil in Prozent
+    temp_values_over_border = ['test'] * 13
 
+    for index, i in enumerate(months):
 
+        temp_percent = temp_values[index] / temp_conter_day_per_month[index]
+        if temp_percent > EE_Erz:
+            temp_values_over_border[index] = 'yes'
+        else:
+            temp_values_over_border[index] = 'no'
 
+    temp_sum = sum(temp_values)
+    temp_values[12] = temp_sum
+    export_frame['Hours 100%'] = temp_values
+    temp_sum2 = temp_sum/sum(temp_conter_day_per_month)
 
+    if temp_sum2 > EE_Erz:
+        temp_sum2 = temp_sum2 * 100
+        temp_sum2 = round(temp_sum2, 2)
+        name = str('yes (' + str(temp_sum2) + '%)')
+        temp_values_over_border[12] = name
+    else:
+        temp_sum2 = temp_sum2 * 100
+        temp_sum2 = round(temp_sum2, 2)
+        name = str('no (' + str(temp_sum2) + '%)')
+        temp_values_over_border[12] = name
+
+    export_frame[str(int(EE_Erz*100)) + '% reached'] = temp_values_over_border
+
+    export_frame = export_frame.round(3)
 
     if export == True:
 
-        exportname2 = exportfolder + 'DataReport_'+ name + '_' + str(year) + '.csv'
-        exportFrame.to_csv(exportname2, index = False, sep=';', encoding='utf-8-sig', decimal=',')
+        exportname2 = exportfolder + 'monthReport_'+ keyname + '_' + str(year) + '.csv'
+        export_frame.to_csv(exportname2, index = False, sep=';', encoding='utf-8-sig', decimal=',')
         print(exportname2)
-    return exportFrame
+
+    return export_frame
 
 
 
