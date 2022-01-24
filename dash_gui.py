@@ -219,13 +219,33 @@ def draw_pot(sizing):
 
 def make_monthly_table():
     return dt.DataTable(columns=[{"name": i, "id": i} for i in df_month_report.columns],
+                        tooltip_header={i: i for i in df_month_report.columns},
+                        style_cell={
+                            'overflow': 'hidden',
+                            'textOverflow': 'ellipsis',
+                            'maxWidth': 0,
+                            'height': 'auto'
+                        },
                         data=df_month_report.to_dict('records'), cell_selectable=False,
+                        style_table={'overflowY': 'auto', 'overflowX': 'auto'},
+                        tooltip_data=[
+                            {
+                                column: {'value': str(value), 'type': 'markdown'}
+                                for column, value in row.items()
+                            } for row in df_month_report.to_dict('records')
+                        ],
                         style_header={
                             'backgroundColor': 'rgb(10, 10, 10)',
-                            'color': 'white'},
+                            'color': 'white',
+                        },
                         style_data={
                             'backgroundColor': 'rgb(40, 40, 40)',
-                            'color': 'white'},
+                            'color': 'white'
+                        },
+                        css=[{
+                            'selector': '.dash-table-tooltip',
+                            'rule': 'background-color: grey; font-family: monospace; color: white'
+                        }],
                         style_data_conditional=(
                             [
                                 {
@@ -354,17 +374,12 @@ def make_monthly_table():
 
                             ]
                         ),
-                        style_cell={
-                            'overflow': 'hidden',
-                            'textOverflow': 'ellipsis',
-                            'maxWidth': 0,
-                            'height': 'auto'
-                        },
                         )
 
 
 def make_cost_table():
     return dt.DataTable(columns=[{"name": i, "id": i} for i in df_cost_report.columns],
+                        tooltip_header={i: i for i in df_cost_report.columns},
                         style_cell={
                             'overflow': 'hidden',
                             'textOverflow': 'ellipsis',
@@ -381,15 +396,22 @@ def make_cost_table():
                         ],
                         style_header={
                             'backgroundColor': 'rgb(10, 10, 10)',
-                            'color': 'white'},
+                            'color': 'white',
+                        },
                         style_data={
                             'backgroundColor': 'rgb(40, 40, 40)',
-                            'color': 'white'}
+                            'color': 'white'
+                        },
+                        css=[{
+                            'selector': '.dash-table-tooltip',
+                            'rule': 'background-color: grey; font-family: monospace; color: white'
+                        }],
                         )
 
 
 def make_datasheet_table():
     return dt.DataTable(columns=[{"name": i, "id": i} for i in df_datasheet.columns],
+                        tooltip_header={i: i for i in df_datasheet.columns},
                         style_cell={
                             'overflow': 'hidden',
                             'textOverflow': 'ellipsis',
@@ -406,11 +428,17 @@ def make_datasheet_table():
                         ],
                         style_header={
                             'backgroundColor': 'rgb(10, 10, 10)',
-                            'color': 'white'},
+                            'color': 'white',
+                        },
                         style_data={
                             'backgroundColor': 'rgb(40, 40, 40)',
-                            'color': 'white'}
-                        )
+                            'color': 'white'
+                        },
+                        css=[{
+                            'selector': '.dash-table-tooltip',
+                            'rule': 'background-color: grey; font-family: monospace; color: white'
+                        }],
+                        ),
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -441,6 +469,7 @@ scenario_dropdown = html.Div([
             {'label': 'Task 3', 'value': 'Scenario 3'},
             {'label': 'No expasion', 'value': 'Scenario 4'},
             {'label': 'Fast simulation', 'value': 'Scenario 5'},
+            {'label': 'Economic solution', 'value': 'Scenario 6'},
         ],
         value='Scenario 1',
         style={"textAlign": "left", 'color': 'black'}
@@ -535,7 +564,7 @@ eisman_wind_slider = html.Div([
             x: {'label': str(x) + 'm/s'} for x in range(0, 35, 5)
         },
         value=[13, 19, 25],
-        pushable=2,
+        pushable=0.5,
         tooltip={"placement": "bottom", "always_visible": True}
     )
 ])
@@ -550,7 +579,7 @@ eisman_percentage_slider = html.Div([
             x: {'label': str(x) + '%'} for x in range(0, 100, 10)
         },
         value=[40, 70, 100],
-        pushable=5,
+        pushable=1,
         tooltip={"placement": "bottom", "always_visible": True}
     )
 ])
@@ -707,7 +736,6 @@ methods_wind_check = html.Div([
         options=[
             {'label': 'Vorranggebiete', 'value': 'vor'},
             {'label': 'Potentialflächen', 'value': 'pot'},
-            {'label': 'Repowering', 'value': 'repowering'}
         ],
         value=['vor'],
         inputStyle={"margin-left": "20px", 'margin-right': "5px"}
@@ -983,12 +1011,15 @@ results = html.Div([
     dbc.Row([
         dbc.Card([
             dbc.CardHeader([
-                html.H4('Simulation results:')
+                html.H3('Simulation results:', style={"text-decoration": 'underline'})
             ]),
             dbc.CardBody([
                 dbc.Row([
-                    html.Div(id='data_sheet')
-                ], className='py-2'),
+                    dbc.Col([
+                        html.H4('Energy Overview'),
+                        html.Div(id='data_sheet')
+                    ])
+                ], className='py-3'),
                 dbc.Row([
                     dbc.Col([
                         html.P('Data:'),
@@ -1004,7 +1035,7 @@ results = html.Div([
                 ]),
                 dbc.Row([
                     dcc.Graph(id='graph_year'),
-                ], className='py-2'),
+                ], className='py-3'),
                 dbc.Row([
                     dbc.Col([
                         html.P('Area:'),
@@ -1028,7 +1059,7 @@ results = html.Div([
                                      style={"textAlign": "left", 'color': 'black'}
                                      )
                     ], width=1)
-                ], className='pt-2'),
+                ], className='pt-3'),
                 dbc.Row([
                     dbc.Col([
                         dcc.Graph(id='map')
@@ -1036,16 +1067,22 @@ results = html.Div([
                     dbc.Col([
 
                     ], width=6)
-                ], className='py-2', justify="between"),
+                ], className='py-3', justify="between"),
                 dbc.Row([
-                    html.Div(id='monthly_table')
-                ], className='py-2'),
+                    dbc.Col([
+                        html.H4('Monthly Overview', style={"text-decoration": 'underline'}),
+                        html.Div(id='monthly_table')
+                    ])
+                ], className='py-3'),
                 dbc.Row([
-                    html.Div(id='costs')
-                ], className='py-2'),
+                    dbc.Col([
+                        html.H4('Costs Overview', style={"text-decoration": 'underline'}),
+                        html.Div(id='costs')
+                    ])
+                ], className='py-3'),
                 dbc.Row([
                     download_button
-                ], className='py-2', justify='center')
+                ], className='py-3', justify='center')
             ])
         ], inverse=True, className='text-center p-1')
     ], className='px-3 py-1')
@@ -1060,14 +1097,16 @@ app.layout = html.Div([
     support_button
 ], style={"width": "99%"}, className='px-3 py-2')
 
-scenario_1 = [False, True, [13, 19, 25], [40, 70, 100], True, True, 0, 0, True, True, 75, ['vor', 'pot'], False, False, 0, 0, []]
-scenario_2 = [False, True, [13, 19, 25], [40, 70, 100], True, True, 0, 0, True, True, 75, ['vor', 'pot'], True, True, 10, 0,
+scenario_1 = [False, True, [13, 19, 25], [40, 70, 100], True, True, 5, 5, True, True, 75, ['vor', 'pot'], False, False, 0, 0, []]
+scenario_2 = [False, True, [13, 19, 25], [40, 70, 100], True, True, 5, 5, True, True, 75, ['vor', 'pot'], True, True, 20, 0,
               ['existing', 'laegerdorf', 'air']]
-scenario_3 = [True, True, [13, 19, 25], [40, 70, 100], True, True, 0, 0, True, True, 75, ['vor', 'pot'], True, True, 10, 0,
+scenario_3 = [True, True, [13, 19, 25], [40, 70, 100], True, True, 5, 5, True, True, 75, ['vor', 'pot'], True, True, 20, 0,
               ['existing', 'laegerdorf', 'air']]
-scenario_4 = [False, False, [13, 19, 25], [40, 70, 100], True, True, 0, 0, False, True, 0, [], True, False, 10, 0,
+scenario_4 = [False, False, [13, 19, 25], [40, 70, 100], True, True, 5, 5, False, True, 0, [], True, False, 20, 0,
               ['existing']]
 scenario_5 = [False, False, [13, 19, 25], [40, 70, 100], True, True, 0, 0, False, False, 75, [], False, False, 0, 0, []]
+scenario_6 = [False, True, [13, 19, 25], [40, 70, 100], True, True, 5, 5, True, True, 75, [], True, True, 20, 0,
+              ['existing', 'laegerdorf', 'air']]
 
 
 @app.callback(
@@ -1627,7 +1666,7 @@ def start_sim(n, exmpl_sw, year, wind_expansion_value, bio_sw, bio_inp, solar_sw
                                              'Anzahl WEAs_Pot', 'nettoFreieFlaeche_Pot', 'Modell_Pot', 'Anzahl_Pot',
                                              'InvestKosten_inMio_Pot', 'Leistung_inMW_Pot'])
 
-        #df_freie_flaeche = pd.read_csv(exportFolder + '/' + freie_flaeche[0], sep=';', decimal=',', encoding='utf-8')
+        # df_freie_flaeche = pd.read_csv(exportFolder + '/' + freie_flaeche[0], sep=';', decimal=',', encoding='utf-8')
         df_analyse = pd.read_csv(final_file, sep=';', decimal=',', encoding='utf-8')
         df_datasheet = pd.read_csv(datasheet_final, sep=';', decimal=',', encoding='utf-8')
         df_month_report = pd.read_csv(final_month, sep=';', decimal=',', encoding='utf-8')
