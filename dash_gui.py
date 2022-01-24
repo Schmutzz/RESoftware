@@ -1586,16 +1586,15 @@ def start_sim(n, exmpl_sw, year, wind_expansion_value, bio_sw, bio_inp, solar_sw
             if len(i) != 0:
                 final_month = exportFolder + '/' + i[0]
 
-        list_files = [data_storage, data_after_expansion, data_before_expansion, cost_report, ausgebaute_flaeche,
-                      freie_flaeche, before_expansion, after_expansion, after_storage]
+        list_files = [data_storage, data_after_expansion, data_before_expansion, before_expansion, after_expansion, after_storage]
         temp_list = list_files.copy()
 
         for jindex, j in enumerate(temp_list):
             if len(j) == 0:
                 list_files.remove(j)
-            else:
-                list_files[jindex] = exportFolder + '/' + j[0]
-                print(list_files[jindex])
+        for kindex, k in enumerate(list_files):
+            list_files[kindex] = exportFolder + '/' + k[0]
+            print(list_files[kindex])
 
         final_file = list_files[-1]
         datasheet_final = list_files[0]
@@ -1610,18 +1609,18 @@ def start_sim(n, exmpl_sw, year, wind_expansion_value, bio_sw, bio_inp, solar_sw
         global df_datasheet
         global df_month_report
 
-        df_cost_report = pd.read_csv(list_files[0], sep=';', decimal=',', encoding='utf-8')
+        df_cost_report = pd.read_csv(exportFolder + '/' + cost_report[0], sep=';', decimal=',', encoding='utf-8')
         df_cost_report = df_cost_report.round(2)
-        df_ausbau_vor = pd.read_csv(list_files[1], sep=';', decimal=',', encoding='utf-8',
+        df_ausbau_vor = pd.read_csv(exportFolder + '/' + ausgebaute_flaeche[0], sep=';', decimal=',', encoding='utf-8',
                                     usecols=['StadtVor', 'haVor', 'Coords Vor', 'ID_Weatherstation_Vor', 'Wetter-ID_Vor',
                                              'Anzahl WEAs_Vor', 'nettoFreieFlaeche_Vor', 'Modell_Vor', 'Anzahl_Vor',
                                              'InvestKosten_inMio_Vor', 'Leistung_inMW_Vor'])
-        df_ausbau_pot = pd.read_csv(list_files[1], sep=';', decimal=',', encoding='utf-8',
+        df_ausbau_pot = pd.read_csv(exportFolder + '/' + ausgebaute_flaeche[0], sep=';', decimal=',', encoding='utf-8',
                                     usecols=['StadtPot', 'haPot', 'Coords Pot', 'ID_Weatherstation_Pot', 'Wetter-ID_Pot',
                                              'Anzahl WEAs_Pot', 'nettoFreieFlaeche_Pot', 'Modell_Pot', 'Anzahl_Pot',
                                              'InvestKosten_inMio_Pot', 'Leistung_inMW_Pot'])
 
-        df_freie_flaeche = pd.read_csv(list_files[2], sep=';', decimal=',', encoding='utf-8')
+        #df_freie_flaeche = pd.read_csv(exportFolder + '/' + freie_flaeche[0], sep=';', decimal=',', encoding='utf-8')
         df_analyse = pd.read_csv(final_file, sep=';', decimal=',', encoding='utf-8')
         df_datasheet = pd.read_csv(datasheet_final, sep=';', decimal=',', encoding='utf-8')
         df_month_report = pd.read_csv(final_month, sep=';', decimal=',', encoding='utf-8')
@@ -1632,7 +1631,7 @@ def start_sim(n, exmpl_sw, year, wind_expansion_value, bio_sw, bio_inp, solar_sw
         coords_to_lat_lon(df_ausbau_pot, 'Coords Pot')
 
         df_ausbau_vor = df_ausbau_vor[df_ausbau_vor['Wetter-ID_Vor'] != 0]
-        df_ausbau_vor = df_ausbau_vor.sort_values(by=['ID_Weatherstation'])
+        df_ausbau_vor = df_ausbau_vor.sort_values(by=['ID_Weatherstation_Vor'])
         # df_ausbau_vor['ID_Weatherstation'] = df_ausbau_vor['ID_Weatherstation'].map(str)
         df_ausbau_vor['haVor'] = df_ausbau_vor['haVor'].map(float)
         df_ausbau_vor = df_ausbau_vor[
@@ -1640,7 +1639,7 @@ def start_sim(n, exmpl_sw, year, wind_expansion_value, bio_sw, bio_inp, solar_sw
              'Anzahl_Vor', 'InvestKosten_inMio_Vor', 'Latitude', 'Longitude', 'Leistung_inMW_Vor']]
 
         df_ausbau_pot = df_ausbau_pot[df_ausbau_pot['Wetter-ID_Pot'] != 0]
-        df_ausbau_pot = df_ausbau_pot.sort_values(by=['ID_Weatherstation'])
+        df_ausbau_pot = df_ausbau_pot.sort_values(by=['ID_Weatherstation_Pot'])
         # df_ausbau_pot['ID_Weatherstation'] = df_ausbau_pot['ID_Weatherstation'].map(str)
         df_ausbau_pot['haPot'] = df_ausbau_pot['haPot'].map(float)
         df_ausbau_pot = df_ausbau_pot[

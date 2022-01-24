@@ -321,23 +321,6 @@ def generation_PV_energy(year, source, state):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 '''test = pd.read_csv('REE_AnalyseCompleted/REE_Analysejahr_2019_21-01-2022_18-57/REE_beforREexpansion_64_2019_18-57.csv',
                    sep=';', decimal=',', encoding='utf-8')
 a = test['EE>100%'].value_counts()[1]
