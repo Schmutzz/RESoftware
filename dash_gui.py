@@ -382,6 +382,31 @@ def make_cost_table():
                         )
 
 
+def make_datasheet_table():
+    return dt.DataTable(columns=[{"name": i, "id": i} for i in df_datasheet.columns],
+                        style_cell={
+                            'overflow': 'hidden',
+                            'textOverflow': 'ellipsis',
+                            'maxWidth': 0,
+                            'height': 'auto'
+                        },
+                        data=df_datasheet.to_dict('records'), cell_selectable=False,
+                        style_table={'overflowY': 'auto', 'overflowX': 'auto'},
+                        tooltip_data=[
+                            {
+                                column: {'value': str(value), 'type': 'markdown'}
+                                for column, value in row.items()
+                            } for row in df_datasheet.to_dict('records')
+                        ],
+                        style_header={
+                            'backgroundColor': 'rgb(10, 10, 10)',
+                            'color': 'white'},
+                        style_data={
+                            'backgroundColor': 'rgb(40, 40, 40)',
+                            'color': 'white'}
+                        )
+
+
 # ----------------------------------------------------------------------------------------------------------------------
 # general settings
 
@@ -956,6 +981,9 @@ results = html.Div([
             ]),
             dbc.CardBody([
                 dbc.Row([
+                    html.Div(id='data_sheet')
+                ], className='py-2'),
+                dbc.Row([
                     dbc.Col([
                         html.P('Data:'),
                         dcc.Dropdown(id='dropdown_data',
@@ -1300,6 +1328,22 @@ def montly_table(value):
 
 
 @app.callback(
+    Output('data_sheet', 'children'),
+    [
+        Input('start_button', 'children')
+    ]
+)
+def datasheet_table(value):
+    if value == 'Start':
+        return dash.no_update
+    elif value == 'Back':
+        return make_datasheet_table()
+    else:
+        print('TABLE ERROR!!!')
+        return dash.no_update
+
+
+@app.callback(
     Output('costs', 'children'),
     [
         Input('start_button', 'children')
@@ -1528,8 +1572,12 @@ def start_sim(n, exmpl_sw, year, wind_expansion_value, bio_sw, bio_inp, solar_sw
         before_expansion = [x for x in os.listdir(exportFolder) if 'REE_befor' in x]
         after_expansion = [x for x in os.listdir(exportFolder) if 'REE_afterREexpansion' in x]
         after_storage = [x for x in os.listdir(exportFolder) if 'REE_afterStorageExpansion' in x]
+        data_storage = [x for x in os.listdir(exportFolder) if 'DataReport_afterStorageExpansion' in x]
+        data_after_expansion = [x for x in os.listdir(exportFolder) if 'DataReport_afterREexpansion' in x]
+        data_before_expansion = [x for x in os.listdir(exportFolder) if 'DataReport_beforREexpansion' in x]
 
-        list_files = [cost_report, ausgebaute_flaeche, freie_flaeche, before_expansion, after_expansion, after_storage]
+        list_files = [data_storage, data_after_expansion, data_before_expansion, cost_report, ausgebaute_flaeche,
+                      freie_flaeche, before_expansion, after_expansion, after_storage]
         temp_list = list_files.copy()
 
         for jindex, j in enumerate(temp_list):
@@ -1540,6 +1588,7 @@ def start_sim(n, exmpl_sw, year, wind_expansion_value, bio_sw, bio_inp, solar_sw
                 print(list_files[jindex])
 
         final_file = list_files[-1]
+        datasheet_final = list_files[0]
 
         print(final_file)
 
@@ -1548,6 +1597,7 @@ def start_sim(n, exmpl_sw, year, wind_expansion_value, bio_sw, bio_inp, solar_sw
         global df_ausbau_pot
         global df_freie_flaeche
         global df_analyse
+        global df_datasheet
 
         df_cost_report = pd.read_csv(list_files[0], sep=';', decimal=',', encoding='utf-8')
         df_cost_report = df_cost_report.round(2)
@@ -1559,6 +1609,10 @@ def start_sim(n, exmpl_sw, year, wind_expansion_value, bio_sw, bio_inp, solar_sw
                                     usecols=['StadtPot', 'haPot', 'Coords Pot', 'ID_Weatherstation', 'Wetter-ID_Pot',
                                              'Anzahl WEAs_Pot', 'nettoFreieFlaeche_Pot', 'Modell_Pot', 'Anzahl_Pot',
                                              'InvestKosten_inMio_Pot', 'Leistung_inMW_Pot'])
+
+        df_freie_flaeche = pd.read_csv(list_files[2], sep=';', decimal=',', encoding='utf-8')
+        df_analyse = pd.read_csv(final_file, sep=';', decimal=',', encoding='utf-8')
+        df_datasheet = pd.read_csv(datasheet_final, sep=';', decimal=',', encoding='utf-8')
 
         # ----------------------------------------------------------------------------------------------------------------------
 
@@ -1580,11 +1634,6 @@ def start_sim(n, exmpl_sw, year, wind_expansion_value, bio_sw, bio_inp, solar_sw
         df_ausbau_pot = df_ausbau_pot[
             ['StadtPot', 'ID_Weatherstation', 'haPot', 'Anzahl WEAs_Pot', 'nettoFreieFlaeche_Pot', 'Modell_Pot',
              'Anzahl_Pot', 'InvestKosten_inMio_Pot', 'Latitude', 'Longitude', 'Leistung_inMW_Pot']]
-
-        # ----------------------------------------------------------------------------------------------------------------------
-
-        df_freie_flaeche = pd.read_csv(list_files[2], sep=';', decimal=',', encoding='utf-8')
-        df_analyse = pd.read_csv(final_file, sep=';', decimal=',', encoding='utf-8')
 
         # ----------------------------------------------------------------------------------------------------------------------
 
