@@ -1411,7 +1411,7 @@ def change_graph(data, children):
     prevent_initial_call=True,
 )
 def download(n_clicks):
-    return dcc.send_file(exportFolder + '/' + 'export.zip')
+    return dcc.send_file(exportFolder + '/' + zip_folder)
 
 
 @app.callback(
@@ -1569,8 +1569,9 @@ def start_sim(n, exmpl_sw, year, wind_expansion_value, bio_sw, bio_inp, solar_sw
 
         global exportFolder
         global list_files
+        global zip_folder
         # exportFolder, cost_report, dataframe_expansion_area, export_simulation_bevor_expansion, SimulationEE_after_expansion
-        exportFolder = main.re_simulation()
+        exportFolder, zip_folder = main.re_simulation()
 
         cost_report = [x for x in os.listdir(exportFolder) if 'CostReport' in x]
         ausgebaute_flaeche = [x for x in os.listdir(exportFolder) if 'AusgebauteFlaechen' in x]
@@ -1654,8 +1655,8 @@ def start_sim(n, exmpl_sw, year, wind_expansion_value, bio_sw, bio_inp, solar_sw
 
         # ----------------------------------------------------------------------------------------------------------------------
 
-        df_analyse['Erzeugung_Gesamt_true_with_gaps'] = df_analyse['Erzeugung_Gesamt'].values
-        df_analyse['Erzeugung_Gesamt_false_with_gaps'] = df_analyse['Erzeugung_Gesamt'].values
+        df_analyse['Erzeugung_Gesamt_true_with_gaps'] = df_analyse['Ereugung_mit_Speicher'].values
+        df_analyse['Erzeugung_Gesamt_false_with_gaps'] = df_analyse['Ereugung_mit_Speicher'].values
 
         df_analyse.loc[df_analyse['EE>100%'] == False, 'Erzeugung_Gesamt_true_with_gaps'] = 'NaN'
         df_analyse.loc[df_analyse['EE>100%'] == True, 'Erzeugung_Gesamt_false_with_gaps'] = 'NaN'
