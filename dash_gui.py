@@ -15,7 +15,6 @@ import pandas as pd
 from matplotlib import colors as mcolors
 import main
 
-print('Programmstart')
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.SOLAR])
 server = app.server
@@ -218,8 +217,8 @@ def draw_pot(sizing):
 
 
 def make_monthly_table():
+    last_col = str(int(hours_goal*100)) + '% reached'
     return dt.DataTable(columns=[{"name": i, "id": i} for i in df_month_report.columns],
-                        tooltip_header={i: i for i in df_month_report.columns},
                         style_cell={
                             'overflow': 'hidden',
                             'textOverflow': 'ellipsis',
@@ -228,24 +227,15 @@ def make_monthly_table():
                         },
                         data=df_month_report.to_dict('records'), cell_selectable=False,
                         style_table={'overflowY': 'auto', 'overflowX': 'auto'},
-                        tooltip_data=[
-                            {
-                                column: {'value': str(value), 'type': 'markdown'}
-                                for column, value in row.items()
-                            } for row in df_month_report.to_dict('records')
-                        ],
                         style_header={
                             'backgroundColor': 'rgb(10, 10, 10)',
                             'color': 'white',
+                            'whiteSpace': 'normal'
                         },
                         style_data={
                             'backgroundColor': 'rgb(40, 40, 40)',
                             'color': 'white'
                         },
-                        css=[{
-                            'selector': '.dash-table-tooltip',
-                            'rule': 'background-color: grey; font-family: monospace; color: white'
-                        }],
                         style_data_conditional=(
                             [
                                 {
@@ -262,6 +252,27 @@ def make_monthly_table():
                                         'column_id': 'Wind (TWh)',
                                         'filter_query': '{{Wind (TWh)}} = {}'.format(
                                             df_month_report['Wind (TWh)'].min())
+                                    },
+                                    'backgroundColor': '#ffbaba',
+                                    'color': 'black'
+                                },
+
+                                # -----------------------------------------------------------------------------
+
+                                {
+                                    'if': {
+                                        'column_id': 'Biomass (TWh)',
+                                        'filter_query': '{{Biomass (TWh)}} = {}'.format(
+                                            df_month_report['Biomass (TWh)'].nlargest(2).tolist()[1])
+                                    },
+                                    'backgroundColor': '#c9ffba',
+                                    'color': 'black'
+                                },
+                                {
+                                    'if': {
+                                        'column_id': 'Biomass (TWh)',
+                                        'filter_query': '{{Biomass (TWh)}} = {}'.format(
+                                            df_month_report['Biomass (TWh)'].min())
                                     },
                                     'backgroundColor': '#ffbaba',
                                     'color': 'black'
@@ -372,6 +383,26 @@ def make_monthly_table():
                                     'color': 'black'
                                 },
 
+                                # -----------------------------------------------------------------------------
+
+                                {
+                                    'if': {
+                                        'column_id': last_col,
+                                        'filter_query': '{{Hours 100%}} = {}'.format(
+                                            df_month_report['Hours 100%'].nlargest(2).tolist()[1])
+                                    },
+                                    'backgroundColor': '#c9ffba',
+                                    'color': 'black'
+                                },
+                                {
+                                    'if': {
+                                        'column_id': 'Hours 100%',
+                                        'filter_query': '{{Hours 100%}} = {}'.format(
+                                            df_month_report['Hours 100%'].min())
+                                    },
+                                    'backgroundColor': '#ffbaba',
+                                    'color': 'black'
+                                },
                             ]
                         ),
                         )
@@ -379,7 +410,6 @@ def make_monthly_table():
 
 def make_cost_table():
     return dt.DataTable(columns=[{"name": i, "id": i} for i in df_cost_report.columns],
-                        tooltip_header={i: i for i in df_cost_report.columns},
                         style_cell={
                             'overflow': 'hidden',
                             'textOverflow': 'ellipsis',
@@ -388,30 +418,20 @@ def make_cost_table():
                         },
                         data=df_cost_report.to_dict('records'), cell_selectable=False,
                         style_table={'overflowY': 'auto', 'overflowX': 'auto'},
-                        tooltip_data=[
-                            {
-                                column: {'value': str(value), 'type': 'markdown'}
-                                for column, value in row.items()
-                            } for row in df_cost_report.to_dict('records')
-                        ],
                         style_header={
                             'backgroundColor': 'rgb(10, 10, 10)',
                             'color': 'white',
+                            'whiteSpace': 'normal'
                         },
                         style_data={
                             'backgroundColor': 'rgb(40, 40, 40)',
                             'color': 'white'
                         },
-                        css=[{
-                            'selector': '.dash-table-tooltip',
-                            'rule': 'background-color: grey; font-family: monospace; color: white'
-                        }],
                         )
 
 
 def make_datasheet_table():
     return dt.DataTable(columns=[{"name": i, "id": i} for i in df_datasheet.columns],
-                        tooltip_header={i: i for i in df_datasheet.columns},
                         style_cell={
                             'overflow': 'hidden',
                             'textOverflow': 'ellipsis',
@@ -420,26 +440,31 @@ def make_datasheet_table():
                         },
                         data=df_datasheet.to_dict('records'), cell_selectable=False,
                         style_table={'overflowY': 'auto', 'overflowX': 'auto'},
-                        tooltip_data=[
-                            {
-                                column: {'value': str(value), 'type': 'markdown'}
-                                for column, value in row.items()
-                            } for row in df_datasheet.to_dict('records')
-                        ],
                         style_header={
                             'backgroundColor': 'rgb(10, 10, 10)',
                             'color': 'white',
+                            'whiteSpace': 'normal'
                         },
                         style_data={
                             'backgroundColor': 'rgb(40, 40, 40)',
                             'color': 'white'
                         },
-                        css=[{
-                            'selector': '.dash-table-tooltip',
-                            'rule': 'background-color: grey; font-family: monospace; color: white'
-                        }],
                         ),
 
+
+'''
+    tooltip_header={i: i for i in df_datasheet.columns},
+    tooltip_data=[
+    {
+        column: {'value': str(value), 'type': 'markdown'}
+        for column, value in row.items()
+    } for row in df_datasheet.to_dict('records')
+    ],
+    css=[{
+        'selector': '.dash-table-tooltip',
+        'rule': 'background-color: grey; font-family: monospace; color: white'
+    }],
+'''
 
 # ----------------------------------------------------------------------------------------------------------------------
 # general settings
@@ -1205,7 +1230,6 @@ def scenario_tooltip(n1, n2, is_open, scenario, options):
     elif scenario == options[4]['value']:
         picked = tt_5
     else:
-        print('modal no scenario was picked')
         picked = ''
     if n1 or n2:
         return not is_open, scenario, picked
@@ -1257,7 +1281,6 @@ def lock_storage_expansion(value, scenario, options):
         elif scenario == options[4]['value']:
             return value, slider_intervals(value), 0
         else:
-            print('slider scenario error')
             raise PreventUpdate
     else:
         return value, slider_intervals(value), value
@@ -1368,7 +1391,6 @@ def montly_table(value):
     elif value == 'Back':
         return make_monthly_table()
     else:
-        print('TABLE ERROR!!!')
         return dash.no_update
 
 
@@ -1384,7 +1406,6 @@ def datasheet_table(value):
     elif value == 'Back':
         return make_datasheet_table()
     else:
-        print('TABLE ERROR!!!')
         return dash.no_update
 
 
@@ -1400,7 +1421,6 @@ def montly_table(value):
     elif value == 'Back':
         return make_cost_table()
     else:
-        print('TABLE ERROR!!!')
         return dash.no_update
 
 
@@ -1591,13 +1611,11 @@ def start_sim(n, exmpl_sw, year, wind_expansion_value, bio_sw, bio_inp, solar_sw
         'Database'
         main.META_DATA_generate_windenergy_plannendareas = False  # True wenn die Liste erstellt werden soll
         main.META_DATA_verbrauch_komuliert = False  # True wenn die Liste erstellt werden soll
-        print(main.META_DATA_verbrauch_komuliert, 'main.META_DATA_verbrauch_komuliert')
         main.META_DATA_DBWKAreload = False  # True wenn die DB der WKA Lastgänge erstellt werden soll
         main.META_DATA_DB_min_hight = 100  # Wert gibt die min höhe der WKA für die DB Lastgänge erstellt werden soll
         main.META_DATA_plannedAreas_potVor_getCoords = False  # True wenn die Ausbauflächen keine Standorte besitzen
         #                                           -> Wetterstationen werden ebenfalls hinzugefügt
         main.META_DATA_plannedAreas_potVor_getWeather = False  # True wenn die Ausbauflächen keine zugeordnete Wetterstation besitzen
-        print(main.META_DATA_plannedAreas_potVor_getWeather, 'main.META_DATA_plannedAreas_potVor_getWeather')
         main.META_DATA_be_plannedWKA_getCoords = False  # True wenn die Coords zugeordnet werden müssen
 
         main.META_DATA_be_plannedWKA_getWeatherID = False  # True wenn die Weather ID zugeordnet werden muss
@@ -1640,12 +1658,10 @@ def start_sim(n, exmpl_sw, year, wind_expansion_value, bio_sw, bio_inp, solar_sw
                 list_files.remove(j)
         for kindex, k in enumerate(list_files):
             list_files[kindex] = exportFolder + '/' + k[0]
-            print(list_files[kindex])
 
         final_file = list_files[-1]
         datasheet_final = list_files[0]
 
-        print(final_file)
 
         global df_cost_report
         global df_ausbau_vor
@@ -1718,6 +1734,8 @@ def start_sim(n, exmpl_sw, year, wind_expansion_value, bio_sw, bio_inp, solar_sw
 
         # ----------------------------------------------------------------------------------------------------------------------
 
+        global hours_goal
+
         year_hours = df_analyse['EE>100%'].count()
         true_count = df_analyse['EE>100%'].tolist().count(True)
         hours_goal = 0
@@ -1758,7 +1776,6 @@ def start_sim(n, exmpl_sw, year, wind_expansion_value, bio_sw, bio_inp, solar_sw
                  html.P('Do not press the button twice or all simulation progress will be lost!!!')],
                 {'display': 'none'}, {'display': 'inline'}, 'Start']
     else:
-        print('start button callback error')
         raise PreventUpdate
 
 
