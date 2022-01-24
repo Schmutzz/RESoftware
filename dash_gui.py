@@ -1411,7 +1411,7 @@ def change_graph(data, children):
     prevent_initial_call=True,
 )
 def download(n_clicks):
-    return dcc.send_file(exportFolder + '/' + zip_folder)
+    return dcc.send_file(zip_folder + '.zip')
 
 
 @app.callback(
