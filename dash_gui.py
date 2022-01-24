@@ -1655,8 +1655,16 @@ def start_sim(n, exmpl_sw, year, wind_expansion_value, bio_sw, bio_inp, solar_sw
 
         # ----------------------------------------------------------------------------------------------------------------------
 
-        df_analyse['Erzeugung_Gesamt_true_with_gaps'] = df_analyse['Ereugung_mit_Speicher'].values
-        df_analyse['Erzeugung_Gesamt_false_with_gaps'] = df_analyse['Ereugung_mit_Speicher'].values
+        header_list = df_analyse.columns.values.tolist()
+        production = ''
+
+        if 'Erzeugung_mit_Speicher' in header_list:
+            production = 'Erzeugung_mit_Speicher'
+        elif 'Erzeugung_Gesamt' in header_list:
+            production = 'Erzeugung_Gesamt'
+
+        df_analyse['Erzeugung_Gesamt_true_with_gaps'] = df_analyse[production].values
+        df_analyse['Erzeugung_Gesamt_false_with_gaps'] = df_analyse[production].values
 
         df_analyse.loc[df_analyse['EE>100%'] == False, 'Erzeugung_Gesamt_true_with_gaps'] = 'NaN'
         df_analyse.loc[df_analyse['EE>100%'] == True, 'Erzeugung_Gesamt_false_with_gaps'] = 'NaN'
