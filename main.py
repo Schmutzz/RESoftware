@@ -1,4 +1,3 @@
-import export as export
 import pandas as pd
 from pathlib import Path
 from datetime import datetime
@@ -435,7 +434,7 @@ def re_simulation():
             print('Fertig mit Erzeugung SH')
 
             if main.META_DATA_eisman == True:
-
+                print('NEW WIND EISMAN')
 
                 openfilename = 'Datenbank/Erzeugung/Erz_komuliert_' + str(main.META_year) + '_Wind_' + eisman_name + '.csv'
 
@@ -920,8 +919,9 @@ def re_simulation():
 
         simulation_EE.to_csv(EE_export, sep=';', encoding='utf-8-sig', index=False, decimal=',')
         lgk.data_report(main.META_year, simulation_EE, exportFolder, 'afterStorageExpansion',
-                        export=True, speicher_use=main.META_use_storage)
-        lgk.month_report(main.META_year, simulation_EE, exportFolder, 'afterStorageExpansion', main.META_EE_Speicher, export=True)
+                        export=True)
+        lgk.month_report(main.META_year, simulation_EE, exportFolder, 'afterStorageExpansion', main.META_EE_Speicher,
+                         export=True, speicher_use=main.META_use_storage)
 
     cost_report = lgk.cost_analysis(META_year, exportFolder, dictWKAModell, list_key_expansion_wka,
                                     list_count_expansion_wka, list_count_expansion_power, listStorage,

@@ -1046,7 +1046,7 @@ def analyseEE(year, exportfolder, listSpeicher=0, EE_Erz=0, PV_Gesamt=0, erz_Bio
     temp_len_speicherList = len(listSpeicher)
 
     if speicher == True and temp_len_speicherList > 0:
-        EE_Erz['Diff_Erz_zu_Verb_mit_Speicher']
+
 
         EE_Erz['Speicherkapazität'] = [0.0] * len(temp_EE_Erz)
         EE_Erz['Speicherstatus'] = [0.0] * len(temp_EE_Erz)
@@ -2175,6 +2175,10 @@ def month_report(year,data_frame,exportfolder,keyname,EE_Erz,speicher_use = Fals
     header_erz = ['Erzeugung_Wind_Gesamt', 'Erz_PV_Gesamt', 'Erz_Biomasse_Gesamt',
               'Erzeugung_Gesamt', 'verluste_eisman_Gesamt']
 
+    header_final = ['Wind (TWh)', 'PV (TWh)', 'Biomass (TWh)', 'Combined RE (TWh)', 'Eisman loss (TWh)',
+                    'Storage feed in (TWh)', 'Storage feed out (TWh)', 'Consumption (TWh)',
+                    'Deficit/Conventional (TWh)']
+    value_header_final = 0
     speicher = ['Ein(+)-/ Ausspeisung(-)']
 
     header_verbauch = ['Verbrauch_Gesamt']
@@ -2214,9 +2218,10 @@ def month_report(year,data_frame,exportfolder,keyname,EE_Erz,speicher_use = Fals
             print(j, ' Found and in Dataframe')
             temp_sum = sum(temp_values)
             temp_values[12] = temp_sum
-            export_frame[j] = temp_values
-
+            export_frame[header_final[value_header_final]] = temp_values
+            value_header_final += 1
         except:
+            value_header_final += 1
             print(j, 'not found')
             continue
 
@@ -2243,9 +2248,14 @@ def month_report(year,data_frame,exportfolder,keyname,EE_Erz,speicher_use = Fals
             temp_sum = sum(temp_values_negativ)
             temp_values_negativ[12] = temp_sum
             print(j, ' Found and in Dataframe')
-            export_frame['storage (input)'] = temp_values_positiv
-            export_frame['storage (output)'] = temp_values_negativ
+            export_frame[header_final[value_header_final]] = temp_values_positiv
+            value_header_final += 1
+
+            export_frame[header_final[value_header_final]] = temp_values_negativ
+            value_header_final += 1
         except:
+            value_header_final += 1
+            value_header_final += 1
             print(j, 'not found')
             continue
 
@@ -2261,14 +2271,22 @@ def month_report(year,data_frame,exportfolder,keyname,EE_Erz,speicher_use = Fals
                 for kndex, k in enumerate(data_frame['Datum']):
 
                     if k.month == i:
-                        # print(data_frame['Datum'][kndex])
-                        temp_values[index] = temp_values[index] + (data_frame[j][kndex]/TW)
+                        if j == 'Diff_Erz_zu_Verbrauch' or j == 'Diff_Erz_zu_Verb_mit_Speicher':
+                            if data_frame[j][kndex] < 0:
+                                temp_values[index] = temp_values[index] + abs((data_frame[j][kndex]/TW))
+
+                        else:
+                            # print(data_frame['Datum'][kndex])
+                            temp_values[index] = temp_values[index] + (data_frame[j][kndex]/TW)
+
+
 
 
             temp_sum = sum(temp_values)
-            temp_values[12] = temp_sum
+            temp_values[12] = abs(temp_sum)
             print(j, ' Found and in Dataframe')
-            export_frame[j] = temp_values
+            export_frame[header_final[value_header_final]] = temp_values
+            value_header_final += 1
         except:
             print(j, 'not found')
             continue
@@ -2300,6 +2318,8 @@ def month_report(year,data_frame,exportfolder,keyname,EE_Erz,speicher_use = Fals
             temp_values_over_border[index] = 'yes'
         else:
             temp_values_over_border[index] = 'no'
+
+
 
     temp_sum = sum(temp_values)
     temp_values[12] = temp_sum
