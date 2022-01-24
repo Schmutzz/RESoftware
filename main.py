@@ -1,3 +1,4 @@
+import export as export
 import pandas as pd
 from pathlib import Path
 from datetime import datetime
@@ -629,8 +630,9 @@ def re_simulation():
                                eisman=META_eisman)
 
     simulation_EE = EE_Analyse[0].copy()
-    lgk.data_report(main.META_year, simulation_EE, exportFolder, 'beforREexpansion',
-                    export=True)
+    lgk.data_report(main.META_year, simulation_EE, exportFolder, 'beforREexpansion', export=True)
+    lgk.month_report(main.META_year, simulation_EE, exportFolder,'beforREexpansion',main.META_EE_Anteil, export=True,
+                     speicher_use=main.META_use_storage)
     export_simulation_bevor_expansion = simulation_EE.copy()
     EE_Anteil = EE_Analyse[1]
     print('EE Anteil in Prozent vor Ausbau: ', round(EE_Anteil * 100, 2), '%')
@@ -842,17 +844,30 @@ def re_simulation():
             simulation_EE = EE_Analyse[0].copy()
             lgk.data_report(main.META_year, simulation_EE, exportFolder, 'afterREexpansion',
                             export=True)
+            lgk.month_report(main.META_year, simulation_EE, exportFolder, 'afterREexpansion',main.META_EE_Anteil,
+                             export=True, speicher_use=main.META_use_storage)
             print('EE Anteil in Prozent: ', round(EE_Analyse[1] * 100, 6), '%')
 
 
 
     finished_filename = exportFolder + 'AusgebauteFlaechen_' + str(main.META_year) + '.csv'
-    dataframe_expansion_area['ID_Weatherstation'] = ['test'] * len(dataframe_expansion_area['Wetter-ID_Pot'])
+    dataframe_expansion_area['ID_Weatherstation_Pot'] = ['test'] * len(dataframe_expansion_area['Wetter-ID_Pot'])
+    dataframe_expansion_area['ID_Weatherstation_Vor'] = ['test'] * len(dataframe_expansion_area['Wetter-ID_Pot'])
+
     for index, i in enumerate(dataframe_expansion_area['Wetter-ID_Pot']):
+
         if i == 0:
-            dataframe_expansion_area['ID_Weatherstation'][index] = 'ignore'
-            continue
-        dataframe_expansion_area['ID_Weatherstation'][index] = str(i) + '_' + str(dictWeatherID[i]['NameORT'])
+            dataframe_expansion_area['ID_Weatherstation_Pot'][index] = 'ignore'
+        else:
+            dataframe_expansion_area['ID_Weatherstation_Pot'][index] = str(i) + '_' + str(dictWeatherID[i]['NameORT'])
+
+    for jndex, j in enumerate(dataframe_expansion_area['Wetter-ID_Vor']):
+
+        if j == 0:
+            dataframe_expansion_area['ID_Weatherstation_Vor'][jndex] = 'ignore'
+        else:
+            dataframe_expansion_area['ID_Weatherstation_Vor'][jndex] = str(j) + '_' + str(dictWeatherID[j]['NameORT'])
+
 
     dataframe_expansion_area.to_csv(finished_filename, sep=';', decimal=',', index=False, encoding='utf-8-sig')
 
@@ -905,8 +920,8 @@ def re_simulation():
 
         simulation_EE.to_csv(EE_export, sep=';', encoding='utf-8-sig', index=False, decimal=',')
         lgk.data_report(main.META_year, simulation_EE, exportFolder, 'afterStorageExpansion',
-                        export=True)
-
+                        export=True, speicher_use=main.META_use_storage)
+        lgk.month_report(main.META_year, simulation_EE, exportFolder, 'afterStorageExpansion', main.META_EE_Speicher, export=True)
 
     cost_report = lgk.cost_analysis(META_year, exportFolder, dictWKAModell, list_key_expansion_wka,
                                     list_count_expansion_wka, list_count_expansion_power, listStorage,
