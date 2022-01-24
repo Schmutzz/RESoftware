@@ -166,11 +166,11 @@ def draw_vor(sizing):
 
     return px.scatter_mapbox(df, lat='Latitude', lon='Longitude', title='Simulated expansion',
                              # hover_name='ID_Weatherstation',
-                             hover_data=['ID_Weatherstation', 'StadtVor', 'haVor', 'Anzahl WEAs_Vor', 'Anzahl_Vor',
+                             hover_data=['ID_Weatherstation_Vor', 'StadtVor', 'haVor', 'Anzahl WEAs_Vor', 'Anzahl_Vor',
                                          'Modell_Vor', 'nettoFreieFlaeche_Vor', 'Leistung_inMW_Vor', 'InvestKosten_inMio_Vor',
                                          'Latitude', 'Longitude'],
                              labels={
-                                 'ID_Weatherstation': 'Weatherstation ID',
+                                 'ID_Weatherstation_Vor': 'Weatherstation ID',
                                  "StadtVor": "Region",
                                  "Anzahl WEAs_Vor": "Wind turbines before expansion",
                                  "nettoFreieFlaeche_Vor": "Free area left (in ha)",
@@ -180,7 +180,7 @@ def draw_vor(sizing):
                                  'InvestKosten_inMio_Vor': 'Investment costs',
                                  'haVor': 'Total area (in ha)'
                              },
-                             color='ID_Weatherstation', color_discrete_map={}, size=sizing, size_max=12,
+                             color='ID_Weatherstation_Vor', color_discrete_map={}, size=sizing, size_max=12,
                              zoom=6.3, center={'lat': 54.2, 'lon': 9.8}).update_layout(
         mapbox_style="open-street-map", template='plotly_dark', title_x=0.5, legend_title='Wetter ID'
     )
@@ -196,11 +196,11 @@ def draw_pot(sizing):
 
     return px.scatter_mapbox(df, lat='Latitude', lon='Longitude', title='Simulated expansion',
                              # hover_name='StadtPot',
-                             hover_data=['ID_Weatherstation', 'StadtPot', 'haPot', 'Anzahl WEAs_Pot', 'Anzahl_Pot',
+                             hover_data=['ID_Weatherstation_Pot', 'StadtPot', 'haPot', 'Anzahl WEAs_Pot', 'Anzahl_Pot',
                                          'Modell_Pot', 'nettoFreieFlaeche_Pot', 'Leistung_inMW_Pot', 'InvestKosten_inMio_Pot',
                                          'Latitude', 'Longitude'],
                              labels={
-                                 'ID_Weatherstation': 'Weatherstation ID',
+                                 'ID_Weatherstation_Pot': 'Weatherstation ID',
                                  "StadtPot": "Region",
                                  "Anzahl WEAs_Pot": "Wind turbines before expansion",
                                  "nettoFreieFlaeche_Pot": "Free area left (in ha)",
@@ -210,7 +210,7 @@ def draw_pot(sizing):
                                  'InvestKosten_inMio_Pot': 'Investment costs',
                                  'haPot': 'Total area (in ha)'
                              },
-                             color='ID_Weatherstation', color_discrete_map={}, size=sizing, size_max=12,
+                             color='ID_Weatherstation_Pot', color_discrete_map={}, size=sizing, size_max=12,
                              zoom=6.3, center={'lat': 54.2, 'lon': 9.8},
                              ).update_layout(
         mapbox_style="open-street-map", template='plotly_dark', title_x=0.5, legend_title='Wetter ID'
@@ -218,8 +218,8 @@ def draw_pot(sizing):
 
 
 def make_monthly_table():
-    return dt.DataTable(columns=[{"name": i, "id": i} for i in table_df.columns],
-                        data=table_df.to_dict('records'), cell_selectable=False,
+    return dt.DataTable(columns=[{"name": i, "id": i} for i in df_month_report.columns],
+                        data=df_month_report.to_dict('records'), cell_selectable=False,
                         style_header={
                             'backgroundColor': 'rgb(10, 10, 10)',
                             'color': 'white'},
@@ -232,7 +232,7 @@ def make_monthly_table():
                                     'if': {
                                         'column_id': 'Wind (TWh)',
                                         'filter_query': '{{Wind (TWh)}} = {}'.format(
-                                            table_df['Wind (TWh)'].nlargest(2).tolist()[1])
+                                            df_month_report['Wind (TWh)'].nlargest(2).tolist()[1])
                                     },
                                     'backgroundColor': '#c9ffba',
                                     'color': 'black'
@@ -241,7 +241,7 @@ def make_monthly_table():
                                     'if': {
                                         'column_id': 'Wind (TWh)',
                                         'filter_query': '{{Wind (TWh)}} = {}'.format(
-                                            table_df['Wind (TWh)'].min())
+                                            df_month_report['Wind (TWh)'].min())
                                     },
                                     'backgroundColor': '#ffbaba',
                                     'color': 'black'
@@ -251,18 +251,18 @@ def make_monthly_table():
 
                                 {
                                     'if': {
-                                        'column_id': 'Solar (TWh)',
-                                        'filter_query': '{{Solar (TWh)}} = {}'.format(
-                                            table_df['Solar (TWh)'].nlargest(2).tolist()[1])
+                                        'column_id': 'PV (TWh)',
+                                        'filter_query': '{{PV (TWh)}} = {}'.format(
+                                            df_month_report['PV (TWh)'].nlargest(2).tolist()[1])
                                     },
                                     'backgroundColor': '#c9ffba',
                                     'color': 'black'
                                 },
                                 {
                                     'if': {
-                                        'column_id': 'Solar (TWh)',
-                                        'filter_query': '{{Solar (TWh)}} = {}'.format(
-                                            table_df['Solar (TWh)'].min())
+                                        'column_id': 'PV (TWh)',
+                                        'filter_query': '{{PV (TWh)}} = {}'.format(
+                                            df_month_report['PV (TWh)'].min())
                                     },
                                     'backgroundColor': '#ffbaba',
                                     'color': 'black'
@@ -272,18 +272,18 @@ def make_monthly_table():
 
                                 {
                                     'if': {
-                                        'column_id': 'RE (TWh)',
-                                        'filter_query': '{{RE (TWh)}} = {}'.format(
-                                            table_df['RE (TWh)'].nlargest(2).tolist()[1])
+                                        'column_id': 'Combined RE (TWh)',
+                                        'filter_query': '{{Combined RE (TWh)}} = {}'.format(
+                                            df_month_report['Combined RE (TWh)'].nlargest(2).tolist()[1])
                                     },
                                     'backgroundColor': '#c9ffba',
                                     'color': 'black'
                                 },
                                 {
                                     'if': {
-                                        'column_id': 'RE (TWh)',
-                                        'filter_query': '{{RE (TWh)}} = {}'.format(
-                                            table_df['RE (TWh)'].min())
+                                        'column_id': 'Combined RE (TWh)',
+                                        'filter_query': '{{Combined RE (TWh)}} = {}'.format(
+                                            df_month_report['Combined RE (TWh)'].min())
                                     },
                                     'backgroundColor': '#ffbaba',
                                     'color': 'black'
@@ -293,18 +293,18 @@ def make_monthly_table():
 
                                 {
                                     'if': {
-                                        'column_id': 'Consum. (TWh)',
-                                        'filter_query': '{{Consum. (TWh)}} = {}'.format(
-                                            table_df['Consum. (TWh)'].nlargest(2).tolist()[1])
+                                        'column_id': 'Consumption (TWh)',
+                                        'filter_query': '{{Consumption (TWh)}} = {}'.format(
+                                            df_month_report['Consumption (TWh)'].nlargest(2).tolist()[1])
                                     },
                                     'backgroundColor': '#ffbaba',
                                     'color': 'black'
                                 },
                                 {
                                     'if': {
-                                        'column_id': 'Consum. (TWh)',
-                                        'filter_query': '{{Consum. (TWh)}} = {}'.format(
-                                            table_df['Consum. (TWh)'].min())
+                                        'column_id': 'Consumption (TWh)',
+                                        'filter_query': '{{Consumption (TWh)}} = {}'.format(
+                                            df_month_report['Consumption (TWh)'].min())
                                     },
                                     'backgroundColor': '#c9ffba',
                                     'color': 'black'
@@ -314,18 +314,18 @@ def make_monthly_table():
 
                                 {
                                     'if': {
-                                        'column_id': 'Deficit (TWh)',
-                                        'filter_query': '{{Deficit (TWh)}} = {}'.format(
-                                            table_df['Deficit (TWh)'].nlargest(2).tolist()[1])
+                                        'column_id': 'Deficit/Conventional (TWh)',
+                                        'filter_query': '{{Deficit/Conventional (TWh)}} = {}'.format(
+                                            df_month_report['Deficit/Conventional (TWh)'].nlargest(2).tolist()[1])
                                     },
                                     'backgroundColor': '#ffbaba',
                                     'color': 'black'
                                 },
                                 {
                                     'if': {
-                                        'column_id': 'Deficit (TWh)',
-                                        'filter_query': '{{Deficit (TWh)}} = {}'.format(
-                                            table_df['Deficit (TWh)'].min())
+                                        'column_id': 'Deficit/Conventional (TWh)',
+                                        'filter_query': '{{Deficit/Conventional (TWh)}} = {}'.format(
+                                            df_month_report['Deficit/Conventional (TWh)'].min())
                                     },
                                     'backgroundColor': '#c9ffba',
                                     'color': 'black'
@@ -337,7 +337,7 @@ def make_monthly_table():
                                     'if': {
                                         'column_id': 'Hours 100%',
                                         'filter_query': '{{Hours 100%}} = {}'.format(
-                                            table_df['Hours 100%'].nlargest(2).tolist()[1])
+                                            df_month_report['Hours 100%'].nlargest(2).tolist()[1])
                                     },
                                     'backgroundColor': '#c9ffba',
                                     'color': 'black'
@@ -346,7 +346,7 @@ def make_monthly_table():
                                     'if': {
                                         'column_id': 'Hours 100%',
                                         'filter_query': '{{Hours 100%}} = {}'.format(
-                                            table_df['Hours 100%'].min())
+                                            df_month_report['Hours 100%'].min())
                                     },
                                     'backgroundColor': '#ffbaba',
                                     'color': 'black'
@@ -1569,12 +1569,22 @@ def start_sim(n, exmpl_sw, year, wind_expansion_value, bio_sw, bio_inp, solar_sw
         cost_report = [x for x in os.listdir(exportFolder) if 'CostReport' in x]
         ausgebaute_flaeche = [x for x in os.listdir(exportFolder) if 'AusgebauteFlaechen' in x]
         freie_flaeche = [x for x in os.listdir(exportFolder) if 'FreieFlaechen_vorAusbau' in x]
+        month_before = [x for x in os.listdir(exportFolder) if 'monthReport_befor' in x]
+        month_after = [x for x in os.listdir(exportFolder) if 'monthReport_afterRE' in x]
+        month_storage = [x for x in os.listdir(exportFolder) if 'monthReport_afterStorage' in x]
         before_expansion = [x for x in os.listdir(exportFolder) if 'REE_befor' in x]
         after_expansion = [x for x in os.listdir(exportFolder) if 'REE_afterREexpansion' in x]
         after_storage = [x for x in os.listdir(exportFolder) if 'REE_afterStorageExpansion' in x]
         data_storage = [x for x in os.listdir(exportFolder) if 'DataReport_afterStorageExpansion' in x]
         data_after_expansion = [x for x in os.listdir(exportFolder) if 'DataReport_afterREexpansion' in x]
         data_before_expansion = [x for x in os.listdir(exportFolder) if 'DataReport_beforREexpansion' in x]
+
+        month_list = [month_before, month_after, month_storage]
+        final_month = ''
+
+        for i in month_list:
+            if len(i) != 0:
+                final_month = exportFolder + '/' + i[0]
 
         list_files = [data_storage, data_after_expansion, data_before_expansion, cost_report, ausgebaute_flaeche,
                       freie_flaeche, before_expansion, after_expansion, after_storage]
@@ -1598,21 +1608,23 @@ def start_sim(n, exmpl_sw, year, wind_expansion_value, bio_sw, bio_inp, solar_sw
         global df_freie_flaeche
         global df_analyse
         global df_datasheet
+        global df_month_report
 
         df_cost_report = pd.read_csv(list_files[0], sep=';', decimal=',', encoding='utf-8')
         df_cost_report = df_cost_report.round(2)
         df_ausbau_vor = pd.read_csv(list_files[1], sep=';', decimal=',', encoding='utf-8',
-                                    usecols=['StadtVor', 'haVor', 'Coords Vor', 'ID_Weatherstation', 'Wetter-ID_Vor',
+                                    usecols=['StadtVor', 'haVor', 'Coords Vor', 'ID_Weatherstation_Vor', 'Wetter-ID_Vor',
                                              'Anzahl WEAs_Vor', 'nettoFreieFlaeche_Vor', 'Modell_Vor', 'Anzahl_Vor',
                                              'InvestKosten_inMio_Vor', 'Leistung_inMW_Vor'])
         df_ausbau_pot = pd.read_csv(list_files[1], sep=';', decimal=',', encoding='utf-8',
-                                    usecols=['StadtPot', 'haPot', 'Coords Pot', 'ID_Weatherstation', 'Wetter-ID_Pot',
+                                    usecols=['StadtPot', 'haPot', 'Coords Pot', 'ID_Weatherstation_Pot', 'Wetter-ID_Pot',
                                              'Anzahl WEAs_Pot', 'nettoFreieFlaeche_Pot', 'Modell_Pot', 'Anzahl_Pot',
                                              'InvestKosten_inMio_Pot', 'Leistung_inMW_Pot'])
 
         df_freie_flaeche = pd.read_csv(list_files[2], sep=';', decimal=',', encoding='utf-8')
         df_analyse = pd.read_csv(final_file, sep=';', decimal=',', encoding='utf-8')
         df_datasheet = pd.read_csv(datasheet_final, sep=';', decimal=',', encoding='utf-8')
+        df_month_report = pd.read_csv(final_month, sep=';', decimal=',', encoding='utf-8')
 
         # ----------------------------------------------------------------------------------------------------------------------
 
@@ -1624,7 +1636,7 @@ def start_sim(n, exmpl_sw, year, wind_expansion_value, bio_sw, bio_inp, solar_sw
         # df_ausbau_vor['ID_Weatherstation'] = df_ausbau_vor['ID_Weatherstation'].map(str)
         df_ausbau_vor['haVor'] = df_ausbau_vor['haVor'].map(float)
         df_ausbau_vor = df_ausbau_vor[
-            ['StadtVor', 'ID_Weatherstation', 'haVor', 'Anzahl WEAs_Vor', 'nettoFreieFlaeche_Vor', 'Modell_Vor',
+            ['StadtVor', 'ID_Weatherstation_Vor', 'haVor', 'Anzahl WEAs_Vor', 'nettoFreieFlaeche_Vor', 'Modell_Vor',
              'Anzahl_Vor', 'InvestKosten_inMio_Vor', 'Latitude', 'Longitude', 'Leistung_inMW_Vor']]
 
         df_ausbau_pot = df_ausbau_pot[df_ausbau_pot['Wetter-ID_Pot'] != 0]
@@ -1632,7 +1644,7 @@ def start_sim(n, exmpl_sw, year, wind_expansion_value, bio_sw, bio_inp, solar_sw
         # df_ausbau_pot['ID_Weatherstation'] = df_ausbau_pot['ID_Weatherstation'].map(str)
         df_ausbau_pot['haPot'] = df_ausbau_pot['haPot'].map(float)
         df_ausbau_pot = df_ausbau_pot[
-            ['StadtPot', 'ID_Weatherstation', 'haPot', 'Anzahl WEAs_Pot', 'nettoFreieFlaeche_Pot', 'Modell_Pot',
+            ['StadtPot', 'ID_Weatherstation_Pot', 'haPot', 'Anzahl WEAs_Pot', 'nettoFreieFlaeche_Pot', 'Modell_Pot',
              'Anzahl_Pot', 'InvestKosten_inMio_Pot', 'Latitude', 'Longitude', 'Leistung_inMW_Pot']]
 
         # ----------------------------------------------------------------------------------------------------------------------
