@@ -102,9 +102,8 @@ def drawEE_percentage():
                    marker=dict(color='red'), name="RE < 100%"))
     fig.update_layout(template='plotly_dark', title='Ratio: Renewable Energy Production to Consumption', title_x=0.5,
                       xaxis_title="Date",
-                      yaxis_title="RE Production / Consumption",
+                      yaxis_title="RE / Consumption (in %)",
                       legend_title="Legend")
-    fig.update_xaxes(dtick='M1')
     fig.add_hline(y=100)
 
     return fig
@@ -147,7 +146,6 @@ def drawEE_absolute(value):
                       xaxis_title="Date",
                       yaxis_title="Power (in kW)",
                       legend_title="Legend")
-    fig.update_xaxes(dtick='M1')
     fig.update_yaxes(exponentformat='e')
 
     return fig
@@ -682,9 +680,9 @@ general_settings = dbc.Card([
                 dbc.Modal([
                     dbc.ModalHeader([html.H5('Own Data')], close_button=True),
                     dbc.ModalBody(
-                        'Own data can be uploaded for simulation. If you click "yes" an example folder and further instruction '
-                        'will be provided on the "Start"-Button. Alternatively you can download the instruction.pdf through '
-                        'the "Download Instructions"-Button.'),
+                        'Own data can be uploaded for simulation. If you click "yes" on this button, an example folder and '
+                        'further instruction will be provided when clicking the "Start"-Button. Alternatively you can download '
+                        'the instruction.pdf through the "Download Instructions"-Button.'),
                 ], id="example_switch_modal", centered=True, is_open=False,
                 ),
                 example_switch
@@ -699,7 +697,7 @@ general_settings = dbc.Card([
                     dbc.ModalHeader([html.H5('Simulation Year')], close_button=True),
                     dbc.ModalBody(html.P(['Choose the year for the simulation. We have provided example data for the years 2019 '
                                           'and 2020.', html.Br(),
-                                          'Own data: Be sure to put the correct year in the .csv-files!'])
+                                          'For own data: Be sure to put the correct year in the .csv-files!'])
                                   ),
                 ], id="year_modal", centered=True, is_open=False,
                 ),
@@ -775,7 +773,7 @@ eisman_settings = dbc.Card([
                 dbc.Modal([
                     dbc.ModalHeader([html.H5('Eisman')], close_button=True),
                     dbc.ModalBody(
-                        ''),
+                        'Turn on to take grid overloads into account and regulate power production of wind power plants.'),
                 ], id="eisman_switch_modal", centered=True, is_open=False,
                 ),
                 eisman_switch
@@ -791,7 +789,7 @@ eisman_settings = dbc.Card([
                 dbc.Modal([
                     dbc.ModalHeader([html.H5('Eisman: Wind Speed')], close_button=True),
                     dbc.ModalBody(
-                        'Should the programm simulate building out own wind turbines?'),
+                        ''),
                 ], id="eisman_wind_modal", centered=True, is_open=False,
                 ),
                 eisman_wind_slider
@@ -799,7 +797,7 @@ eisman_settings = dbc.Card([
         ], className='pb-3', justify="center"),
         dbc.Row([
             dbc.Col([
-                html.P('Power regulation loss:', id='eisman_percentage_text',
+                html.P('Power regulation:', id='eisman_percentage_text',
                        style={"textDecoration": "underline", "cursor": "pointer"}),
                 dbc.Tooltip(
                     tooltip_text, target='eisman_percentage_text', placement='top'
@@ -807,7 +805,7 @@ eisman_settings = dbc.Card([
                 dbc.Modal([
                     dbc.ModalHeader([html.H5('Eisman: Power Regulation')], close_button=True),
                     dbc.ModalBody(
-                        'Should the programm simulate building out own wind turbines?'),
+                        ''),
                 ], id="eisman_percentage_modal", centered=True, is_open=False,
                 ),
                 eisman_percentage_slider
@@ -875,7 +873,7 @@ biomass_solar_settings = dbc.Card([
                 dbc.Modal([
                     dbc.ModalHeader([html.H5('Biomass')], close_button=True),
                     dbc.ModalBody(
-                        'Should the programm simulate building out own wind turbines?'),
+                        'Turn on to take biomass energy production into account.'),
                 ], id="biomass_switch_modal", centered=True, is_open=False,
                 ),
                 biomass_switch
@@ -889,7 +887,7 @@ biomass_solar_settings = dbc.Card([
                 dbc.Modal([
                     dbc.ModalHeader([html.H5('Solar')], close_button=True),
                     dbc.ModalBody(
-                        'Should the programm simulate building out own wind turbines?'),
+                        'Turn on to take biomass energy production into account.'),
                 ], id="solar_switch_modal", centered=True, is_open=False,
                 ),
                 solar_switch
@@ -1450,26 +1448,21 @@ results = html.Div([
 
 app.layout = html.Div([
     html.Div(id='settings_page', children=settings_children, style={'display': 'inline'}),
-    html.Div(id='results', children=results, style={'display': 'none'}),
     dbc.Row([
         start_button,
         upload_modal
     ], className='py-3', justify='center'),
+    html.Div(id='results', children=results, style={'display': 'none'}),
     support_button
 ], style={"width": "99%"}, className='px-3 py-2')
 
-scenario_1 = [False, True, [13, 19, 25], [0, 30, 60], True, True, 5, 10, True, True, 75, ['vor', 'pot'], False, False, 0, []]
-scenario_2 = [False, True, [13, 19, 25], [0, 30, 60], True, True, 5, 10, True, True, 75, ['vor', 'pot'], True, True, 20,
-              ['existing', 'laegerdorf', 'air']]
-scenario_3 = [True, False, [13, 19, 25], [0, 30, 60], True, True, 5, 10, True, True, 76, ['vor', 'pot'], True, True, 10,
-              ['existing', 'laegerdorf', 'air']]
-scenario_4 = [False, True, [13, 19, 25], [0, 30, 60], True, True, 50, 250, True, True, 75, ['vor', 'pot'], True, True, 10,
-              ['existing']]
-scenario_5 = [False, False, [13, 19, 25], [0, 30, 60], True, True, 5, 10, False, False, 0, [], True, False, 0, ['existing']]
-scenario_6 = [False, True, [13, 19, 25], [0, 30, 60], True, True, 5, 10, True, True, 100, ['vor', 'pot'], False, False, 10,
-              []]
-scenario_7 = [False, True, [13, 19, 25], [0, 30, 60], True, True, 5, 10, True, True, 76, ['vor', 'pot'], True, True, 20,
-              ['existing', 'laegerdorf', 'air']]
+scenario_1 = [False, True, [13, 19, 25], [0, 30, 60], True, True, 5, 10, True, True, 75, ['vor', 'pot'], False, False, 0]
+scenario_2 = [False, True, [13, 19, 25], [0, 30, 60], True, True, 5, 10, True, True, 75, ['vor', 'pot'], True, True, 20]
+scenario_3 = [True, False, [13, 19, 25], [0, 30, 60], True, True, 5, 10, True, True, 76, ['vor', 'pot'], True, True, 10]
+scenario_4 = [False, True, [13, 19, 25], [0, 30, 60], True, True, 50, 250, True, True, 75, ['vor', 'pot'], True, True, 10]
+scenario_5 = [False, False, [13, 19, 25], [0, 30, 60], True, True, 5, 10, False, True, 0, [], True, False, 0]
+scenario_6 = [False, True, [13, 19, 25], [0, 30, 60], True, True, 5, 10, True, True, 100, ['vor', 'pot'], False, False, 10]
+scenario_7 = [False, True, [13, 19, 25], [0, 30, 60], True, True, 5, 10, True, True, 76, ['vor', 'pot'], True, True, 20]
 
 
 @app.callback(
@@ -1489,7 +1482,6 @@ scenario_7 = [False, True, [13, 19, 25], [0, 30, 60], True, True, 5, 10, True, T
         Output('storage_switch', 'value'),
         Output('storage_expansion_switch', 'value'),
         Output('start_capacity_slider', 'value'),
-        Output('storage_options_check', 'value'),
     ],
     Input('scenario_dropdown', 'value'),
     State('scenario_dropdown', 'options')
@@ -1511,6 +1503,21 @@ def change_scenario(value, options):
         return scenario_7
     else:
         raise PreventUpdate
+
+
+@app.callback(
+    Output('storage_options_check', 'value'),
+    [
+        Input('storage_switch', 'value'),
+        Input('storage_expansion_switch', 'value'),
+    ]
+)
+def storage_options(switch, expansion):
+    if not switch:
+        return []
+    if switch and not expansion:
+        return ['existing']
+    return ['existing', 'laegerdorf', 'air']
 
 
 @app.callback(
@@ -1568,11 +1575,12 @@ tt_2 = 'Goal of task 2 is to achieve 100% RE production for 100% of the time. To
 tt_3 = 'Goal of task 3 is to achieve 100% RE production for 100% of the time, just like task 2. For this simulation the user ' \
        'should use their own data (see upload button). The means to achieve this goal are the same as in task 2.'
 
-tt_4 = 'This scenario will simulate the current state of renewable energy production by neither expanding upon the energy ' \
+tt_4 = 'This scenario will simulate a possible state of 2030 with heavily increased number of biomass and solar production ' \
+       'plants. '
+
+tt_5 = 'This scenario will simulate the current state of renewable energy production by neither expanding upon the energy ' \
        'production nor the power storages. It will use existing power storages and existing means of power production ' \
        '(will include planned wind turbines).'
-
-tt_5 = 'fürn wengert :*'
 
 
 @app.callback(
