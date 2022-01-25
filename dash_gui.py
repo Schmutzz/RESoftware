@@ -1832,11 +1832,9 @@ def upload_data(list_of_contents, list_of_names, year):
                 if list_of_names[i] in checklist_needed_files:
                     pass
                 else:
-                    print('wrong filename: ' + list_of_names[i])
                     return True, html.P([upload_modal_text, html.Br(), html.Br(),
                                          'wrong filename: ' + list_of_names[i]])
         else:
-            print('wrong amount of files')
             return True, html.P([upload_modal_text, html.Br(), html.Br(),
                                  'wrong amount of files'])
 
@@ -1850,7 +1848,8 @@ def upload_data(list_of_contents, list_of_names, year):
                 elif os.path.isdir(file_path):
                     shutil.rmtree(file_path)
             except Exception as e:
-                print(f'Failed to delete "{file_path}". Reason: {e}')
+                #print(f'Failed to delete "{file_path}". Reason: {e}')
+                pass
 
         # save new files
         for index in range(len(list_of_names)):
@@ -1863,7 +1862,8 @@ def upload_data(list_of_contents, list_of_names, year):
                                  sep=';', decimal=',', index_col=False)
                 df.to_csv('Own_Data/' + file_name, sep=';', decimal=',', encoding='utf-8-sig')
             except Exception as e:
-                print(e)
+                #print(e)
+                pass
 
         return False, html.P([upload_modal_text, html.Br(), html.Br(),
                               'The necessary files were successfully uploaded!'])
