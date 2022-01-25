@@ -885,7 +885,7 @@ def re_simulation():
             if EE_Anteil > temp_main_ee_anteil:
                 print('FERTIG EE Anteil in Prozent: ', round(EE_Analyse[1] * 100, 2), '%')
                 while EE_Anteil >= temp_main_ee_anteil:
-                    dezimierung_wka = 5
+                    dezimierung_wka = 10
                     if temp_count_expansion_wka < dezimierung_wka:
                         break
                     print('Enery befor adjustment in GWh',round(sum(expansionWind),2))
