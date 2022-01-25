@@ -352,7 +352,7 @@ def re_simulation():
 
             if main.META_own_data == True:
                 try:
-                    openfilename2 = 'Import/own_data'
+                    openfilename2 = 'Import/own_data/Erz_komuliert_' + str(main.META_year) + '_Wind_eisman.csv'
                     openfilename = [match for match in os.listdir(openfilename2) if 'eisman' in match]
                     print(openfilename)
                     Wind_Gesamt = pd.read_csv(openfilename, delimiter=';', decimal=',', encoding='utf-8')
@@ -366,7 +366,7 @@ def re_simulation():
 
     'GESAMT bereits geplanter Ausbau'
     if main.META_DATA_generate_windenergy_plannendareas == False:
-        if main.META_eisman == False:
+        if main.META_eisman == False and main.META_own_data == False:
             try:
                 openfilename = 'Datenbank/Erzeugung/Erz_komuliert_geplanterAusbau_' + str(main.META_year) + '_Wind.csv'
                 print(openfilename)
@@ -375,7 +375,7 @@ def re_simulation():
                 print('falsches Format: ', openfilename)
                 main.META_DATA_generate_windenergy_plannendareas = True
 
-        if main.META_eisman == True:
+        if main.META_eisman == True and main.META_own_data == False:
             try:
                 eisman_name = 'eisman_' + str(main.META_first_wind_limit) + '_' + str(
                     main.META_sec_wind_limit) + '_' + str(main.META_third_wind_limit) + '_' + str(
@@ -633,8 +633,19 @@ def re_simulation():
                 print('Datenbank wird automatisch erzeugt')
                 main.META_DATA_DBWKAreload = True
     'DatenBank WKA'
-    if main.META_DATA_DBWKAreload == True:
-        print('DBWKA reload will be regenerated and reloaded')
+    if main.META_DATA_DBWKAreload == True and main.META_own_data == False:
+        print('DBWKA will be regenerated and reloaded')
+        DB_WKA = lgk.DB_WKA(main.META_year, dictWKAModell, dictWeatherID, windWeatherData, main.META_DATA_DB_min_hight,
+                            META_first_wind_limit=main.META_first_wind_limit,
+                            META_sec_wind_limit=main.META_sec_wind_limit,
+                            META_third_wind_limit=main.META_third_wind_limit,
+                            META_first_power_limit=main.META_first_power_limit,
+                            META_sec_power_limit=main.META_sec_power_limit,
+                            META_third_power_limit=main.META_third_power_limit,
+                            export=True, eisman=main.META_eisman)
+
+    if main.META_own_data == True:
+        print('DBWKA will be regenerated and reloaded')
         DB_WKA = lgk.DB_WKA(main.META_year, dictWKAModell, dictWeatherID, windWeatherData, main.META_DATA_DB_min_hight,
                             META_first_wind_limit=main.META_first_wind_limit,
                             META_sec_wind_limit=main.META_sec_wind_limit,
@@ -645,7 +656,9 @@ def re_simulation():
                             export=True, eisman=main.META_eisman)
 
 
-
+    if main.META_own_data == True and own_data_success == False:
+        print('Use own data was failed, please try again.')
+        return 'faild'
     '__________________________________________________________________________________________________________________'
 
     '------------------------------------------------------------------------------------------------------------------'
@@ -889,18 +902,25 @@ def re_simulation():
                     temp_count_expansion_power -= (dictWKAModell[key_wka]['Nenn_kW'] * dezimierung_wka)
                     for kindex, k in enumerate(dataframe_expansion_area['Wetter-ID_' + pot_Vor]):
                         if k == int(temp_ID):
-                            dataframe_expansion_area['Anzahl_' + pot_Vor][kindex] -= dezimierung_wka
-                            WeaModell_fl = ((15 * np.square(float(dictWKAModell[key_wka]['Rotor']))) / 10000)
-                            dataframe_expansion_area['nettoFreieFlaeche_' + pot_Vor][kindex] -= round(
-                                (WeaModell_fl * dataframe_expansion_area['Anzahl_' + pot_Vor][kindex]), 2)
-                            dataframe_expansion_area['Leistung_inMW_' + pot_Vor][kindex] = round(
-                                (dictWKAModell[key_wka]['Nenn_kW'] / 1000), 2)
-                            tempsum = (dataframe_expansion_area['Anzahl_' + pot_Vor][kindex] * dictWKAModell[key_wka][
-                                'Invest']) / 1000000
-                            dataframe_expansion_area['InvestKosten_inMio_' + pot_Vor][kindex] = round(tempsum, 2)
-                            tempsum = (dataframe_expansion_area['Anzahl_' + pot_Vor][kindex] * dictWKAModell[key_wka][
-                                'Betriebk']) / 1000000
-                            dataframe_expansion_area['BetriebsKosten_inMio_' + pot_Vor][kindex] = round(tempsum, 2)
+                            if dezimierung_wka == 0:
+                                break
+                            while(dataframe_expansion_area['Anzahl_' + pot_Vor][kindex] > 0):
+                                dezimierung_wka -= 1
+                                dataframe_expansion_area['Anzahl_' + pot_Vor][kindex] -= 1
+                                WeaModell_fl = ((15 * np.square(float(dictWKAModell[key_wka]['Rotor']))) / 10000)
+                                dataframe_expansion_area['nettoFreieFlaeche_' + pot_Vor][kindex] -= round(
+                                    (WeaModell_fl * dataframe_expansion_area['Anzahl_' + pot_Vor][kindex]), 2)
+                                dataframe_expansion_area['Leistung_inMW_' + pot_Vor][kindex] = round(
+                                    (dictWKAModell[key_wka]['Nenn_kW'] / 1000) *
+                                    dataframe_expansion_area['Anzahl_' + pot_Vor][kindex], 2)
+                                tempsum = (dataframe_expansion_area['Anzahl_' + pot_Vor][kindex] *
+                                           dictWKAModell[key_wka][
+                                               'Invest']) / 1000000
+                                dataframe_expansion_area['InvestKosten_inMio_' + pot_Vor][kindex] = round(tempsum, 2)
+                                tempsum = (dataframe_expansion_area['Anzahl_' + pot_Vor][kindex] *
+                                           dictWKAModell[key_wka][
+                                               'Betriebk']) / 1000000
+                                dataframe_expansion_area['BetriebsKosten_inMio_' + pot_Vor][kindex] = round(tempsum, 2)
 
                     temp_wind = Wind_Gesamt.copy()
                     EE_Analyse = lgk.analyseEE(META_year, exportFolder, listSpeicher=listStorage, EE_Erz=temp_wind,

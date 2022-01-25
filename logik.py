@@ -1953,12 +1953,13 @@ def expansion_storage(temp_Diff_EE, META_speicherverlauf, listStorage, META_star
 
     deepestPoint = min(EE_Simulation_negativGraph)
     deepestPoint = abs(deepestPoint)
-    deepestPoint = deepestPoint * EE_max_Speicher
+    deepestPoint = deepestPoint
     print('Storage Len: ', len(listStorage))
     print('Benötigte Kapazität in GWh: ', deepestPoint / 1000000)
     if META_Laegerdorf == True:
-        storage = StorageModell('PumpspeicherKraftwerk-Lägerdorf', 'Lägerdorf', 1700000, META_startcapacity * 1700000, 0.8, 70000,
-                                60.0, 0.08)
+        storage = StorageModell('PumpspeicherKraftwerk-Lägerdorf', 'Lägerdorf', 1700000, META_startcapacity * 1700000,
+                                0.8, 70000, 60.0, 0.08)
+
         print('PumpspeicherKraftwerk "Lägerdorf" wurde eingerichtet mit:')
         print('Kapazität in GW: ', storage.max_capacity / 1000000, 'Leistung in GW: ', storage.power / 1000000)
         listStorage.append(storage)
@@ -1971,14 +1972,15 @@ def expansion_storage(temp_Diff_EE, META_speicherverlauf, listStorage, META_star
         if deepestPoint > META_max_compressed_air:
             deepestPoint = META_max_compressed_air
         else:
-            deepestPoint = deepestPoint * 0.5
+            deepestPoint = deepestPoint * abs(1-EE_max_Speicher)
 
         storage = StorageModell('Druckluftspeicher', 'SH', deepestPoint, META_startcapacity * deepestPoint, 0.57,
                                 deepestPoint / 5, 60, 0.1)
         print('Druckluftspeicher wurde eingerichtet mit:')
         print('Kapazität in GWh: ', storage.max_capacity / 1000000, 'Leistung in GW: ', storage.power / 1000000)
         listStorage.append(storage)
-    else:
+
+    elif listStorage[-1].modell == 'Druckluftspeicher':
         old_capacity = listStorage[-1].max_capacity
         start_value = 100000000
         for i in range(0, 200):
