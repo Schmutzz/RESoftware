@@ -143,7 +143,6 @@ def drawEE_absolute(value):
             go.Scatter(x=df_analyse['Datum'], y=df_analyse['Speicherverluste'], marker=dict(color='red'),
                        name="Energy loss"))
 
-
     fig.update_layout(template='plotly_dark', title='Absolute Numbers', title_x=0.5,
                       xaxis_title="Date",
                       yaxis_title="Power (in kW)",
@@ -197,7 +196,7 @@ def draw_pie(biomass, solar):
     df['Used energy (in TWh)'] = values
     print(df.head())
     fig = px.pie(df, values='Used energy (in TWh)', names='Energy source', title='Energy Usage').update_layout(
-                 template='plotly_dark', title_x=0.5)
+        template='plotly_dark', title_x=0.5)
     fig.update_traces(textposition='inside', textinfo='percent+label')
 
     return fig
@@ -607,7 +606,6 @@ def make_datasheet_table():
 # ----------------------------------------------------------------------------------------------------------------------
 # general settings
 
-
 example_switch = html.Div([
     dbc.RadioItems(
         id="example_switch",
@@ -630,8 +628,10 @@ scenario_dropdown = html.Div([
             {'label': 'Task 1', 'value': 'Task 1'},
             {'label': 'Task 2', 'value': 'Task 2'},
             {'label': 'Task 3', 'value': 'Task 3'},
-            {'label': 'No expasion', 'value': 'No expasion'},
-            {'label': 'Fast simulation', 'value': 'Fast simulation'},
+            {'label': 'Scenario 2030', 'value': 'Scenario 2030'},
+            {'label': 'Current State', 'value': 'Current State'},
+            {'label': '100% Wind', 'value': '100% Wind'},
+            {'label': '90% Goal', 'value': '90% Goal'},
         ],
         value='Task 1',
         style={"textAlign": "left", 'color': 'black'},
@@ -665,7 +665,7 @@ general_settings = dbc.Card([
                     tooltip_text, target='scenario_text', placement='top'
                 ),
                 dbc.Modal([
-                    dbc.ModalHeader('Storage expansion', close_button=True, id='scenario_modal_header'),
+                    dbc.ModalHeader([html.H5('Task 1')], close_button=True, id='scenario_modal_header'),
                     dbc.ModalBody(id='scenario_modal_body'),
                 ], id="scenario_modal", centered=True, is_open=False,
                 ),
@@ -680,9 +680,11 @@ general_settings = dbc.Card([
                     tooltip_text, target='example_switch_text', placement='top'
                 ),
                 dbc.Modal([
-                    dbc.ModalHeader('Storage expansion', close_button=True),
+                    dbc.ModalHeader([html.H5('Own Data')], close_button=True),
                     dbc.ModalBody(
-                        'Should the programm simulate building out own wind turbines?'),
+                        'Own data can be uploaded for simulation. If you click "yes" an example folder and further instruction '
+                        'will be provided on the "Start"-Button. Alternatively you can download the instruction.pdf through '
+                        'the "Download Instructions"-Button.'),
                 ], id="example_switch_modal", centered=True, is_open=False,
                 ),
                 example_switch
@@ -694,9 +696,11 @@ general_settings = dbc.Card([
                     tooltip_text, target='year_text', placement='top'
                 ),
                 dbc.Modal([
-                    dbc.ModalHeader('Storage expansion', close_button=True),
-                    dbc.ModalBody(
-                        'Should the programm simulate building out own wind turbines?'),
+                    dbc.ModalHeader([html.H5('Simulation Year')], close_button=True),
+                    dbc.ModalBody(html.P(['Choose the year for the simulation. We have provided example data for the years 2019 '
+                                          'and 2020.', html.Br(),
+                                          'Own data: Be sure to put the correct year in the .csv-files!'])
+                                  ),
                 ], id="year_modal", centered=True, is_open=False,
                 ),
                 year_dropdown
@@ -769,9 +773,9 @@ eisman_settings = dbc.Card([
                     tooltip_text, target='eisman_switch_text', placement='top'
                 ),
                 dbc.Modal([
-                    dbc.ModalHeader('Storage expansion', close_button=True),
+                    dbc.ModalHeader([html.H5('Eisman')], close_button=True),
                     dbc.ModalBody(
-                        'Should the programm simulate building out own wind turbines?'),
+                        ''),
                 ], id="eisman_switch_modal", centered=True, is_open=False,
                 ),
                 eisman_switch
@@ -785,7 +789,7 @@ eisman_settings = dbc.Card([
                     tooltip_text, target='eisman_wind_text', placement='top'
                 ),
                 dbc.Modal([
-                    dbc.ModalHeader('Storage expansion', close_button=True),
+                    dbc.ModalHeader([html.H5('Eisman: Wind Speed')], close_button=True),
                     dbc.ModalBody(
                         'Should the programm simulate building out own wind turbines?'),
                 ], id="eisman_wind_modal", centered=True, is_open=False,
@@ -801,7 +805,7 @@ eisman_settings = dbc.Card([
                     tooltip_text, target='eisman_percentage_text', placement='top'
                 ),
                 dbc.Modal([
-                    dbc.ModalHeader('Storage expansion', close_button=True),
+                    dbc.ModalHeader([html.H5('Eisman: Power Regulation')], close_button=True),
                     dbc.ModalBody(
                         'Should the programm simulate building out own wind turbines?'),
                 ], id="eisman_percentage_modal", centered=True, is_open=False,
@@ -869,7 +873,7 @@ biomass_solar_settings = dbc.Card([
                     tooltip_text, target='biomass_switch_text', placement='top'
                 ),
                 dbc.Modal([
-                    dbc.ModalHeader('Storage expansion', close_button=True),
+                    dbc.ModalHeader([html.H5('Biomass')], close_button=True),
                     dbc.ModalBody(
                         'Should the programm simulate building out own wind turbines?'),
                 ], id="biomass_switch_modal", centered=True, is_open=False,
@@ -883,7 +887,7 @@ biomass_solar_settings = dbc.Card([
                     tooltip_text, target='solar_switch_text', placement='top'
                 ),
                 dbc.Modal([
-                    dbc.ModalHeader('Storage expansion', close_button=True),
+                    dbc.ModalHeader([html.H5('Solar')], close_button=True),
                     dbc.ModalBody(
                         'Should the programm simulate building out own wind turbines?'),
                 ], id="solar_switch_modal", centered=True, is_open=False,
@@ -899,7 +903,7 @@ biomass_solar_settings = dbc.Card([
                     tooltip_text, target='biomass_input_text', placement='top'
                 ),
                 dbc.Modal([
-                    dbc.ModalHeader('Storage expansion', close_button=True),
+                    dbc.ModalHeader([html.H5('Biomass Growth')], close_button=True),
                     dbc.ModalBody(
                         'Should the programm simulate building out own wind turbines?'),
                 ], id="biomass_input_modal", centered=True, is_open=False,
@@ -913,7 +917,7 @@ biomass_solar_settings = dbc.Card([
                     tooltip_text, target='solar_input_text', placement='top'
                 ),
                 dbc.Modal([
-                    dbc.ModalHeader('Storage expansion', close_button=True),
+                    dbc.ModalHeader([html.H5('Solar Growth')], close_button=True),
                     dbc.ModalBody(
                         'Should the programm simulate building out own wind turbines?'),
                 ], id="solar_input_modal", centered=True, is_open=False,
@@ -997,7 +1001,7 @@ wind_settings = dbc.Card([
                     tooltip_text, target='wind_expansion_text', placement='top'
                 ),
                 dbc.Modal([
-                    dbc.ModalHeader('Storage expansion', close_button=True),
+                    dbc.ModalHeader([html.H5('Wind Expansion')], close_button=True),
                     dbc.ModalBody(
                         'Should the programm simulate building out own wind turbines?'),
                 ], id="wind_expansion_modal", centered=True, is_open=False,
@@ -1011,7 +1015,7 @@ wind_settings = dbc.Card([
                     tooltip_text, target='planned_wind_text', placement='top'
                 ),
                 dbc.Modal([
-                    dbc.ModalHeader('Storage expansion', close_button=True),
+                    dbc.ModalHeader([html.H5('Planned Wind')], close_button=True),
                     dbc.ModalBody(
                         'placeholder text'),
                 ], id="planned_wind_modal", centered=True, is_open=False,
@@ -1027,7 +1031,7 @@ wind_settings = dbc.Card([
                     tooltip_text, target='wind_hours_text', placement='top'
                 ),
                 dbc.Modal([
-                    dbc.ModalHeader('Storage expansion', close_button=True),
+                    dbc.ModalHeader([html.H5('Wind Expansion Goal')], close_button=True),
                     dbc.ModalBody(
                         'placeholder text'),
                 ], id="wind_hours_modal", centered=True, is_open=False,
@@ -1043,7 +1047,7 @@ wind_settings = dbc.Card([
                     tooltip_text, target='wind_options_text', placement='top'
                 ),
                 dbc.Modal([
-                    dbc.ModalHeader('Storage expansion', close_button=True),
+                    dbc.ModalHeader([html.H5('Wind Expansion Options')], close_button=True),
                     dbc.ModalBody(
                         'placeholder text'),
                 ], id="wind_options_modal", centered=True, is_open=False,
@@ -1155,9 +1159,10 @@ storage_settings = dbc.Card([
                     tooltip_text, target='storage_switch_text', placement='top'
                 ),
                 dbc.Modal([
-                    dbc.ModalHeader('Storage expansion', close_button=True),
+                    dbc.ModalHeader([html.H5('Storage')], close_button=True),
                     dbc.ModalBody(
-                        'placeholder text'),
+                        'This switch will determine whether storages should be used to compensate for the undesired fluctuations '
+                        'in renewable energy production.'),
                 ], id="storage_switch_modal", centered=True, is_open=False,
                 ),
                 storage_switch
@@ -1169,9 +1174,9 @@ storage_settings = dbc.Card([
                     tooltip_text, target='storage_expansion_switch_text', placement='top'
                 ),
                 dbc.Modal([
-                    dbc.ModalHeader('Storage expansion', close_button=True),
+                    dbc.ModalHeader([html.H5('Storage Expansion')], close_button=True),
                     dbc.ModalBody(
-                        'placeholder text'),
+                        'Choose whether to expand upon the existing storages or not.'),
                 ], id="storage_expansion_switch_modal", centered=True, is_open=False,
                 ),
                 storage_expansion_switch
@@ -1187,9 +1192,12 @@ storage_settings = dbc.Card([
                     tooltip_text, target='start_capacity_text', placement='top'
                 ),
                 dbc.Modal([
-                    dbc.ModalHeader('Storage expansion', close_button=True),
+                    dbc.ModalHeader([html.H5('Start Capacity')], close_button=True),
                     dbc.ModalBody(
-                        'placeholder text'),
+                        'The start capacity determines how "full" the chosen storages should be at the beginning of the year. '
+                        'This will be determined through a percentage value referring to the maximum capacity. For example '
+                        'if the combined storage capacity is 100GWh and a value of 50% has been chosen, the year starts off '
+                        'with 50GWh worth of stored energy.'),
                 ], id="start_capacity_modal", centered=True, is_open=False,
                 ),
                 start_capacity_slider
@@ -1206,10 +1214,10 @@ storage_settings = dbc.Card([
                     tooltip_text, target='storage_expansion_text', placement='top'
                 ),
                 dbc.Modal([
-                    dbc.ModalHeader('Storage expansion', close_button=True),
+                    dbc.ModalHeader([html.H5('Storage Expansion Goal')], close_button=True),
                     dbc.ModalBody(
                         'What should be the final percentage of hours over 100% renewable energy, storages will be expanded '
-                        'after the value for wind is reached (see wind settings).'),
+                        'after the set hour goal for wind is reached (see wind settings slider).'),
                 ], id="storage_expansion_modal", centered=True, is_open=False,
                 ),
                 storage_expansion_slider
@@ -1225,11 +1233,11 @@ storage_settings = dbc.Card([
                     tooltip_text, target='safety_padding_text', placement='top'
                 ),
                 dbc.Modal([
-                    dbc.ModalHeader('Storage expansion', close_button=True),
+                    dbc.ModalHeader([html.H5('Safety padding')], close_button=True),
                     dbc.ModalBody(
                         'This option will create a safety padding for expanding storage. For example if the minimum '
-                        'amount of capacity needed to reach the earlier determined hour threshold is 100GWh, you can '
-                        'determine a safety padding of 20% and the programm will expand the storage to 120GWh '
+                        'amount of capacity needed to reach the 100% hour threshold is 100GWh, you can '
+                        'determine a safety padding of 20% and the programm will expand the storage to 120GWh.'
                         '(more budget needed, but more realistic)'),
                 ], id="safety_padding_modal", centered=True, is_open=False,
                 ),
@@ -1246,15 +1254,18 @@ storage_settings = dbc.Card([
                     tooltip_text, target='storage_options_text', placement='top'
                 ),
                 dbc.Modal([
-                    dbc.ModalHeader('Storage expansion', close_button=True),
-                    dbc.ModalBody(
+                    dbc.ModalHeader([html.H5('Storage Options')], close_button=True),
+                    dbc.ModalBody(html.P([
                         'Existing storages: Right now the only existing storage used in the simulation is the '
-                        'water pump storage in "Geesthacht". Only operational costs will be considered for this storage.\n'
+                        'water pump storage in "Geesthacht". Only operational costs will be considered for this storage.',
+                        html.Br(),
                         'Laegerdorf: A planned water pump storage located in Schleswig-Holstein. Building and operational '
-                        'costs will be considered for this storage.\n'
-                        'Compressed air: This storage technology will probably be indispensable for most scenarios. '
-                        'With an estimated capacity potential of 13.5TWh in Schleswig-Holstein it has the necessary '
-                        'capacity for long energy droughts.'),
+                        'costs will be considered for this storage.',
+                         html.Br(),
+                        'Compressed air: This storage technology will most likely be indispensable for reaching the 100% hour '
+                        'goal. With an estimated capacity potential of 13.5TWh in Schleswig-Holstein alone, it has the necessary '
+                        'capacity for long energy droughts.'])
+                        ),
                 ], id="storage_options_modal", centered=True, is_open=False,
                 )
             ], width='auto'),
@@ -1447,15 +1458,17 @@ app.layout = html.Div([
     support_button
 ], style={"width": "99%"}, className='px-3 py-2')
 
-scenario_1 = [False, True, [13, 19, 25], [0, 30, 60], True, True, 5, 5, True, True, 75, ['vor', 'pot'], False, False, 0, []]
-scenario_2 = [False, True, [13, 19, 25], [0, 30, 60], True, True, 5, 5, True, True, 75, ['vor', 'pot'], True, True, 20,
+scenario_1 = [False, True, [13, 19, 25], [0, 30, 60], True, True, 5, 10, True, True, 75, ['vor', 'pot'], False, False, 0, []]
+scenario_2 = [False, True, [13, 19, 25], [0, 30, 60], True, True, 5, 10, True, True, 75, ['vor', 'pot'], True, True, 20,
               ['existing', 'laegerdorf', 'air']]
-scenario_3 = [True, True, [13, 19, 25], [0, 30, 60], True, True, 5, 5, True, True, 75, ['vor', 'pot'], True, True, 20,
+scenario_3 = [True, False, [13, 19, 25], [0, 30, 60], True, True, 5, 10, True, True, 76, ['vor', 'pot'], True, True, 10,
               ['existing', 'laegerdorf', 'air']]
-scenario_4 = [False, False, [13, 19, 25], [0, 30, 60], True, True, 5, 5, False, True, 0, [], True, False, 20,
+scenario_4 = [False, True, [13, 19, 25], [0, 30, 60], True, True, 50, 250, True, True, 75, ['vor', 'pot'], True, True, 10,
               ['existing']]
-scenario_5 = [False, False, [13, 19, 25], [0, 30, 60], True, True, 0, 0, False, False, 75, [], False, False, 0, []]
-scenario_6 = [False, True, [13, 19, 25], [0, 30, 60], True, True, 5, 5, True, True, 75, [], True, True, 20,
+scenario_5 = [False, False, [13, 19, 25], [0, 30, 60], True, True, 5, 10, False, False, 0, [], True, False, 0, ['existing']]
+scenario_6 = [False, True, [13, 19, 25], [0, 30, 60], True, True, 5, 10, True, True, 100, ['vor', 'pot'], False, False, 10,
+              []]
+scenario_7 = [False, True, [13, 19, 25], [0, 30, 60], True, True, 5, 10, True, True, 76, ['vor', 'pot'], True, True, 20,
               ['existing', 'laegerdorf', 'air']]
 
 
@@ -1492,8 +1505,56 @@ def change_scenario(value, options):
         return scenario_4
     elif value == options[4]['value']:
         return scenario_5
+    elif value == options[5]['value']:
+        return scenario_6
+    elif value == options[6]['value']:
+        return scenario_7
     else:
         raise PreventUpdate
+
+
+@app.callback(
+    [
+        Output('storage_expansion_slider', 'min'),
+        Output('storage_expansion_slider', 'marks'),
+        Output('storage_expansion_slider', 'value'),
+    ],
+    [
+        Input('wind_hours_slider', 'value'),
+        Input('scenario_dropdown', 'value')
+    ],
+    [
+        State('scenario_dropdown', 'options')
+    ]
+)
+def lock_storage_expansion(value, scenario, options):
+    ctx = dash.callback_context
+
+    if not ctx.triggered:
+        button_id = 'No clicks yet'
+    else:
+        button_id = ctx.triggered[0]['prop_id'].split('.')[0]
+
+    if button_id == 'scenario_dropdown':
+        if scenario == options[0]['value']:
+            return value, slider_intervals(value), 0
+        elif scenario == options[1]['value']:
+            return value, slider_intervals(value), 100
+        elif scenario == options[2]['value']:
+            return value, slider_intervals(value), 100
+        elif scenario == options[3]['value']:
+            return value, slider_intervals(value), 100
+        elif scenario == options[4]['value']:
+            return value, slider_intervals(value), 0
+        elif scenario == options[5]['value']:
+            return value, slider_intervals(value), 0
+        elif scenario == options[6]['value']:
+            return value, slider_intervals(value), 90
+        else:
+            raise PreventUpdate
+    else:
+        return value, slider_intervals(value), value
+
 
 
 # scenario modal texts
@@ -1874,7 +1935,7 @@ def upload_data(list_of_contents, list_of_names, year):
                 elif os.path.isdir(file_path):
                     shutil.rmtree(file_path)
             except Exception as e:
-                #print(f'Failed to delete "{file_path}". Reason: {e}')
+                # print(f'Failed to delete "{file_path}". Reason: {e}')
                 pass
 
         # save new files
@@ -1888,7 +1949,7 @@ def upload_data(list_of_contents, list_of_names, year):
                                  sep=';', decimal=',', index_col=False)
                 df.to_csv('Own_Data/' + file_name, sep=';', decimal=',', encoding='utf-8-sig')
             except Exception as e:
-                #print(e)
+                # print(e)
                 pass
 
         return False, html.P([upload_modal_text, html.Br(), html.Br(),
@@ -1912,46 +1973,7 @@ def padding(value, disabled):
         return 0, True
     elif disabled:
         return dash.no_update, True
-    return dash.no_update, False
-
-
-@app.callback(
-    [
-        Output('storage_expansion_slider', 'min'),
-        Output('storage_expansion_slider', 'marks'),
-        Output('storage_expansion_slider', 'value'),
-    ],
-    [
-        Input('wind_hours_slider', 'value'),
-        Input('scenario_dropdown', 'value')
-    ],
-    [
-        State('scenario_dropdown', 'options')
-    ]
-)
-def lock_storage_expansion(value, scenario, options):
-    ctx = dash.callback_context
-
-    if not ctx.triggered:
-        button_id = 'No clicks yet'
-    else:
-        button_id = ctx.triggered[0]['prop_id'].split('.')[0]
-
-    if button_id == 'scenario_dropdown':
-        if scenario == options[0]['value']:
-            return value, slider_intervals(value), 0
-        elif scenario == options[1]['value']:
-            return value, slider_intervals(value), 100
-        elif scenario == options[2]['value']:
-            return value, slider_intervals(value), 100
-        elif scenario == options[3]['value']:
-            return value, slider_intervals(value), 0
-        elif scenario == options[4]['value']:
-            return value, slider_intervals(value), 0
-        else:
-            raise PreventUpdate
-    else:
-        return value, slider_intervals(value), value
+    return 5, False
 
 
 @app.callback(
@@ -1977,7 +1999,6 @@ def lock_storage_expansion(value, scenario, options):
     prevent_initial_call=True
 )
 def spinner(n, value, n_support, own_data, eisman, wind_expansion, storage_switch, storage_expansion):
-
     if n == 0:
         return dash.no_update
     if n > n_support:
@@ -2168,15 +2189,15 @@ def change_map(area, size, children):
 def graph_dropdown(n, value):
     if value:
         return [
-             {'label': 'Ratio', 'value': 'ratio'},
-             {'label': 'Absolute RE', 'value': 'RE'},
-             {'label': 'Energy mix', 'value': 'mix'},
-             {'label': 'Storage', 'value': 'storage'},
+            {'label': 'Ratio', 'value': 'ratio'},
+            {'label': 'Absolute RE', 'value': 'RE'},
+            {'label': 'Energy mix', 'value': 'mix'},
+            {'label': 'Storage', 'value': 'storage'},
         ]
     return [
-         {'label': 'Ratio', 'value': 'ratio'},
-         {'label': 'Absolute RE', 'value': 'RE'},
-         {'label': 'Energy mix', 'value': 'mix'},
+        {'label': 'Ratio', 'value': 'ratio'},
+        {'label': 'Absolute RE', 'value': 'RE'},
+        {'label': 'Energy mix', 'value': 'mix'},
     ]
 
 
