@@ -132,6 +132,18 @@ def drawEE_absolute(value):
         fig.add_trace(go.Scatter(x=df_analyse['Datum'], y=df_analyse['Erzeugung_Wind_Gesamt'], marker=dict(color='blue'),
                                  name="Wind"))
 
+    elif value == 'storage':
+        fig.add_trace(
+            go.Scatter(x=df_analyse['Datum'], y=df_analyse['Speicherstatus'], marker=dict(color='blue'),
+                       name="Storage capacity (kWh)"))
+        fig.add_trace(
+            go.Scatter(x=df_analyse['Datum'], y=df_analyse['Ein(+)-/ Ausspeisung(-)'], marker=dict(color='green'),
+                       name="Feeding in/out"))
+        fig.add_trace(
+            go.Scatter(x=df_analyse['Datum'], y=df_analyse['Speicherverluste'], marker=dict(color='red'),
+                       name="Energy loss"))
+
+
     fig.update_layout(template='plotly_dark', title='Absolute Numbers', title_x=0.5,
                       xaxis_title="Date",
                       yaxis_title="Power (in kW)",
@@ -342,27 +354,6 @@ def make_monthly_table(storage):
 
             {
                 'if': {
-                    'column_id': 'Deficit/Conventional (TWh)',
-                    'filter_query': '{{Deficit/Conventional (TWh)}} = {}'.format(
-                        df_month_report['Deficit/Conventional (TWh)'].nlargest(2).tolist()[1])
-                },
-                'backgroundColor': '#ffbaba',
-                'color': 'black'
-            },
-            {
-                'if': {
-                    'column_id': 'Deficit/Conventional (TWh)',
-                    'filter_query': '{{Deficit/Conventional (TWh)}} = {}'.format(
-                        df_month_report['Deficit/Conventional (TWh)'].min())
-                },
-                'backgroundColor': '#c9ffba',
-                'color': 'black'
-            },
-
-            # -----------------------------------------------------------------------------
-
-            {
-                'if': {
                     'column_id': 'Storage feed in (TWh)',
                     'filter_query': '{{Storage feed in (TWh)}} = {}'.format(
                         df_month_report['Storage feed in (TWh)'].nlargest(2).tolist()[1])
@@ -505,28 +496,7 @@ def make_monthly_table(storage):
                 'backgroundColor': '#c9ffba',
                 'color': 'black'
             },
-
-            # -----------------------------------------------------------------------------
-
-            {
-                'if': {
-                    'column_id': 'Deficit/Conventional (TWh)',
-                    'filter_query': '{{Deficit/Conventional (TWh)}} = {}'.format(
-                        df_month_report['Deficit/Conventional (TWh)'].nlargest(2).tolist()[1])
-                },
-                'backgroundColor': '#ffbaba',
-                'color': 'black'
-            },
-            {
-                'if': {
-                    'column_id': 'Deficit/Conventional (TWh)',
-                    'filter_query': '{{Deficit/Conventional (TWh)}} = {}'.format(
-                        df_month_report['Deficit/Conventional (TWh)'].min())
-                },
-                'backgroundColor': '#c9ffba',
-                'color': 'black'
-            },
-        ]
+]
 
     return dt.DataTable(columns=[{"name": i, "id": i} for i in df_month_report.columns],
                         style_cell={
@@ -631,14 +601,13 @@ scenario_dropdown = html.Div([
     dcc.Dropdown(
         id='scenario_dropdown',
         options=[
-            {'label': 'Task 1', 'value': 'Scenario 1'},
-            {'label': 'Task 2', 'value': 'Scenario 2'},
-            {'label': 'Task 3', 'value': 'Scenario 3'},
-            {'label': 'No expasion', 'value': 'Scenario 4'},
-            {'label': 'Fast simulation', 'value': 'Scenario 5'},
-            {'label': 'Economic solution', 'value': 'Scenario 6'},
+            {'label': 'Task 1', 'value': 'Task 1'},
+            {'label': 'Task 2', 'value': 'Task 2'},
+            {'label': 'Task 3', 'value': 'Task 3'},
+            {'label': 'No expasion', 'value': 'No expasion'},
+            {'label': 'Fast simulation', 'value': 'Fast simulation'},
         ],
-        value='Scenario 1',
+        value='Task 1',
         style={"textAlign": "left", 'color': 'black'},
         clearable=False
     )
@@ -2165,6 +2134,27 @@ def change_map(area, size, children):
 
 
 @app.callback(
+    Output('dropdown_data', 'options'),
+    Input('support_button', 'n_clicks'),
+    State('storage_switch', 'value'),
+    prevent_initial_call=True
+)
+def graph_dropdown(n, value):
+    if value:
+        return [
+             {'label': 'Ratio', 'value': 'ratio'},
+             {'label': 'Absolute RE', 'value': 'RE'},
+             {'label': 'Energy mix', 'value': 'mix'},
+             {'label': 'Storage', 'value': 'storage'},
+        ]
+    return [
+         {'label': 'Ratio', 'value': 'ratio'},
+         {'label': 'Absolute RE', 'value': 'RE'},
+         {'label': 'Energy mix', 'value': 'mix'},
+    ]
+
+
+@app.callback(
     Output('graph_year', 'figure'),
     [
         Input('dropdown_data', 'value'),
@@ -2182,6 +2172,9 @@ def change_graph(data, children, options):
             return drawEE_absolute(data)
         elif data == options[2]['value']:
             return drawEE_absolute(data)
+        elif len(options) == 4:
+            if data == options[3]['value']:
+                return drawEE_absolute(data)
         else:
             pass
 
@@ -2298,6 +2291,7 @@ def start_sim(n, exmpl_sw, year, wind_expansion_value, bio_sw, bio_inp, solar_sw
         main.META_EE_Anteil = wind_expansion_value / 100  # Muss Decimal angegeben werden
         main.META_EE_Speicher = storage_expansion_value / 100  # Grenzwert bis Speicher nicht mehr ausgebaut werden 100%
         main.META_year = year
+        main.META_own_data = exmpl_sw
         '- - - - - - - - - - - - - - - - - - - -'
         'BIO'
         main.META_biomasse = bio_sw
