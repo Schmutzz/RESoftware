@@ -973,6 +973,7 @@ def analyseEE(year, exportfolder, listSpeicher=0, EE_Erz=0, PV_Gesamt=0, erz_Bio
               ausbauWindeisman=0, ausbauPV=0, ausbauBio=0, key_name = 'leer', ausbau=False,
               export=False, geplanterAusbau=True, biomes=True, wind=True, PV=True,
               expansionPV=0, expansionBio=0, speicher=False, eisman = False):
+
     # print(FrameVerbrauch)
     # print(FrameErzeung)
     # print(EE_Erz)
@@ -1614,7 +1615,7 @@ def expansion_WKA(year,WKAKey, weatherID, WKADict, standort, windWetterdaten, Vo
     leistung_gesamt = 0
     temp_leistung = [0] * len(windWetterdaten['Wind_m/s_788'])
     temp_verlust = [0] * len(windWetterdaten['Wind_m/s_788'])
-
+    matchfilelist = 0
     columnFrame = windWetterdaten.columns.values.tolist()
     columnName = ''
 
@@ -1669,6 +1670,8 @@ def expansion_WKA(year,WKAKey, weatherID, WKADict, standort, windWetterdaten, Vo
                                          META_third_power_limit=META_third_power_limit,
                                          use_wind_IEC=True, eisman=eisman)
 
+
+
         temp_wirk = temp_leistung_single[0]
         temp_verlust_single = temp_leistung_single[0]
 
@@ -1676,11 +1679,24 @@ def expansion_WKA(year,WKAKey, weatherID, WKADict, standort, windWetterdaten, Vo
         for i in range(len(temp_leistung)):
             temp_leistung[i] = temp_leistung[i] + temp_wirk[i]
             temp_verlust[i] = temp_verlust[i] + temp_verlust_single[i]
+
         leistung_gesamt += leistung_wka
+
+    leistung_single = annualOutput_WKA(year, Ein_ms, Nenn_ms, Abs_ms, leistung_einzel,
+                                            windWetterdaten[matchfilelist[0]], nabenhohe,
+                                            10,
+                                            WKADict[WKAKey]['Windklasse'],
+                                            META_first_wind_limit=META_first_wind_limit,
+                                            META_sec_wind_limit=META_sec_wind_limit,
+                                            META_third_wind_limit=META_third_wind_limit,
+                                            META_first_power_limit=META_first_power_limit,
+                                            META_sec_power_limit=META_sec_power_limit,
+                                            META_third_power_limit=META_third_power_limit,
+                                            use_wind_IEC=True, eisman=eisman)
 
     print('Energy im Jahr in GW',sum(temp_leistung)/1000000, 'Anzahl :',anzahl_2, 'Leistung: ', leistung_gesamt)
     print('Energy verluste: ',sum(temp_verlust))
-    return temp_leistung, columnName, anzahl_2, leistung_gesamt, temp_verlust
+    return temp_leistung, columnName, anzahl_2, leistung_gesamt, temp_verlust, leistung_single[0], leistung_single[1]
 
 
 def standortquality(year, wetterdaten, WKAanlagen):
@@ -2241,7 +2257,7 @@ def month_report(year,data_frame,exportfolder,keyname,EE_Erz,speicher_use = Fals
                         if data_frame[j][kndex] > 0:
                             temp_values_positiv[index] = temp_values_positiv[index] + (data_frame[j][kndex]/TW)
                         else:
-                            temp_values_negativ[index] = temp_values_negativ[index] + (data_frame[j][kndex]/TW)
+                            temp_values_negativ[index] = temp_values_negativ[index] + abs((data_frame[j][kndex]/TW))
 
             temp_sum = sum(temp_values_positiv)
             temp_values_positiv[12] = temp_sum
