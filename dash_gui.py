@@ -175,11 +175,32 @@ def drawEE_absolute_line():
 '''
 
 
-def draw_pie():
-    df = df_month_report.copy()
-    df = df.iloc[-1]
-    return px.pie(df, 'Art', 'Energiemenge', title='Used Energy').update_layout(
-        template='plotly_dark', title_x=0.5)
+def draw_pie(biomass, solar):
+    headers = ['Wind (TWh)', 'PV (TWh)', 'Biomass (TWh)', 'Deficit/Conventional (TWh)']
+    consum = df_month_report['Consumption (TWh)'].iloc[-1]
+
+    if not biomass:
+        headers.remove('Biomass (TWh)')
+    if not solar:
+        headers.remove('PV (TWh)')
+
+    values = df_month_report[headers].iloc[-1].tolist()
+
+    for index, i in enumerate(headers):
+        headers[index] = headers[index].replace(' (TWh)', '')
+
+    other_re = sum(values[1:])
+    values[0] = consum - other_re
+
+    df = pd.DataFrame()
+    df['Energy source'] = headers
+    df['Used energy (in TWh)'] = values
+    print(df.head())
+    fig = px.pie(df, values='Used energy (in TWh)', names='Energy source', title='Energy Usage').update_layout(
+                 template='plotly_dark', title_x=0.5)
+    fig.update_traces(textposition='inside', textinfo='percent+label')
+
+    return fig
 
 
 def draw_vor(sizing):
@@ -1364,6 +1385,12 @@ results = html.Div([
                 ], className='py-3'),
                 dbc.Row([
                     dbc.Col([
+                        html.H4('Monthly Overview', style={"text-decoration": 'underline'}),
+                        html.Div(id='monthly_table')
+                    ])
+                ], className='py-3'),
+                dbc.Row([
+                    dbc.Col([
                         html.P('Area:'),
                         dcc.Dropdown(id='dropdown_map',
                                      options=[
@@ -1386,22 +1413,16 @@ results = html.Div([
                                      style={"textAlign": "left", 'color': 'black'},
                                      clearable=False
                                      )
-                    ], width=1)
+                    ], width=1),
                 ], className='pt-3'),
                 dbc.Row([
                     dbc.Col([
                         dcc.Graph(id='map')
                     ], width=6),
                     dbc.Col([
-
+                        dcc.Graph(id='graph_pie')
                     ], width=6)
                 ], className='py-3', justify="between"),
-                dbc.Row([
-                    dbc.Col([
-                        html.H4('Monthly Overview', style={"text-decoration": 'underline'}),
-                        html.Div(id='monthly_table')
-                    ])
-                ], className='py-3'),
                 dbc.Row([
                     dbc.Col([
                         html.H4('Costs Overview', style={"text-decoration": 'underline'}),
@@ -1966,7 +1987,7 @@ def spinner(n, value, n_support, own_data, eisman, wind_expansion, storage_switc
             if not own_data:
                 start_value -= 2
             if not eisman:
-                start_value -= 3.5
+                start_value -= 4
             if not wind_expansion:
                 start_value -= 3.5
             if not storage_switch:
@@ -1974,7 +1995,7 @@ def spinner(n, value, n_support, own_data, eisman, wind_expansion, storage_switc
             if not storage_expansion:
                 start_value -= 3
 
-            intervals = ((start_value * 60) / 100) * 1000
+            intervals = int(((start_value * 60) / 100) * 1000)
 
             return dbc.Button(
                 [dbc.Spinner(size="sm"), " Simulating..."],
@@ -2182,6 +2203,24 @@ def change_graph(data, children, options):
                 return drawEE_absolute(data)
         else:
             pass
+
+
+@app.callback(
+    Output('graph_pie', 'figure'),
+    Input('start_button', 'children'),
+    [
+        State('biomass_switch', 'value'),
+        State('solar_switch', 'value'),
+    ],
+    prevent_initial_call=True
+)
+def pie(children, biomass, solar):
+    if children == 'Start':
+        return dash.no_update
+    elif children == 'Back':
+        return draw_pie(biomass, solar)
+    else:
+        pass
 
 
 @app.callback(
