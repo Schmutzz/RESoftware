@@ -244,259 +244,261 @@ def draw_pot(sizing):
 
 
 def make_monthly_table(storage):
-    styling = []
-    if storage:
-        styling = [
-            {
-                'if': {
-                    'column_id': 'Wind (TWh)',
-                    'filter_query': '{{Wind (TWh)}} = {}'.format(
-                        df_month_report['Wind (TWh)'].nlargest(2).tolist()[1])
+    '''
+        styling = []
+        if storage:
+            styling = [
+                {
+                    'if': {
+                        'column_id': 'Wind (TWh)',
+                        'filter_query': '{{Wind (TWh)}} = {}'.format(
+                            df_month_report['Wind (TWh)'].nlargest(2).tolist()[1])
+                    },
+                    'backgroundColor': '#c9ffba',
+                    'color': 'black'
                 },
-                'backgroundColor': '#c9ffba',
-                'color': 'black'
-            },
-            {
-                'if': {
-                    'column_id': 'Wind (TWh)',
-                    'filter_query': '{{Wind (TWh)}} = {}'.format(
-                        df_month_report['Wind (TWh)'].min())
+                {
+                    'if': {
+                        'column_id': 'Wind (TWh)',
+                        'filter_query': '{{Wind (TWh)}} = {}'.format(
+                            df_month_report['Wind (TWh)'].min())
+                    },
+                    'backgroundColor': '#ffbaba',
+                    'color': 'black'
                 },
-                'backgroundColor': '#ffbaba',
-                'color': 'black'
-            },
 
-            # -----------------------------------------------------------------------------
+                # -----------------------------------------------------------------------------
 
-            {
-                'if': {
-                    'column_id': 'Biomass (TWh)',
-                    'filter_query': '{{Biomass (TWh)}} = {}'.format(
-                        df_month_report['Biomass (TWh)'].nlargest(2).tolist()[1])
+                {
+                    'if': {
+                        'column_id': 'Biomass (TWh)',
+                        'filter_query': '{{Biomass (TWh)}} = {}'.format(
+                            df_month_report['Biomass (TWh)'].nlargest(2).tolist()[1])
+                    },
+                    'backgroundColor': '#c9ffba',
+                    'color': 'black'
                 },
-                'backgroundColor': '#c9ffba',
-                'color': 'black'
-            },
-            {
-                'if': {
-                    'column_id': 'Biomass (TWh)',
-                    'filter_query': '{{Biomass (TWh)}} = {}'.format(
-                        df_month_report['Biomass (TWh)'].min())
+                {
+                    'if': {
+                        'column_id': 'Biomass (TWh)',
+                        'filter_query': '{{Biomass (TWh)}} = {}'.format(
+                            df_month_report['Biomass (TWh)'].min())
+                    },
+                    'backgroundColor': '#ffbaba',
+                    'color': 'black'
                 },
-                'backgroundColor': '#ffbaba',
-                'color': 'black'
-            },
 
-            # -----------------------------------------------------------------------------
+                # -----------------------------------------------------------------------------
 
-            {
-                'if': {
-                    'column_id': 'PV (TWh)',
-                    'filter_query': '{{PV (TWh)}} = {}'.format(
-                        df_month_report['PV (TWh)'].nlargest(2).tolist()[1])
+                {
+                    'if': {
+                        'column_id': 'PV (TWh)',
+                        'filter_query': '{{PV (TWh)}} = {}'.format(
+                            df_month_report['PV (TWh)'].nlargest(2).tolist()[1])
+                    },
+                    'backgroundColor': '#c9ffba',
+                    'color': 'black'
                 },
-                'backgroundColor': '#c9ffba',
-                'color': 'black'
-            },
-            {
-                'if': {
-                    'column_id': 'PV (TWh)',
-                    'filter_query': '{{PV (TWh)}} = {}'.format(
-                        df_month_report['PV (TWh)'].min())
+                {
+                    'if': {
+                        'column_id': 'PV (TWh)',
+                        'filter_query': '{{PV (TWh)}} = {}'.format(
+                            df_month_report['PV (TWh)'].min())
+                    },
+                    'backgroundColor': '#ffbaba',
+                    'color': 'black'
                 },
-                'backgroundColor': '#ffbaba',
-                'color': 'black'
-            },
 
-            # -----------------------------------------------------------------------------
+                # -----------------------------------------------------------------------------
 
-            {
-                'if': {
-                    'column_id': 'Combined RE (TWh)',
-                    'filter_query': '{{Combined RE (TWh)}} = {}'.format(
-                        df_month_report['Combined RE (TWh)'].nlargest(2).tolist()[1])
+                {
+                    'if': {
+                        'column_id': 'Combined RE (TWh)',
+                        'filter_query': '{{Combined RE (TWh)}} = {}'.format(
+                            df_month_report['Combined RE (TWh)'].nlargest(2).tolist()[1])
+                    },
+                    'backgroundColor': '#c9ffba',
+                    'color': 'black'
                 },
-                'backgroundColor': '#c9ffba',
-                'color': 'black'
-            },
-            {
-                'if': {
-                    'column_id': 'Combined RE (TWh)',
-                    'filter_query': '{{Combined RE (TWh)}} = {}'.format(
-                        df_month_report['Combined RE (TWh)'].min())
+                {
+                    'if': {
+                        'column_id': 'Combined RE (TWh)',
+                        'filter_query': '{{Combined RE (TWh)}} = {}'.format(
+                            df_month_report['Combined RE (TWh)'].min())
+                    },
+                    'backgroundColor': '#ffbaba',
+                    'color': 'black'
                 },
-                'backgroundColor': '#ffbaba',
-                'color': 'black'
-            },
 
-            # -----------------------------------------------------------------------------
+                # -----------------------------------------------------------------------------
 
-            {
-                'if': {
-                    'column_id': 'Consumption (TWh)',
-                    'filter_query': '{{Consumption (TWh)}} = {}'.format(
-                        df_month_report['Consumption (TWh)'].nlargest(2).tolist()[1])
+                {
+                    'if': {
+                        'column_id': 'Consumption (TWh)',
+                        'filter_query': '{{Consumption (TWh)}} = {}'.format(
+                            df_month_report['Consumption (TWh)'].nlargest(2).tolist()[1])
+                    },
+                    'backgroundColor': '#ffbaba',
+                    'color': 'black'
                 },
-                'backgroundColor': '#ffbaba',
-                'color': 'black'
-            },
-            {
-                'if': {
-                    'column_id': 'Consumption (TWh)',
-                    'filter_query': '{{Consumption (TWh)}} = {}'.format(
-                        df_month_report['Consumption (TWh)'].min())
+                {
+                    'if': {
+                        'column_id': 'Consumption (TWh)',
+                        'filter_query': '{{Consumption (TWh)}} = {}'.format(
+                            df_month_report['Consumption (TWh)'].min())
+                    },
+                    'backgroundColor': '#c9ffba',
+                    'color': 'black'
                 },
-                'backgroundColor': '#c9ffba',
-                'color': 'black'
-            },
 
-            # -----------------------------------------------------------------------------
+                # -----------------------------------------------------------------------------
 
-            {
-                'if': {
-                    'column_id': 'Storage feed in (TWh)',
-                    'filter_query': '{{Storage feed in (TWh)}} = {}'.format(
-                        df_month_report['Storage feed in (TWh)'].nlargest(2).tolist()[1])
+                {
+                    'if': {
+                        'column_id': 'Storage feed in (TWh)',
+                        'filter_query': '{{Storage feed in (TWh)}} = {}'.format(
+                            df_month_report['Storage feed in (TWh)'].nlargest(2).tolist()[1])
+                    },
+                    'backgroundColor': '#c9ffba',
+                    'color': 'black'
                 },
-                'backgroundColor': '#c9ffba',
-                'color': 'black'
-            },
-            {
-                'if': {
-                    'column_id': 'Storage feed in (TWh)',
-                    'filter_query': '{{Storage feed in (TWh)}} = {}'.format(
-                        df_month_report['Storage feed in (TWh)'].min())
+                {
+                    'if': {
+                        'column_id': 'Storage feed in (TWh)',
+                        'filter_query': '{{Storage feed in (TWh)}} = {}'.format(
+                            df_month_report['Storage feed in (TWh)'].min())
+                    },
+                    'backgroundColor': '#ffbaba',
+                    'color': 'black'
                 },
-                'backgroundColor': '#ffbaba',
-                'color': 'black'
-            },
 
-            # -----------------------------------------------------------------------------
+                # -----------------------------------------------------------------------------
 
-            {
-                'if': {
-                    'column_id': 'Storage feed out (TWh)',
-                    'filter_query': '{{Storage feed out (TWh)}} = {}'.format(
-                        df_month_report['Storage feed out (TWh)'].nlargest(2).tolist()[1])
+                {
+                    'if': {
+                        'column_id': 'Storage feed out (TWh)',
+                        'filter_query': '{{Storage feed out (TWh)}} = {}'.format(
+                            df_month_report['Storage feed out (TWh)'].nlargest(2).tolist()[1])
+                    },
+                    'backgroundColor': '#c9ffba',
+                    'color': 'black'
                 },
-                'backgroundColor': '#c9ffba',
-                'color': 'black'
-            },
-            {
-                'if': {
-                    'column_id': 'Storage feed out (TWh)',
-                    'filter_query': '{{Storage feed out (TWh)}} = {}'.format(
-                        df_month_report['Storage feed out (TWh)'].min())
+                {
+                    'if': {
+                        'column_id': 'Storage feed out (TWh)',
+                        'filter_query': '{{Storage feed out (TWh)}} = {}'.format(
+                            df_month_report['Storage feed out (TWh)'].min())
+                    },
+                    'backgroundColor': '#ffbaba',
+                    'color': 'black'
                 },
-                'backgroundColor': '#ffbaba',
-                'color': 'black'
-            },
-        ]
-    else:
-        styling = [
-            {
-                'if': {
-                    'column_id': 'Wind (TWh)',
-                    'filter_query': '{{Wind (TWh)}} = {}'.format(
-                        df_month_report['Wind (TWh)'].nlargest(2).tolist()[1])
+            ]
+        else:
+            styling = [
+                {
+                    'if': {
+                        'column_id': 'Wind (TWh)',
+                        'filter_query': '{{Wind (TWh)}} = {}'.format(
+                            df_month_report['Wind (TWh)'].nlargest(2).tolist()[1])
+                    },
+                    'backgroundColor': '#c9ffba',
+                    'color': 'black'
                 },
-                'backgroundColor': '#c9ffba',
-                'color': 'black'
-            },
-            {
-                'if': {
-                    'column_id': 'Wind (TWh)',
-                    'filter_query': '{{Wind (TWh)}} = {}'.format(
-                        df_month_report['Wind (TWh)'].min())
+                {
+                    'if': {
+                        'column_id': 'Wind (TWh)',
+                        'filter_query': '{{Wind (TWh)}} = {}'.format(
+                            df_month_report['Wind (TWh)'].min())
+                    },
+                    'backgroundColor': '#ffbaba',
+                    'color': 'black'
                 },
-                'backgroundColor': '#ffbaba',
-                'color': 'black'
-            },
 
-            # -----------------------------------------------------------------------------
+                # -----------------------------------------------------------------------------
 
-            {
-                'if': {
-                    'column_id': 'Biomass (TWh)',
-                    'filter_query': '{{Biomass (TWh)}} = {}'.format(
-                        df_month_report['Biomass (TWh)'].nlargest(2).tolist()[1])
+                {
+                    'if': {
+                        'column_id': 'Biomass (TWh)',
+                        'filter_query': '{{Biomass (TWh)}} = {}'.format(
+                            df_month_report['Biomass (TWh)'].nlargest(2).tolist()[1])
+                    },
+                    'backgroundColor': '#c9ffba',
+                    'color': 'black'
                 },
-                'backgroundColor': '#c9ffba',
-                'color': 'black'
-            },
-            {
-                'if': {
-                    'column_id': 'Biomass (TWh)',
-                    'filter_query': '{{Biomass (TWh)}} = {}'.format(
-                        df_month_report['Biomass (TWh)'].min())
+                {
+                    'if': {
+                        'column_id': 'Biomass (TWh)',
+                        'filter_query': '{{Biomass (TWh)}} = {}'.format(
+                            df_month_report['Biomass (TWh)'].min())
+                    },
+                    'backgroundColor': '#ffbaba',
+                    'color': 'black'
                 },
-                'backgroundColor': '#ffbaba',
-                'color': 'black'
-            },
 
-            # -----------------------------------------------------------------------------
+                # -----------------------------------------------------------------------------
 
-            {
-                'if': {
-                    'column_id': 'PV (TWh)',
-                    'filter_query': '{{PV (TWh)}} = {}'.format(
-                        df_month_report['PV (TWh)'].nlargest(2).tolist()[1])
+                {
+                    'if': {
+                        'column_id': 'PV (TWh)',
+                        'filter_query': '{{PV (TWh)}} = {}'.format(
+                            df_month_report['PV (TWh)'].nlargest(2).tolist()[1])
+                    },
+                    'backgroundColor': '#c9ffba',
+                    'color': 'black'
                 },
-                'backgroundColor': '#c9ffba',
-                'color': 'black'
-            },
-            {
-                'if': {
-                    'column_id': 'PV (TWh)',
-                    'filter_query': '{{PV (TWh)}} = {}'.format(
-                        df_month_report['PV (TWh)'].min())
+                {
+                    'if': {
+                        'column_id': 'PV (TWh)',
+                        'filter_query': '{{PV (TWh)}} = {}'.format(
+                            df_month_report['PV (TWh)'].min())
+                    },
+                    'backgroundColor': '#ffbaba',
+                    'color': 'black'
                 },
-                'backgroundColor': '#ffbaba',
-                'color': 'black'
-            },
 
-            # -----------------------------------------------------------------------------
+                # -----------------------------------------------------------------------------
 
-            {
-                'if': {
-                    'column_id': 'Combined RE (TWh)',
-                    'filter_query': '{{Combined RE (TWh)}} = {}'.format(
-                        df_month_report['Combined RE (TWh)'].nlargest(2).tolist()[1])
+                {
+                    'if': {
+                        'column_id': 'Combined RE (TWh)',
+                        'filter_query': '{{Combined RE (TWh)}} = {}'.format(
+                            df_month_report['Combined RE (TWh)'].nlargest(2).tolist()[1])
+                    },
+                    'backgroundColor': '#c9ffba',
+                    'color': 'black'
                 },
-                'backgroundColor': '#c9ffba',
-                'color': 'black'
-            },
-            {
-                'if': {
-                    'column_id': 'Combined RE (TWh)',
-                    'filter_query': '{{Combined RE (TWh)}} = {}'.format(
-                        df_month_report['Combined RE (TWh)'].min())
+                {
+                    'if': {
+                        'column_id': 'Combined RE (TWh)',
+                        'filter_query': '{{Combined RE (TWh)}} = {}'.format(
+                            df_month_report['Combined RE (TWh)'].min())
+                    },
+                    'backgroundColor': '#ffbaba',
+                    'color': 'black'
                 },
-                'backgroundColor': '#ffbaba',
-                'color': 'black'
-            },
 
-            # -----------------------------------------------------------------------------
+                # -----------------------------------------------------------------------------
 
-            {
-                'if': {
-                    'column_id': 'Consumption (TWh)',
-                    'filter_query': '{{Consumption (TWh)}} = {}'.format(
-                        df_month_report['Consumption (TWh)'].nlargest(2).tolist()[1])
+                {
+                    'if': {
+                        'column_id': 'Consumption (TWh)',
+                        'filter_query': '{{Consumption (TWh)}} = {}'.format(
+                            df_month_report['Consumption (TWh)'].nlargest(2).tolist()[1])
+                    },
+                    'backgroundColor': '#ffbaba',
+                    'color': 'black'
                 },
-                'backgroundColor': '#ffbaba',
-                'color': 'black'
-            },
-            {
-                'if': {
-                    'column_id': 'Consumption (TWh)',
-                    'filter_query': '{{Consumption (TWh)}} = {}'.format(
-                        df_month_report['Consumption (TWh)'].min())
+                {
+                    'if': {
+                        'column_id': 'Consumption (TWh)',
+                        'filter_query': '{{Consumption (TWh)}} = {}'.format(
+                            df_month_report['Consumption (TWh)'].min())
+                    },
+                    'backgroundColor': '#c9ffba',
+                    'color': 'black'
                 },
-                'backgroundColor': '#c9ffba',
-                'color': 'black'
-            },
-]
+    ]
+    '''
 
     return dt.DataTable(columns=[{"name": i, "id": i} for i in df_month_report.columns],
                         style_cell={
@@ -510,13 +512,14 @@ def make_monthly_table(storage):
                         style_header={
                             'backgroundColor': 'rgb(10, 10, 10)',
                             'color': 'white',
-                            'whiteSpace': 'normal'
+                            'whiteSpace': 'normal',
+                            'textAlign': 'center'
                         },
                         style_data={
                             'backgroundColor': 'rgb(40, 40, 40)',
                             'color': 'white'
                         },
-                        style_data_conditional=styling,
+                        # style_data_conditional=styling,
                         )
 
 
@@ -533,7 +536,8 @@ def make_cost_table():
                         style_header={
                             'backgroundColor': 'rgb(10, 10, 10)',
                             'color': 'white',
-                            'whiteSpace': 'normal'
+                            'whiteSpace': 'normal',
+                            'textAlign': 'center'
                         },
                         style_data={
                             'backgroundColor': 'rgb(40, 40, 40)',
@@ -555,7 +559,8 @@ def make_datasheet_table():
                         style_header={
                             'backgroundColor': 'rgb(10, 10, 10)',
                             'color': 'white',
-                            'whiteSpace': 'normal'
+                            'whiteSpace': 'normal',
+                            'textAlign': 'center'
                         },
                         style_data={
                             'backgroundColor': 'rgb(40, 40, 40)',
