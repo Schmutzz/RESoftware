@@ -1461,7 +1461,7 @@ scenario_2 = [False, True, [13, 19, 25], [0, 30, 60], True, True, 5, 10, True, T
 scenario_3 = [True, False, [13, 19, 25], [0, 30, 60], True, True, 5, 10, True, True, 76, ['vor', 'pot'], True, True, 10]
 scenario_4 = [False, True, [13, 19, 25], [0, 30, 60], True, True, 50, 250, True, True, 75, ['vor', 'pot'], True, True, 10]
 scenario_5 = [False, False, [13, 19, 25], [0, 30, 60], True, True, 5, 10, False, True, 0, [], True, False, 0]
-scenario_6 = [False, True, [13, 19, 25], [0, 30, 60], True, True, 5, 10, True, True, 100, ['vor', 'pot'], False, False, 10]
+scenario_6 = [False, True, [13, 19, 25], [0, 30, 60], True, True, 5, 10, True, True, 100, ['vor', 'pot'], False, False, 0]
 scenario_7 = [False, True, [13, 19, 25], [0, 30, 60], True, True, 5, 10, True, True, 76, ['vor', 'pot'], True, True, 20]
 
 
