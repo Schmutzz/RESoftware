@@ -1024,6 +1024,7 @@ def analyseEE(year, exportfolder, listSpeicher=0, EE_Erz=0, PV_Gesamt=0, erz_Bio
         EE_Erz['Erz_PV_Gesamt'] += ausbauPV
         EE_Erz['REE_PV'] = ausbauPV
         temp_EE_Erz += EE_Erz['REE_PV']
+
     '- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
     # Biomasse
     if biomes == True:
@@ -2012,123 +2013,228 @@ def cost_analysis(year,exportfolder,dictWKA, list_key_expansion_wka, list_count_
     temp_len_wind = len(list_key_expansion_wka)
     temp_len_storage = len(listStorage)
     temp_len_gesamt = temp_len_wind + temp_len_storage + 1
-    cost_average_height = 0
-    cost_model = ['model'] * temp_len_gesamt
-    cost_id = [0.0] * temp_len_gesamt
-    cost_counter_wka = [0.0] * temp_len_gesamt
-    cost_counter_storage = [0.0] * temp_len_gesamt
-    cost_height = [0.0] * temp_len_gesamt
-    cost_power = [0.0] * temp_len_gesamt
-    cost_capacity = [0.0] * temp_len_gesamt
-    cost_single_invest = [0.0] * temp_len_gesamt
-    cost_single_betrieb = [0.0] * temp_len_gesamt
-    cost_invest = [0.0] * temp_len_gesamt
-    cost_betrieb = [0.0] * temp_len_gesamt
+    cost_model = []
+
+    cost_counter_wka = []
+
+    cost_height = []
+    cost_power = []
+
+    cost_single_invest = []
+    cost_single_betrieb = []
+    cost_invest = []
+    cost_betrieb = []
+    invest_wka_gesamt = 0
+    op_wka_gesamt = 0
+    invest_storage_gesamt = 0
+    op_storage_gesamt = 0
 
     if cost_wind == True and temp_len_wind > 0:
 
         for index, i in enumerate(list_key_expansion_wka):
             print('Wind: ', index)
             temp_name = i.split('_')
-            temp_ID = temp_name[0]
             temp_Modell = temp_name[1]
             temp_Modell_hight = temp_name[2]
 
-            cost_model[index] = temp_Modell
-            cost_id[index] = temp_ID
-            cost_counter_wka[index] = list_count_expansion_wka[index]
-            cost_height[index] = float(temp_Modell_hight)
-            cost_counter_storage[index] = 0
+            if temp_Modell not in cost_model:
+                cost_model.append(temp_Modell)
+                cost_height.append(float(temp_Modell_hight))
+                cost_counter_wka.append(list_count_expansion_wka[index])
+                temp_cost = round((dictWKA[temp_Modell + '_' + temp_Modell_hight]['Invest'] / 1000000),
+                                                  roundnumber)
+                cost_single_invest.append(temp_cost)
+                temp_cost = round(
+                    (dictWKA[temp_Modell + '_' + temp_Modell_hight]['Betriebk'] / 1000000),
+                    roundnumber)
+                cost_single_betrieb.append(temp_cost)
+                cost_power.append(list_count_expansion_power[index] / 1000)
+                temp_invest = round(
+                    (dictWKA[temp_Modell + '_' + temp_Modell_hight]['Invest'] * list_count_expansion_wka[index]),
+                    roundnumber)
+                cost_invest.append(temp_invest / 1000000)
+                temp_betrieb = round(
+                    (dictWKA[temp_Modell + '_' + temp_Modell_hight]['Betriebk'] * list_count_expansion_wka[index]),
+                    roundnumber)
+                cost_betrieb.append(temp_betrieb / 1000000)
+            else:
+                kindex = cost_model.index(temp_Modell)
+                if float(temp_Modell_hight) == cost_height[kindex]:
+                    cost_counter_wka[kindex] += list_count_expansion_wka[index]
+                    temp_cost = round((dictWKA[temp_Modell + '_' + temp_Modell_hight]['Invest'] / 1000000),
+                                      roundnumber)
+                    cost_single_invest[kindex] += temp_cost
+                    temp_cost = round(
+                        (dictWKA[temp_Modell + '_' + temp_Modell_hight]['Betriebk'] / 1000000),
+                        roundnumber)
+                    cost_single_betrieb[kindex] += temp_cost
+                    cost_power[kindex] += list_count_expansion_power[index] / 1000
+                    temp_invest = round(
+                        (dictWKA[temp_Modell + '_' + temp_Modell_hight]['Invest'] * list_count_expansion_wka[index]),
+                        roundnumber)
+                    cost_invest[kindex] += (temp_invest / 1000000)
+                    temp_betrieb = round(
+                        (dictWKA[temp_Modell + '_' + temp_Modell_hight]['Betriebk'] * list_count_expansion_wka[index]),
+                        roundnumber)
+                    cost_betrieb[kindex] += (temp_betrieb / 1000000)
+                else:
+                    cost_model.append(temp_Modell)
+                    cost_height.append(float(temp_Modell_hight))
+                    cost_counter_wka.append(list_count_expansion_wka[index])
+                    temp_cost = round((dictWKA[temp_Modell + '_' + temp_Modell_hight]['Invest'] / 1000000),
+                                      roundnumber)
+                    cost_single_invest.append(temp_cost)
+                    temp_cost = round(
+                        (dictWKA[temp_Modell + '_' + temp_Modell_hight]['Betriebk'] / 1000000),
+                        roundnumber)
+                    cost_single_betrieb.append(temp_cost)
+                    cost_power.append(list_count_expansion_power[index] / 1000)
+                    temp_invest = round(
+                        (dictWKA[temp_Modell + '_' + temp_Modell_hight]['Invest'] * list_count_expansion_wka[index]),
+                        roundnumber)
+                    cost_invest.append(temp_invest / 1000000)
+                    temp_betrieb = round(
+                        (dictWKA[temp_Modell + '_' + temp_Modell_hight]['Betriebk'] * list_count_expansion_wka[index]),
+                        roundnumber)
+                    cost_betrieb.append(temp_betrieb / 1000000)
 
-            cost_single_invest[index] = round((dictWKA[temp_Modell+'_'+temp_Modell_hight]['Invest']/1000000),
-                                            roundnumber)
-            cost_single_betrieb[index] = round((dictWKA[temp_Modell + '_' + temp_Modell_hight]['Betriebk']/1000000),
-                                             roundnumber)
+        cost_model.append('Summe in Mrd')
 
-            cost_power[index] = list_count_expansion_power[index]/1000
-            cost_capacity[index] = 0
-            temp_invest = round((dictWKA[temp_Modell+'_'+temp_Modell_hight]['Invest'] * list_count_expansion_wka[index]), roundnumber)
-            cost_invest[index] = temp_invest/1000000
-            temp_betrieb = round((dictWKA[temp_Modell + '_' + temp_Modell_hight]['Betriebk'] * list_count_expansion_wka[index]), roundnumber)
-            cost_betrieb[index] = temp_betrieb/1000000
+        temp_sum = sum(cost_counter_wka)
+        cost_counter_wka.append(temp_sum)
+        cost_height.append('-')
+        temp_sum = sum(cost_power)
+        cost_power.append(temp_sum)
+        cost_single_invest.append('-')
+        cost_single_betrieb.append('-')
+        temp_sum = round((sum(cost_invest) / 1000), roundnumber)
+        cost_invest.append(temp_sum)
+        invest_wka_gesamt =temp_sum
+        temp_sum = round((sum(cost_betrieb) / 1000), roundnumber)
+        cost_betrieb.append(temp_sum)
+        op_wka_gesamt = temp_sum
 
-        cost_average_height = sum(cost_height) / len(cost_height)
+        export_wka = pd.DataFrame(
+            {'Model': cost_model,
+             'Number of Models': cost_counter_wka,
+             'Model Hub Hight': cost_height,
+             'Installed Power in MW': cost_power,
+             'Invest in Mio per Model': cost_single_invest,
+             'Operating per Year in Mio per Model': cost_single_betrieb,
+             'Investment Costs in Mio': cost_invest,
+             'Operating Costs per Year in Mio': cost_betrieb
+             }
+        )
 
 
+        if export == True:
+            exportname2 = exportfolder + 'CostReport_wka_' + str(year) + '.csv'
+            export_wka.to_csv(exportname2, index=False, sep=';', encoding='utf-8-sig', decimal=',')
+
+    cost_model = []
+    cost_power = []
+    cost_capacity = []
+    cost_single_invest = []
+    cost_single_betrieb = []
+    cost_invest = []
+    cost_betrieb = []
 
 
     if cost_storage == True and temp_len_storage > 0:
+
         for i in range(len(listStorage)):
-            jndex = i + temp_len_wind
-            print('Storgae: ',jndex)
-            cost_model[jndex] = listStorage[i].modell
-            cost_id[jndex] = 0
-            cost_counter_wka[jndex] = 0
-            cost_counter_storage[jndex] = 1
-            cost_height[jndex] = 0
-            cost_power[jndex] = round((listStorage[i].power/1000), roundnumber)
-            cost_capacity[jndex] = round((listStorage[i].max_capacity/1000000), roundnumber)
 
-            cost_single_invest[jndex] = round((listStorage[i].invest), roundnumber)
-            cost_single_betrieb[jndex] = round((listStorage[i].operatingk), roundnumber)
-            temp_invest = round(((listStorage[i].max_capacity * listStorage[i].invest)/1000000), roundnumber)
-            cost_invest[jndex] = temp_invest
-            temp_betrieb = round(((listStorage[i].max_capacity * listStorage[i].operatingk)/1000000), roundnumber)
-            cost_betrieb[jndex] = temp_betrieb
+            print('Storgae: ',i)
 
-    # summe
-    temp_len_gesamt -= 1
-    print('Ende', temp_len_gesamt)
-    cost_model[temp_len_gesamt] = 'Summe in Mrd'
-    cost_id[temp_len_gesamt] = 0
-    temp_sum = sum(cost_counter_wka)
-    cost_counter_wka[temp_len_gesamt] =temp_sum
+            if listStorage[i].modell not in cost_model:
 
-    temp_sum = sum(cost_counter_storage)
-    cost_counter_storage[temp_len_gesamt] =temp_sum
+                cost_model.append(listStorage[i].modell)
 
-    cost_height[temp_len_gesamt] = round(cost_average_height, 2)
+                cost_power.append(round((listStorage[i].power/1000), roundnumber))
+                cost_capacity.append(round((listStorage[i].max_capacity/1000000), roundnumber))
 
-    temp_sum = sum(cost_power)
-    cost_power[temp_len_gesamt] = temp_sum
+                cost_single_invest.append(round((listStorage[i].invest), roundnumber))
+                cost_single_betrieb.append(round((listStorage[i].operatingk), roundnumber))
+                temp_invest = round(((listStorage[i].max_capacity * listStorage[i].invest)/1000000), roundnumber)
+                cost_invest.append(temp_invest)
+                temp_betrieb = round(((listStorage[i].max_capacity * listStorage[i].operatingk)/1000000), roundnumber)
+                cost_betrieb.append(temp_betrieb)
+
+
+        cost_model.append('Summe in Mrd')
+        temp_sum = sum(cost_power)
+        cost_power.append(temp_sum)
+        temp_sum = sum(cost_capacity)
+        cost_capacity.append(temp_sum)
+        cost_single_invest.append('-')
+        cost_single_betrieb.append('-')
+        temp_sum = round((sum(cost_invest) / 1000), roundnumber)
+        cost_invest.append(temp_sum)
+        invest_storage_gesamt = temp_sum
+
+        temp_sum = round((sum(cost_betrieb) / 1000), roundnumber)
+        cost_betrieb.append(temp_sum)
+        op_storage_gesamt = temp_sum
+        export_storage = pd.DataFrame(
+            {'Model': cost_model,
+             'Installed Power in MW': cost_power,
+             'Installed Capacity in GWh': cost_capacity,
+             'Invest in €/kWh per Model': cost_single_invest,
+             'Operating in €/kWh per Model': cost_single_betrieb,
+             'Investment Costs in Mio': cost_invest,
+             'Operatig Costs per Year in Mio': cost_betrieb
+             }
+        )
+
+
+        if export == True:
+            exportname2 = exportfolder + 'CostReport_storage_' + str(year) + '.csv'
+            export_storage.to_csv(exportname2, index=False, sep=';', encoding='utf-8-sig', decimal=',')
+
+
+    cost_model = []
+    cost_invest = []
+    cost_betrieb = []
+
     try:
-        temp_sum = (sum(cost_single_invest) / len(cost_single_invest))
-        cost_single_invest[temp_len_gesamt] = temp_sum
+        cost_model.append('Wind expansion')
+        cost_invest.append(invest_wka_gesamt)
+        cost_betrieb.append(op_wka_gesamt)
     except:
-        cost_single_invest[temp_len_gesamt] = 0
+        print('No Wind was expanded')
+        cost_model.append('Wind expansion')
+        cost_invest.append(0)
+        cost_betrieb.append(0)
     try:
-        temp_sum = (sum(cost_single_betrieb) / len(cost_single_betrieb))
-        cost_single_betrieb[temp_len_gesamt] = temp_sum
+        cost_model.append('Storage expansion')
+        cost_invest.append(invest_storage_gesamt)
+        cost_betrieb.append(op_storage_gesamt)
     except:
-        cost_single_betrieb[temp_len_gesamt] = 0
+        print('No Storage was expanded')
+        cost_model.append('Storage expansion')
+        cost_invest.append(0)
+        cost_betrieb.append(0)
+    try:
+        cost_model.append('Summe in Mrd')
+        temp_sum = sum(cost_invest)
+        cost_invest.append(temp_sum)
+        temp_sum = sum(cost_betrieb)
+        cost_betrieb.append(temp_sum)
+    except:
+        print('No Wind and Storage was expanded')
 
-    temp_sum = sum(cost_capacity)
-    cost_capacity[temp_len_gesamt] = temp_sum
-
-    temp_sum = round((sum(cost_invest)/1000), roundnumber)
-    cost_invest[temp_len_gesamt] = temp_sum
-
-    temp_sum = round((sum(cost_betrieb)/1000), roundnumber)
-    cost_betrieb[temp_len_gesamt] = temp_sum
 
     export_frame = pd.DataFrame(
         {'Modell': cost_model,
-         'Wetterstations ID': cost_id,
-         'Counter WKA': cost_counter_wka,
-         'WKA Hub Hight': cost_height,
-         'Installed Power in MW': cost_power,
-         'Installed Capacity in GWh': cost_capacity,
-         'Single Invest in Mio': cost_single_invest,
-         'Single Operating per Year in Mio': cost_single_betrieb,
-         'Investment Costs in Mio': cost_invest,
-         'Operatig Costs per Year in Mio': cost_betrieb
+         'Investment Costs in Mrd': cost_invest,
+         'Operatig Costs per Year in Mrd': cost_betrieb
          }
     )
-    export_frame['Cots one year'] = export_frame['Investment Costs in Mio'] + export_frame['Operatig Costs per Year in Mio']
+
 
     if export == True:
 
-        exportname2 = exportfolder + 'CostReport_' + str(year) + '.csv'
+        exportname2 = exportfolder + 'CostReport_gesamt_' + str(year) + '.csv'
         export_frame.to_csv(exportname2, index = False, sep=';', encoding='utf-8-sig', decimal=',')
 
     return export_frame
@@ -2137,16 +2243,16 @@ def cost_analysis(year,exportfolder,dictWKA, list_key_expansion_wka, list_count_
 def data_report(year,data_frame,exportfolder,name , export= True):
 
     titel = ['Sum in TWh', 'min in MW', 'max in MW', 'Average in MW', ]
+
     header = ['Erzeugung_Wind', 'verluste_eisman_wind', 'Erz_geplAusbau_Wind',
               'verluste_eisman_geplanterAusbau',
               'REE_Wind', 'REE_Wind_eisman_verluste','Erzeugung_Wind_Gesamt','verluste_eisman_Gesamt',
-              'Erz_PV', 'REE_PV', 'Erz_Biomasse', 'REE_Biomasse',
+              'Erz_PV_Gesamt', 'Erz_Biomasse_Gesamt',
               'Erzeugung_Gesamt', 'Diff_Erz_zu_Verbrauch',
               'Speicherverluste', 'Diff_Erz_zu_Verb_mit_Speicher', 'Verbrauch_Gesamt', 'Verbrauch_HH', 'Verbrauch_SH']
 
     header_Final = ['Existing Wind', 'Eisman Existing Wind', 'Planned Wind', 'Eisman Planned Wind','Expanded Wind',
-                    'Eisman expanded Wind', 'Wind combined', 'Eisman Wind combined', 'PV', 'Expand PV', 'Biomass',
-                    'Expand Biomass',
+                    'Eisman expanded Wind', 'Wind combined', 'Eisman Wind combined', 'PV', 'Biomass',
                     'RE combined', 'Difference', 'Storage loss',
                     'Difference (RE+Storage)',
                     'Consumption combined', 'Consumption HH', 'Consumption SH']

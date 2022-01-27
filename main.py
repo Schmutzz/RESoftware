@@ -709,7 +709,7 @@ def re_simulation():
 
     simulation_EE = EE_Analyse[0].copy()
     lgk.data_report(main.META_year, simulation_EE, exportFolder, 'beforREexpansion', export=True)
-    lgk.month_report(main.META_year, simulation_EE, exportFolder,'beforREexpansion',main.META_EE_Anteil, export=True,
+    lgk.month_report(main.META_year, simulation_EE, exportFolder, 'beforREexpansion', main.META_EE_Anteil, export=True,
                      speicher_use=main.META_use_storage)
     export_simulation_bevor_expansion = simulation_EE.copy()
     EE_Anteil = EE_Analyse[1]
@@ -1031,8 +1031,9 @@ def re_simulation():
         print('EE Anteil vor Ausbau', EE_anteil_bevor)
         temp_max_EE_storage = main.META_EE_Speicher
         temp_compressed_air = main.META_compressed_air
-        while (min_current_storage <= main.META_storage_safety_padding and EE_Anteil < main.META_EE_Speicher):
+        while (min_current_storage <= main.META_storage_safety_padding or EE_Anteil < main.META_EE_Speicher):
             print('------------------------------------------------------')
+
             print('EE Anteil in Prozent: ', round(EE_Anteil * 100, 3), '%')
             print('EE MUSS in Prozent: ', round(META_EE_Speicher * 100, 3), '%')
 
@@ -1063,17 +1064,20 @@ def re_simulation():
             EE_export = EE_Analyse[2]
             EE_Anteil = EE_Analyse[1]
             print('EE Anteil in Prozent: ', round(EE_Anteil * 100, 6), '%')
-            if temp_max_EE_storage+0.002 < EE_Anteil and temp_compressed_air == True and temp_max_EE_storage < 1:
-                print('Storage has to much capacity')
-                old_capacity = listStorage[-1].max_capacity
-                old_capacity -= 500000
-                listStorage[-1].max_capacity = old_capacity
-                listStorage[-1].power = (old_capacity / 5)
-                print('Druckspeicher wird verringert um: ', 500000, '')
-                print('Kapazität in GWh: ', listStorage[-1].max_capacity / 1000000, 'Leistung in GW: ',
-                      listStorage[-1].power / 1000000)
+            if main.META_EE_Speicher < 100.0:
+                if temp_max_EE_storage+0.002 < EE_Anteil and temp_compressed_air == True and temp_max_EE_storage < 1:
+                    print('Storage has to much capacity')
+                    old_capacity = listStorage[-1].max_capacity
+                    old_capacity -= 500000
+                    listStorage[-1].max_capacity = old_capacity
+                    listStorage[-1].power = (old_capacity / 5)
+                    print('Druckspeicher wird verringert um: ', 500000, '')
+                    print('Kapazität in GWh: ', listStorage[-1].max_capacity / 1000000, 'Leistung in GW: ',
+                          listStorage[-1].power / 1000000)
 
             simulation_EE = EE_Analyse[0].copy()
+            if EE_Anteil >= main.META_EE_Speicher and main.META_EE_Speicher < 100.0:
+                break
             print('EE Anteil in Prozent: ', round(EE_Anteil * 100, 6), '%')
             temp_min = min(simulation_EE['Diff_Erz_zu_Verb_mit_Speicher'])
             print('lowest delta EE to consume: ', round(temp_min, 6))
