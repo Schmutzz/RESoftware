@@ -161,6 +161,7 @@ def re_simulation():
     print('Start der Simulation')
     print(main.META_DATA_verbrauch_komuliert)
     print('1. Datenlage wird überprüft und ggf. erneuert')
+
     '- - - - - - - - - - - - - - - - - - - -'
     'Wert nicht wichtig für die GUI'
     temp_ausbau = False  #
@@ -658,7 +659,7 @@ def re_simulation():
 
     if main.META_own_data == True and own_data_success == False:
         print('Use own data was failed, please try again.')
-        return 'faild', 'faild'
+        return 'failed', 'failed'
     '__________________________________________________________________________________________________________________'
 
     '------------------------------------------------------------------------------------------------------------------'
@@ -743,6 +744,8 @@ def re_simulation():
     "ProzentualerAusbau BIOMASSE/PV"
     expansionBio = 0
     expansionPV = 0
+    print('Bio = ', META_biomasse)
+    print('PV =  ', META_PV)
     if META_biomasse == True:
         print('expansion Bio')
         expansionBio = lgk.percentage_expansion(simulation_EE['Erz_Biomasse'], main.META_expansionBio)
