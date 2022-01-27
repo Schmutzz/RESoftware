@@ -887,7 +887,7 @@ biomass_solar_settings = dbc.Card([
                 dbc.Modal([
                     dbc.ModalHeader([html.H5('Solar')], close_button=True),
                     dbc.ModalBody(
-                        'Turn on to take biomass energy production into account.'),
+                        'Turn on to take solar energy production into account.'),
                 ], id="solar_switch_modal", centered=True, is_open=False,
                 ),
                 solar_switch
@@ -903,7 +903,9 @@ biomass_solar_settings = dbc.Card([
                 dbc.Modal([
                     dbc.ModalHeader([html.H5('Biomass Growth')], close_button=True),
                     dbc.ModalBody(
-                        'Should the programm simulate building out own wind turbines?'),
+                        'This value determines the natural yearly expansion of biomass. With this growth value, the programm '
+                        'can make approximations for biomass energy production of future years based on current data. Since '
+                        'it is a natural growth factor, no further investment costs are needed from our side.'),
                 ], id="biomass_input_modal", centered=True, is_open=False,
                 ),
                 biomass_input
@@ -917,7 +919,9 @@ biomass_solar_settings = dbc.Card([
                 dbc.Modal([
                     dbc.ModalHeader([html.H5('Solar Growth')], close_button=True),
                     dbc.ModalBody(
-                        'Should the programm simulate building out own wind turbines?'),
+                        'This value determines the natural yearly expansion of solar power. With this growth value, the programm '
+                        'can make approximations for solar energy production of future years based on current data. Since '
+                        'it is a natural growth factor, no further investment costs are needed from our side.'),
                 ], id="solar_input_modal", centered=True, is_open=False,
                 ),
                 solar_input
@@ -1015,7 +1019,7 @@ wind_settings = dbc.Card([
                 dbc.Modal([
                     dbc.ModalHeader([html.H5('Planned Wind')], close_button=True),
                     dbc.ModalBody(
-                        'placeholder text'),
+                        'If turned on, the programm will use already planned wind turbines for that year.'),
                 ], id="planned_wind_modal", centered=True, is_open=False,
                 ),
                 planned_wind_switch
@@ -1031,7 +1035,9 @@ wind_settings = dbc.Card([
                 dbc.Modal([
                     dbc.ModalHeader([html.H5('Wind Expansion Goal')], close_button=True),
                     dbc.ModalBody(
-                        'placeholder text'),
+                        'The year 2019 has 8760 hours so if a value of for example 75% is chosen, the simulation will expand '
+                        'upon wind turbines until either the set goal was reached (75% of 8760 hours = 6570 hours) or '
+                        'until all possible areas have been completely used up.'),
                 ], id="wind_hours_modal", centered=True, is_open=False,
                 ),
                 wind_hours_slider
@@ -1046,7 +1052,15 @@ wind_settings = dbc.Card([
                 ),
                 dbc.Modal([
                     dbc.ModalHeader([html.H5('Wind Expansion Options')], close_button=True),
-                    dbc.ModalBody(
+                    dbc.ModalBody(html.P([
+                        html.Span('Vorranggebiete:', style={"text-decoration": 'underline'}), html.Br(),
+                        'These are preferential areas for expanding wind turbines with no legal issues.', html.Br(),
+                        html.Span('Potentialflächen:', style={"text-decoration": 'underline'}), html.Br(),
+                        'These areas are more complicated to expand wind turbines on due to a variety of legal complications. '
+                        'One of these can be the area being to close to a nature reserve or town. So while some of these issues '
+                        'might not completely hinder an expansion, they definitely are not as well suited for expanding wind '
+                        'turbines.'
+                    ]),
                         'placeholder text'),
                 ], id="wind_options_modal", centered=True, is_open=False,
                 ),
@@ -1254,16 +1268,19 @@ storage_settings = dbc.Card([
                 dbc.Modal([
                     dbc.ModalHeader([html.H5('Storage Options')], close_button=True),
                     dbc.ModalBody(html.P([
-                        'Existing storages: Right now the only existing storage used in the simulation is the '
+                        html.Span('Existing storages: ', style={"text-decoration": 'underline'}), html.Br(),
+                        'Right now the only existing storage used in the simulation is the '
                         'water pump storage in "Geesthacht". Only operational costs will be considered for this storage.',
                         html.Br(),
-                        'Laegerdorf: A planned water pump storage located in Schleswig-Holstein. Building and operational '
+                        html.Span('Laegerdorf: ', style={"text-decoration": 'underline'}), html.Br(),
+                        'A planned water pump storage located in Schleswig-Holstein. Building and operational '
                         'costs will be considered for this storage.',
-                         html.Br(),
-                        'Compressed air: This storage technology will most likely be indispensable for reaching the 100% hour '
+                        html.Br(),
+                        html.Span('Compressed air: ', style={"text-decoration": 'underline'}), html.Br(),
+                        'This storage technology will most likely be indispensable for reaching the 100% hour '
                         'goal. With an estimated capacity potential of 13.5TWh in Schleswig-Holstein alone, it has the necessary '
                         'capacity for long energy droughts.'])
-                        ),
+                    ),
                 ], id="storage_options_modal", centered=True, is_open=False,
                 )
             ], width='auto'),
@@ -1334,15 +1351,28 @@ settings_children = html.Div([
     dbc.Row([
         dbc.Col([
             dbc.Card([
+                dbc.CardHeader([
+                    html.H3('REE-Szenariensimulator Hamburg-Schleswig-Holstein'),
+                    html.H4('Integrationsprojekt Profs. Eger/Renz'),
+                ]),
                 dbc.CardBody([
-                    html.H2('RE-Simulation™')
+                    html.H5('Realisierung durch Team RE-Solutions: ', style={"text-decoration": 'underline'}),
+                    html.P([
+                        'Maximilian Boje', html.Br(),
+                        'Lasse Gildenstern', html.Br(),
+                        'Siham Kaibour', html.Br(),
+                        'Maximilian Kompch', html.Br(),
+                        'Nils Kranauge', html.Br(),
+                        'Alshimaa Muhamed', html.Br(),
+                        'Alexander Wengert', html.Br(),
+                    ])
                 ])
             ], className='text-center')
         ], width=11)
     ], justify='center', className='pb-1'),
     dbc.Row([
         dbc.Col([
-            dbc.Button('Download Instructions', id='instructions_button'),
+            dbc.Button('Download Documentation', id='instructions_button'),
             dcc.Download(id='instructions_download')
         ], width='auto')
     ], className='py-1', justify='center'),
@@ -1460,7 +1490,7 @@ scenario_1 = [False, True, [13, 19, 25], [0, 30, 60], True, True, 5, 10, True, T
 scenario_2 = [False, True, [13, 19, 25], [0, 30, 60], True, True, 5, 10, True, True, 75, ['vor', 'pot'], True, True, 20]
 scenario_3 = [True, False, [13, 19, 25], [0, 30, 60], True, True, 5, 10, True, True, 76, ['vor', 'pot'], True, True, 10]
 scenario_4 = [False, True, [13, 19, 25], [0, 30, 60], True, True, 50, 250, True, True, 75, ['vor', 'pot'], True, True, 10]
-scenario_5 = [False, False, [13, 19, 25], [0, 30, 60], True, True, 5, 10, False, True, 0, [], True, False, 0]
+scenario_5 = [False, False, [13, 19, 25], [0, 30, 60], True, True, 0, 0, False, True, 0, [], True, False, 0]
 scenario_6 = [False, True, [13, 19, 25], [0, 30, 60], True, True, 5, 10, True, True, 100, ['vor', 'pot'], False, False, 0]
 scenario_7 = [False, True, [13, 19, 25], [0, 30, 60], True, True, 5, 10, True, True, 76, ['vor', 'pot'], True, True, 20]
 
@@ -1561,7 +1591,6 @@ def lock_storage_expansion(value, scenario, options):
             raise PreventUpdate
     else:
         return value, slider_intervals(value), value
-
 
 
 # scenario modal texts
