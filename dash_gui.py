@@ -62,6 +62,19 @@ upload_modal_text = 'You have to upload your own data for this simulation. The d
                     'Please upload the individual .csv-files and not a folder!'
 
 
+def check_headers_datasheet(df):
+    header_list = ['Titel', 'Expanded Wind', 'Wind combined', 'Eisman Wind combined', 'PV', 'Biomass', 'RE combined',
+                   'Difference', 'Storage loss', 'Difference (RE+Storage)', 'Consumption combined']
+    headers_copy = header_list.copy()
+    actual_cols = df.columns.values.tolist()
+
+    for i in headers_copy:
+        if i not in actual_cols:
+            header_list.remove(i)
+
+    return df[header_list]
+
+
 def coords_to_lat_lon(df, coords_header):
     def listFromStr(text, seperator):
         list_of_str = text.split(seperator)
@@ -565,14 +578,18 @@ def make_cost_table():
 
 
 def make_datasheet_table():
-    return dt.DataTable(columns=[{"name": i, "id": i} for i in df_datasheet.columns],
+    df = df_datasheet.copy()
+
+    df = check_headers_datasheet(df)
+
+    return dt.DataTable(columns=[{"name": i, "id": i} for i in df.columns],
                         style_cell={
                             'overflow': 'hidden',
                             'textOverflow': 'ellipsis',
                             'maxWidth': 0,
                             'height': 'auto'
                         },
-                        data=df_datasheet.to_dict('records'), cell_selectable=False,
+                        data=df.to_dict('records'), cell_selectable=False,
                         style_table={'overflowY': 'auto', 'overflowX': 'auto'},
                         style_header={
                             'backgroundColor': 'rgb(10, 10, 10)',
@@ -584,6 +601,14 @@ def make_datasheet_table():
                             'backgroundColor': 'rgb(40, 40, 40)',
                             'color': 'white'
                         },
+                        #style_data_conditional=[
+                        #    {
+                        #        'if': {
+                        #            'column_id': 'Titel',
+                        #        },
+                        #        'width': '50px'
+                        #    }
+                        #]
                         ),
 
 
@@ -773,7 +798,8 @@ eisman_settings = dbc.Card([
                 dbc.Modal([
                     dbc.ModalHeader([html.H5('Eisman')], close_button=True),
                     dbc.ModalBody(
-                        'Turn on to take grid overloads into account and regulate power production of wind power plants.'),
+                        'Turn on to take grid overloads into account and regulate power production of wind power plants '
+                        'based on current wind speed.'),
                 ], id="eisman_switch_modal", centered=True, is_open=False,
                 ),
                 eisman_switch
@@ -789,7 +815,7 @@ eisman_settings = dbc.Card([
                 dbc.Modal([
                     dbc.ModalHeader([html.H5('Eisman: Wind Speed')], close_button=True),
                     dbc.ModalBody(
-                        ''),
+                        'Pick three wind speed thresholds for when power regulation should be applied.'),
                 ], id="eisman_wind_modal", centered=True, is_open=False,
                 ),
                 eisman_wind_slider
@@ -804,8 +830,15 @@ eisman_settings = dbc.Card([
                 ),
                 dbc.Modal([
                     dbc.ModalHeader([html.H5('Eisman: Power Regulation')], close_button=True),
-                    dbc.ModalBody(
-                        ''),
+                    dbc.ModalBody(html.P([
+                        'To what percentage should eisman reduce the actually produced power to at the selected wind speeds.',
+                        html.Br(),
+                        html.Span('Note: ', style={'textDecoration': 'underline'}),
+                        'The smallest wind speed relates to the highest percentage value! For example if the lowest wind speed '
+                        'is 13m/s and the highest percentage value is 60%, the programm will reduce the power of all affected '
+                        'wind turbines by 40% if the wind speed exceeds 13m/s.'
+                    ])
+                    ),
                 ], id="eisman_percentage_modal", centered=True, is_open=False,
                 ),
                 eisman_percentage_slider
@@ -1599,7 +1632,8 @@ tt_1 = 'Goal of task 1 is to achieve 100% RE production for 75% of the time. The
        'be used to complete this task. The goal should be reached within an allowed budget of 10 Bn. €.'
 
 tt_2 = 'Goal of task 2 is to achieve 100% RE production for 100% of the time. To accomplish this goal wind turbines and power ' \
-       'storages are allowed to be used and expanded upon. Like before the intended budget for a successful completion are 10 bn. €.'
+       'storages are allowed to be used and expanded upon. Like before the intended budget for a successful completion are 10 ' \
+       'bn. €.'
 
 tt_3 = 'Goal of task 3 is to achieve 100% RE production for 100% of the time, just like task 2. For this simulation the user ' \
        'should use their own data (see upload button). The means to achieve this goal are the same as in task 2.'
