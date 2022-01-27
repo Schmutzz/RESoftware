@@ -658,7 +658,7 @@ def re_simulation():
 
     if main.META_own_data == True and own_data_success == False:
         print('Use own data was failed, please try again.')
-        return 'faild'
+        return 'faild', 'faild'
     '__________________________________________________________________________________________________________________'
 
     '------------------------------------------------------------------------------------------------------------------'
@@ -906,10 +906,10 @@ def re_simulation():
                                 break
                             while(dataframe_expansion_area['Anzahl_' + pot_Vor][kindex] > 0):
                                 dezimierung_wka -= 1
-                                dataframe_expansion_area['Anzahl_' + pot_Vor][kindex] -= 1
+                                dataframe_expansion_area['Anzahl_' + pot_Vor][kindex] = \
+                                dataframe_expansion_area['Anzahl_' + pot_Vor][kindex] - 1
                                 WeaModell_fl = ((15 * np.square(float(dictWKAModell[key_wka]['Rotor']))) / 10000)
-                                dataframe_expansion_area['nettoFreieFlaeche_' + pot_Vor][kindex] -= round(
-                                    (WeaModell_fl * dataframe_expansion_area['Anzahl_' + pot_Vor][kindex]), 2)
+                                dataframe_expansion_area['nettoFreieFlaeche_' + pot_Vor][kindex] += WeaModell_fl
                                 dataframe_expansion_area['Leistung_inMW_' + pot_Vor][kindex] = round(
                                     (dictWKAModell[key_wka]['Nenn_kW'] / 1000) *
                                     dataframe_expansion_area['Anzahl_' + pot_Vor][kindex], 2)
@@ -1024,10 +1024,13 @@ def re_simulation():
 
     min_current_storage = 0.0
     storage_bevor = len(listStorage)
-    if main.META_storage_expansion == True and main.META_use_storage == True:
+    if main.META_storage_expansion == True and main.META_use_storage == True and (
+            main.META_Laegerdorf == True or main.META_compressed_air == True):
         print('Speicherausbau')
         EE_anteil_bevor = EE_Anteil
         print('EE Anteil vor Ausbau', EE_anteil_bevor)
+        temp_max_EE_storage = main.META_EE_Speicher
+        temp_compressed_air = main.META_compressed_air
         while (min_current_storage <= main.META_storage_safety_padding and EE_Anteil < main.META_EE_Speicher):
             print('------------------------------------------------------')
             print('EE Anteil in Prozent: ', round(EE_Anteil * 100, 3), '%')
@@ -1059,6 +1062,17 @@ def re_simulation():
 
             EE_export = EE_Analyse[2]
             EE_Anteil = EE_Analyse[1]
+            print('EE Anteil in Prozent: ', round(EE_Anteil * 100, 6), '%')
+            if temp_max_EE_storage+0.002 < EE_Anteil and temp_compressed_air == True and temp_max_EE_storage < 1:
+                print('Storage has to much capacity')
+                old_capacity = listStorage[-1].max_capacity
+                old_capacity -= 500000
+                listStorage[-1].max_capacity = old_capacity
+                listStorage[-1].power = (old_capacity / 5)
+                print('Druckspeicher wird verringert um: ', 500000, '')
+                print('Kapazität in GWh: ', listStorage[-1].max_capacity / 1000000, 'Leistung in GW: ',
+                      listStorage[-1].power / 1000000)
+
             simulation_EE = EE_Analyse[0].copy()
             print('EE Anteil in Prozent: ', round(EE_Anteil * 100, 6), '%')
             temp_min = min(simulation_EE['Diff_Erz_zu_Verb_mit_Speicher'])

@@ -1483,7 +1483,7 @@ def freie_ha_vor(year, exportFolder, standorte, belgegteha_Vor, export=True):
         if int(standorte['haVor'][index]) > 0 and standorte['WKAVor'][index] == '-':
             x = standorte['haVor'][index]
 
-        temp_freiVor.append(x)
+        temp_freiVor.append(abs(x))
         temp_belegtVor.append(y)
         temp_anzahl.append(z)
     # print(temp_freiVor)
@@ -1673,7 +1673,7 @@ def expansion_WKA(year,WKAKey, weatherID, WKADict, standort, windWetterdaten, Vo
 
 
         temp_wirk = temp_leistung_single[0]
-        temp_verlust_single = temp_leistung_single[0]
+        temp_verlust_single = temp_leistung_single[1]
 
 
         for i in range(len(temp_leistung)):
@@ -1972,7 +1972,10 @@ def expansion_storage(temp_Diff_EE, META_speicherverlauf, listStorage, META_star
         if deepestPoint > META_max_compressed_air:
             deepestPoint = META_max_compressed_air
         else:
-            deepestPoint = deepestPoint * abs(1-EE_max_Speicher)
+            if EE_max_Speicher != 1:
+                deepestPoint = deepestPoint * abs(1-EE_max_Speicher)
+
+
 
         storage = StorageModell('Druckluftspeicher', 'SH', deepestPoint, META_startcapacity * deepestPoint, 0.57,
                                 deepestPoint / 5, 60, 0.1)
@@ -1982,22 +1985,18 @@ def expansion_storage(temp_Diff_EE, META_speicherverlauf, listStorage, META_star
 
     elif listStorage[-1].modell == 'Druckluftspeicher':
         old_capacity = listStorage[-1].max_capacity
-        start_value = 100000000
-        for i in range(0, 200):
-            x = start_value * (1 / (1.15 ** i))
+        old_capacity += 10000000
 
-            if deepestPoint < x and deepestPoint >= (x / 2):
-                deepestPoint = x
+        if old_capacity > META_max_compressed_air:
+            old_capacity = META_max_compressed_air
 
-        if (old_capacity + (deepestPoint)) > META_max_compressed_air:
-            deepestPoint = META_max_compressed_air
-        else:
-            deepestPoint = (old_capacity + deepestPoint)
 
-        listStorage[-1].max_capacity = deepestPoint
-        listStorage[-1].power = (deepestPoint / 5)
 
-        print('Druckspeicher wird erweitert um: ', )
+
+        listStorage[-1].max_capacity = old_capacity
+        listStorage[-1].power = (old_capacity / 5)
+
+        print('Druckspeicher wird erweitert um: ', 5000000/ 1000000,'GWh')
         print('Kapazität in GWh: ', listStorage[-1].max_capacity / 1000000, 'Leistung in GW: ',
               listStorage[-1].power / 1000000)
 
@@ -2148,8 +2147,8 @@ def data_report(year,data_frame,exportfolder,name , export= True):
     header_Final = ['Existing Wind', 'Eisman Existing Wind', 'Planned Wind', 'Eisman Planned Wind','Expanded Wind',
                     'Eisman expanded Wind', 'Wind combined', 'Eisman Wind combined', 'PV', 'Expand PV', 'Biomass',
                     'Expand Biomass',
-                    'RE combined', 'Difference RE to Consumption', 'Storage loss',
-                    'Difference RE+Storage to Consumption',
+                    'RE combined', 'Difference', 'Storage loss',
+                    'Difference (RE+Storage)',
                     'Consumption combined', 'Consumption HH', 'Consumption SH']
 
     value_header_Final = 0
