@@ -157,6 +157,23 @@ def set_globals():
     main.META_DATA_eisman = False
 
 
+def createZIP(export_single_folder, folder, filename, compress=zipfile.ZIP_DEFLATED):
+    # ZIP Archive Öffnen
+    with zipfile.ZipFile(filename + '.zip', 'w', compress) as target:
+        for root, dirs, files in os.walk(folder):
+
+            for file in files:
+                if export_single_folder in file:
+                    continue
+
+                add = os.path.join(root, file)
+
+                # Datei zum ZIP Archive Hinzufügen
+                target.write(add)
+
+                print(add + ' will be added')
+
+
 def re_simulation():
     print('Start der Simulation')
     print(main.META_DATA_verbrauch_komuliert)
@@ -1128,31 +1145,16 @@ def re_simulation():
 
 
 
-    def createZIP(export_single_folder,folder, filename, compress=zipfile.ZIP_DEFLATED):
-        # ZIP Archive Öffnen
-        with zipfile.ZipFile(filename + '.zip', 'w', compress) as target:
-            for root, dirs, files in os.walk(folder):
-
-                for file in files:
-                    if export_single_folder in file:
-                        continue
-
-                    add = os.path.join(root, file)
-
-                    # Datei zum ZIP Archive Hinzufügen
-                    target.write(add)
-
-                    print(add + ' will be added')
 
 
         # ZIP Archive vom Verzeichnis "bilder" erstellen.
-    createZIP(export_single_folder, export_zip_folder, export_ziel_folder)
+    # createZIP(export_single_folder, export_zip_folder, export_ziel_folder)
 
 
 
     print('Simulation has ended')
     # sys.stdout.close()
-    return export_folder_for_gui, export_ziel_folder
+    return export_folder_for_gui, export_single_folder, export_zip_folder, export_ziel_folder
 
 '''
 if Meta_GUI_OFF == True:

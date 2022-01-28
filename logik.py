@@ -37,6 +37,7 @@ class StorageModell:
 
         if self.current_capacity == self.max_capacity:
             return 0, 0
+
         # Ladeleistung wird positiv gesetzt
         new_value = abs(new_value)
         if new_value >= self.power:
@@ -1999,7 +2000,7 @@ def expansion_storage(temp_Diff_EE, META_speicherverlauf, listStorage, META_star
         listStorage[-1].max_capacity = old_capacity
         listStorage[-1].power = (old_capacity / 5)
 
-        print('Druckspeicher wird erweitert um: ', 5000000/ 1000000,'GWh')
+        print('Druckspeicher wird erweitert um: ', 10000000/ 1000000,'GWh')
         print('Kapazität in GWh: ', listStorage[-1].max_capacity / 1000000, 'Leistung in GW: ',
               listStorage[-1].power / 1000000)
 

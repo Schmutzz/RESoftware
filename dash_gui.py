@@ -61,6 +61,56 @@ upload_modal_text = 'You have to upload your own data for this simulation. The d
                     'read the instruction pdf-file or look at the example data provided by the download button on the left. ' \
                     'Please upload the individual .csv-files and not a folder!'
 
+global exportFolder
+global list_files
+global zip_folder
+global df_cost_report_sum
+global df_cost_report_wind
+global df_cost_report_storage
+global df_ausbau_vor
+global df_ausbau_pot
+global df_analyse
+global df_datasheet
+global df_month_report
+global hours_goal
+
+global error_memory
+error_memory = False
+
+
+def check_own_data():
+    pv_list = ['Datum', 'Erzeugung_PV']
+    wind_list = ['Datum', 'Erzeugung_Wind']
+    wind_eisman_list = ['Datum', 'Erzeugung_Wind', 'verluste_eisman_wind']
+    biomass_list = ['Datum', 'Erz_Biomasse_Gesamt']
+    consumption_list = ['Datum', 'Verbrauch_Gesamt', 'Verbrauch_HH', 'Verbrauch_SH']
+    wind_weather_list = ['Datum', 'Wind_m/s_1975', 'Wind_grad_1975', 'Wind_m/s_4466', 'Wind_grad_4466', 'Wind_m/s_2115',
+                         'Wind_grad_2115', 'Wind_m/s_788', 'Wind_grad_788', 'Wind_m/s_2303', 'Wind_grad_2303', 'Wind_m/s_4393',
+                         'Wind_grad_4393', 'Wind_m/s_2907', 'Wind_grad_2907', 'Wind_m/s_5078', 'Wind_grad_5078', 'Wind_m/s_2564',
+                         'Wind_grad_2564', 'Wind_m/s_4919', 'Wind_grad_4919', 'Wind_m/s_5930', 'Wind_grad_5930', 'Wind_m/s_1379',
+                         'Wind_grad_1379', 'Wind_m/s_4039', 'Wind_grad_4039', 'Wind_m/s_3086', 'Wind_grad_3086', 'Wind_m/s_2429',
+                         'Wind_grad_2429', 'Wind_m/s_6108', 'Wind_grad_6108', 'Wind_m/s_6163', 'Wind_grad_6163', 'Wind_m/s_3897',
+                         'Wind_grad_3897', 'Wind_m/s_1200', 'Wind_grad_1200', 'Wind_m/s_19171', 'Wind_grad_19171']
+
+    list_of_lists = [pv_list, wind_list, wind_eisman_list, biomass_list, consumption_list, wind_weather_list]
+
+    list_of_files = os.listdir('Import/own_data')
+    for file in list_of_files:
+        c = 0
+        file_path = os.path.join('Import/own_data', file)
+        df = pd.read_csv(file_path, sep=';', decimal=',', encoding='utf-8')
+        df_cols = df.columns.values.tolist()
+        del df_cols[0]
+        for header_list in list_of_lists:
+            if header_list == df_cols:
+                c += 1
+            else:
+                pass
+        if c == 0:
+            return file
+
+    return ''
+
 
 def check_headers_datasheet(df):
     header_list = ['Titel', 'Expanded Wind', 'Wind combined', 'Eisman Wind combined', 'PV', 'Biomass', 'RE combined',
@@ -205,7 +255,6 @@ def draw_pie(biomass, solar):
     df = pd.DataFrame()
     df['Energy source'] = headers
     df['Used energy (in TWh)'] = values
-    print(df.head())
     fig = px.pie(df, values='Used energy (in TWh)', names='Energy source', title='Energy Usage').update_layout(
         template='plotly_dark', title_x=0.5)
     fig.update_traces(textposition='inside', textinfo='percent+label')
@@ -554,15 +603,15 @@ def make_monthly_table(storage):
                         )
 
 
-def make_cost_table():
-    return dt.DataTable(columns=[{"name": i, "id": i} for i in df_cost_report.columns],
+def make_cost_table(df):
+    return dt.DataTable(columns=[{"name": i, "id": i} for i in df.columns],
                         style_cell={
                             'overflow': 'hidden',
                             'textOverflow': 'ellipsis',
                             'maxWidth': 0,
                             'height': 'auto'
                         },
-                        data=df_cost_report.to_dict('records'), cell_selectable=False,
+                        data=df.to_dict('records'), cell_selectable=False,
                         style_table={'overflowY': 'auto', 'overflowX': 'auto'},
                         style_header={
                             'backgroundColor': 'rgb(10, 10, 10)',
@@ -601,14 +650,14 @@ def make_datasheet_table():
                             'backgroundColor': 'rgb(40, 40, 40)',
                             'color': 'white'
                         },
-                        #style_data_conditional=[
+                        # style_data_conditional=[
                         #    {
                         #        'if': {
                         #            'column_id': 'Titel',
                         #        },
                         #        'width': '50px'
                         #    }
-                        #]
+                        # ]
                         ),
 
 
@@ -1354,7 +1403,7 @@ start_button = html.Div([
 ], className='text-center')
 
 support_button = html.Div([
-    dbc.Button('Memory: Start', id='support_button', n_clicks=0, disabled=False, style={'display': 'none'}),
+    dbc.Button('Before simulation', id='support_button', n_clicks=0, disabled=False, style={'display': 'none'}),
 ], className='text-center')
 
 download_button = html.Div([
@@ -1575,7 +1624,7 @@ def change_scenario(value, options):
         Input('storage_expansion_switch', 'value'),
     ]
 )
-def storage_options(switch, expansion):
+def storage_options_method(switch, expansion):
     if not switch:
         return []
     if switch and not expansion:
@@ -1974,7 +2023,6 @@ def download_example(n_clicks):
 )
 def upload_data(list_of_contents, list_of_names, year):
     if list_of_contents is not None:
-
         checklist_needed_files = [
             'Erz_komuliert_' + str(year) + '_PV.csv',
             'Erz_komuliert_' + str(year) + '_Wind.csv',
@@ -2018,13 +2066,19 @@ def upload_data(list_of_contents, list_of_names, year):
             try:
                 df = pd.read_csv(io.StringIO(decoded.decode(encoding='utf-8', errors='replace')),
                                  sep=';', decimal=',', index_col=False)
-                df.to_csv('Own_Data/' + file_name, sep=';', decimal=',', encoding='utf-8-sig')
+                df.to_csv('Import/own_data/' + file_name, sep=';', decimal=',', encoding='utf-8-sig')
             except Exception as e:
                 # print(e)
                 pass
 
-        return False, html.P([upload_modal_text, html.Br(), html.Br(),
-                              'The necessary files were successfully uploaded!'])
+        wrong_file = check_own_data()
+        if wrong_file == '':
+            return False, html.P([upload_modal_text, html.Br(), html.Br(),
+                                  'The necessary files were successfully uploaded!'])
+        else:
+            return True, html.P([upload_modal_text, html.Br(), html.Br(),
+                                 f'Wrong formatting in file: "{wrong_file}"!'])
+
     else:
         return True, dash.no_update
 
@@ -2057,7 +2111,8 @@ def padding(value, disabled):
     ],
     [
         Input('final_start_button', 'n_clicks'),
-        Input('start_button', 'children')
+        Input('start_button', 'children'),
+        Input('start_output', 'children'),
     ],
     [
         State('support_button', 'n_clicks'),
@@ -2069,23 +2124,25 @@ def padding(value, disabled):
     ],
     prevent_initial_call=True
 )
-def spinner(n, value, n_support, own_data, eisman, wind_expansion, storage_switch, storage_expansion):
-    if n == 0:
-        return dash.no_update
+def spinner(n, value, start_output, n_support, own_data, eisman, wind_expansion, storage_switch, storage_expansion):
+    global error_memory
+    if error_memory:
+        error_memory = False
+        return html.Div(), {'display': 'none'}, True, 0, dash.no_update
     if n > n_support:
         if value == 'Start':
 
             start_value = 15
             if not own_data:
-                start_value -= 2
+                start_value -= 4
             if not eisman:
                 start_value -= 4
             if not wind_expansion:
-                start_value -= 3.5
+                start_value -= 3.25
             if not storage_switch:
-                start_value -= 2
+                start_value -= 1.25
             if not storage_expansion:
-                start_value -= 3
+                start_value -= 2.25
 
             intervals = int(((start_value * 60) / 100) * 1000)
 
@@ -2221,11 +2278,71 @@ def datasheet_table(value):
         Input('start_button', 'children')
     ]
 )
-def montly_table(value):
+def costs_table(value):
     if value == 'Start':
         return dash.no_update
     elif value == 'Back':
-        return make_cost_table()
+        if len(df_cost_report_wind.index) == 0 and len(df_cost_report_storage.index) == 0:
+            return html.Div([
+                html.P('No expenses were made.')
+            ])
+        elif len(df_cost_report_wind.index) == 0:
+            return html.Div([
+                dbc.Row([
+                    dbc.Col([
+                        html.H5('Wind:', style={'textDecoration': 'underline'}),
+                        html.P('No wind turbines were build.')
+                    ], width=6),
+                    dbc.Col([
+                        html.H5('Storage:', style={'textDecoration': 'underline'}),
+                        make_cost_table(df_cost_report_storage)
+                    ], width=6),
+                ]),
+                dbc.Row([
+                    dbc.Col([
+                        html.H5('Overall costs:', style={'textDecoration': 'underline'}),
+                        make_cost_table(df_cost_report_sum)
+                    ], width=6)
+                ], justify='center')
+            ])
+        elif len(df_cost_report_storage.index) == 0:
+            return html.Div([
+                dbc.Row([
+                    dbc.Col([
+                        html.H5('Wind:', style={'textDecoration': 'underline'}),
+                        make_cost_table(df_cost_report_wind)
+                    ], width=6),
+                    dbc.Col([
+                        html.H5('Storage:', style={'textDecoration': 'underline'}),
+                        html.P('No storages were build.')
+                    ], width=6),
+                ]),
+                dbc.Row([
+                    dbc.Col([
+                        html.H5('Overall costs:', style={'textDecoration': 'underline'}),
+                        make_cost_table(df_cost_report_sum)
+                    ], width=6)
+                ], justify='center')
+            ])
+        else:
+            return html.Div([
+                dbc.Row([
+                    dbc.Col([
+                        html.H5('Wind:', style={'textDecoration': 'underline'}),
+                        make_cost_table(df_cost_report_wind)
+                    ], width=6),
+                    dbc.Col([
+                        html.H5('Storage:', style={'textDecoration': 'underline'}),
+                        make_cost_table(df_cost_report_storage)
+                    ], width=6),
+                ]),
+                dbc.Row([
+                    dbc.Col([
+                        html.H5('Overall costs:', style={'textDecoration': 'underline'}),
+                        make_cost_table(df_cost_report_sum)
+                    ], width=6)
+                ], justify='center')
+            ])
     else:
         return dash.no_update
 
@@ -2369,6 +2486,11 @@ def click_support_button(n):
     return n
 
 
+def make_settings_text(settings):
+    with open(exportFolder + '/settings.txt', 'w') as data:
+        data.write(settings)
+
+
 @app.callback(
     [
         Output('start_output', 'children'),
@@ -2408,20 +2530,19 @@ def start_sim(n, exmpl_sw, year, wind_expansion_value, bio_sw, bio_inp, solar_sw
               planned_wind, methods_wind, storage_sw, storage_expansion_sw, storage_expansion_value,
               start_capacity_value, safety_padding_value, storage_options, eisman_sw, eisman_wind, eisman_percentage,
               results_value, settings_value):
-    '''if n == 0:
-        return dash.no_update, dash.no_update, dash.no_update, dash.no_update'''
-
     '------------------------------------------------------------------------'
     'HEADER'
 
     if results_value['display'] == 'none' and settings_value['display'] == 'inline':
 
-        list_of_files = os.listdir('REE_AnalyseCompleted')
-        full_path = ["REE_AnalyseCompleted/{0}".format(x) for x in list_of_files]
+        simulation_results_folders = os.listdir('REE_AnalyseCompleted')
+        full_path = ["REE_AnalyseCompleted/{0}".format(x) for x in simulation_results_folders]
 
-        if len(list_of_files) >= 5:
+        while len(simulation_results_folders) >= 5:
             oldest_file = min(full_path, key=os.path.getctime)
             shutil.rmtree(oldest_file)
+            simulation_results_folders = os.listdir('REE_AnalyseCompleted')
+            full_path = ["REE_AnalyseCompleted/{0}".format(x) for x in simulation_results_folders]
 
         '- - - - - - - - - - - - - - - - - - - -'
         main.META_EE_Anteil = wind_expansion_value / 100  # Muss Decimal angegeben werden
@@ -2490,12 +2611,24 @@ def start_sim(n, exmpl_sw, year, wind_expansion_value, bio_sw, bio_inp, solar_sw
         global exportFolder
         global list_files
         global zip_folder
-        # exportFolder, cost_report, dataframe_expansion_area, export_simulation_bevor_expansion, SimulationEE_after_expansion
-        exportFolder, zip_folder = main.re_simulation()
+        global error_memory
 
-        cost_report = [x for x in os.listdir(exportFolder) if 'CostReport' in x]
+        # exportFolder, cost_report, dataframe_expansion_area, export_simulation_bevor_expansion, SimulationEE_after_expansion
+        try:
+            exportFolder, folder1, folder2, zip_folder = main.re_simulation()
+        except:
+            error_memory = True
+            return [[html.P([
+                'The simulation might take up to 10 minutes', html.Br(),
+                'Do not press the button twice or all simulation progress will be lost!!!', html.Br(),
+                html.Span('ERROR: Provided data was not in expected format! Please refresh the browser and try again.',
+                          style={'textDecoration': 'underline'})
+            ])], {'display': 'none'}, {'display': 'inline'}, 'Start']
+
+        cost_report_sum = [x for x in os.listdir(exportFolder) if 'CostReport_gesamt' in x]
+        cost_report_wind = [x for x in os.listdir(exportFolder) if 'CostReport_wka' in x]
+        cost_report_storage = [x for x in os.listdir(exportFolder) if 'CostReport_storage' in x]
         ausgebaute_flaeche = [x for x in os.listdir(exportFolder) if 'AusgebauteFlaechen' in x]
-        freie_flaeche = [x for x in os.listdir(exportFolder) if 'FreieFlaechen_vorAusbau' in x]
         month_before = [x for x in os.listdir(exportFolder) if 'monthReport_befor' in x]
         month_after = [x for x in os.listdir(exportFolder) if 'monthReport_afterRE' in x]
         month_storage = [x for x in os.listdir(exportFolder) if 'monthReport_afterStorage' in x]
@@ -2525,7 +2658,9 @@ def start_sim(n, exmpl_sw, year, wind_expansion_value, bio_sw, bio_inp, solar_sw
         final_file = list_files[-1]
         datasheet_final = list_files[0]
 
-        global df_cost_report
+        global df_cost_report_sum
+        global df_cost_report_wind
+        global df_cost_report_storage
         global df_ausbau_vor
         global df_ausbau_pot
         global df_freie_flaeche
@@ -2533,8 +2668,25 @@ def start_sim(n, exmpl_sw, year, wind_expansion_value, bio_sw, bio_inp, solar_sw
         global df_datasheet
         global df_month_report
 
-        df_cost_report = pd.read_csv(exportFolder + '/' + cost_report[0], sep=';', decimal=',', encoding='utf-8')
-        df_cost_report = df_cost_report.round(2)
+        # ---------------------------------------------------------------------------------------------------
+        # cost reports
+
+        df_cost_report_sum = pd.read_csv(exportFolder + '/' + cost_report_sum[0], sep=';', decimal=',', encoding='utf-8')
+        df_cost_report_sum = df_cost_report_sum.round(2)
+
+        if len(cost_report_wind) != 0:
+            df_cost_report_wind = pd.read_csv(exportFolder + '/' + cost_report_wind[0], sep=';', decimal=',', encoding='utf-8')
+        else:
+            df_cost_report_wind = pd.DataFrame()
+
+        if len(cost_report_storage) != 0:
+            df_cost_report_storage = pd.read_csv(exportFolder + '/' + cost_report_storage[0], sep=';', decimal=',',
+                                                 encoding='utf-8')
+        else:
+            df_cost_report_storage = pd.DataFrame()
+
+        # ---------------------------------------------------------------------------------------------------
+
         df_ausbau_vor = pd.read_csv(exportFolder + '/' + ausgebaute_flaeche[0], sep=';', decimal=',', encoding='utf-8',
                                     usecols=['StadtVor', 'haVor', 'Coords Vor', 'ID_Weatherstation_Vor', 'Wetter-ID_Vor',
                                              'Anzahl WEAs_Vor', 'nettoFreieFlaeche_Vor', 'Modell_Vor', 'Anzahl_Vor',
@@ -2544,7 +2696,6 @@ def start_sim(n, exmpl_sw, year, wind_expansion_value, bio_sw, bio_inp, solar_sw
                                              'Anzahl WEAs_Pot', 'nettoFreieFlaeche_Pot', 'Modell_Pot', 'Anzahl_Pot',
                                              'InvestKosten_inMio_Pot', 'Leistung_inMW_Pot'])
 
-        # df_freie_flaeche = pd.read_csv(exportFolder + '/' + freie_flaeche[0], sep=';', decimal=',', encoding='utf-8')
         df_analyse = pd.read_csv(final_file, sep=';', decimal=',', encoding='utf-8')
         df_datasheet = pd.read_csv(datasheet_final, sep=';', decimal=',', encoding='utf-8')
         df_month_report = pd.read_csv(final_month, sep=';', decimal=',', encoding='utf-8')
@@ -2556,7 +2707,6 @@ def start_sim(n, exmpl_sw, year, wind_expansion_value, bio_sw, bio_inp, solar_sw
 
         df_ausbau_vor = df_ausbau_vor[df_ausbau_vor['Wetter-ID_Vor'] != 0]
         df_ausbau_vor = df_ausbau_vor.sort_values(by=['ID_Weatherstation_Vor'])
-        # df_ausbau_vor['ID_Weatherstation'] = df_ausbau_vor['ID_Weatherstation'].map(str)
         df_ausbau_vor['haVor'] = df_ausbau_vor['haVor'].map(float)
         df_ausbau_vor = df_ausbau_vor[
             ['StadtVor', 'ID_Weatherstation_Vor', 'haVor', 'Anzahl WEAs_Vor', 'nettoFreieFlaeche_Vor', 'Modell_Vor',
@@ -2564,7 +2714,6 @@ def start_sim(n, exmpl_sw, year, wind_expansion_value, bio_sw, bio_inp, solar_sw
 
         df_ausbau_pot = df_ausbau_pot[df_ausbau_pot['Wetter-ID_Pot'] != 0]
         df_ausbau_pot = df_ausbau_pot.sort_values(by=['ID_Weatherstation_Pot'])
-        # df_ausbau_pot['ID_Weatherstation'] = df_ausbau_pot['ID_Weatherstation'].map(str)
         df_ausbau_pot['haPot'] = df_ausbau_pot['haPot'].map(float)
         df_ausbau_pot = df_ausbau_pot[
             ['StadtPot', 'ID_Weatherstation_Pot', 'haPot', 'Anzahl WEAs_Pot', 'nettoFreieFlaeche_Pot', 'Modell_Pot',
@@ -2635,8 +2784,34 @@ def start_sim(n, exmpl_sw, year, wind_expansion_value, bio_sw, bio_inp, solar_sw
                 html.P(f'Reached: {round(reached_percentage * 100, 1)} %')
             ])
 
+        settings = f'Own data: {exmpl_sw}\n' \
+                   f'Simulation year: {year}\n' \
+                   f'Eisman: {eisman_sw}\n' \
+                   f'Eisman wind speeds: {eisman_wind}\n' \
+                   f'Eisman power regulation: {eisman_percentage}\n' \
+                   f'Use biomass: {bio_sw}\n' \
+                   f'Biomass expansion: {bio_inp}%\n' \
+                   f'Use solar Power: {solar_sw}\n' \
+                   f'Solar Power expansion: {solar_inp}%\n' \
+                   f'Expand wind: {wind_expansion}\n' \
+                   f'Use planned wind turbines: {planned_wind}\n' \
+                   f'Wind expansion goal: {wind_expansion_value}%\n' \
+                   f'Wind expansion methods: {methods_wind}\n' \
+                   f'Use storage: {storage_sw}\n' \
+                   f'Expand storage: {storage_expansion_sw}\n' \
+                   f'Start capacity: {start_capacity_value}%\n' \
+                   f'Storage expansion goal: {storage_expansion_value}%\n' \
+                   f'Safety padding: {safety_padding_value}%\n' \
+                   f'Storage expansion options: {storage_options}\n' \
+
+        make_settings_text(settings)
+
+        main.createZIP(folder1, folder2, zip_folder)
+
         return [results_text, {'display': 'inline'}, {'display': 'none'}, 'Back']
+
     elif results_value['display'] == 'inline' and settings_value['display'] == 'none':
+
         return [[html.P('The simulation might take up to 10 minutes'),
                  html.B(),
                  html.P('Do not press the button twice or all simulation progress will be lost!!!')],
