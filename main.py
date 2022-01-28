@@ -748,23 +748,44 @@ def re_simulation():
     print('PV =  ', META_PV)
     if META_biomasse == True:
         print('expansion Bio')
+        temp_ausbau = True
         expansionBio = lgk.percentage_expansion(simulation_EE['Erz_Biomasse'], main.META_expansionBio)
         print('New Energysum GWh: ', sum(expansionBio) / 1000000)
         sum_expansionBio = sum(expansionBio)
     if META_PV == True:
         print('expansion PV')
+        temp_ausbau = True
         expansionPV = lgk.percentage_expansion(simulation_EE['Erz_PV'], main.META_expansionPV)
         print('New Energysum GWh: ', sum(expansionPV)/1000000)
         sum_expansionPV = sum(expansionPV)
-    if META_wind == True:
-        expansionWind = [1] * len(simulation_EE)
+
+    expansionWind = [0] * len(simulation_EE)
+    expansionWind_eisman = [0] * len(simulation_EE)
+    if temp_ausbau == True:
+        print(type(expansionPV))
+
+        temp_wind = Wind_Gesamt.copy()
+        EE_Analyse = lgk.analyseEE(META_year, exportFolder, listSpeicher=listStorage, EE_Erz=temp_wind,
+                               PV_Gesamt=PV_Gesamt, erz_Bio=erz_Bio,
+                               plannedErzeung=be_planned_wka_power, verbrauch=verbrauch_HH_SH,
+                               ausbauPV=expansionPV, ausbauBio=expansionBio,
+                               key_name='afterREexpansion', ausbauWind=expansionWind,
+                                ausbauWindeisman=expansionWind_eisman,
+                               ausbau=temp_ausbau, export=True, eisman=main.META_eisman,
+                               geplanterAusbau=META_be_planned_expansion, biomes=META_biomasse,
+                               wind=META_wind, PV=META_PV, expansionPV=META_expansionPV,
+                               expansionBio=META_expansionBio, speicher=main.META_use_storage)
+
+    EE_Anteil = EE_Analyse[1]
+    simulation_EE = EE_Analyse[0].copy()
+    EE_export = EE_Analyse[2]
     '______________________________________________________________________________________________________________________'
     "!!!Ausbau WIND STARTET!!!"
     if main.META_expansionWind == True:
         temp_ausbau = True
         temp_ausgebauteAnlagen = ['test'] * len(simulation_EE)
 
-    expansionWind = [0] * len(simulation_EE)
+
     expansionWind_eisman = [0] * len(simulation_EE)
 
     def expansion_wind(pot_Vor, EE_Anteil, tempausbau_true):

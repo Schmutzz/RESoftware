@@ -1021,6 +1021,7 @@ def analyseEE(year, exportfolder, listSpeicher=0, EE_Erz=0, PV_Gesamt=0, erz_Bio
 
     # PV Ausbau Software
     if ausbau == True and sum(ausbauPV) > 0:
+        print('New Energysum PV GWh: ', sum(ausbauPV)/1000000)
         EE_Erz['Erz_PV_Gesamt'] += ausbauPV
         EE_Erz['REE_PV'] = ausbauPV
         temp_EE_Erz += EE_Erz['REE_PV']
@@ -1034,6 +1035,7 @@ def analyseEE(year, exportfolder, listSpeicher=0, EE_Erz=0, PV_Gesamt=0, erz_Bio
 
     # Biomasse Ausbau Software
     if ausbau == True and sum(ausbauBio) > 0:
+        print('New Energysum Bio GWh: ', sum(ausbauBio) / 1000000)
         EE_Erz['REE_Biomasse'] = ausbauBio
         EE_Erz['Erz_Biomasse_Gesamt'] += EE_Erz['REE_Biomasse']
         temp_EE_Erz += EE_Erz['REE_Biomasse'].tolist()
@@ -1911,7 +1913,7 @@ def negativ_Verlauf(SimuEE_Diff, speicherVerlauf=True):
 def percentage_expansion(source_list, percentage):
     temp_sourcelist = source_list * percentage
 
-    return temp_sourcelist
+    return temp_sourcelist.tolist()
 
 
 def deepest_point_negativGraph(negativGraph, anzahl=100):
