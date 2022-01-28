@@ -609,7 +609,7 @@ def make_cost_table(df):
                             'overflow': 'hidden',
                             'textOverflow': 'ellipsis',
                             'maxWidth': 0,
-                            'height': 'auto'
+                            'whiteSpace': 'normal',
                         },
                         data=df.to_dict('records'), cell_selectable=False,
                         style_table={'overflowY': 'auto', 'overflowX': 'auto'},
@@ -636,7 +636,7 @@ def make_datasheet_table():
                             'overflow': 'hidden',
                             'textOverflow': 'ellipsis',
                             'maxWidth': 0,
-                            'height': 'auto'
+                            'whiteSpace': 'normal',
                         },
                         data=df.to_dict('records'), cell_selectable=False,
                         style_table={'overflowY': 'auto', 'overflowX': 'auto'},
@@ -2292,18 +2292,18 @@ def costs_table(value):
                     dbc.Col([
                         html.H5('Wind:', style={'textDecoration': 'underline'}),
                         html.P('No wind turbines were build.')
-                    ], width=6),
+                    ], width=6, align='center'),
                     dbc.Col([
                         html.H5('Storage:', style={'textDecoration': 'underline'}),
                         make_cost_table(df_cost_report_storage)
                     ], width=6),
-                ]),
+                ], className='py-2'),
                 dbc.Row([
                     dbc.Col([
                         html.H5('Overall costs:', style={'textDecoration': 'underline'}),
                         make_cost_table(df_cost_report_sum)
-                    ], width=6)
-                ], justify='center')
+                    ], width=4)
+                ], className='py-2', justify='center')
             ])
         elif len(df_cost_report_storage.index) == 0:
             return html.Div([
@@ -2316,13 +2316,13 @@ def costs_table(value):
                         html.H5('Storage:', style={'textDecoration': 'underline'}),
                         html.P('No storages were build.')
                     ], width=6),
-                ]),
+                ], className='py-2'),
                 dbc.Row([
                     dbc.Col([
                         html.H5('Overall costs:', style={'textDecoration': 'underline'}),
                         make_cost_table(df_cost_report_sum)
-                    ], width=6)
-                ], justify='center')
+                    ], width=4)
+                ], className='py-2', justify='center')
             ])
         else:
             return html.Div([
@@ -2335,13 +2335,13 @@ def costs_table(value):
                         html.H5('Storage:', style={'textDecoration': 'underline'}),
                         make_cost_table(df_cost_report_storage)
                     ], width=6),
-                ]),
+                ], className='py-2'),
                 dbc.Row([
                     dbc.Col([
                         html.H5('Overall costs:', style={'textDecoration': 'underline'}),
                         make_cost_table(df_cost_report_sum)
-                    ], width=6)
-                ], justify='center')
+                    ], width=4)
+                ], className='py-2', justify='center')
             ])
     else:
         return dash.no_update
@@ -2663,7 +2663,6 @@ def start_sim(n, exmpl_sw, year, wind_expansion_value, bio_sw, bio_inp, solar_sw
         global df_cost_report_storage
         global df_ausbau_vor
         global df_ausbau_pot
-        global df_freie_flaeche
         global df_analyse
         global df_datasheet
         global df_month_report
