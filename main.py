@@ -242,9 +242,11 @@ def re_simulation():
 
         if main.META_own_data == True:
             try:
+                headerlist = ['Verbrauch_Gesamt', 'Verbrauch_HH', 'Verbrauch_SH']
                 openfilename = "Import/own_data/Verbrauch_komuliert_" + str(META_year) + ".csv"
                 print(openfilename)
-                verbrauch_HH_SH = pd.read_csv(openfilename, delimiter=';', decimal=',', encoding='utf-8')
+                verbrauch_HH_SH = pd.read_csv(openfilename, usecols= headerlist, delimiter=';', decimal=',',
+                                              encoding='utf-8')
             except:
                 print('falsches Format: ', openfilename)
                 own_data_success = False
