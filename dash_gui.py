@@ -621,8 +621,16 @@ def make_cost_table(df):
                         },
                         style_data={
                             'backgroundColor': 'rgb(40, 40, 40)',
-                            'color': 'white'
+                            'color': 'white',
                         },
+                        #                        style_cell_conditional=[
+                        #                           {
+                        #                              'if': {
+                        #                                 'column_id': 'Model',
+                        #                            },
+                        #                           'width': '25%'
+                        #                      }
+                        #                 ]
                         )
 
 
@@ -1117,7 +1125,7 @@ wind_settings = dbc.Card([
                 dbc.Modal([
                     dbc.ModalHeader([html.H5('Wind Expansion Goal')], close_button=True),
                     dbc.ModalBody(
-                        'The year 2019 has 8760 hours so if a value of for example 75% is chosen, the simulation will expand '
+                        'The year 2019 has 8760 hours so if for example a value of 75% is chosen, the simulation will expand '
                         'upon wind turbines until either the set goal was reached (75% of 8760 hours = 6570 hours) or '
                         'until all possible areas have been completely used up.'),
                 ], id="wind_hours_modal", centered=True, is_open=False,
@@ -1568,13 +1576,13 @@ app.layout = html.Div([
     support_button
 ], style={"width": "99%"}, className='px-3 py-2')
 
-scenario_1 = [False, True, [13, 19, 25], [0, 30, 60], True, True, 5, 10, True, True, 75, ['vor', 'pot'], False, False, 0]
-scenario_2 = [False, True, [13, 19, 25], [0, 30, 60], True, True, 5, 10, True, True, 75, ['vor', 'pot'], True, True, 20]
-scenario_3 = [True, False, [13, 19, 25], [0, 30, 60], True, True, 5, 10, True, True, 76, ['vor', 'pot'], True, True, 10]
-scenario_4 = [False, True, [13, 19, 25], [0, 30, 60], True, True, 50, 250, True, True, 75, ['vor', 'pot'], True, True, 10]
-scenario_5 = [False, False, [13, 19, 25], [0, 30, 60], True, True, 0, 0, False, True, 0, [], True, False, 0]
-scenario_6 = [False, True, [13, 19, 25], [0, 30, 60], True, True, 5, 10, True, True, 100, ['vor', 'pot'], False, False, 0]
-scenario_7 = [False, True, [13, 19, 25], [0, 30, 60], True, True, 5, 10, True, True, 76, ['vor', 'pot'], True, True, 20]
+scenario_1 = [False, False, [13, 19, 25], [0, 30, 60], True, True, 5, 10, True, True, 75, ['vor', 'pot'], False, False, 0]
+scenario_2 = [False, False, [13, 19, 25], [0, 30, 60], True, True, 5, 10, True, True, 76, ['vor', 'pot'], True, True, 50]
+scenario_3 = [True, False, [13, 19, 25], [0, 30, 60], True, True, 5, 10, True, True, 76, ['vor', 'pot'], True, True, 50]
+scenario_2030 = [False, False, [13, 19, 25], [0, 30, 60], True, True, 50, 150, True, True, 100, ['vor', 'pot'], True, True, 50]
+scenario_current = [False, False, [13, 19, 25], [0, 30, 60], True, True, 0, 0, False, True, 0, [], True, False, 50]
+scenario_100_wind = [False, False, [13, 19, 25], [0, 30, 60], True, True, 0, 0, True, True, 100, ['vor', 'pot'], False, False, 0]
+scenario_90_percent = [False, False, [13, 19, 25], [0, 30, 60], True, True, 5, 10, True, True, 76, ['vor', 'pot'], True, True, 50]
 
 
 @app.callback(
@@ -1606,13 +1614,13 @@ def change_scenario(value, options):
     elif value == options[2]['value']:
         return scenario_3
     elif value == options[3]['value']:
-        return scenario_4
+        return scenario_2030
     elif value == options[4]['value']:
-        return scenario_5
+        return scenario_current
     elif value == options[5]['value']:
-        return scenario_6
+        return scenario_100_wind
     elif value == options[6]['value']:
-        return scenario_7
+        return scenario_90_percent
     else:
         raise PreventUpdate
 
@@ -1687,13 +1695,18 @@ tt_2 = 'Goal of task 2 is to achieve 100% RE production for 100% of the time. To
 tt_3 = 'Goal of task 3 is to achieve 100% RE production for 100% of the time, just like task 2. For this simulation the user ' \
        'should use their own data (see upload button). The means to achieve this goal are the same as in task 2.'
 
-tt_4 = 'This scenario will simulate a possible state of 2030 with heavily increased number of biomass and solar production ' \
-       'plants. '
+tt_4 = 'This scenario will simulate a possible state of 2030 with heavily increased number of biomass, solar and wind energy ' \
+       'production plants.'
 
 tt_5 = 'This scenario will simulate the current state of renewable energy production by neither expanding upon the energy ' \
        'production nor the power storages. It will use existing power storages and existing means of power production ' \
        '(will include planned wind turbines).'
 
+tt_6 = 'This scenario aims to generate 100% renewable energy throughout the whole year by only expanding on wind energy.'
+
+tt_7 = 'In this scenario we analyze the cost behaviour of storage expansions. By only expanding enough storage to supply 90% ' \
+       'of the yearly hours with 100% renewable energies, there should be a big difference in investment cost to supplying ' \
+       '100% of the hours with renewable energies.'
 
 @app.callback(
     [
@@ -1721,6 +1734,10 @@ def scenario_tooltip(n1, is_open, scenario, options):
         picked = tt_4
     elif scenario == options[4]['value']:
         picked = tt_5
+    elif scenario == options[5]['value']:
+        picked = tt_6
+    elif scenario == options[6]['value']:
+        picked = tt_7
     else:
         picked = ''
     if n1:
@@ -2292,7 +2309,7 @@ def costs_table(value):
                     dbc.Col([
                         html.H5('Wind:', style={'textDecoration': 'underline'}),
                         html.P('No wind turbines were build.')
-                    ], width=6, align='center'),
+                    ], width=6),
                     dbc.Col([
                         html.H5('Storage:', style={'textDecoration': 'underline'}),
                         make_cost_table(df_cost_report_storage)
@@ -2783,25 +2800,27 @@ def start_sim(n, exmpl_sw, year, wind_expansion_value, bio_sw, bio_inp, solar_sw
                 html.P(f'Reached: {round(reached_percentage * 100, 1)} %')
             ])
 
-        settings = f'Own data: {exmpl_sw}\n' \
-                   f'Simulation year: {year}\n' \
-                   f'Eisman: {eisman_sw}\n' \
-                   f'Eisman wind speeds: {eisman_wind}\n' \
-                   f'Eisman power regulation: {eisman_percentage}\n' \
-                   f'Use biomass: {bio_sw}\n' \
-                   f'Biomass expansion: {bio_inp}%\n' \
-                   f'Use solar Power: {solar_sw}\n' \
-                   f'Solar Power expansion: {solar_inp}%\n' \
-                   f'Expand wind: {wind_expansion}\n' \
-                   f'Use planned wind turbines: {planned_wind}\n' \
-                   f'Wind expansion goal: {wind_expansion_value}%\n' \
-                   f'Wind expansion methods: {methods_wind}\n' \
-                   f'Use storage: {storage_sw}\n' \
-                   f'Expand storage: {storage_expansion_sw}\n' \
-                   f'Start capacity: {start_capacity_value}%\n' \
-                   f'Storage expansion goal: {storage_expansion_value}%\n' \
-                   f'Safety padding: {safety_padding_value}%\n' \
-                   f'Storage expansion options: {storage_options}\n' \
+        settings = [
+            f'Own data: {exmpl_sw}\n'
+            f'Simulation year: {year}\n'
+            f'Eisman: {eisman_sw}\n'
+            f'Eisman wind speeds: {eisman_wind}\n'
+            f'Eisman power regulation: {eisman_percentage}\n'
+            f'Use biomass: {bio_sw}\n'
+            f'Biomass expansion: {bio_inp}%\n'
+            f'Use solar Power: {solar_sw}\n'
+            f'Solar Power expansion: {solar_inp}%\n'
+            f'Expand wind: {wind_expansion}\n'
+            f'Use planned wind turbines: {planned_wind}\n'
+            f'Wind expansion goal: {wind_expansion_value}%\n'
+            f'Wind expansion methods: {methods_wind}\n'
+            f'Use storage: {storage_sw}\n'
+            f'Expand storage: {storage_expansion_sw}\n'
+            f'Start capacity: {start_capacity_value}%\n'
+            f'Storage expansion goal: {storage_expansion_value}%\n'
+            f'Safety padding: {safety_padding_value}%\n'
+            f'Storage expansion options: {storage_options}\n'
+        ]
 
         make_settings_text(settings)
 
