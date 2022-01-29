@@ -2041,11 +2041,11 @@ def download_example(n_clicks):
 def upload_data(list_of_contents, list_of_names, year):
     if list_of_contents is not None:
         checklist_needed_files = [
-            'Erz_komuliert_' + str(year) + '_PV.csv',
-            'Erz_komuliert_' + str(year) + '_Wind.csv',
-            'Erz_komuliert_' + str(year) + '_Wind_eisman.csv',
-            'Erz_komuliert_Biomasse_' + str(year) + '.csv',
-            'Verbrauch_komuliert_' + str(year) + '.csv',
+            'Erz_kumuliert_' + str(year) + '_PV.csv',
+            'Erz_kumuliert_' + str(year) + '_Wind.csv',
+            'Erz_kumuliert_' + str(year) + '_Wind_eisman.csv',
+            'Erz_kumuliert_Biomasse_' + str(year) + '.csv',
+            'Verbrauch_kumuliert_' + str(year) + '.csv',
             'Wind_Wetterdaten_' + str(year) + '.csv'
         ]
 
@@ -2505,7 +2505,7 @@ def click_support_button(n):
 
 def make_settings_text(settings):
     with open(exportFolder + '/settings.txt', 'w') as data:
-        data.write(settings)
+        data.write(settings[0])
 
 
 @app.callback(
@@ -2611,7 +2611,7 @@ def start_sim(n, exmpl_sw, year, wind_expansion_value, bio_sw, bio_inp, solar_sw
         '- - - - - - - - - - - - - - - - - - - -'
         'Database'
         main.META_DATA_generate_windenergy_plannendareas = False  # True wenn die Liste erstellt werden soll
-        main.META_DATA_verbrauch_komuliert = False  # True wenn die Liste erstellt werden soll
+        main.META_DATA_verbrauch_kumuliert = False  # True wenn die Liste erstellt werden soll
         main.META_DATA_DBWKAreload = False  # True wenn die DB der WKA Lastgänge erstellt werden soll
         main.META_DATA_DB_min_hight = 100  # Wert gibt die min höhe der WKA für die DB Lastgänge erstellt werden soll
         main.META_DATA_plannedAreas_potVor_getCoords = False  # True wenn die Ausbauflächen keine Standorte besitzen

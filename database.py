@@ -193,7 +193,7 @@ def erzeugungsZsmPV(year, state, source='PV', weatherConnect=True):
         }
     )
 
-    exportname = 'Datenbank/ConnectwithID/Erzeugung/PV_Anlagen_' + state + '_WetterID_' + str(year) + '_komuliert.csv'
+    exportname = 'Datenbank/ConnectwithID/Erzeugung/PV_Anlagen_' + state + '_WetterID_' + str(year) + '_kumuliert.csv'
     AusgabeFrame.to_csv(exportname, sep=';', encoding='utf-8', index=False, decimal=',')
 
     print('ENDE erzeugungsZsmPV ')
