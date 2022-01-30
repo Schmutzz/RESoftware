@@ -1106,6 +1106,7 @@ def re_simulation():
                 lgk.expansion_storage(temp_Diff_EE, META_negativ_Graph_methode, listStorage, main.META_startcapacity,
                                       main.META_Laegerdorf, main.META_compressed_air, main.META_max_compressed_air,
                                       main.META_EE_Speicher)
+
                 print('Storage Len: ', len(listStorage))
 
                 EE_Analyse = lgk.analyseEE(META_year, exportFolder, listSpeicher=listStorage, EE_Erz=temp_wind,
@@ -1122,16 +1123,7 @@ def re_simulation():
                 EE_export = EE_Analyse[2]
                 EE_Anteil = EE_Analyse[1]
                 print('EE Anteil in Prozent: ', round(EE_Anteil * 100, 6), '%')
-                if main.META_EE_Speicher < 100.0:
-                    if temp_max_EE_storage+0.002 < EE_Anteil and temp_compressed_air == True and temp_max_EE_storage < 1:
-                        print('Storage has to much capacity')
-                        old_capacity = listStorage[-1].max_capacity
-                        old_capacity -= 500000
-                        listStorage[-1].max_capacity = old_capacity
-                        listStorage[-1].power = (old_capacity / 5)
-                        print('Druckspeicher wird verringert um: ', 500000, '')
-                        print('Kapazität in GWh: ', listStorage[-1].max_capacity / 1000000, 'Leistung in GW: ',
-                              listStorage[-1].power / 1000000)
+
 
                 simulation_EE = EE_Analyse[0].copy()
                 if EE_Anteil >= main.META_EE_Speicher and main.META_EE_Speicher < 100.0:
@@ -1148,6 +1140,37 @@ def re_simulation():
                     main.META_compressed_air = False
                 if temp_run == 2 and main.META_compressed_air == True:
                     main.META_compressed_air = False
+
+            if main.META_EE_Speicher < 100.0:
+                if temp_max_EE_storage + 0.002 < EE_Anteil and temp_compressed_air == True and temp_max_EE_storage < 1:
+                    print('Storage has to much capacity')
+                    while temp_max_EE_storage + 0.002 < EE_Anteil:
+
+                        old_capacity = listStorage[-1].max_capacity
+                        old_capacity -= 500000
+                        listStorage[-1].max_capacity = old_capacity
+                        listStorage[-1].power = (old_capacity / 5)
+                        print('Druckspeicher wird verringert um: ', 500000, '')
+                        print('Kapazität in GWh: ', listStorage[-1].max_capacity / 1000000, 'Leistung in GW: ',
+                              listStorage[-1].power / 1000000)
+
+                        EE_Analyse = lgk.analyseEE(META_year, exportFolder, listSpeicher=listStorage, EE_Erz=temp_wind,
+                                                   PV_Gesamt=PV_Gesamt, erz_Bio=erz_Bio,
+                                                   plannedErzeung=be_planned_wka_power, verbrauch=verbrauch_HH_SH,
+                                                   ausbauWind=expansionWind, ausbauWindeisman=expansionWind_eisman,
+                                                   ausbauPV=expansionPV, ausbauBio=expansionBio,
+                                                   key_name='afterStorageExpansion',
+                                                   ausbau=temp_ausbau, export=False, eisman=main.META_eisman,
+                                                   geplanterAusbau=main.META_be_planned_expansion,
+                                                   biomes=main.META_biomasse,
+                                                   wind=main.META_wind, PV=main.META_PV,
+                                                   expansionPV=main.META_expansionPV,
+                                                   expansionBio=main.META_expansionBio,
+                                                   speicher=main.META_storage_before_expansion)
+
+                        EE_export = EE_Analyse[2]
+                        EE_Anteil = EE_Analyse[1]
+
 
             print('Storage expandasion ended')
 
