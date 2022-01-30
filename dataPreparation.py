@@ -75,6 +75,23 @@ def openAusbauflaechen(export=True):
         exportname = "Datenbank/Ausbauflaechen/AusbauStandorte_gesamt_SH/AlleStandorte.csv"
         merge_df.to_csv(exportname, sep=';',decimal=',' , encoding='utf-8-sig', index=False)
 
+    try:
+
+        merge_df = pd.read_csv(exportname, delimiter=';', decimal=',', encoding='utf-8')
+
+    except:
+        print('falsches Format')
+
+    merge_df['ersatz_Pot'] = merge_df['haPot'] - merge_df['haVor']
+
+    merge_df['haPot'] = merge_df['ersatz_Pot']
+    del merge_df['ersatz_Pot']
+
+    if export == True:
+        print('Export')
+        exportname = "Datenbank/Ausbauflaechen/AusbauStandorte_gesamt_SH/AlleStandorte.csv"
+        merge_df.to_csv(exportname, sep=';',decimal=',' , encoding='utf-8-sig', index=False)
+
     return merge_df
 
 def plannendAreas_getCoords(plannedAreas, export=True):
@@ -136,7 +153,7 @@ def weatherStation_getCoords():
         openfilename1 = 'Import/Wetterstationen/StundeWindStationen.csv'
         print(openfilename1)
 
-        weather = pd.read_csv(openfilename1, delimiter=';', encoding='latin1')
+        weather = pd.read_csv(openfilename1, delimiter=';', encoding='utf-8')
 
     except:
         print('falsches Format')
@@ -152,7 +169,7 @@ def weatherStation_getCoords():
         openfilename1 = 'Import/Wetterstationen/StundeSolarStationen.csv'
         print(openfilename1)
 
-        weather = pd.read_csv(openfilename1, delimiter=';', encoding='latin1')
+        weather = pd.read_csv(openfilename1, delimiter=';', encoding='utf-8')
 
     except:
         print('falsches Format')

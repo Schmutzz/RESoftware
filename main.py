@@ -567,6 +567,7 @@ def re_simulation():
         'Ausbauflaechen get Coords and get Weather ID'
         if main.META_DATA_plannedAreas_potVor_getCoords == True:
             print('plannedAreasgetCoords will be regenerated and reloaded')
+            expansion_area_wind_vorpot = dataprep.openAusbauflaechen(export=True)
             expansion_area_wind_vorpot = dataprep.plannendAreas_getCoords(expansion_area_wind_vorpot, export=True)
             expansion_area_wind_vorpot = dataprep.plannedAreas_getWeather(expansion_area_wind_vorpot, windWeatherStation,
                                                                           export=True)
