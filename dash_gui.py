@@ -185,14 +185,18 @@ def drawEE_absolute(value):
         fig.add_trace(go.Scatter(x=df_analyse['Datum'], y=df_analyse['Verbrauch_Gesamt'], marker=dict(color='blue', opacity=0.2),
                                  name="Consumption"))
     elif value == 'mix':
-        fig.add_trace(
-            go.Scatter(x=df_analyse['Datum'], y=df_analyse['Erz_Biomasse_Gesamt'], marker=dict(color='green'),
-                       name="Biomass"))
-        fig.add_trace(
-            go.Scatter(x=df_analyse['Datum'], y=df_analyse['Erz_PV_Gesamt'], marker=dict(color='orange'),
-                       name="Solar"))
-        fig.add_trace(go.Scatter(x=df_analyse['Datum'], y=df_analyse['Erzeugung_Wind_Gesamt'], marker=dict(color='blue'),
-                                 name="Wind"))
+        headers = df_analyse.columns.values.tolist()
+        if 'Erz_Biomasse_Gesamt' in headers:
+            fig.add_trace(
+                go.Scatter(x=df_analyse['Datum'], y=df_analyse['Erz_Biomasse_Gesamt'], marker=dict(color='green'),
+                           name="Biomass"))
+        if 'Erz_PV_Gesamt' in headers:
+            fig.add_trace(
+                go.Scatter(x=df_analyse['Datum'], y=df_analyse['Erz_PV_Gesamt'], marker=dict(color='orange'),
+                           name="Solar"))
+        if 'Erzeugung_Wind_Gesamt' in headers:
+            fig.add_trace(go.Scatter(x=df_analyse['Datum'], y=df_analyse['Erzeugung_Wind_Gesamt'], marker=dict(color='blue'),
+                                     name="Wind"))
 
     elif value == 'storage':
         fig.add_trace(
@@ -711,7 +715,7 @@ scenario_dropdown = html.Div([
             {'label': 'Scenario 2030', 'value': 'Scenario 2030'},
             {'label': 'Current State', 'value': 'Current State'},
             {'label': '100% Wind', 'value': '100% Wind'},
-            {'label': '90% Goal', 'value': '90% Goal'},
+            {'label': '95% Goal', 'value': '95% Goal'},
         ],
         value='Task 1',
         style={"textAlign": "left", 'color': 'black'},
@@ -1579,10 +1583,10 @@ app.layout = html.Div([
 scenario_1 = [False, False, [13, 19, 25], [0, 30, 60], True, True, 5, 10, True, True, 75, ['vor', 'pot'], False, False, 0]
 scenario_2 = [False, False, [13, 19, 25], [0, 30, 60], True, True, 5, 10, True, True, 76, ['vor', 'pot'], True, True, 50]
 scenario_3 = [True, False, [13, 19, 25], [0, 30, 60], True, True, 5, 10, True, True, 76, ['vor', 'pot'], True, True, 50]
-scenario_2030 = [False, False, [13, 19, 25], [0, 30, 60], True, True, 50, 150, True, True, 100, ['vor', 'pot'], True, True, 50]
+scenario_2030 = [False, False, [13, 19, 25], [0, 30, 60], True, True, 50, 200, True, True, 76, ['vor', 'pot'], True, True, 50]
 scenario_current = [False, False, [13, 19, 25], [0, 30, 60], True, True, 0, 0, False, True, 0, [], True, False, 50]
 scenario_100_wind = [False, False, [13, 19, 25], [0, 30, 60], True, True, 0, 0, True, True, 100, ['vor', 'pot'], False, False, 0]
-scenario_90_percent = [False, False, [13, 19, 25], [0, 30, 60], True, True, 5, 10, True, True, 76, ['vor', 'pot'], True, True, 50]
+scenario_95_percent = [False, False, [13, 19, 25], [0, 30, 60], True, True, 5, 10, True, True, 76, ['vor', 'pot'], True, True, 50]
 
 
 @app.callback(
@@ -1620,7 +1624,7 @@ def change_scenario(value, options):
     elif value == options[5]['value']:
         return scenario_100_wind
     elif value == options[6]['value']:
-        return scenario_90_percent
+        return scenario_95_percent
     else:
         raise PreventUpdate
 
@@ -1676,7 +1680,7 @@ def lock_storage_expansion(value, scenario, options):
         elif scenario == options[5]['value']:
             return value, slider_intervals(value), 0
         elif scenario == options[6]['value']:
-            return value, slider_intervals(value), 90
+            return value, slider_intervals(value), 95
         else:
             raise PreventUpdate
     else:
@@ -1704,9 +1708,9 @@ tt_5 = 'This scenario will simulate the current state of renewable energy produc
 
 tt_6 = 'This scenario aims to generate 100% renewable energy throughout the whole year by only expanding on wind energy.'
 
-tt_7 = 'In this scenario we analyze the cost behaviour of storage expansions. By only expanding enough storage to supply 90% ' \
-       'of the yearly hours with 100% renewable energies, there should be a big difference in investment cost to supplying ' \
-       '100% of the hours with renewable energies.'
+tt_7 = 'In this scenario we analyze the cost behaviour of storage expansions. By only expanding enough storage to supply 95% ' \
+       'of the yearly hours with 100% renewable energies, there should be a noticable difference in investment cost to ' \
+       'supplying 100% of the hours with renewable energies.'
 
 @app.callback(
     [
@@ -2041,11 +2045,11 @@ def download_example(n_clicks):
 def upload_data(list_of_contents, list_of_names, year):
     if list_of_contents is not None:
         checklist_needed_files = [
-            'Erz_kumuliert_' + str(year) + '_PV.csv',
-            'Erz_kumuliert_' + str(year) + '_Wind.csv',
-            'Erz_kumuliert_' + str(year) + '_Wind_eisman.csv',
-            'Erz_kumuliert_Biomasse_' + str(year) + '.csv',
-            'Verbrauch_kumuliert_' + str(year) + '.csv',
+            'Erz_komuliert_' + str(year) + '_PV.csv',
+            'Erz_komuliert_' + str(year) + '_Wind.csv',
+            'Erz_komuliert_' + str(year) + '_Wind_eisman.csv',
+            'Erz_komuliert_Biomasse_' + str(year) + '.csv',
+            'Verbrauch_komuliert_' + str(year) + '.csv',
             'Wind_Wetterdaten_' + str(year) + '.csv'
         ]
 
