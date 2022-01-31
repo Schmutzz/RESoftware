@@ -1,4 +1,6 @@
 """einen Platz um nicht im Restlichen Code immer rumschreiben zu müssen"""
+from win32com.servers import dictionary
+
 """ Email PW: 4He3m4t#"""
 """testMaster@bietigheimer-htc.de"""
 
@@ -7,6 +9,11 @@ from email.header import Header
 import smtplib
 import pandas as pd
 import numpy as np
+import plotly.express as px
+
+
+
+
 
 def max_verkopfte_tabelle():
     '''read and convert data 2019'''
@@ -317,11 +324,25 @@ def generation_PV_energy(year, source, state):
 
     print('Fertig')
 
+'''
+df_cost_report = pd.read_csv('data/monthReport_afterStorageExpansion_2019.csv',
+                             usecols=['Wind (TWh)', 'PV (TWh)', 'Biomass (TWh)',
+                                      'Deficit/Conventional (TWh)'],
+                             sep=';', decimal=',', encoding='utf-8', index_col=False)
 
+headers = df_cost_report.columns.values.tolist()
+for index, i in enumerate(headers):
+    headers[index] = headers[index].replace(' (TWh)', '')
 
+values = df_cost_report.iloc[-1].tolist()
 
+df = pd.DataFrame()
 
-'''test = pd.read_csv('REE_AnalyseCompleted/REE_Analysejahr_2019_21-01-2022_18-57/REE_beforREexpansion_64_2019_18-57.csv',
+print(len(df_cost_report.index))
+print(len(df.index))
+'''
+'''
+test = pd.read_csv('REE_AnalyseCompleted/REE_Analysejahr_2019_21-01-2022_18-57/REE_beforREexpansion_64_2019_18-57.csv',
                    sep=';', decimal=',', encoding='utf-8')
 a = test['EE>100%'].value_counts()[1]
 print(test['EE>100%'].value_counts())

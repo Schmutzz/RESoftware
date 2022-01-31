@@ -1678,10 +1678,11 @@ def storage_options_method(switch, expansion):
         Input('scenario_dropdown', 'value')
     ],
     [
-        State('scenario_dropdown', 'options')
+        State('scenario_dropdown', 'options'),
+        State('storage_expansion_slider', 'value')
     ]
 )
-def lock_storage_expansion(value, scenario, options):
+def lock_storage_expansion(value, scenario, options, current_storage):
     ctx = dash.callback_context
 
     if not ctx.triggered:
@@ -1707,7 +1708,12 @@ def lock_storage_expansion(value, scenario, options):
         else:
             raise PreventUpdate
     else:
-        return value, slider_intervals(value), value
+        if value >= current_storage:
+            return value, slider_intervals(value), value
+        elif value < current_storage:
+            return value, slider_intervals(value), current_storage
+        else:
+            raise PreventUpdate
 
 
 # scenario modal texts

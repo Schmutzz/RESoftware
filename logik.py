@@ -204,7 +204,7 @@ def wea_modell_dictionary_class(WKA_csvFrame, useImport=True):
                                 'Ausbaurelevant',
                                 'IEC-WindKlasse', 'Investitionskosten', 'Betriebskosten in Euro/a']
 
-            openfilename3 = 'Datenbank/WKA_Modell/Modellliste_WKA.csv'
+            openfilename3 = 'Datenbank/WEAModell/WEAModell.csv'
             print(openfilename3)
             WKA_csvFrame = pd.read_csv(openfilename3, usecols=headerlistModell, delimiter=';', decimal=',', header=0,
                                        encoding='utf-8')
@@ -1022,7 +1022,7 @@ def analyseEE(year, exportfolder, listSpeicher=0, EE_Erz=0, PV_Gesamt=0, erz_Bio
 
     # PV Ausbau Software
     if ausbau == True and sum(ausbauPV) > 0:
-        # print('New Energysum PV GWh: ', sum(ausbauPV)/1000000)
+        print('New Energysum PV GWh: ', sum(ausbauPV)/1000000)
         EE_Erz['Erz_PV_Gesamt'] += ausbauPV
         EE_Erz['REE_PV'] = ausbauPV
         temp_EE_Erz += EE_Erz['REE_PV']
@@ -1036,7 +1036,7 @@ def analyseEE(year, exportfolder, listSpeicher=0, EE_Erz=0, PV_Gesamt=0, erz_Bio
 
     # Biomasse Ausbau Software
     if ausbau == True and sum(ausbauBio) > 0:
-        # print('New Energysum Bio GWh: ', sum(ausbauBio) / 1000000)
+        print('New Energysum Bio GWh: ', sum(ausbauBio) / 1000000)
         EE_Erz['REE_Biomasse'] = ausbauBio
         EE_Erz['Erz_Biomasse_Gesamt'] += EE_Erz['REE_Biomasse']
         temp_EE_Erz += EE_Erz['REE_Biomasse'].tolist()
@@ -1876,10 +1876,10 @@ def DB_WKA(year, dictModell, dictWeatherID, wetterdaten, min_hight, META_first_w
                 META_first_power_limit) + '_' + str(META_sec_power_limit) + '_' + str(
                 META_third_power_limit)
 
-            openfilename = 'Datenbank/WKA_Modell/DB_WKA_' + str(year) + '_' + str(min_hight) + '_' + str(
+            openfilename = 'Datenbank/WEAModell/DB_WKA_' + str(year) + '_' + str(min_hight) + '_' + str(
                 eisman_name) + '.csv'
         if eisman == False:
-            openfilename = 'Datenbank/WKA_Modell/DB_WKA_' + str(year) + '_' + str(min_hight) + '.csv'
+            openfilename = 'Datenbank/WEAModell/DB_WKA_' + str(year) + '_' + str(min_hight) + '.csv'
 
         date_perHoure.to_csv(openfilename, sep=';', encoding='utf-8-sig', index=False, decimal=',')
 
@@ -1971,8 +1971,6 @@ def expansion_storage(temp_Diff_EE, META_speicherverlauf, listStorage, META_star
 
         print('Storage Len: ', len(listStorage))
         print('Benötigte Kapazität in GWh: ', deepestPoint / 1000000)
-
-
 
     if META_compressed_air == True and deepestPoint > 0:
         if deepestPoint > META_max_compressed_air:
