@@ -237,7 +237,7 @@ def re_simulation():
         raise RuntimeError('Programmabbruch da die Wetterstationen für Solar nicht eingelesen werden konnten')
 
     try:
-        openfilename = 'Datenbank/WEAModell/WEAModell.csv'
+        openfilename = 'Datenbank/WKA_Modell/Modellliste_WKA.csv'
         print(openfilename)
         WEAModell = pd.read_csv(openfilename, delimiter=';', decimal=',', encoding='latin1')
     except:
@@ -629,7 +629,7 @@ def re_simulation():
     if main.META_DATA_DBWKAreload == False:
         if main.META_eisman == False:
             try:
-                openfilename = 'Datenbank/WEAModell/DB_WKA_' + str(main.META_year) + '_' + str(
+                openfilename = 'Datenbank/WKA_Modell/DB_WKA_' + str(main.META_year) + '_' + str(
                     main.META_DATA_DB_min_hight) + '.csv'
                 print(openfilename)
                 DB_WKA = pd.read_csv(openfilename, delimiter=';', decimal=',', encoding='utf-8')
@@ -644,7 +644,7 @@ def re_simulation():
                 main.META_first_power_limit) + '_' + str(main.META_sec_power_limit) + '_' + str(
                 main.META_third_power_limit)
             try:
-                openfilename = 'Datenbank/WEAModell/DB_WKA_' + str(main.META_year) + '_' + str(
+                openfilename = 'Datenbank/WKA_Modell/DB_WKA_' + str(main.META_year) + '_' + str(
                     main.META_DATA_DB_min_hight)+'_'+str(eisman_name)+ '.csv'
                 print(openfilename)
                 DB_WKA = pd.read_csv(openfilename, delimiter=';', decimal=',', encoding='utf-8')
@@ -1080,9 +1080,8 @@ def re_simulation():
 
     min_current_storage = 0.0
     storage_bevor = len(listStorage)
-    if EE_Anteil <= main.META_EE_Speicher:
-        if main.META_storage_expansion == True and main.META_use_storage == True and (
-                main.META_Laegerdorf == True or main.META_compressed_air == True):
+    if EE_Anteil <= main.META_EE_Speicher and main.META_storage_expansion == True and main.META_use_storage == True:
+        if (main.META_Laegerdorf == True or main.META_compressed_air == True):
             print('Speicherausbau')
             EE_anteil_bevor = EE_Anteil
             print('EE Anteil vor Ausbau', EE_anteil_bevor)
@@ -1135,12 +1134,11 @@ def re_simulation():
                 min_current_storage = min(simulation_EE['Speicher_voll_Prozent'])
                 print('lowest Currentstorage in Prozent: ', round(min_current_storage * 100, 5), '%')
 
-                if temp_run == 1 and main.META_Laegerdorf == True:
-                    main.META_Laegerdorf = False
-                if temp_run == 1 and main.META_Laegerdorf == False and main.META_compressed_air == True:
-                    main.META_compressed_air = False
-                if temp_run == 2 and main.META_compressed_air == True:
-                    main.META_compressed_air = False
+
+                main.META_Laegerdorf = False
+                main.META_compressed_air = False
+
+
 
             if main.META_EE_Speicher < 100.0:
                 if temp_max_EE_storage + 0.002 < EE_Anteil and temp_compressed_air == True and temp_max_EE_storage < 1:
@@ -1171,6 +1169,12 @@ def re_simulation():
 
                         EE_export = EE_Analyse[2]
                         EE_Anteil = EE_Analyse[1]
+                        print('EE Anteil in Prozent: ', round(EE_Anteil * 100, 6), '% zu',
+                              round((temp_max_EE_storage + 0.002) * 100, 6),'%')
+                        temp_min = min(simulation_EE['Diff_Erz_zu_Verb_mit_Speicher'])
+                        print('lowest delta EE to consume: ', round(temp_min, 6))
+                        min_current_storage = min(simulation_EE['Speicher_voll_Prozent'])
+                        print('lowest Currentstorage in Prozent: ', round(min_current_storage * 100, 5), '%')
 
 
             print('Storage expandasion ended')
