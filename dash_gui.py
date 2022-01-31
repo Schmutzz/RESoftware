@@ -1554,7 +1554,7 @@ results = html.Div([
                                              clearable=False
                                              )
                             ], width=3),
-                        ]),
+                        ], justify='around'),
                         dbc.Row([
                             dcc.Graph(id='map')
                         ], className='pt-1')
@@ -1590,7 +1590,7 @@ results = html.Div([
                 ], className='py-3', justify='center')
             ])
         ], inverse=True, className='text-center p-1')
-    ], className='px-3 py-1')
+    ], className='px-3 pb-3')
 ])
 
 app.layout = html.Div([
@@ -1598,7 +1598,7 @@ app.layout = html.Div([
     dbc.Row([
         start_button,
         upload_modal
-    ], className='py-3', justify='center'),
+    ], className='py-2', justify='center'),
     html.Div(id='results', children=results, style={'display': 'none'}),
     support_button
 ], style={"width": "99%"}, className='px-3 py-2')
