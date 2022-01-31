@@ -253,6 +253,11 @@ def draw_pie(biomass, solar):
     for index, i in enumerate(headers):
         headers[index] = headers[index].replace(' (TWh)', '')
 
+    if 'Diff_Erz_zu_Verb_mit_Speicher' in df_analyse:
+        negative_values = df_analyse.loc[df_analyse['Diff_Erz_zu_Verb_mit_Speicher'] < 0]
+        negative_values = negative_values['Diff_Erz_zu_Verb_mit_Speicher'].tolist()
+        values[-1] = abs(sum(negative_values))/1000000000
+
     other_re = sum(values[1:])
     values[0] = consum - other_re
 
@@ -715,7 +720,7 @@ scenario_dropdown = html.Div([
             {'label': 'Scenario 2030', 'value': 'Scenario 2030'},
             {'label': 'Current State', 'value': 'Current State'},
             {'label': '100% Wind', 'value': '100% Wind'},
-            {'label': '95% Goal', 'value': '95% Goal'},
+            {'label': '95% Green', 'value': '95% Green'},
         ],
         value='Task 1',
         style={"textAlign": "left", 'color': 'black'},
