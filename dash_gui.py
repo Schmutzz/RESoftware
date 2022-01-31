@@ -256,7 +256,7 @@ def draw_pie(biomass, solar):
     if 'Diff_Erz_zu_Verb_mit_Speicher' in df_analyse:
         negative_values = df_analyse.loc[df_analyse['Diff_Erz_zu_Verb_mit_Speicher'] < 0]
         negative_values = negative_values['Diff_Erz_zu_Verb_mit_Speicher'].tolist()
-        values[-1] = abs(sum(negative_values))/1000000000
+        values[-1] = abs(sum(negative_values)) / 1000000000
 
     other_re = sum(values[1:])
     values[0] = consum - other_re
@@ -279,7 +279,7 @@ def draw_vor(sizing):
     else:
         sizing = 'nettoFreieFlaeche_Vor'
 
-    return px.scatter_mapbox(df, lat='Latitude', lon='Longitude', title='Simulated expansion',
+    return px.scatter_mapbox(df, lat='Latitude', lon='Longitude', title='Simulated expansion - Vorranggebiete',
                              # hover_name='ID_Weatherstation',
                              hover_data=['ID_Weatherstation_Vor', 'StadtVor', 'haVor', 'Anzahl WEAs_Vor', 'Anzahl_Vor',
                                          'Modell_Vor', 'nettoFreieFlaeche_Vor', 'Leistung_inMW_Vor', 'InvestKosten_inMio_Vor',
@@ -291,8 +291,8 @@ def draw_vor(sizing):
                                  "nettoFreieFlaeche_Vor": "Free area left (in ha)",
                                  'Modell_Vor': 'Used model',
                                  'Anzahl_Vor': 'Wind turbines after expansion',
-                                 'Leistung_inMW_Vor': 'Power',
-                                 'InvestKosten_inMio_Vor': 'Investment costs',
+                                 'Leistung_inMW_Vor': 'Power (in MW)',
+                                 'InvestKosten_inMio_Vor': 'Investment costs (in Mio. €)',
                                  'haVor': 'Total area (in ha)'
                              },
                              color='ID_Weatherstation_Vor', color_discrete_map={}, size=sizing, size_max=12,
@@ -309,7 +309,7 @@ def draw_pot(sizing):
     else:
         sizing = 'nettoFreieFlaeche_Pot'
 
-    return px.scatter_mapbox(df, lat='Latitude', lon='Longitude', title='Simulated expansion',
+    return px.scatter_mapbox(df, lat='Latitude', lon='Longitude', title='Simulated expansion - Potentialflächen',
                              # hover_name='StadtPot',
                              hover_data=['ID_Weatherstation_Pot', 'StadtPot', 'haPot', 'Anzahl WEAs_Pot', 'Anzahl_Pot',
                                          'Modell_Pot', 'nettoFreieFlaeche_Pot', 'Leistung_inMW_Pot', 'InvestKosten_inMio_Pot',
@@ -321,8 +321,8 @@ def draw_pot(sizing):
                                  "nettoFreieFlaeche_Pot": "Free area left (in ha)",
                                  'Modell_Pot': 'Used model',
                                  'Anzahl_Pot': 'Wind turbines after expansion',
-                                 'Leistung_inMW_Pot': 'Power',
-                                 'InvestKosten_inMio_Pot': 'Investment costs',
+                                 'Leistung_inMW_Pot': 'Power (in MW)',
+                                 'InvestKosten_inMio_Pot': 'Investment costs (in Mio. €)',
                                  'haPot': 'Total area (in ha)'
                              },
                              color='ID_Weatherstation_Pot', color_discrete_map={}, size=sizing, size_max=12,
@@ -1529,38 +1529,56 @@ results = html.Div([
                 ], className='py-3'),
                 dbc.Row([
                     dbc.Col([
-                        html.P('Area:'),
-                        dcc.Dropdown(id='dropdown_map',
-                                     options=[
-                                         {'label': 'Vor', 'value': 'Vor'},
-                                         {'label': 'Pot', 'value': 'Pot'}
-                                     ],
-                                     value='Vor',
-                                     style={"textAlign": "left", 'color': 'black'},
-                                     clearable=False
-                                     )
-                    ], width=1),
-                    dbc.Col([
-                        html.P('Sizing:'),
-                        dcc.Dropdown(id='dropdown_map_size',
-                                     options=[
-                                         {'label': 'Power', 'value': 'Power'},
-                                         {'label': 'Free area', 'value': 'Area'}
-                                     ],
-                                     value='Power',
-                                     style={"textAlign": "left", 'color': 'black'},
-                                     clearable=False
-                                     )
-                    ], width=1),
-                ], className='pt-3'),
-                dbc.Row([
-                    dbc.Col([
-                        dcc.Graph(id='map')
+                        dbc.Row([
+                            dbc.Col([
+                                html.P('Area:'),
+                                dcc.Dropdown(id='dropdown_map',
+                                             options=[
+                                                 {'label': 'Vor', 'value': 'Vor'},
+                                                 {'label': 'Pot', 'value': 'Pot'}
+                                             ],
+                                             value='Vor',
+                                             style={"textAlign": "left", 'color': 'black'},
+                                             clearable=False
+                                             )
+                            ], width=3),
+                            dbc.Col([
+                                html.P('Sizing:'),
+                                dcc.Dropdown(id='dropdown_map_size',
+                                             options=[
+                                                 {'label': 'Power', 'value': 'Power'},
+                                                 {'label': 'Free area', 'value': 'Area'}
+                                             ],
+                                             value='Power',
+                                             style={"textAlign": "left", 'color': 'black'},
+                                             clearable=False
+                                             )
+                            ], width=3),
+                        ]),
+                        dbc.Row([
+                            dcc.Graph(id='map')
+                        ], className='pt-1')
                     ], width=6),
                     dbc.Col([
-                        dcc.Graph(id='graph_pie')
+                        dbc.Row([
+                            html.H5('Pie Explanation', id='pie_text',
+                                    style={"text-decoration": 'underline', "cursor": "pointer"}),
+                            dbc.Modal([
+                                dbc.ModalHeader([html.H5('Used energy chart')], close_button=True),
+                                dbc.ModalBody(
+                                    'This pie chart show the amount of energy that is actually used. Basically if the total '
+                                    'yearly energy consumption is 20TWh and 30TWh were produced by wind energy '
+                                    'alone, not all the energy can be used. This also takes hours into account '
+                                    'in which renewable energy (storages included) did not completely cover the required amount '
+                                    'of energy. For these hours we still have to rely on conventional energy sources.'),
+                            ], id="pie_modal", centered=True, is_open=False,
+                            ),
+                        ]),
+                        dbc.Row([
+                            dcc.Graph(id='graph_pie')
+                        ])
                     ], width=6)
-                ], className='py-3', justify="between"),
+                ], className='py-1', align='end'),
                 dbc.Row([
                     dbc.Col([
                         html.H4('Costs Overview', style={"text-decoration": 'underline'}),
@@ -1591,7 +1609,7 @@ scenario_3 = [True, False, [13, 19, 25], [0, 30, 60], True, True, 5, 10, True, T
 scenario_2030 = [False, False, [13, 19, 25], [0, 30, 60], True, True, 50, 200, True, True, 76, ['vor', 'pot'], True, True, 50]
 scenario_current = [False, False, [13, 19, 25], [0, 30, 60], True, True, 0, 0, False, True, 0, [], True, False, 50]
 scenario_100_wind = [False, False, [13, 19, 25], [0, 30, 60], True, True, 0, 0, True, True, 100, ['vor', 'pot'], False, False, 0]
-scenario_95_percent = [False, False, [13, 19, 25], [0, 30, 60], True, True, 5, 10, True, True, 76, ['vor', 'pot'], True, True, 50]
+scenario_95_percent = [False, False, [13, 19, 25], [0, 30, 60], True, True, 5, 10, True, True, 65, ['vor', 'pot'], True, True, 50]
 
 
 @app.callback(
@@ -1715,7 +1733,8 @@ tt_6 = 'This scenario aims to generate 100% renewable energy throughout the whol
 
 tt_7 = 'In this scenario we analyze the cost behaviour of storage expansions. By only expanding enough storage to supply 95% ' \
        'of the yearly hours with 100% renewable energies, there should be a noticable difference in investment cost to ' \
-       'supplying 100% of the hours with renewable energies.'
+       'supplying 100% of the hours with renewable energies. (Wind and storage values are picked for an economical optimum)'
+
 
 @app.callback(
     [
@@ -1773,6 +1792,18 @@ def slider_intervals(value):
     Output('example_switch_modal', 'is_open'),
     Input('example_switch_text', 'n_clicks'),
     State('example_switch_modal', 'is_open'),
+    prevent_initial_call=True
+)
+def storage_expansion_modal(n, is_open):
+    if n:
+        return not is_open
+    return is_open
+
+
+@app.callback(
+    Output('pie_modal', 'is_open'),
+    Input('pie_text', 'n_clicks'),
+    State('pie_modal', 'is_open'),
     prevent_initial_call=True
 )
 def storage_expansion_modal(n, is_open):
@@ -2050,11 +2081,11 @@ def download_example(n_clicks):
 def upload_data(list_of_contents, list_of_names, year):
     if list_of_contents is not None:
         checklist_needed_files = [
-            'Erz_komuliert_' + str(year) + '_PV.csv',
-            'Erz_komuliert_' + str(year) + '_Wind.csv',
-            'Erz_komuliert_' + str(year) + '_Wind_eisman.csv',
-            'Erz_komuliert_Biomasse_' + str(year) + '.csv',
-            'Verbrauch_komuliert_' + str(year) + '.csv',
+            'Erz_kumuliert_' + str(year) + '_PV.csv',
+            'Erz_kumuliert_' + str(year) + '_Wind.csv',
+            'Erz_kumuliert_' + str(year) + '_Wind_eisman.csv',
+            'Erz_kumuliert_Biomasse_' + str(year) + '.csv',
+            'Verbrauch_kumuliert_' + str(year) + '.csv',
             'Wind_Wetterdaten_' + str(year) + '.csv'
         ]
 
@@ -2065,15 +2096,15 @@ def upload_data(list_of_contents, list_of_names, year):
                     pass
                 else:
                     return True, html.P([upload_modal_text, html.Br(), html.Br(),
-                                         'wrong filename: ' + list_of_names[i]])
+                                         'Wrong filename: ' + list_of_names[i]])
         else:
             return True, html.P([upload_modal_text, html.Br(), html.Br(),
-                                 'wrong amount of files'])
+                                 'Wrong amount of files!'])
 
         # delete files
-        list_of_files = os.listdir('Own_Data')
+        list_of_files = os.listdir('Import/own_data')
         for file in list_of_files:
-            file_path = os.path.join('Own_Data', file)
+            file_path = os.path.join('Import/own_data', file)
             try:
                 if os.path.isfile(file_path) or os.path.islink(file_path):
                     os.unlink(file_path)
