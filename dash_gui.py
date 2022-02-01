@@ -1604,8 +1604,8 @@ app.layout = html.Div([
 ], style={"width": "99%"}, className='px-3 py-2')
 
 scenario_1 = [False, False, [13, 19, 25], [0, 30, 60], True, True, 5, 10, True, True, 75, ['vor', 'pot'], False, False, 0]
-scenario_2 = [False, False, [13, 19, 25], [0, 30, 60], True, True, 5, 10, True, True, 76, ['vor', 'pot'], True, True, 50]
-scenario_3 = [True, False, [13, 19, 25], [0, 30, 60], True, True, 5, 10, True, True, 76, ['vor', 'pot'], True, True, 50]
+scenario_2 = [False, False, [13, 19, 25], [0, 30, 60], True, True, 5, 10, True, True, 75, ['vor', 'pot'], True, True, 50]
+scenario_3 = [True, False, [13, 19, 25], [0, 30, 60], True, True, 5, 10, True, True, 75, ['vor', 'pot'], True, True, 50]
 scenario_2030 = [False, False, [13, 19, 25], [0, 30, 60], True, True, 50, 200, True, True, 76, ['vor', 'pot'], True, True, 50]
 scenario_current = [False, False, [13, 19, 25], [0, 30, 60], True, True, 0, 0, False, True, 0, [], True, False, 50]
 scenario_100_wind = [False, False, [13, 19, 25], [0, 30, 60], True, True, 0, 0, True, True, 100, ['vor', 'pot'], False, False, 0]
