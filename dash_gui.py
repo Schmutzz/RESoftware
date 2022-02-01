@@ -2510,7 +2510,7 @@ def download(n_clicks):
     prevent_initial_call=True,
 )
 def download(n_clicks):
-    return dcc.send_file('ThinkNewFitness_BusinessPlan.pdf')
+    return dcc.send_file('Dokumentation_RE-Solutions.pdf')
 
 
 @app.callback(
