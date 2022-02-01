@@ -497,8 +497,8 @@ def re_simulation():
 
     if main.META_storage_before_expansion == True and main.META_use_storage == True:
 
-        storage = lgk.StorageModell('Pumpspeicher Geesthacht', 'Geesthacht', 600000,
-                                    main.META_startcapacity * 600000, 0.8, 120000, 0.0, 0.08)
+        storage = lgk.StorageModel('Pumpspeicher Geesthacht', 'Geesthacht', 600000,
+                                   main.META_startcapacity * 600000, 0.8, 120000, 0.0, 0.08)
 
         listStorage.append(storage)
         print('Storage is allocated', listStorage[-1].modell)

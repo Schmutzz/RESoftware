@@ -15,7 +15,7 @@ import geo
 'Modellparameter AUSBAUFLÄCHEN'
 
 
-class StorageModell:
+class StorageModel:
 
     def __init__(self, modell, location, max_capacity, current_capacity, efficiency, power, invest, operatingk):
 
@@ -89,7 +89,7 @@ class StorageModell:
         self.current_capacity = self.__startcapacity
 
 
-class WKAmodell:
+class WKAmodel:
 
     def __init__(self, modell, ein_ms, nenn_ms, abs_ms, nenn_kW, nabenhoehe, rotor, ausbauRelv, windklasse, invest,
                  betriebk):
@@ -252,8 +252,8 @@ def wea_modell_dictionary_class(WKA_csvFrame, useImport=True):
     betrieb = WKA_csvFrame['Betriebskosten in Euro/a'].tolist()
     '------------------------------------------------------------'
 
-    peter = WKAmodell(modell, ein_ms, nenn_ms, abs_ms, leistung, nabenhoehe, rotor, ausbauRelev, windKlasse, invest,
-                      betrieb)
+    peter = WKAmodel(modell, ein_ms, nenn_ms, abs_ms, leistung, nabenhoehe, rotor, ausbauRelev, windKlasse, invest,
+                     betrieb)
     # WKAmodell(k, Ein_ms[index], Nenn_ms[index], Abs_ms[index], P_kw[index])
 
     return peter
@@ -1961,8 +1961,8 @@ def expansion_storage(temp_Diff_EE, META_speicherverlauf, listStorage, META_star
     print('Storage Len: ', len(listStorage))
     print('Benötigte Kapazität in GWh: ', deepestPoint / 1000000)
     if META_Laegerdorf == True:
-        storage = StorageModell('Pumpspeicher Lägerdorf', 'Lägerdorf', 1700000, META_startcapacity * 1700000,
-                                0.8, 70000, 60.0, 0.08)
+        storage = StorageModel('Pumpspeicher Lägerdorf', 'Lägerdorf', 1700000, META_startcapacity * 1700000,
+                               0.8, 70000, 60.0, 0.08)
 
         print('Pumpspeicher "Lägerdorf" wurde eingerichtet mit:')
         print('Kapazität in GW: ', storage.max_capacity / 1000000, 'Leistung in GW: ', storage.power / 1000000)
@@ -1981,8 +1981,8 @@ def expansion_storage(temp_Diff_EE, META_speicherverlauf, listStorage, META_star
 
 
 
-        storage = StorageModell('Druckluftspeicher', 'SH', deepestPoint, META_startcapacity * deepestPoint, 0.57,
-                                deepestPoint / 5, 60, 0.1)
+        storage = StorageModel('Druckluftspeicher', 'SH', deepestPoint, META_startcapacity * deepestPoint, 0.57,
+                               deepestPoint / 5, 60, 0.1)
         print('Druckluftspeicher wurde eingerichtet mit:')
         print('Kapazität in GWh: ', storage.max_capacity / 1000000, 'Leistung in GW: ', storage.power / 1000000)
         listStorage.append(storage)
@@ -2056,7 +2056,7 @@ def cost_analysis(year,exportfolder,dictWKA, list_key_expansion_wka, list_count_
                 temp_invest = round(
                     (dictWKA[temp_Modell + '_' + temp_Modell_hight]['Invest'] * list_count_expansion_wka[index]),
                     roundnumber)
-                cost_invest.append(temp_invest / 1000000)
+                cost_invest.append(temp_invest / 1000000000)
                 temp_betrieb = round(
                     (dictWKA[temp_Modell + '_' + temp_Modell_hight]['Betriebk'] * list_count_expansion_wka[index]),
                     roundnumber)
@@ -2069,14 +2069,14 @@ def cost_analysis(year,exportfolder,dictWKA, list_key_expansion_wka, list_count_
                 temp_invest = round(
                     (dictWKA[temp_Modell + '_' + temp_Modell_hight]['Invest'] * list_count_expansion_wka[index]),
                     roundnumber)
-                cost_invest[kindex] += (temp_invest / 1000000)
+                cost_invest[kindex] += (temp_invest / 1000000000)
                 temp_betrieb = round(
                     (dictWKA[temp_Modell + '_' + temp_Modell_hight]['Betriebk'] * list_count_expansion_wka[index]),
                     roundnumber)
                 cost_betrieb[kindex] += (temp_betrieb / 1000000)
 
 
-        cost_model.append('Summe in Mrd')
+        cost_model.append('Sum')
 
         temp_sum = sum(cost_counter_wka)
         cost_counter_wka.append(temp_sum)
@@ -2085,10 +2085,10 @@ def cost_analysis(year,exportfolder,dictWKA, list_key_expansion_wka, list_count_
         cost_power.append(temp_sum)
         cost_single_invest.append(0)
         cost_single_betrieb.append(0)
-        temp_sum = round((sum(cost_invest) / 1000), roundnumber)
+        temp_sum = round((sum(cost_invest)), roundnumber)
         cost_invest.append(temp_sum)
         invest_wka_gesamt =temp_sum
-        temp_sum = round((sum(cost_betrieb) / 1000), roundnumber)
+        temp_sum = round((sum(cost_betrieb)), roundnumber)
         cost_betrieb.append(temp_sum)
         op_wka_gesamt = temp_sum
 
@@ -2097,10 +2097,10 @@ def cost_analysis(year,exportfolder,dictWKA, list_key_expansion_wka, list_count_
              'Model Hub Hight': cost_height,
              'Number of Models': cost_counter_wka,
              'Installed Power in MW': cost_power,
-             'Invest in Mio per Model': cost_single_invest,
-             'Operating per Year in Mio per Model': cost_single_betrieb,
-             'Investment Costs in Mio': cost_invest,
-             'Operating Costs per Year in Mio': cost_betrieb
+             'Invest in Mio. € per Model': cost_single_invest,
+             'Operating per Year in Mio. € per Model': cost_single_betrieb,
+             'Investment Costs in Mrd. €': cost_invest,
+             'Operating Costs per Year in Mio. €': cost_betrieb
              }
         )
 
@@ -2129,39 +2129,39 @@ def cost_analysis(year,exportfolder,dictWKA, list_key_expansion_wka, list_count_
 
                 cost_model.append(listStorage[i].modell)
 
-                cost_power.append(round((listStorage[i].power/1000), roundnumber))
+                cost_power.append(round((listStorage[i].power/1000000), roundnumber))
                 cost_capacity.append(round((listStorage[i].max_capacity/1000000), roundnumber))
 
                 cost_single_invest.append(round((listStorage[i].invest), roundnumber))
                 cost_single_betrieb.append(round((listStorage[i].operatingk), roundnumber))
-                temp_invest = round(((listStorage[i].max_capacity * listStorage[i].invest)/1000000), roundnumber)
+                temp_invest = round(((listStorage[i].max_capacity * listStorage[i].invest)/1000000000), roundnumber)
                 cost_invest.append(temp_invest)
                 temp_betrieb = round(((listStorage[i].max_capacity * listStorage[i].operatingk)/1000000), roundnumber)
                 cost_betrieb.append(temp_betrieb)
 
 
-        cost_model.append('Summe in Mrd')
+        cost_model.append('Sum')
         temp_sum = sum(cost_power)
         cost_power.append(temp_sum)
         temp_sum = sum(cost_capacity)
         cost_capacity.append(temp_sum)
         cost_single_invest.append(0)
         cost_single_betrieb.append(0)
-        temp_sum = round((sum(cost_invest) / 1000), roundnumber)
+        temp_sum = round((sum(cost_invest)), roundnumber)
         cost_invest.append(temp_sum)
         invest_storage_gesamt = temp_sum
 
-        temp_sum = round((sum(cost_betrieb) / 1000), roundnumber)
+        temp_sum = round((sum(cost_betrieb)), roundnumber)
         cost_betrieb.append(temp_sum)
         op_storage_gesamt = temp_sum
         export_storage = pd.DataFrame(
             {'Model': cost_model,
-             'Installed Power in MW': cost_power,
+             'Installed Power in GW': cost_power,
              'Installed Capacity in GWh': cost_capacity,
              'Invest in €/kWh per Model': cost_single_invest,
              'Operating in €/kWh per Model': cost_single_betrieb,
-             'Investment Costs in Mio': cost_invest,
-             'Operatig Costs per Year in Mio': cost_betrieb
+             'Investment Costs in Mrd. €': cost_invest,
+             'Operatig Costs per Year in Mio. €': cost_betrieb
              }
         )
 
@@ -2195,7 +2195,7 @@ def cost_analysis(year,exportfolder,dictWKA, list_key_expansion_wka, list_count_
         cost_invest.append(0)
         cost_betrieb.append(0)
     try:
-        cost_model.append('Summe in Mrd')
+        cost_model.append('Sum')
         temp_sum = sum(cost_invest)
         cost_invest.append(temp_sum)
         temp_sum = sum(cost_betrieb)
@@ -2206,8 +2206,8 @@ def cost_analysis(year,exportfolder,dictWKA, list_key_expansion_wka, list_count_
 
     export_frame = pd.DataFrame(
         {'Type': cost_model,
-         'Investment Costs in Mrd': cost_invest,
-         'Operatig Costs per Year in Mrd': cost_betrieb
+         'Investment Costs in Mrd. €': cost_invest,
+         'Operatig Costs per Year in Mio. €': cost_betrieb
          }
     )
 
