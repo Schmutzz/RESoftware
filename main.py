@@ -1,26 +1,16 @@
 import pandas as pd
 from pathlib import Path
 from datetime import datetime
-import database
 import database as db
-import geo
-import geo as gpd
-import internetDownload as itd
 import main
-import sandbox
 import dataPreparation as dataprep
 import logik as lgk
 import time
-import shutil
 import os, zipfile
-import matplotlib.pyplot as plt
 import sys
 import numpy as np
 
-
-'''def start_mainDataBase(META_EE_Anteil,META_EE_Speicher ):
-
-    if __name__ == '__main__':'''
+"Übersicht aller wichtigen Variablen, welche unteranderem durch die GUI gesetzt werden"
 # Meta_GUI_OFF = True
 global META_EE_Anteil  # Muss Decimal angegeben werden 0.75
 global META_EE_Speicher  # Grenzwert bis Speicher nicht mehr ausgebaut werden 100% 1.0
@@ -90,6 +80,7 @@ global META_DATA_eisman
 
 
 def set_globals():
+    """Funktion dient dazu, die GUI zu umgehen. So kann eine Simulation ohne GUI stattfinden"""
     main.META_own_data = False
     main.META_EE_Anteil = 0.75  # Muss Decimal angegeben werden
     main.META_EE_Speicher = 0.90  # Grenzwert bis Speicher nicht mehr ausgebaut werden 100%
@@ -158,6 +149,7 @@ def set_globals():
 
 
 def createZIP(export_single_folder, folder, filename, compress=zipfile.ZIP_DEFLATED):
+    "Diese Funktion Zipt alle Dateien am Ende der Simulation"
     # ZIP Archive Öffnen
     with zipfile.ZipFile(filename + '.zip', 'w', compress) as target:
         for root, dirs, files in os.walk(folder):
@@ -171,16 +163,16 @@ def createZIP(export_single_folder, folder, filename, compress=zipfile.ZIP_DEFLA
                 # Datei zum ZIP Archive Hinzufügen
                 target.write(add)
 
-                print(add + ' will be added')
+                # print(add + ' will be added')
 
 
 def re_simulation():
+    """Diese Funktion ist die eigentliche Simulation, welche durch die Gui aufgerufen wird"""
     print('Start der Simulation')
-    print(main.META_DATA_verbrauch_kumuliert)
     print('1. Datenlage wird überprüft und ggf. erneuert')
 
     '- - - - - - - - - - - - - - - - - - - -'
-    'Wert nicht wichtig für die GUI'
+    'Wert nicht wichtig für die GUI, fehler vorbeugend'
     temp_ausbau = False  #
     PV_Gesamt = 0
     erz_Bio = 0
@@ -203,19 +195,11 @@ def re_simulation():
     export_ziel_folder = exportFolder + export_single_folder
     path = Path(exportFolder)
     path.mkdir(parents=True, exist_ok=True)
-    # sys.stdout = open(exportFolder + 'REE_outputanaylse.txt', 'w')
-    '------------------------------------------------------------------------------------------------------------------'
-
-
-    'General'
-    META_DATA_Inputcsv = 'utf-8'  # wird für das einlesen der Daten verwendet
-    META_DATA_OUTPUTcsv = 'utf-8-sig'  # wird für das auslesen der Daten verwendet
+    sys.stdout = open(exportFolder + 'REE_simulationstatus.txt', 'w')
 
     '---------------------------------------------------------------------------------------------------------'
     '!!!WICHTIGE DATEN!!!' \
     'ohne diese Daten kann keine Simulation gestartet werden'
-
-
 
     try:
         openfilename = 'Datenbank/Wetter/StundeWindStationen_Coords.csv'
@@ -621,10 +605,6 @@ def re_simulation():
                                                                       eisman=main.META_eisman,
                                                                       export=True)
 
-
-
-    # lgk.erzeugungPerStunde(2019, 'Wind', weatherIDlist, single_ID_export= True )
-    # lgk.erzeugungPerStunde(2020, 'Wind', weatherIDlist, single_ID_export=True)
     '------------------------------------------------------------------------------------------------------------------'
     if main.META_DATA_DBWKAreload == False:
         if main.META_eisman == False:
@@ -705,8 +685,7 @@ def re_simulation():
         exportname2 = exportFolder + 'Windanlyse_' + str(META_year) + '.csv'
         windanlyse.to_csv(exportname2, sep=';', encoding='utf-8-sig', index=True, decimal=',')
 
-    # PV_Gesamt = lgk.erzeugungPerStunde(year, 'PV')
-    # Wind_Gesamt = lgk.erzeugungPerStunde(year, 'Wind')
+
     if main.META_be_planned_expansion == True:
         del be_planned_wka_power['Datum']
     if main.META_PV == True:
@@ -715,7 +694,7 @@ def re_simulation():
         del erz_Bio['Datum']
 
     del DB_WKA['Datum']
-    # EE_Erz_Wind_Gesamt = pd.concat([Wind_Gesamt, PV_Gesamt, erz_Bio, plannedErzeung], axis=1, sort=False)
+
 
     temp_wind = Wind_Gesamt.copy()  # ->wird für die Darstellung der Daten benötigt
     print('Erste Analyse startet')
@@ -732,7 +711,7 @@ def re_simulation():
     lgk.data_report(main.META_year, simulation_EE, exportFolder, 'beforREexpansion', export=True)
     lgk.month_report(main.META_year, simulation_EE, exportFolder, 'beforREexpansion', main.META_EE_Anteil, export=True,
                      speicher_use=main.META_use_storage)
-    export_simulation_bevor_expansion = simulation_EE.copy()
+
     EE_Anteil = EE_Analyse[1]
     print('EE Anteil in Prozent vor Ausbau: ', round(EE_Anteil * 100, 2), '%')
 
@@ -740,7 +719,7 @@ def re_simulation():
     "Überprüfung weleche Vor/Pot Flächen zur Verfügung stehen. "
     # Daten müssen nicht in den Export ORDNER!!!
     verbauteVor = lgk.connect_oldWKA_to_expansionArea(META_year, 'Vor', expansion_area_wind_vorpot,
-                                                      META_faktorAusbauFlDist,export=False,
+                                                      META_faktorAusbauFlDist, export=False,
                                                       geplanterAusbau=META_be_planned_expansion)
 
 
@@ -838,7 +817,7 @@ def re_simulation():
                     # print(temp_Diff_EE)
                 EE_Simulation_negativGraph = lgk.negativ_Verlauf(temp_Diff_EE,
                                                                  speicherVerlauf=META_negativ_Graph_methode)
-                deepestPoints = lgk.deepest_point_negativGraph(EE_Simulation_negativGraph, 20)
+                deepestPoints = lgk.deepest_point_negativGraph(EE_Simulation_negativGraph, anzahl_deepestpoints=20)
 
             name_for_WKA_expansion = lgk.area_and_WKA_choice(EE_Simulation_negativGraph, temp_DB_WKA,
                                                              deepestPoints[1],
@@ -846,12 +825,8 @@ def re_simulation():
                                                              temp_ausgebauteAnlagen,
                                                              dictWKAModell,
                                                              spiecherMethodik=META_negativ_Graph_methode)
-            '- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
-            'Muss noch überprüft werden'
-            # max_Anzahl = lgk.maxAnzahl_WKA(deepestPoints[0], deepestPoints[1], DB_WKA, WKAnameforexpansion,
-            # META_ausbaubegrenzungsfaktor)
-            '- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
 
+            '- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'
             try:
                 temp_name = name_for_WKA_expansion.split('_')
                 print(temp_name)
@@ -875,7 +850,9 @@ def re_simulation():
                                                           META_third_power_limit=main.META_third_power_limit)
 
             # KeyFactors
-            # 0 Energycurve | 1 column name | 2 count WKA | 3 Power total | 4 Eisman verluste |5 single kurve |6 single eisman
+            # 0 Energycurve | 1 column name | 2 count WKA | 3 Power total | 4 Eisman verluste
+            # |5 single kurve |6 single eisman
+
             temp_count_expansion_wka = keyfactors_expansion_area[2]
             temp_count_expansion_power = keyfactors_expansion_area[3]
             print('Energy per year for all WKA (GWh):', sum(keyfactors_expansion_area[0])/1000000)
@@ -1192,15 +1169,8 @@ def re_simulation():
 
 
 
-
-
-        # ZIP Archive vom Verzeichnis "bilder" erstellen.
-    # createZIP(export_single_folder, export_zip_folder, export_ziel_folder)
-
-
-
     print('Simulation has ended')
-    # sys.stdout.close()
+    sys.stdout.close()
     return export_folder_for_gui, export_single_folder, export_zip_folder, export_ziel_folder
 
 '''

@@ -8,8 +8,9 @@ import logik as lgk
 '-------------------------------------------------------------------------------------'
 'Ausbauflaechen'
 'Ausbauflaechen aus verscheidenen Sheets zu einer Datei'
-def openAusbauflaechen(export=True):
 
+
+def openAusbauflaechen(export=True):
     """
     Import der Erzeugungsflächen je Vorrang und Potential Fläche
     Funktion führt die einzelnen Ausbaugebiete zusammen in einer CSV
@@ -18,34 +19,34 @@ def openAusbauflaechen(export=True):
     sheetanzahl = [101, 88, 129, 83, 16, 24, 169, 94, 123, 112, 25]
 
     print('Main Start')
-    dit = db.openLocationdata('Import/Standort', ortschaften[0], sheetanzahl[0]).openSheet()
+    dit = db.open_location_data('Import/Standort', ortschaften[0], sheetanzahl[0]).openSheet()
     summe = dit.shape[0]
 
-    dit53 = db.openLocationdata('Import/Standort', ortschaften[0], sheetanzahl[0]).opensingelSheetSpecial(53)
+    dit53 = db.open_location_data('Import/Standort', ortschaften[0], sheetanzahl[0]).opensingelSheetSpecial(53)
     summe += dit53.shape[0]
-    dit57 = db.openLocationdata('Import/Standort', ortschaften[0], sheetanzahl[0]).opensingelSheetSpecial(57)
+    dit57 = db.open_location_data('Import/Standort', ortschaften[0], sheetanzahl[0]).opensingelSheetSpecial(57)
     summe += dit57.shape[0]
-    dit59 = db.openLocationdata('Import/Standort', ortschaften[0], sheetanzahl[0]).opensingelSheetSpecial(59)
+    dit59 = db.open_location_data('Import/Standort', ortschaften[0], sheetanzahl[0]).opensingelSheetSpecial(59)
     summe += dit59.shape[0]
-    lau = db.openLocationdata('Import/Standort', ortschaften[1], sheetanzahl[1]).openSheet()
+    lau = db.open_location_data('Import/Standort', ortschaften[1], sheetanzahl[1]).openSheet()
     summe += lau.shape[0]
-    nfl = db.openLocationdata('Import/Standort', ortschaften[2], sheetanzahl[2]).openSheet()
+    nfl = db.open_location_data('Import/Standort', ortschaften[2], sheetanzahl[2]).openSheet()
     summe += nfl.shape[0]
-    ohs = db.openLocationdata('Import/Standort', ortschaften[3], sheetanzahl[3]).openSheet()
+    ohs = db.open_location_data('Import/Standort', ortschaften[3], sheetanzahl[3]).openSheet()
     summe += ohs.shape[0]
-    pin = db.openLocationdata('Import/Standort', ortschaften[4], sheetanzahl[4]).openSheet()
+    pin = db.open_location_data('Import/Standort', ortschaften[4], sheetanzahl[4]).openSheet()
     summe += pin.shape[0]
-    plo = db.openLocationdata('Import/Standort', ortschaften[5], sheetanzahl[5]).openSheet()
+    plo = db.open_location_data('Import/Standort', ortschaften[5], sheetanzahl[5]).openSheet()
     summe += plo.shape[0]
-    rde = db.openLocationdata('Import/Standort', ortschaften[6], sheetanzahl[6]).openSheet()
+    rde = db.open_location_data('Import/Standort', ortschaften[6], sheetanzahl[6]).openSheet()
     summe += rde.shape[0]
-    seg = db.openLocationdata('Import/Standort', ortschaften[7], sheetanzahl[7]).openSheet()
+    seg = db.open_location_data('Import/Standort', ortschaften[7], sheetanzahl[7]).openSheet()
     summe += seg.shape[0]
-    slf = db.openLocationdata('Import/Standort', ortschaften[8], sheetanzahl[8]).openSheet()
+    slf = db.open_location_data('Import/Standort', ortschaften[8], sheetanzahl[8]).openSheet()
     summe += slf.shape[0]
-    ste = db.openLocationdata('Import/Standort', ortschaften[9], sheetanzahl[9]).openSheetSTE()
+    ste = db.open_location_data('Import/Standort', ortschaften[9], sheetanzahl[9]).openSheetSTE()
     summe += ste.shape[0]
-    sto = db.openLocationdata('Import/Standort', ortschaften[10], sheetanzahl[10]).openSheet()
+    sto = db.open_location_data('Import/Standort', ortschaften[10], sheetanzahl[10]).openSheet()
     summe += sto.shape[0]
     print('Hier ist die Summe der Reihen', summe)
 
@@ -69,11 +70,10 @@ def openAusbauflaechen(export=True):
     merge_df['haVor'] = merge_df['haVor'].replace(['-'], '0')
     merge_df['haPot'] = merge_df['haPot'].replace(['-'], '0')
 
-
     if export == True:
         print('Export')
         exportname = "Datenbank/Ausbauflaechen/AusbauStandorte_gesamt_SH/AlleStandorte.csv"
-        merge_df.to_csv(exportname, sep=';',decimal=',' , encoding='utf-8-sig', index=False)
+        merge_df.to_csv(exportname, sep=';', decimal=',', encoding='utf-8-sig', index=False)
 
     try:
 
@@ -90,9 +90,10 @@ def openAusbauflaechen(export=True):
     if export == True:
         print('Export')
         exportname = "Datenbank/Ausbauflaechen/AusbauStandorte_gesamt_SH/AlleStandorte.csv"
-        merge_df.to_csv(exportname, sep=';',decimal=',' , encoding='utf-8-sig', index=False)
+        merge_df.to_csv(exportname, sep=';', decimal=',', encoding='utf-8-sig', index=False)
 
     return merge_df
+
 
 def plannendAreas_getCoords(plannedAreas, export=True):
     "Die Funktion fügt dem DataFrame auf Basis der Standorte GEOPunkte hinzu"
@@ -111,11 +112,13 @@ def plannendAreas_getCoords(plannedAreas, export=True):
 
 
 'AusbauFlaechen mit einer Wetterstation verbinden'
-def plannedAreas_getWeather(alleStandorte_Coords, windWeatherStation, export= True):
 
+
+def plannedAreas_getWeather(alleStandorte_Coords, windWeatherStation, export=True):
+    """ gepanten Standorte bekommen Gauß-Krüger Koordinaten"""
     print('start plannedAreas_getWeather')
-    #alleStandorte_Coords = gpd.addCoords(alleStandorte_Coords, 'StadtPot', 'KreisPot', 'Coords Pot')
-    #alleStandorte_Coords = gpd.addCoords(alleStandorte_Coords, 'StadtVor', 'KreisVor', 'Coords Vor')
+    # alleStandorte_Coords = gpd.addCoords(alleStandorte_Coords, 'StadtPot', 'KreisPot', 'Coords Pot')
+    # alleStandorte_Coords = gpd.addCoords(alleStandorte_Coords, 'StadtVor', 'KreisVor', 'Coords Vor')
 
     alleStandorte_Coords = gpd.addWeather(alleStandorte_Coords, windWeatherStation, 'Coords Pot', 'Coords',
                                           'Stations_id', '_Pot')
@@ -128,8 +131,9 @@ def plannedAreas_getWeather(alleStandorte_Coords, windWeatherStation, export= Tr
     print('start plannedAreas_getWeather')
     return alleStandorte_Coords
 
-def wetterdaten_from_CDC(year):
 
+def wetterdaten_from_CDC(year):
+    """ Download der Wetterdaten und Aufbereitung"""
     itd.cdcdataobservations_germanyHourly('wind', 'StundeWindStationen')
     itd.cdcdataobservations_germanyHourly('solar', 'StundeSolarStationen')
 
@@ -139,16 +143,12 @@ def wetterdaten_from_CDC(year):
         zipfilename = 'Datenbank/Wetter/WindZipDateien/' + liste[i]
         db.zipentpacken(zipfilename, 'Wind')
 
-    db.TxtWetterdatenToCSV(year, 'PV')
-    db.TxtWetterdatenToCSV(year, 'Wind')
+    db.txt_weatherdata_wind_to_csv_and_Datacleaning(year, 'PV')
+    db.txt_weatherdata_wind_to_csv_and_Datacleaning(year, 'Wind')
 
-def PV_zusammenfassung(year):
-
-    db.erzeugungsZsmPV(year, 'HH', 'PV')
-    db.erzeugungsZsmPV(year, 'SH', 'PV')
 
 def weatherStation_getCoords():
-
+    "Wetterstationen bekommen zur Zuordnung Koordinaten"
     try:
         openfilename1 = 'Import/Wetterstationen/StundeWindStationen.csv'
         print(openfilename1)
@@ -179,8 +179,9 @@ def weatherStation_getCoords():
     finished_filename = 'Datenbank/Wetter/StundeSolarStationen_Coords.csv'
     df.to_csv(finished_filename, sep=';', decimal=',', index=False, encoding='utf-8-sig')
 
-def plannedWKA_toUTM_and_connectWeahterID(weather, df):
 
+def plannedWKA_toUTM_and_connectWeahterID(weather, df):
+    """ gepanten WKA bekommen Gauß-Krüger Koordinaten"""
     df = gpd.addWeather(df, weather, 'Coords UTM', 'Coords', 'Stations_id')
 
     finished_filename = 'Datenbank/ConnectwithID/Erzeugung/WindparksSH_geplanterAusbau_UTM_WeatherID.csv'
@@ -189,13 +190,18 @@ def plannedWKA_toUTM_and_connectWeahterID(weather, df):
     return
 
 
-
-
-
-
 '-------------------------------------------------------------------------------------'
 'ERZEUGUNG'
+
+
+def PV_zusammenfassung(year):
+    """Dient zur übersichtlichkeit"""
+    db.erzeugungsZsmPV(year, 'HH', 'PV')
+    db.erzeugungsZsmPV(year, 'SH', 'PV')
+
+
 def erzeugung_Wind_PV(year):
+    """Dient zur übersichtlichkeit"""
     print('year')
     lgk.generation_wind_energy(year, 'Wind', 'HH')
     lgk.generation_wind_energy(year, 'PV', 'HH')
@@ -204,6 +210,7 @@ def erzeugung_Wind_PV(year):
 
 
 def erzeugung_plannendAreas(year, geplanterAusbau):
+    """Dient zur übersichtlichkeit"""
     try:
         openfilename2 = 'Datenbank/Wetter/Wind_Wetterdaten_' + str(year) + '.csv'
         print(openfilename2)
@@ -212,7 +219,6 @@ def erzeugung_plannendAreas(year, geplanterAusbau):
     except ValueError:
         print("falsches Format")
 
-    #df = lgk.erzeugungEEAnlage_singleFrame(wetterdaten, geplanterAusbau, year, export=False)
     try:
         openfilename2 = 'Datenbank/Erzeugung/Erz_geplanterAusbau/Erz_geplanterAusbau_2019.csv'
         print(openfilename2)
@@ -222,11 +228,3 @@ def erzeugung_plannendAreas(year, geplanterAusbau):
         print("falsches Format")
 
     lgk.erzeugungPerStunde_singleFrame(year, df, export=True)
-
-
-
-
-
-
-
-

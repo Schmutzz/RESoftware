@@ -5,60 +5,14 @@ from datetime import datetime
 from zipfile import ZipFile
 from pyproj import Proj
 
-
 from geopy import distance
 import geo
 
 
-class weatherStation():
-    __conuter = 0
-
-    def __init__(self, ID, Source, stationshoehe):
-        self.ID = ID
-        self.Source = Source
-        self.stationshoehe = stationshoehe
-
-    def infoStation(self):
-        print('Stationnummer: ', self.ID)
-        print('Messart', self.Source)
-
-
-class windWeatherStation(weatherStation):
-    maxSpeed = 100
-    maxDegree = 361
-
-    def __init__(self):
-        self.__Speed_ms = []
-        self.__Degree_Gd = []
-        self.__maxSpeed = 100
-        self.__maxDegree = 361
-
-    def setSpeed_ms(self, Value):
-        if isinstance(Value, float) == False and isinstance(Value, int) == False:
-            self.__Speed_ms.append(0)
-            return False
-        elif Value < 0 or Value > self.__maxSpeed:
-            self.__Speed_ms.append(0)
-            return False
-        else:
-            self.__Speed_ms.append(Value)
-
-    def counterOfHourseperStep(self):
-        listparameter = []
-        falsch = []
-
-        if len(self.__Speed_ms) == 0:
-            return False
-        for i in self.__maxSpeed:
-            for k in range(35):
-                if float(i) >= float(k):
-                    listparameter[k] += 1
-                else:
-                    falsch[k] += 1
-
-
 def findoutFiles(filename):
     # print("Suche beginnt")
+    """Gibt eine Liste wieder, mit allen Dateien in diesem Verzeichniss.
+    Dient zur Lebarkeit und Wartung des Codes"""
     files = os.listdir(filename)
     # print(files)
     # print(len(files))
@@ -67,6 +21,8 @@ def findoutFiles(filename):
 
 
 def zipentpacken(zipFileName, source):
+    """Entpackt die im CDC heruntergeladen Daten
+        Dient zur Lebarkeit und Wartung des Codes"""
     try:
         with ZipFile(zipFileName, 'r') as zip:
             zip.extractall('Datenbank/Wetter/' + source + 'Text')
@@ -79,7 +35,7 @@ def zipentpacken(zipFileName, source):
 
 
 def dateList_dataFrame(start, stop, freq, list=False):
-    "Erzeugt eine DataFrame oder eine Liste mit einer Spalte"
+    "Erzeugt eine DataFrame oder eine Liste mit einer Datums-Spalte"
 
     Datumabgleich = []
     hourly2019_2020 = pd.date_range(start, stop, freq=freq)
@@ -199,12 +155,12 @@ def erzeugungsZsmPV(year, state, source='PV', weatherConnect=True):
     print('ENDE erzeugungsZsmPV ')
 
 
-def TxtWetterdatenSolarToCSV():
+def txt_watherdata_solar_to_csv():
+    """Wandelt eine text.datei in eine lesbare und verarbeitbare csv Datei um"""
     print('Start')
     files = findoutFiles('Datenbank/Wetter/SolarText')
-    dataFrame = {1: ['1', '2'], 2: ['3', '4']}
+
     header = ['STATIONS_ID', 'ZENIT', 'MESS_DATUM_WOZ', 'FG_LBERG']
-    firstDataFrame = False
 
     matches = [match for match in files if "produkt_st_stunde" in match]
     print(matches)
@@ -212,30 +168,20 @@ def TxtWetterdatenSolarToCSV():
     length = matches.__len__()
 
     for i in range(length):
-        # try:
         openfilename = 'Datenbank/Wetter/SolarText/' + matches[i]
         print(openfilename)
         df = pd.read_csv(openfilename, usecols=header, delimiter=';', decimal='.', header=0)
 
-        # if firstDataFrame == False:
-        # dataFrame = df
-        #  firstDataFrame = True
-
-        #  else:
-        # dataFrame.merge(right=df, left_index=True, how='cross', right_on='MESS_DATUM_WOZ')
-        # dataFrame.merge(right=df, how='cross')
-        # print(dataFrame)
-
         exportname = "erzeugungsdatenVersuche" + str(i) + ".csv"
         df.to_csv(exportname, sep=';', encoding='utf-8', index=False, decimal=',')
-
-        # except ValueError:
-        # print("falsches Format")
 
     print(df)
 
 
-def TxtWetterdatenToCSV(Year, source):
+def txt_weatherdata_wind_to_csv_and_Datacleaning(Year, source):
+    """Wandelt eine text.datei in eine lesbare und verarbeitbare csv Datei um
+    Zusätzlich wird hier findet hier die Datenaufbereitung statt. Fehlende Wetterdaten werden neu errechnet"""
+
     print('Start testTxtdatenWindToCSV ', source)
     "Kontrolle der Daten"
 
@@ -450,6 +396,7 @@ def TxtWetterdatenToCSV(Year, source):
 
 
 def utm_to_gk(name, df, export=False):
+    """Wandelt utm Koordinaten in Gauß-Krüger Koordinaten um"""
     # myProj = Proj(proj='utm', zone=32 , ellps='WGS84' ,preserve_units=False
     myProj = Proj("epsg:4647", preserve_units=False)
 
@@ -472,59 +419,7 @@ def utm_to_gk(name, df, export=False):
     return df
 
 
-class regulatedImport():
-    """Diese Klasse importiert .csv Dateien nach einem Regulierten Schemata
-        Das Schema wird in einer List vorgegeben
-        Nur die Spalten werden eingelesen
-        Häufung von Dateien ist in Ordnung und werden gesucht"""
-
-    def __init__(self, filename, headerList):
-        self.filename = filename
-        self.fileList = findoutFiles(filename)
-        self.headerList = headerList
-        self.i = len(self.fileList)
-
-    def opensignleCSV(self, i):
-
-        try:
-            openfilename = self.filename + self.fileList[i]
-            print(openfilename)
-            df = pd.read_csv(openfilename, usecols=self.headerList, delimiter=';', decimal=',', header=0)
-            # df = pd.read_csv(openfilename, delimiter=';')
-
-            return df
-
-        except ValueError:
-            print("falsches Format")
-            return False
-
-    def openAndCompleteAllFile(self):
-
-        dataFrame = {1: ['1', '2'], 2: ['3', '4']}
-
-        firstDataFrame = False
-
-        for b in range(self.i):
-
-            try:
-                openfilename = self.filename + self.fileList[b]
-                print(openfilename)
-                df = pd.read_csv(openfilename, usecols=self.headerList, delimiter=';', decimal=',', header=0)
-                if firstDataFrame == False:
-                    dataFrame = df
-                    firstDataFrame = True
-                else:
-                    dataFrame = dataFrame.append(df, ignore_index=True)
-
-            except ValueError:
-                print("falsches Format")
-                continue
-
-        return dataFrame
-
-
-
-class openLocationdata():
+class open_location_data():
     """Diese Klasse dient zum öffnen Spezieller csv Dateien.
     Daher auch die 3 Speizifikationen"""
 
