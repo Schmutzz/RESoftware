@@ -2195,17 +2195,17 @@ def spinner(n, value, start_output, n_support, own_data, eisman, wind_expansion,
     if n > n_support:
         if value == 'Start':
 
-            start_value = 15
+            start_value = 20
             if not own_data:
-                start_value -= 4
+                start_value -= 5
             if not eisman:
                 start_value -= 4
             if not wind_expansion:
-                start_value -= 3.25
+                start_value -= 3
             if not storage_switch:
-                start_value -= 1.25
+                start_value -= 3.5
             if not storage_expansion:
-                start_value -= 2.25
+                start_value -= 2.5
 
             intervals = int(((start_value * 60) / 100) * 1000)
 
